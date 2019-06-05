@@ -11,7 +11,7 @@ namespace CloudRepublic.BenchMark.Orchestrator
             [OrchestrationClient] DurableOrchestrationClient starter,
             ILogger log)
         {
-            string instanceId = await starter.StartNewAsync("OrchestratorFunc", null);
+            string instanceId = await starter.StartNewAsync("BenchMarkOrchestrator", null);
             log.LogInformation($"Started orchestration with ID = '{instanceId}'.");
         }
     }
