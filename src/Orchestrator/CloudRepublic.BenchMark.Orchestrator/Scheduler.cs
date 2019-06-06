@@ -7,7 +7,7 @@ namespace CloudRepublic.BenchMark.Orchestrator
     public static class Scheduler
     {
         [FunctionName("BenchMarkScheduler")]
-        public static async Task RunScheduled([TimerTrigger("0 */1 * * * *")] TimerInfo myTimer,
+        public static async Task RunScheduled([TimerTrigger("0 */2 * * * *")] TimerInfo myTimer,
             [OrchestrationClient] DurableOrchestrationClient starter,
             ILogger log)
         {

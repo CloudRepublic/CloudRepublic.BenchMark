@@ -27,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Orchestrator", "Orchestrato
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudRepublic.BenchMark.Orchestrator", "src\Orchestrator\CloudRepublic.BenchMark.Orchestrator\CloudRepublic.BenchMark.Orchestrator.csproj", "{1CF2DF29-F36F-45C2-A8E7-731B131C6DC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudRepublic.BenchMark.Orchestrator.Presistence", "src\Orchestrator\CloudRepublic.BenchMark.Orchestrator.Presistence\CloudRepublic.BenchMark.Orchestrator.Presistence.csproj", "{599C947A-4614-49E9-AB4A-D50F7729A1A1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudRepublic.BenchMark.Orchestrator.Persistence", "src\Orchestrator\CloudRepublic.BenchMark.Orchestrator.Persistence\CloudRepublic.BenchMark.Orchestrator.Persistence.csproj", "{599C947A-4614-49E9-AB4A-D50F7729A1A1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudRepublic.BenchMark.Orchestrator.Domain", "src\Orchestrator\CloudRepublic.BenchMark.Orchestrator.Domain\CloudRepublic.BenchMark.Orchestrator.Domain.csproj", "{E6E3E3B7-9D98-43BB-9F42-C52F922ED865}"
 EndProject

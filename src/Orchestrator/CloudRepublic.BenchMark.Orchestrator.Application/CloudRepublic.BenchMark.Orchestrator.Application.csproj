@@ -5,10 +5,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Services" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\CloudRepublic.BenchMark.Orchestrator.Domain\CloudRepublic.BenchMark.Orchestrator.Domain.csproj" />
     </ItemGroup>
 

@@ -1,44 +1,51 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using CloudRepublic.BenchMark.Orchestrator.Application.Interfaces;
 using CloudRepublic.BenchMark.Orchestrator.Domain.Enums;
+using CloudRepublic.BenchMark.Orchestrator.Infrastructure;
 using CloudRepublic.BenchMark.Orchestrator.Models;
+using CloudRepublic.BenchMark.Orchestrator.Persistence;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 
 namespace CloudRepublic.BenchMark.Orchestrator
 {
-    public static class Orchestrator
+    public class Orchestrator
     {
         [FunctionName("BenchMarkOrchestrator")]
-        public static async Task RunOrchestrator(
-            [OrchestrationTrigger] DurableOrchestrationContext context,ILogger log)
+        public async Task RunOrchestrator(
+            [OrchestrationTrigger] DurableOrchestrationContext context, ILogger log)
         {
-            var tasksWindows = new List<Task<long?>>();
-
-            //Call windows,csharp functions
-            for (int i = 0; i < 10; i++)
+            var benchMarkTypes = BenchMarkTypeGenerator.Generate();
+            foreach (var benchMarkType in benchMarkTypes)
             {
-                tasksWindows.Add(context.CallActivityAsync<long?>("BenchmarkRunner", new BenchMarkType(CloudProvider.Azure,HostEnvironment.Windows,Runtime.Csharp)));
+                var tasks = new List<Task<BenchMarkResponse>>();
+
+                for (int i = 0; i < 10; i++)
+                {
+                    tasks.Add(context.CallActivityAsync<BenchMarkResponse>("BenchmarkRunner", benchMarkType));
+                }
+                await Task.WhenAll(tasks);
+
+                var resultsWindows =
+                    ResultConverter.ConvertToResultObject(tasks.Select(t => t.Result), benchMarkType);
+
+                using (var dbContext =
+                    BenchMarkDbContextFactory.Create(Environment.GetEnvironmentVariable("BenchMarkDatabase")))
+                {
+                    foreach (var result in resultsWindows)
+                    {
+                        dbContext.BenchMarkResult.Add(result);
+                    }
+
+                    await dbContext.SaveChangesAsync();
+                }
             }
-
-            await Task.WhenAll(tasksWindows);
-
-            var resultsWindows = tasksWindows.Where(t=>t.Result != null).Select(t => t.Result);
-            //TODO: write results to database
-
-            var tasksLinux = new List<Task<long>>();
             
-            //Call win functions
-            for (int i = 0; i < 10; i++)
-            {
-                tasksLinux.Add(context.CallActivityAsync<long>("BenchmarkRunner", new BenchMarkType(CloudProvider.Azure,HostEnvironment.Linux,Runtime.Csharp)));
-            }
-
-            await Task.WhenAll(tasksLinux);
-
-            var resultsLinux = tasksWindows.Select(t => t.Result);
-            //TODO: write results to database
+            
         }
     }
 }
