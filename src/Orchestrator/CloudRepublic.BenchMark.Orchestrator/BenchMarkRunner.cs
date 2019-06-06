@@ -27,7 +27,7 @@ namespace CloudRepublic.BenchMark.Orchestrator
             try
             {
                 var stopWatch = Stopwatch.StartNew();
-                var response = await client.GetAsync("api/Trigger?name=BenchMark");
+                var response = await client.GetAsync($"api/Trigger?name=BenchMark&code={Environment.GetEnvironmentVariable("AzureWindowsCsharpKey")}");
                 result = stopWatch.ElapsedMilliseconds;
 
                 return response.IsSuccessStatusCode
