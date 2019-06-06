@@ -15,6 +15,9 @@ namespace CloudRepublic.BenchMark.Orchestrator.Extentions
                 case CloudProvider.Azure when benchMarkType.HostEnvironment == HostEnvironment.Windows &&
                                               benchMarkType.Runtime == Runtime.Csharp:
                     return httpClientFactory.CreateClient("AzureWindowsCsharpClient");
+                case CloudProvider.Azure when benchMarkType.HostEnvironment == HostEnvironment.Linux &&
+                                              benchMarkType.Runtime == Runtime.Csharp:
+                    return httpClientFactory.CreateClient("AzureLinuxCsharpClient");
                 default:
                     throw new ArgumentOutOfRangeException(nameof(benchMarkType));
             }

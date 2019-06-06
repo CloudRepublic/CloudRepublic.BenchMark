@@ -1,5 +1,6 @@
 using System;
 using CloudRepublic.BenchMark.Orchestrator.Application.Interfaces;
+using CloudRepublic.BenchMark.Orchestrator.Extentions;
 using CloudRepublic.BenchMark.Orchestrator.Persistence;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
@@ -17,11 +18,7 @@ namespace CloudRepublic.BenchMark.Orchestrator
                 options.UseSqlServer(Environment.GetEnvironmentVariable("BenchMarkDatabase")));
 
 
-            builder.Services.AddHttpClient("AzureWindowsCsharpClient",
-                client =>
-                {
-                    client.BaseAddress = new Uri(Environment.GetEnvironmentVariable("AzureWindowsCsharpUrl"));
-                });
+            builder.Services.AddBenchMarkClients();
         }
     }
 }

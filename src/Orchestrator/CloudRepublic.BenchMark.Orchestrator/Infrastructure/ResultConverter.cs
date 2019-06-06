@@ -13,14 +13,13 @@ namespace CloudRepublic.BenchMark.Orchestrator.Infrastructure
             BenchMarkType benchMarkType)
         {
             return benchMarkResponses.Select(benchMarkResponse => new BenchMarkResult
-                {
-                    CloudProvider = (int) benchMarkType.CloudProvider,
-                    HostingEnvironment = (int) benchMarkType.HostEnvironment,
-                    Runtime = (int) benchMarkType.Runtime,
-                    Success = benchMarkResponse.Success,
-                    RequestDuration = Convert.ToInt32(benchMarkResponse.Duration)
-                })
-                .ToList();
+            {
+                CloudProvider = (int) benchMarkType.CloudProvider,
+                HostingEnvironment = (int) benchMarkType.HostEnvironment,
+                Runtime = (int) benchMarkType.Runtime,
+                Success = benchMarkResponse.Success,
+                RequestDuration = Convert.ToInt32(benchMarkResponse.Duration)
+            }).ToList();
         }
     }
 }
