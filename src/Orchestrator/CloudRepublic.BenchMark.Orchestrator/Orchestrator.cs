@@ -28,6 +28,7 @@ namespace CloudRepublic.BenchMark.Orchestrator
                 {
                     tasks.Add(context.CallActivityAsync<BenchMarkResponse>("BenchmarkRunner", benchMarkType));
                 }
+
                 await Task.WhenAll(tasks);
 
                 var resultsWindows =
