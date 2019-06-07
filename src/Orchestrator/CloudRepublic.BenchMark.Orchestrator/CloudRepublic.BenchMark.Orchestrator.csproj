@@ -23,4 +23,7 @@
       <ProjectReference Include="..\CloudRepublic.BenchMark.Orchestrator.Application\CloudRepublic.BenchMark.Orchestrator.Application.csproj" />
       <ProjectReference Include="..\CloudRepublic.BenchMark.Orchestrator.Persistence\CloudRepublic.BenchMark.Orchestrator.Persistence.csproj" />
     </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Models" />
+    </ItemGroup>
 </Project>

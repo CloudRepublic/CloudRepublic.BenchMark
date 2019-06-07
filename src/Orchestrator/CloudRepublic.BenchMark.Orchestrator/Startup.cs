@@ -1,5 +1,6 @@
 using System;
 using CloudRepublic.BenchMark.Orchestrator.Application.Interfaces;
+using CloudRepublic.BenchMark.Orchestrator.Application.Services;
 using CloudRepublic.BenchMark.Orchestrator.Extentions;
 using CloudRepublic.BenchMark.Orchestrator.Persistence;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
@@ -17,6 +18,7 @@ namespace CloudRepublic.BenchMark.Orchestrator
             builder.Services.AddDbContext<IBenchMarkDbContext, BenchMarkDbContext>(options =>
                 options.UseSqlServer(Environment.GetEnvironmentVariable("BenchMarkDatabase")));
 
+            builder.Services.AddTransient<IBenchMarkService, BenchMarkService>();
 
             builder.Services.AddBenchMarkClients();
         }

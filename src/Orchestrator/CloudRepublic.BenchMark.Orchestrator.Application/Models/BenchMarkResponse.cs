@@ -1,4 +1,4 @@
-namespace CloudRepublic.BenchMark.Orchestrator.Models
+namespace CloudRepublic.BenchMark.Orchestrator.Application.Models
 {
     public class BenchMarkResponse
     {

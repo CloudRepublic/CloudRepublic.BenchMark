@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CloudRepublic.BenchMark.Orchestrator.Application.Models;
 using CloudRepublic.BenchMark.Orchestrator.Domain.Entities;
-using CloudRepublic.BenchMark.Orchestrator.Models;
 
 namespace CloudRepublic.BenchMark.Orchestrator.Infrastructure
 {

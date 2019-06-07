@@ -1,24 +1,32 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using CloudRepublic.BenchMark.Orchestrator.Application.Interfaces;
-using CloudRepublic.BenchMark.Orchestrator.Domain.Enums;
+using CloudRepublic.BenchMark.Orchestrator.Application.Models;
 using CloudRepublic.BenchMark.Orchestrator.Infrastructure;
-using CloudRepublic.BenchMark.Orchestrator.Models;
 using CloudRepublic.BenchMark.Orchestrator.Persistence;
 using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Logging;
 
 namespace CloudRepublic.BenchMark.Orchestrator
 {
-    public class Orchestrator
+    public class BenchMarkOrchestrator
     {
-        [FunctionName("BenchMarkOrchestrator")]
-        public async Task RunOrchestrator(
-            [OrchestrationTrigger] DurableOrchestrationContext context, ILogger log)
+        private readonly IBenchMarkService _benchMarkService;
+
+        public BenchMarkOrchestrator(IBenchMarkService benchMarkService)
         {
+            _benchMarkService = benchMarkService;
+        }
+
+        [FunctionName("BenchMarkOrchestrator")]
+        public async Task Run([TimerTrigger("0 0 */4 * * *")] TimerInfo myTimer, ILogger log)
+        {
+            log.LogInformation($"C# Timer trigger function executed at: {DateTime.UtcNow}");
+
             var benchMarkTypes = BenchMarkTypeGenerator.Generate();
             foreach (var benchMarkType in benchMarkTypes)
             {
@@ -26,7 +34,7 @@ namespace CloudRepublic.BenchMark.Orchestrator
 
                 for (int i = 0; i < 10; i++)
                 {
-                    tasks.Add(context.CallActivityAsync<BenchMarkResponse>("BenchmarkRunner", benchMarkType));
+                    tasks.Add(_benchMarkService.RunBenchMark(benchMarkType));
                 }
 
                 await Task.WhenAll(tasks);
@@ -45,8 +53,6 @@ namespace CloudRepublic.BenchMark.Orchestrator
                     await dbContext.SaveChangesAsync();
                 }
             }
-            
-            
         }
     }
 }

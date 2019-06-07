@@ -1,6 +1,6 @@
 using CloudRepublic.BenchMark.Orchestrator.Domain.Enums;
 
-namespace CloudRepublic.BenchMark.Orchestrator.Models
+namespace CloudRepublic.BenchMark.Orchestrator.Application.Models
 {
     public class BenchMarkType
     {
