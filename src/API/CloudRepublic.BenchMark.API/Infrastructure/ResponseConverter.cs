@@ -54,7 +54,7 @@ namespace CloudRepublic.BenchMark.API.Infrastructure
                 var runtimeIndex = hostingEnvironment.Runtimes.FindIndex(c => c.Name == parsedRuntime.ToString());
                 if (runtimeIndex > -1)
                 {
-                    runtime.AvarageExecutionTime = Math.Round(runtime.DataPoints.Average(c => c.ExecutionTime),0);
+                    runtime.AverageExecutionTime = Convert.ToInt32(Math.Round(runtime.DataPoints.Average(c => c.ExecutionTime),0));
                     hostingEnvironment.Runtimes[runtimeIndex] = runtime;
                      
                 }
