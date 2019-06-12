@@ -8,7 +8,6 @@ using System.Data;
 using System.Data.SqlClient;
 
 [assembly: FunctionsStartup(typeof(CloudRepublic.BenchMark.API.Startup))]
-
 namespace CloudRepublic.BenchMark.API
 {
     public class Startup : FunctionsStartup

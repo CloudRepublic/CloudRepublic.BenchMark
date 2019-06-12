@@ -15,34 +15,48 @@ namespace CloudRepublic.BenchMark.API.Infrastructure
     {
         public BenchMarkData ConvertToBenchMarkData(IEnumerable<BenchMarkResult> resultDataPoints)
         {
-            var benchmarkData = new BenchMarkData();
-            
+            var benchmarkData = new BenchMarkData()
+            {
+                CloudProviders = new List<Models.CloudProvider>()
+            };
+
             foreach (var dataPoint in resultDataPoints)
             {
-                var parsedCloudProvider = (CloudProvider) Enum.ToObject(typeof(CloudProvider), dataPoint.CloudProvider);
+                var parsedCloudProvider = (CloudProvider)Enum.ToObject(typeof(CloudProvider), dataPoint.CloudProvider);
                 var parsedHostingEnvironment =
-                    (HostingEnvironment) Enum.ToObject(typeof(HostingEnvironment), dataPoint.HostingEnvironment);
-                var parsedRuntime = (Runtime) Enum.ToObject(typeof(Runtime), dataPoint.Runtime);
+                    (HostingEnvironment)Enum.ToObject(typeof(HostingEnvironment), dataPoint.HostingEnvironment);
+                var parsedRuntime = (Runtime)Enum.ToObject(typeof(Runtime), dataPoint.Runtime);
 
                 var cloudProvider =
                     benchmarkData.CloudProviders.SingleOrDefault(c => c.Name == parsedCloudProvider.ToString()) ??
-                    new CloudRepublic.BenchMark.API.Models.CloudProvider() {Name = parsedCloudProvider.ToString()};
+                    new Models.CloudProvider() { Name = parsedCloudProvider.ToString() };
+
+                if (cloudProvider.HostingEnvironments is null)
+                    cloudProvider.HostingEnvironments = new List<Models.HostingEnvironment>();
 
                 var hostingEnvironment =
                     cloudProvider.HostingEnvironments.SingleOrDefault(
                         c => c.Name == parsedHostingEnvironment.ToString()) ??
-                    new Models.HostingEnvironment() {Name = parsedHostingEnvironment.ToString()};
+                    new Models.HostingEnvironment() { Name = parsedHostingEnvironment.ToString() };
+
+                if (hostingEnvironment.Runtimes is null)
+                    hostingEnvironment.Runtimes = new List<Models.Runtime>();
 
                 var runtime = hostingEnvironment.Runtimes.SingleOrDefault(c => c.Name == parsedRuntime.ToString()) ??
-                              new Models.Runtime() {Name = parsedRuntime.ToString()};
+                              new Models.Runtime() { Name = parsedRuntime.ToString() };
+
+                if (runtime.DataPoints is null)
+                    runtime.DataPoints = new List<DataPoint>();
 
                 runtime.DataPoints.Add(new DataPoint()
-                    {CreatedAt = dataPoint.CreatedAt, ExecutionTime = dataPoint.RequestDuration});
+                { CreatedAt = dataPoint.CreatedAt, ExecutionTime = dataPoint.RequestDuration });
 
                 var runtimeIndex = hostingEnvironment.Runtimes.FindIndex(c => c.Name == parsedRuntime.ToString());
                 if (runtimeIndex > -1)
                 {
+                    runtime.AvarageExecutionTime = Math.Round(runtime.DataPoints.Average(c => c.ExecutionTime),0);
                     hostingEnvironment.Runtimes[runtimeIndex] = runtime;
+                     
                 }
                 else
                 {
@@ -51,9 +65,9 @@ namespace CloudRepublic.BenchMark.API.Infrastructure
 
                 var hostingEnvironmentIndex =
                     cloudProvider.HostingEnvironments.FindIndex(c => c.Name == parsedHostingEnvironment.ToString());
-                if (runtimeIndex > -1)
+                if (hostingEnvironmentIndex > -1)
                 {
-                    cloudProvider.HostingEnvironments[runtimeIndex] = hostingEnvironment;
+                    cloudProvider.HostingEnvironments[hostingEnvironmentIndex] = hostingEnvironment;
                 }
                 else
                 {
