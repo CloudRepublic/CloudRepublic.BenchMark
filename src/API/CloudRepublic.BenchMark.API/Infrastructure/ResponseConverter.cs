@@ -11,9 +11,9 @@ using HostingEnvironment = CloudRepublic.BenchMark.Domain.Enums.HostEnvironment;
 
 namespace CloudRepublic.BenchMark.API.Infrastructure
 {
-    public static class ResponseConverter
+    public class ResponseConverter : IResponseConverter
     {
-        public static BenchMarkData ConvertToBenchMarkData(IEnumerable<BenchMarkResult> resultDataPoints)
+        public BenchMarkData ConvertToBenchMarkData(IEnumerable<BenchMarkResult> resultDataPoints)
         {
             var benchmarkData = new BenchMarkData();
             

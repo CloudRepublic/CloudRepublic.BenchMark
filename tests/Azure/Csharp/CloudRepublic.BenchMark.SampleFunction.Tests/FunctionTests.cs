@@ -1,17 +1,14 @@
-﻿using CloudRepublic.BenchMark.SampleFunction;
+﻿using System.Threading.Tasks;
+using CloudRepublic.BenchMark.Tests.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
-namespace BenchCloud.CSharp.Tests
+namespace CloudRepublic.BenchMark.SampleFunction.Tests
 {
     public class FunctionTests
     {
-        private readonly ILogger logger = TestFactory.CreateLogger();
+        private readonly ILogger _logger = TestFactory.CreateLogger();
         
         [Fact]
         public async Task FunctionShouldReturnProvidedName()
@@ -19,7 +16,7 @@ namespace BenchCloud.CSharp.Tests
             string nameValue = "BenchCloud";
 
             var request = TestFactory.CreateHttpRequest("name", nameValue);
-            var response = await Trigger.Run(request, logger);
+            var response = await Trigger.Run(request, _logger);
 
             var responseObject = Assert.IsType<OkObjectResult>(response);
             Assert.Equal($"Hello, {nameValue}", responseObject.Value);
@@ -28,9 +25,9 @@ namespace BenchCloud.CSharp.Tests
         [Fact]
         public async Task FunctionShouldReturnBadRequest()
         {
-            var request = TestFactory.CreateInvalidHttpRequest();
+            var request = TestFactory.CreateHttpRequest();
 
-            var response = await Trigger.Run(request, logger);
+            var response = await Trigger.Run(request, _logger);
 
             var responseObject = Assert.IsType<BadRequestObjectResult>(response);
             Assert.Equal("Please pass a name on the query string", responseObject.Value);

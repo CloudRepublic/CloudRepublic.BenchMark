@@ -13,10 +13,12 @@ namespace CloudRepublic.BenchMark.API
     public class Trigger
     {
         private readonly IBenchMarkResultService _benchMarkResultService;
+        private readonly IResponseConverter _responseConverter;
 
-        public Trigger(IBenchMarkResultService benchMarkResultService)
+        public Trigger(IBenchMarkResultService benchMarkResultService,IResponseConverter responseConverter)
         {
             _benchMarkResultService = benchMarkResultService;
+            _responseConverter = responseConverter;
         }
 
         [FunctionName("Trigger")]
@@ -30,7 +32,7 @@ namespace CloudRepublic.BenchMark.API
                 await _benchMarkResultService.GetBenchMarkResults(
                     Convert.ToInt32(Environment.GetEnvironmentVariable("dayRange")));
 
-            return new OkObjectResult(ResponseConverter.ConvertToBenchMarkData(benchMarkDataPoints));
+            return new OkObjectResult(_responseConverter.ConvertToBenchMarkData(benchMarkDataPoints));
         }
     }
 }

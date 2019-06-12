@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace BenchCloud.CSharp.Tests
+namespace CloudRepublic.BenchMark.Tests.Infrastructure
 {
     public class TestFactory
     {
@@ -18,7 +16,7 @@ namespace BenchCloud.CSharp.Tests
             };
         }
 
-        public static DefaultHttpRequest CreateInvalidHttpRequest()
+        public static DefaultHttpRequest CreateHttpRequest()
         {
             return new DefaultHttpRequest(new DefaultHttpContext());
         }

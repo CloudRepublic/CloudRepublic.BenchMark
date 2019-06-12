@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\src\Azure\Csharp\CloudRepublic.BenchMark.SampleFunction\CloudRepublic.BenchMark.SampleFunction.csproj" />
+    <ProjectReference Include="..\..\..\Shared\CloudRepublic.BenchMark.Tests.Infrastructure\CloudRepublic.BenchMark.Tests.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
