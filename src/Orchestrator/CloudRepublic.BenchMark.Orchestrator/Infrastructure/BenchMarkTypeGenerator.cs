@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using CloudRepublic.BenchMark.Orchestrator.Application.Models;
-using CloudRepublic.BenchMark.Orchestrator.Domain.Enums;
+using CloudRepublic.BenchMark.Application.Models;
+using CloudRepublic.BenchMark.Domain.Enums;
 
 namespace CloudRepublic.BenchMark.Orchestrator.Infrastructure
 {

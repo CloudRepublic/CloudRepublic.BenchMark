@@ -20,8 +20,8 @@
         </None>
     </ItemGroup>
     <ItemGroup>
-      <ProjectReference Include="..\CloudRepublic.BenchMark.Orchestrator.Application\CloudRepublic.BenchMark.Orchestrator.Application.csproj" />
-      <ProjectReference Include="..\CloudRepublic.BenchMark.Orchestrator.Persistence\CloudRepublic.BenchMark.Orchestrator.Persistence.csproj" />
+      <ProjectReference Include="..\..\Shared\CloudRepublic.BenchMark.Application\CloudRepublic.BenchMark.Application.csproj" />
+      <ProjectReference Include="..\..\Shared\CloudRepublic.BenchMark.Persistence\CloudRepublic.BenchMark.Persistence.csproj" />
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Models" />
