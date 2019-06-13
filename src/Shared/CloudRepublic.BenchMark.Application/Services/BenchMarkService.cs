@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
-using CloudRepublic.BenchMark.Application.Extentions;
+using CloudRepublic.BenchMark.Application.Extensions;
 using CloudRepublic.BenchMark.Application.Interfaces;
 using CloudRepublic.BenchMark.Application.Models;
 

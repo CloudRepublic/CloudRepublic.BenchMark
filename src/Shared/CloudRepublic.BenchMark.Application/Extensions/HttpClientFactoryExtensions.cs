@@ -3,9 +3,9 @@ using System.Net.Http;
 using CloudRepublic.BenchMark.Application.Models;
 using CloudRepublic.BenchMark.Domain.Enums;
 
-namespace CloudRepublic.BenchMark.Application.Extentions
+namespace CloudRepublic.BenchMark.Application.Extensions
 {
-    public static class HttpClientFactoryExtentions
+    public static class HttpClientFactoryExtensions
     {
         public static HttpClient CreateBenchMarkClient(this IHttpClientFactory httpClientFactory,
             BenchMarkType benchMarkType)

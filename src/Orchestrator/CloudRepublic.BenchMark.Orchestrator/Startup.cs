@@ -1,7 +1,7 @@
 using System;
 using CloudRepublic.BenchMark.Application.Interfaces;
 using CloudRepublic.BenchMark.Application.Services;
-using CloudRepublic.BenchMark.Orchestrator.Extentions;
+using CloudRepublic.BenchMark.Orchestrator.Extensions;
 using CloudRepublic.BenchMark.Persistence;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;

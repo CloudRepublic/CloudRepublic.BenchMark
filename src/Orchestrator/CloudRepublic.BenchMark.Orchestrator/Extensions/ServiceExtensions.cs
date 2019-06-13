@@ -1,9 +1,9 @@
 using System;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CloudRepublic.BenchMark.Orchestrator.Extentions
+namespace CloudRepublic.BenchMark.Orchestrator.Extensions
 {
-    public static class ServiceExtentions
+    public static class ServiceExtensions
     {
         public static IServiceCollection AddBenchMarkClients(this IServiceCollection services)
         {
