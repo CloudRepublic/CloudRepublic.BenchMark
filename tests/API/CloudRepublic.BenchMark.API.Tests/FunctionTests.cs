@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CloudRepublic.BenchMark.API.Infrastructure;
 using CloudRepublic.BenchMark.API.Models;
@@ -30,6 +31,8 @@ namespace CloudRepublic.BenchMark.API.Tests
         [Fact]
         public async Task FunctionShouldReturnOkObjectResultContainingBenchMarkData()
         {
+
+            #region Arrange
             var benchMarkResults = new List<BenchMarkResult>()
             {
                 new BenchMarkResult()
@@ -47,19 +50,27 @@ namespace CloudRepublic.BenchMark.API.Tests
             _mockBenchMarkResultService.Setup(c => c.GetBenchMarkResults(It.IsAny<int>()))
                 .Returns(Task.FromResult((IEnumerable<BenchMarkResult>) benchMarkResults));
 
+            var sampleBenchMarkData = new BenchMarkData()
+                {CloudProviders = new List<CloudProvider>() {new CloudProvider() {Name = "Azure"}}};
+            
             _mockResponseConverter.Setup(c => c.ConvertToBenchMarkData(benchMarkResults))
-                .Returns(new BenchMarkData()
-                    {CloudProviders = new List<CloudProvider>() {new CloudProvider() {Name = "Azure"}}});
-
+                .Returns(sampleBenchMarkData);
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
             var request = TestFactory.CreateHttpRequest();
+            #endregion
 
+            #region Act
             var response = await trigger.Run(request, _logger);
+            #endregion
 
+            #region Assert
             var responseObject = Assert.IsType<OkObjectResult>(response);
-            
-            
+
+            var benchMarkData = Assert.IsType<BenchMarkData>(responseObject.Value);
+
+            Assert.Equal(benchMarkData.CloudProviders.First().Name,sampleBenchMarkData.CloudProviders.First().Name);
+            #endregion
         }
     }
 }

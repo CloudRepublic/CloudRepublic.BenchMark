@@ -13,24 +13,40 @@ namespace CloudRepublic.BenchMark.SampleFunction.Tests
         [Fact]
         public async Task FunctionShouldReturnProvidedName()
         {
+
+            #region Arrange
             string nameValue = "BenchCloud";
 
             var request = TestFactory.CreateHttpRequest("name", nameValue);
+            #endregion
+
+            #region Act
             var response = await Trigger.Run(request, _logger);
 
+            #endregion
+
+            #region Assert
             var responseObject = Assert.IsType<OkObjectResult>(response);
             Assert.Equal($"Hello, {nameValue}", responseObject.Value);
+            #endregion
+            
         }
 
         [Fact]
         public async Task FunctionShouldReturnBadRequest()
         {
+            #region Arrange
             var request = TestFactory.CreateHttpRequest();
+            #endregion
 
+            #region Act
             var response = await Trigger.Run(request, _logger);
+            #endregion
 
+            #region Assert
             var responseObject = Assert.IsType<BadRequestObjectResult>(response);
             Assert.Equal("Please pass a name on the query string", responseObject.Value);
+            #endregion
         }
     }
 }

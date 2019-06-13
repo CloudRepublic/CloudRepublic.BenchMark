@@ -47,6 +47,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{7572AE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudRepublic.BenchMark.Tests.Infrastructure", "tests\Shared\CloudRepublic.BenchMark.Tests.Infrastructure\CloudRepublic.BenchMark.Tests.Infrastructure.csproj", "{41137D3F-C062-446D-B79B-EB830C403855}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{CAF17107-F4CF-4D2A-8B9D-7B0D7BE4B78B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -114,6 +116,7 @@ Global
 		{921FC096-0A7C-470A-9384-64C80534CA75} = {CEDEECB3-F5BD-4A53-B069-530E2CAD9489}
 		{7572AE3C-D0EC-4843-9952-EEDD0F0DC68C} = {3D4FD3F0-1F1F-4B24-B6B7-B73C8A0385FA}
 		{41137D3F-C062-446D-B79B-EB830C403855} = {7572AE3C-D0EC-4843-9952-EEDD0F0DC68C}
+		{CAF17107-F4CF-4D2A-8B9D-7B0D7BE4B78B} = {83A6DE47-D2F3-46C9-8534-EE64C64D1F01}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0580A24C-4FAC-46B1-8BAA-78D167E4D0AF}
