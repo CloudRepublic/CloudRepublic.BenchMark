@@ -6,6 +6,6 @@ namespace CloudRepublic.BenchMark.Application.Interfaces
 {
     public interface IBenchMarkResultService
     {
-        Task<IEnumerable<BenchMarkResult>> GetBenchMarkResults(int dayRange);
+        Task<IEnumerable<BenchMarkResult>> GetBenchMarkResults(string cloudProvider,string hostingEnvironment, string runtime,int dayRange);
     }
 }

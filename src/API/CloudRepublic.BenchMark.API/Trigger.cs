@@ -7,6 +7,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 
 namespace CloudRepublic.BenchMark.API
 {
@@ -28,9 +29,19 @@ namespace CloudRepublic.BenchMark.API
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
+            var cloudProvider = req.Query["cloudProvider"];
+            if(!cloudProvider.Any()) return new BadRequestResult();
+            
+            var hostingEnvironment = req.Query["hostingEnvironment"];
+            if (!hostingEnvironment.Any()) return new BadRequestResult();
+            
+            var runtime = req.Query["runtime"];
+            if(!hostingEnvironment.Any()) return new BadRequestResult();
+            
             var benchMarkDataPoints =
-                await _benchMarkResultService.GetBenchMarkResults(
+                await _benchMarkResultService.GetBenchMarkResults(cloudProvider.First(),hostingEnvironment.First(),runtime.First(),
                     Convert.ToInt32(Environment.GetEnvironmentVariable("dayRange")));
+            
 
             return new OkObjectResult(_responseConverter.ConvertToBenchMarkData(benchMarkDataPoints));
         }

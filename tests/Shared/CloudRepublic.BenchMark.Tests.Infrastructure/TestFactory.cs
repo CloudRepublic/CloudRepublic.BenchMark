@@ -8,11 +8,11 @@ namespace CloudRepublic.BenchMark.Tests.Infrastructure
 {
     public class TestFactory
     {
-        public static DefaultHttpRequest CreateHttpRequest(string queryKey,string queryValue)
+        public static DefaultHttpRequest CreateHttpRequest(Dictionary<string,Microsoft.Extensions.Primitives.StringValues> queryParams)
         {
             return new DefaultHttpRequest(new DefaultHttpContext())
             {
-                Query = new QueryCollection(new Dictionary<string, Microsoft.Extensions.Primitives.StringValues>() { { queryKey, queryValue} })
+                Query = new QueryCollection(queryParams)
             };
         }
 

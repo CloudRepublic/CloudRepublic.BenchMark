@@ -10,6 +10,7 @@ using CloudRepublic.BenchMark.Domain.Entities;
 using CloudRepublic.BenchMark.Tests.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Primitives;
 using Moq;
 using Xunit;
 
@@ -31,8 +32,8 @@ namespace CloudRepublic.BenchMark.API.Tests
         [Fact]
         public async Task FunctionShouldReturnOkObjectResultContainingBenchMarkData()
         {
-
             #region Arrange
+
             var benchMarkResults = new List<BenchMarkResult>()
             {
                 new BenchMarkResult()
@@ -47,29 +48,36 @@ namespace CloudRepublic.BenchMark.API.Tests
                 }
             };
 
-            _mockBenchMarkResultService.Setup(c => c.GetBenchMarkResults(It.IsAny<int>()))
+            _mockBenchMarkResultService.Setup(c =>
+                    c.GetBenchMarkResults(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
                 .Returns(Task.FromResult((IEnumerable<BenchMarkResult>) benchMarkResults));
 
             var sampleBenchMarkData = new BenchMarkData()
                 {CloudProviders = new List<CloudProvider>() {new CloudProvider() {Name = "Azure"}}};
-            
+
             _mockResponseConverter.Setup(c => c.ConvertToBenchMarkData(benchMarkResults))
                 .Returns(sampleBenchMarkData);
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
-            var request = TestFactory.CreateHttpRequest();
+            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
+                {{"cloudProvider", "Azure"}, {"hostingEnvironment", "Windows"}, {"runtime", "Csharp"}});
+
             #endregion
 
             #region Act
+
             var response = await trigger.Run(request, _logger);
+
             #endregion
 
             #region Assert
+
             var responseObject = Assert.IsType<OkObjectResult>(response);
 
             var benchMarkData = Assert.IsType<BenchMarkData>(responseObject.Value);
 
-            Assert.Equal(benchMarkData.CloudProviders.First().Name,sampleBenchMarkData.CloudProviders.First().Name);
+            Assert.Equal(benchMarkData.CloudProviders.First().Name, sampleBenchMarkData.CloudProviders.First().Name);
+
             #endregion
         }
     }
