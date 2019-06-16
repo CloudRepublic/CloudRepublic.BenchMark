@@ -1,7 +1,7 @@
-import { parseOptions } from "@/components/Charts/optionHelpers";
+import { parseOptions } from '@/components/Charts/optionHelpers';
 
 export const Charts = {
-  mode: 'light',//(themeMode) ? themeMode : 'light';
+  mode: 'light', //(themeMode) ? themeMode : 'light';
   fonts: {
     base: 'Open Sans'
   },
@@ -18,17 +18,17 @@ export const Charts = {
       900: '#212529'
     },
     theme: {
-      'default': '#172b4d',
-      'primary': '#5e72e4',
-      'secondary': '#f4f5f7',
-      'info': '#11cdef',
-      'success': '#2dce89',
-      'danger': '#f5365c',
-      'warning': '#fb6340'
+      default: '#172b4d',
+      primary: '#5e72e4',
+      secondary: '#f4f5f7',
+      info: '#11cdef',
+      success: '#2dce89',
+      danger: '#f5365c',
+      warning: '#fb6340'
     },
     black: '#12263F',
     white: '#FFFFFF',
-    transparent: 'transparent',
+    transparent: 'transparent'
   }
 };
 
@@ -40,8 +40,8 @@ function chartOptions(Chart) {
       global: {
         responsive: true,
         maintainAspectRatio: false,
-        defaultColor: (mode == 'dark') ? colors.gray[700] : colors.gray[600],
-        defaultFontColor: (mode == 'dark') ? colors.gray[700] : colors.gray[600],
+        defaultColor: mode == 'dark' ? colors.gray[700] : colors.gray[600],
+        defaultFontColor: mode == 'dark' ? colors.gray[700] : colors.gray[600],
         defaultFontFamily: fonts.base,
         defaultFontSize: 13,
         layout: {
@@ -61,7 +61,7 @@ function chartOptions(Chart) {
             backgroundColor: colors.theme['primary']
           },
           line: {
-            tension: .4,
+            tension: 0.4,
             borderWidth: 4,
             borderColor: colors.theme['primary'],
             backgroundColor: colors.transparent,
@@ -72,27 +72,30 @@ function chartOptions(Chart) {
           },
           arc: {
             backgroundColor: colors.theme['primary'],
-            borderColor: (mode == 'dark') ? colors.gray[800] : colors.white,
+            borderColor: mode == 'dark' ? colors.gray[800] : colors.white,
             borderWidth: 4
           }
         },
         tooltips: {
           enabled: true,
           mode: 'index',
-          intersect: false,
+          intersect: false
         }
       },
       doughnut: {
         cutoutPercentage: 83,
-        legendCallback: function (chart) {
+        legendCallback: function(chart) {
           let data = chart.data;
           let content = '';
 
-          data.labels.forEach(function (label, index) {
+          data.labels.forEach(function(label, index) {
             let bgColor = data.datasets[0].backgroundColor[index];
 
             content += '<span class="chart-legend-item">';
-            content += '<i class="chart-legend-indicator" style="background-color: ' + bgColor + '"></i>';
+            content +=
+              '<i class="chart-legend-indicator" style="background-color: ' +
+              bgColor +
+              '"></i>';
             content += label;
             content += '</span>';
           });
@@ -108,21 +111,21 @@ function chartOptions(Chart) {
     gridLines: {
       borderDash: [2],
       borderDashOffset: [2],
-      color: (mode == 'dark') ? colors.gray[900] : colors.gray[300],
+      color: mode == 'dark' ? colors.gray[900] : colors.gray[300],
       drawBorder: false,
       drawTicks: false,
       lineWidth: 0,
       zeroLineWidth: 0,
-      zeroLineColor: (mode == 'dark') ? colors.gray[900] : colors.gray[300],
+      zeroLineColor: mode == 'dark' ? colors.gray[900] : colors.gray[300],
       zeroLineBorderDash: [2],
       zeroLineBorderDashOffset: [2]
     },
     ticks: {
       beginAtZero: true,
       padding: 10,
-      callback: function (value) {
+      callback: function(value) {
         if (!(value % 10)) {
-          return value
+          return value;
         }
       }
     }
@@ -157,19 +160,25 @@ export const basicOptions = {
 };
 export let blueChartOptions = {
   scales: {
-    yAxes: [{
-      gridLines: {
-        color: Charts.colors.gray[700],
-        zeroLineColor: Charts.colors.gray[700]
-      },
-      ticks: {
-        callback: function(value) {
-          if (!(value % 10)) {
-            return '$' + value + 'k';
-          }
+    yAxes: [
+      {
+        gridLines: {
+          color: Charts.colors.gray[700],
+          zeroLineColor: Charts.colors.gray[700]
+        },
+        ticks: {
+          max: 60000,
+          display: true
         }
       }
-    }]
+    ],
+    xAxes: [
+      {
+        ticks: {
+          display: false
+        }
+      }
+    ]
   }
 };
 

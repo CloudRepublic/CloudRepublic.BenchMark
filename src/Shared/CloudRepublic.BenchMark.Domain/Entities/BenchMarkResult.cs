@@ -4,7 +4,6 @@ namespace CloudRepublic.BenchMark.Domain.Entities
 {
     public partial class BenchMarkResult
     {
-       
         public int Id { get; set; }
         public int CloudProvider { get; set; }
         public int HostingEnvironment { get; set; }
@@ -12,5 +11,7 @@ namespace CloudRepublic.BenchMark.Domain.Entities
         public bool Success { get; set; }
         public int RequestDuration { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
+        
+        public bool IsColdRequest { get; set; }
     }
 }

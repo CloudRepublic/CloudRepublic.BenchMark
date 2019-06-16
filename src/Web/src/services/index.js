@@ -1,1 +1,1 @@
-import * from './benchmark.service'
+export * from './benchmark.service';

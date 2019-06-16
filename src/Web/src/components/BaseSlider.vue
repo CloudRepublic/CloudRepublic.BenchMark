@@ -1,25 +1,26 @@
 <template>
-    <div class="input-slider-container">
-        <div class="input-slider"
-             ref="slider"
-             :class="[`slider-${type}`]"
-             :disabled="disabled">
-        </div>
-    </div>
+  <div class="input-slider-container">
+    <div
+      class="input-slider"
+      ref="slider"
+      :class="[`slider-${type}`]"
+      :disabled="disabled"
+    ></div>
+  </div>
 </template>
 <script>
-import noUiSlider from "nouislider";
+import noUiSlider from 'nouislider';
 
 export default {
-  name: "base-slider",
+  name: 'base-slider',
   props: {
     value: {
       type: [String, Array, Number],
-      description: "Slider value"
+      description: 'Slider value'
     },
     disabled: {
       type: Boolean,
-      description: "Whether slider is disabled"
+      description: 'Whether slider is disabled'
     },
     range: {
       type: Object,
@@ -29,19 +30,19 @@ export default {
           max: 100
         };
       },
-      description: "Slider range (defaults to 0-100)"
+      description: 'Slider range (defaults to 0-100)'
     },
     type: {
       type: String,
-      default: "",
-      description: "Slider type (e.g primary, danger etc)"
+      default: '',
+      description: 'Slider type (e.g primary, danger etc)'
     },
     options: {
       type: Object,
       default: () => {
         return {};
       },
-      description: "noUiSlider options"
+      description: 'noUiSlider options'
     }
   },
   computed: {
@@ -63,10 +64,10 @@ export default {
         ...this.options
       });
       const slider = this.$refs.slider.noUiSlider;
-      slider.on("slide", () => {
+      slider.on('slide', () => {
         let value = slider.get();
         if (value !== this.value) {
-          this.$emit("input", value);
+          this.$emit('input', value);
         }
       });
     }

@@ -42,6 +42,7 @@ namespace CloudRepublic.BenchMark.API
                 await _benchMarkResultService.GetBenchMarkResults(cloudProvider.First(),hostingEnvironment.First(),runtime.First(),
                     Convert.ToInt32(Environment.GetEnvironmentVariable("dayRange")));
             
+            if(!benchMarkDataPoints.Any()) return new NotFoundResult();
 
             return new OkObjectResult(_responseConverter.ConvertToBenchMarkData(benchMarkDataPoints));
         }

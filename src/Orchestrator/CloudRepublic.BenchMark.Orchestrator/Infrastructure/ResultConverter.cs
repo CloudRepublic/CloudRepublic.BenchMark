@@ -10,7 +10,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Infrastructure
     {
         public static IEnumerable<BenchMarkResult> ConvertToResultObject(
             IEnumerable<BenchMarkResponse> benchMarkResponses,
-            BenchMarkType benchMarkType)
+            BenchMarkType benchMarkType,bool isColdRequest)
         {
             return benchMarkResponses.Select(benchMarkResponse => new BenchMarkResult
             {
@@ -18,7 +18,8 @@ namespace CloudRepublic.BenchMark.Orchestrator.Infrastructure
                 HostingEnvironment = (int) benchMarkType.HostEnvironment,
                 Runtime = (int) benchMarkType.Runtime,
                 Success = benchMarkResponse.Success,
-                RequestDuration = Convert.ToInt32(benchMarkResponse.Duration)
+                RequestDuration = Convert.ToInt32(benchMarkResponse.Duration),
+                IsColdRequest = isColdRequest
             }).ToList();
         }
     }

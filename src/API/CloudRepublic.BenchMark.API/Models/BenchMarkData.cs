@@ -4,6 +4,16 @@ namespace CloudRepublic.BenchMark.API.Models
 {
     public class BenchMarkData
     {
-        public List<CloudProvider> CloudProviders { get; set; }
+        public BenchMarkData()
+        {
+            ColdDataPoints = new List<DataPoint>();
+            HotDataPoints = new List<DataPoint>();
+        }
+        public string CloudProvider { get; set; }
+        public string HostingEnvironment { get; set; }
+        public string Runtime { get; set; }
+        public int AverageExecutionTime { get; set; }
+        public List<DataPoint> ColdDataPoints { get; set; }
+        public List<DataPoint> HotDataPoints { get; set; }
     }
 }

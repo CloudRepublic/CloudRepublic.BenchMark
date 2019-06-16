@@ -6,6 +6,6 @@ namespace CloudRepublic.BenchMark.API.Infrastructure
 {
     public interface IResponseConverter
     {
-        BenchMarkData ConvertToBenchMarkData(IEnumerable<BenchMarkResult> resultDataPoints);
+        BenchMarkData ConvertToBenchMarkData(List<BenchMarkResult> resultDataPoints);
     }
 }

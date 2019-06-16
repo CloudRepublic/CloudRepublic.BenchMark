@@ -14,59 +14,58 @@ namespace CloudRepublic.BenchMark.API.Tests
         public void ResponseConverterShouldConvertBenchMarkResultIntoBenchMarkData()
         {
             #region Arrange
+
             var cloudProvider = CloudProvider.Azure;
             var hostingEnvironment = HostEnvironment.Windows;
             var runtime = Runtime.Csharp;
-            
-            
+
+
             var benchMarkResults = new List<BenchMarkResult>()
             {
                 new BenchMarkResult()
                 {
                     Id = 0,
-                    CloudProvider = (int)cloudProvider,
-                    HostingEnvironment = (int)hostingEnvironment,
-                    Runtime = (int)runtime,
+                    CloudProvider = (int) cloudProvider,
+                    HostingEnvironment = (int) hostingEnvironment,
+                    Runtime = (int) runtime,
                     Success = true,
                     CreatedAt = DateTimeOffset.Now,
-                    RequestDuration = 200
+                    RequestDuration = 200,
+                    IsColdRequest = true
                 },
                 new BenchMarkResult()
                 {
                     Id = 0,
-                    CloudProvider = (int)cloudProvider,
-                    HostingEnvironment = (int)hostingEnvironment,
-                    Runtime = (int)runtime,
+                    CloudProvider = (int) cloudProvider,
+                    HostingEnvironment = (int) hostingEnvironment,
+                    Runtime = (int) runtime,
                     Success = true,
                     CreatedAt = DateTimeOffset.Now,
-                    RequestDuration = 200
+                    RequestDuration = 200,
+                    IsColdRequest = true
                 }
             };
 
             var responseConverter = new ResponseConverter();
+
             #endregion
 
             #region Act
+
             var benchMarkData = responseConverter.ConvertToBenchMarkData(benchMarkResults);
+
             #endregion
 
             #region Assert
+
             Assert.NotNull(benchMarkData);
-            Assert.True(benchMarkData.CloudProviders.Any());
-            Assert.True(benchMarkData.CloudProviders.First().Name == cloudProvider.ToString());
-            Assert.True(benchMarkData.CloudProviders.First().HostingEnvironments.Any());
-            Assert.True(benchMarkData.CloudProviders.First().HostingEnvironments.First().Name == hostingEnvironment.ToString());
-            Assert.True(benchMarkData.CloudProviders.First().HostingEnvironments.First().Runtimes.Any());
-            Assert.True(benchMarkData.CloudProviders.First().HostingEnvironments.First().Runtimes.First().Name ==
-                        runtime.ToString());
-            Assert.True(benchMarkData.CloudProviders.First().HostingEnvironments.First().Runtimes.First()
-                            .AverageExecutionTime == benchMarkResults.First().RequestDuration);
-            Assert.True(benchMarkData.CloudProviders.First().HostingEnvironments.First().Runtimes.First().DataPoints
-                .Any());
-            Assert.True(benchMarkData.CloudProviders.First().HostingEnvironments.First().Runtimes.First().DataPoints
-                            .First().ExecutionTime == benchMarkResults.First().RequestDuration);
+            Assert.True(benchMarkData.ColdDataPoints.Count == 2);
+            Assert.True(benchMarkData.HotDataPoints.Count == 0);
+            Assert.True(benchMarkData.CloudProvider == cloudProvider.ToString());
+            Assert.True(benchMarkData.HostingEnvironment == hostingEnvironment.ToString());
+            Assert.True(benchMarkData.Runtime == runtime.ToString());
+
             #endregion
-            
         }
     }
 }

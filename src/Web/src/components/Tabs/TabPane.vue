@@ -1,17 +1,19 @@
 <template>
-  <div class="tab-pane fade"
-       :id="id || label"
-       :class="{'active show': active}"
-       v-show="active"
-       :aria-expanded="active">
+  <div
+    class="tab-pane fade"
+    :id="id || label"
+    :class="{ 'active show': active }"
+    v-show="active"
+    :aria-expanded="active"
+  >
     <slot></slot>
   </div>
 </template>
 <script>
 export default {
-  name: "tab-pane",
-  props: ["label", "id", "title"],
-  inject: ["addTab", "removeTab"],
+  name: 'tab-pane',
+  props: ['label', 'id', 'title'],
+  inject: ['addTab', 'removeTab'],
   data() {
     return {
       active: false
@@ -28,5 +30,4 @@ export default {
   }
 };
 </script>
-<style>
-</style>
+<style></style>

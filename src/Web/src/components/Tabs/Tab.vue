@@ -1,27 +1,29 @@
 <template>
-  <div class="tab-pane"
-       v-show="active"
-       :id="id || title"
-       :class="{active: active}">
+  <div
+    class="tab-pane"
+    v-show="active"
+    :id="id || title"
+    :class="{ active: active }"
+  >
     <slot></slot>
   </div>
 </template>
 <script>
 export default {
-  name: "tab-pane",
+  name: 'tab-pane',
   props: {
     title: {
       type: String,
-      default: "",
-      description: "Tab pane title"
+      default: '',
+      description: 'Tab pane title'
     },
     id: {
       type: String,
       default: null,
-      description: "Tab pane id"
+      description: 'Tab pane id'
     }
   },
-  inject: ["addTab", "removeTab"],
+  inject: ['addTab', 'removeTab'],
   data() {
     return {
       active: false
@@ -38,5 +40,4 @@ export default {
   }
 };
 </script>
-<style>
-</style>
+<style></style>

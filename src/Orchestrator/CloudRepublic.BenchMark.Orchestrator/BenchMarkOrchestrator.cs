@@ -30,26 +30,44 @@ namespace CloudRepublic.BenchMark.Orchestrator
             var benchMarkTypes = BenchMarkTypeGenerator.Generate();
             foreach (var benchMarkType in benchMarkTypes)
             {
-                var tasks = new List<Task<BenchMarkResponse>>();
+                var tasksCold = new List<Task<BenchMarkResponse>>();
+                var tasksWarm = new List<Task<BenchMarkResponse>>();
+
+                for (int i = 0; i < 1; i++)
+                {
+                    tasksCold.Add(_benchMarkService.RunBenchMark(benchMarkType));
+                }
+
+                await Task.WhenAll(tasksCold);
 
                 for (int i = 0; i < 10; i++)
                 {
-                    tasks.Add(_benchMarkService.RunBenchMark(benchMarkType));
+                    tasksWarm.Add(_benchMarkService.RunBenchMark(benchMarkType));
                 }
 
-                await Task.WhenAll(tasks);
+                await Task.WhenAll(tasksWarm);
 
-                var resultsWindows =
-                    ResultConverter.ConvertToResultObject(tasks.Select(t => t.Result), benchMarkType);
+                var resultsCold =
+                    ResultConverter.ConvertToResultObject(tasksCold.Select(t => t.Result), benchMarkType,true);
+                
+                var resultWarm =
+                    ResultConverter.ConvertToResultObject(tasksWarm.Select(t => t.Result), benchMarkType,false);
+
 
                 using (var dbContext =
                     BenchMarkDbContextFactory.Create(Environment.GetEnvironmentVariable("BenchMarkDatabase")))
                 {
-                    foreach (var result in resultsWindows)
+                    foreach (var result in resultsCold)
                     {
                         dbContext.BenchMarkResult.Add(result);
                     }
 
+                    foreach (var result in resultWarm)
+                    {
+                        dbContext.BenchMarkResult.Add(result);
+                    }
+
+ 
                     await dbContext.SaveChangesAsync();
                 }
             }

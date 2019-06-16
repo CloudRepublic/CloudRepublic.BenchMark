@@ -10,7 +10,7 @@
         <img src="img/brand/logo-white.png">
       </router-link>
 
-      <template v-slot="{closeMenu}">
+      <template v-slot="{ closeMenu }">
         <!-- Collapse header -->
         <div class="navbar-collapse-header d-md-none">
           <div class="row">
@@ -62,19 +62,7 @@
     </base-nav>
     <!-- Header -->
     <div class="header bg-gradient-success py-7 py-lg-8">
-      <div class="container">
-        <div class="header-body text-center mb-7">
-          <div class="row justify-content-center">
-            <div class="col-lg-5 col-md-6">
-              <h1 class="text-white">Welcome!</h1>
-              <p class="text-lead text-white">
-                Use these awesome forms to login or create new account in
-                your project for free.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div class="container pt-9 pb-5"></div>
       <div class="separator separator-bottom separator-skew zindex-100">
         <svg
           x="0"
@@ -89,7 +77,7 @@
       </div>
     </div>
     <!-- Page content -->
-    <div class="container mt--8 pb-5">
+    <div class="container pb-5" style="margin-top: -22rem;">
       <slide-y-up-transition mode="out-in" origin="center top">
         <router-view></router-view>
       </slide-y-up-transition>
@@ -99,7 +87,7 @@
         <div class="row align-items-center justify-content-xl-between">
           <div class="col-xl-6">
             <div class="copyright text-center text-xl-left text-muted">
-              &copy; {{year}}
+              &copy; {{ year }}
               <a
                 href="https://www.cloudrepublic.nl/"
                 class="font-weight-bold ml-1"
@@ -128,10 +116,10 @@
   </div>
 </template>
 <script>
-import { SlideYUpTransition } from "vue2-transitions";
+import { SlideYUpTransition } from 'vue2-transitions';
 
 export default {
-  name: "auth-layout",
+  name: 'auth-layout',
   components: {
     SlideYUpTransition
   },
@@ -143,5 +131,4 @@ export default {
   }
 };
 </script>
-<style>
-</style>
+<style></style>

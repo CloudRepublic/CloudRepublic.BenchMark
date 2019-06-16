@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CloudRepublic.BenchMark.Persistence
 {
-    public class BenchMarkDbContext : DbContext,IBenchMarkDbContext
+    public partial class BenchMarkDbContext : DbContext,IBenchMarkDbContext
     {
         public BenchMarkDbContext()
         {
@@ -20,7 +20,7 @@ namespace CloudRepublic.BenchMark.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
+            modelBuilder.HasAnnotation("ProductVersion", "2.2.3-servicing-35854");
 
             modelBuilder.Entity<BenchMarkResult>(entity =>
             {
@@ -34,8 +34,6 @@ namespace CloudRepublic.BenchMark.Persistence
                 entity.HasIndex(e => e.Id)
                     .HasName("BenchMarkResults_Id_uindex")
                     .IsUnique();
-
-                entity.Property(e => e.Id);
 
                 entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
             });

@@ -50,10 +50,10 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             _mockBenchMarkResultService.Setup(c =>
                     c.GetBenchMarkResults(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
-                .Returns(Task.FromResult((IEnumerable<BenchMarkResult>) benchMarkResults));
+                .Returns(Task.FromResult(benchMarkResults));
 
             var sampleBenchMarkData = new BenchMarkData()
-                {CloudProviders = new List<CloudProvider>() {new CloudProvider() {Name = "Azure"}}};
+                {CloudProvider = "Azure"};
 
             _mockResponseConverter.Setup(c => c.ConvertToBenchMarkData(benchMarkResults))
                 .Returns(sampleBenchMarkData);
@@ -76,7 +76,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var benchMarkData = Assert.IsType<BenchMarkData>(responseObject.Value);
 
-            Assert.Equal(benchMarkData.CloudProviders.First().Name, sampleBenchMarkData.CloudProviders.First().Name);
+            Assert.Equal(benchMarkData.CloudProvider, sampleBenchMarkData.CloudProvider);
 
             #endregion
         }

@@ -1,37 +1,108 @@
 <template>
-  <div class="row justify-content-center">
-    <div class="col-lg-5 col-md-7">
-      <stats-card
-        title="Function Windows"
-        type="gradient-info"
-        sub-title="350,897ms"
-        icon="ni ni-active-40"
-        class="mb-4 mb-xl-0"
-      >
-        <template slot="footer">
-          <span class="text-success mr-2">
-            <i class="fa fa-arrow-up"></i> 3.48%
-          </span>
-          <span class="text-nowrap">Since last 3 days</span>
-        </template>
-      </stats-card>
+  <div>
+    <vue-element-loading
+      :active="isLoading"
+      :is-full-screen="true"
+      spinner="spinner"
+      color="#fff"
+      background-color="#172b4d"
+    />
+
+    <div class="row mb-7">
+      <div class="col-md-12">
+        <tabs @tabIndexChanged="loadEvironment">
+          <tab-pane title="Windows Csharp"></tab-pane>
+          <tab-pane title="Windows Nodejs"></tab-pane>
+          <tab-pane title="Linux Csharp"></tab-pane>
+          <tab-pane title="Linux Nodejs"></tab-pane>
+        </tabs>
+      </div>
+    </div>
+    <div v-if="benchMarkData !== null">
+      <BenchMarkEnvi
+        :environment="environment"
+        :benchMarkData="data"
+        :averageExecutionTime="averageExecutionTime"
+        :runtime="runtime"
+      ></BenchMarkEnvi>
     </div>
   </div>
 </template>
 <script>
-import * as chartConfigs from "@/components/Charts/config";
-import LineChart from "@/components/Charts/LineChart";
-import BarChart from "@/components/Charts/BarChart";
+import { benchMarkService } from '@/services';
+import BenchMarkEnvi from '@/components/Custom/BenchMarkEnvi';
+import VueElementLoading from 'vue-element-loading';
 
 export default {
-  components: {},
-  name: "benchmark",
+  name: 'benchmark',
+  components: { BenchMarkEnvi, VueElementLoading },
+  computed: {
+    environment() {
+      return this.benchMarkData.cloudProviders[0].hostingEnvironments[0].name;
+    },
+    data() {
+      return this.benchMarkData.cloudProviders[0].hostingEnvironments[0]
+        .runtimes[0].dataPoints;
+    },
+    averageExecutionTime() {
+      return this.benchMarkData.cloudProviders[0].hostingEnvironments[0]
+        .runtimes[0].averageExecutionTime;
+    },
+    runtime() {
+      return this.benchMarkData.cloudProviders[0].hostingEnvironments[0]
+        .runtimes[0].name;
+    }
+  },
   data() {
     return {
-      model: {}
+      benchMarkData: null,
+      activeEnvironmentIndex: 0,
+      isLoading: true
     };
+  },
+  methods: {
+    async loadEvironment(tabIndex) {
+      this.isLoading = true;
+      let benchMarkData;
+      if (tabIndex === 0) {
+        benchMarkData = await benchMarkService.getBenchMarkData(
+          'Azure',
+          'Windows',
+          'Csharp'
+        );
+      }
+
+      if (tabIndex === 1) {
+        benchMarkData = await benchMarkService.getBenchMarkData(
+          'Azure',
+          'Windows',
+          'Nodejs'
+        );
+      }
+      if (tabIndex === 2) {
+        benchMarkData = await benchMarkService.getBenchMarkData(
+          'Azure',
+          'Linux',
+          'Csharp'
+        );
+      }
+
+      if (tabIndex === 3) {
+        benchMarkData = await benchMarkService.getBenchMarkData(
+          'Azure',
+          'Linux',
+          'Nodejs'
+        );
+      }
+
+      this.benchMarkData = benchMarkData;
+      this.isLoading = false;
+    }
+  },
+  mounted() {},
+  async beforeMount() {
+    await this.loadEvironment(0);
   }
 };
 </script>
-<style>
-</style>
+<style></style>

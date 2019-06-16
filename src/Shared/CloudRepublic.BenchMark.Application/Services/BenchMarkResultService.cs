@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Threading.Tasks;
 using CloudRepublic.BenchMark.Application.Interfaces;
 using CloudRepublic.BenchMark.Domain.Entities;
@@ -18,7 +19,7 @@ namespace CloudRepublic.BenchMark.Application.Services
             _dbConnection = dbConnection;
         }
 
-        public async Task<IEnumerable<BenchMarkResult>> GetBenchMarkResults(string cloudProvider,
+        public async Task<List<BenchMarkResult>> GetBenchMarkResults(string cloudProvider,
             string hostingEnvironment, string runtime, int dayRange)
         {
             var parsedCloudProvider = Enum.Parse(typeof(CloudProvider), cloudProvider);
@@ -33,7 +34,7 @@ namespace CloudRepublic.BenchMark.Application.Services
                     Runtime = (int) parsedRuntime, DayRange = dayRange
                 });
 
-            return results;
+            return results.ToList();
         }
     }
 }
