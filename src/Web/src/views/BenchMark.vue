@@ -21,7 +21,8 @@
     <div v-if="benchMarkData !== null">
       <BenchMarkEnvi
         :environment="environment"
-        :benchMarkData="data"
+        :coldBenchMarkData="coldData"
+        :warmBenchMarkData="warmData"
         :averageExecutionTime="averageExecutionTime"
         :runtime="runtime"
       ></BenchMarkEnvi>
@@ -41,17 +42,16 @@ export default {
       return this.benchMarkData.hostingEnvironment;
     },
     coldData() {
-      return this.benchMarkData.cloudProviders[0].hostingEnvironments[0]
-        .runtimes[0].dataPoints;
+      return this.benchMarkData.coldDataPoints;
     },
-    warmData() {},
+    warmData() {
+      return this.benchMarkData.warmDataPoints;
+    },
     averageExecutionTime() {
-      return this.benchMarkData.cloudProviders[0].hostingEnvironments[0]
-        .runtimes[0].averageExecutionTime;
+      return this.benchMarkData.averageExecutionTime;
     },
     runtime() {
-      return this.benchMarkData.cloudProviders[0].hostingEnvironments[0]
-        .runtimes[0].name;
+      return this.benchMarkData.runtime;
     }
   },
   data() {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row">
-      <div v-if="benchMarkData !== null" class="col-md-4">
+      <div v-if="environment !== null" class="col-md-4">
         <div class="row">
           <div class="col-md-6 d-flex flex-column">
             <div class="d-flex align-items-center">
@@ -32,7 +32,7 @@
       </div>
     </div>
     <div class="row mt-3">
-      <div v-if="benchMarkData !== null" class="col-md-6">
+      <div v-if="coldBenchMarkData !== null" class="col-md-6">
         <card type="white" header-classes="bg-transparent">
           <div slot="header" class="row align-items-center">
             <div class="col">
@@ -46,18 +46,18 @@
           <line-chart
             :height="350"
             ref="coldChart"
-            :chart-data="benchMarkChart.chartData"
-            :extra-options="benchMarkChart.options"
+            :chart-data="coldBenchMarkChart.chartData"
+            :extra-options="coldBenchMarkChart.options"
           ></line-chart>
         </card>
       </div>
-      <div v-if="1===0" class="col-md-6">
+      <div v-if="warmBenchMarkData !== null" class="col-md-6">
         <card type="white" header-classes="bg-transparent">
           <div slot="header" class="row align-items-center">
             <div class="col">
               <h6 class="text-light text-uppercase ls-1 mb-1">Performance</h6>
               <div class="d-flex align-items-center">
-                <h5 class="h3 text-dark mb-0">Hotstart</h5>
+                <h5 class="h3 text-dark mb-0">Warmstart</h5>
                 <img class="ml-1" style="max-width:20px;" src="img/icons/common/energy.svg">
               </div>
             </div>
@@ -65,8 +65,8 @@
           <line-chart
             :height="350"
             ref="hotChart"
-            :chart-data="benchMarkChart.chartData"
-            :extra-options="benchMarkChart.options"
+            :chart-data="warmBenchMarkChart.chartData"
+            :extra-options="warmBenchMarkChart.options"
           ></line-chart>
         </card>
       </div>
@@ -83,12 +83,15 @@ export default {
   name: 'benchmark-envi',
   components: { LineChart },
   props: {
-    benchMarkData: {
+    coldBenchMarkData: {
+      type: Array
+    },
+    warmBenchMarkData: {
       type: Array
     },
     environment: {
       type: String,
-      default: ''
+      default: null
     },
     averageExecutionTime: {
       type: Number,
@@ -109,7 +112,19 @@ export default {
   },
   data() {
     return {
-      benchMarkChart: {
+      coldBenchMarkChart: {
+        chartData: {
+          datasets: [
+            {
+              label: 'milliseconds',
+              data: []
+            }
+          ],
+          labels: []
+        },
+        options: chartConfigs.blueChartOptions
+      },
+      warmBenchMarkChart: {
         chartData: {
           datasets: [
             {
@@ -124,17 +139,26 @@ export default {
     };
   },
   mounted() {
-    this.initChart();
+    this.initColdChart();
+    this.initWarmChart();
   },
   methods: {
-    initChart() {
-      let data = this.benchMarkData;
+    initColdChart() {
+      let chartData = this.formatChartData(this.coldBenchMarkData);
 
+      this.coldBenchMarkChart.chartData = chartData;
+    },
+    initWarmChart() {
+      let chartData = this.formatChartData(this.warmBenchMarkData);
+
+      this.warmBenchMarkChart.chartData = chartData;
+    },
+    formatChartData(sourceData) {
       let benchMarkData = [];
       let benchMarkLabels = [];
-      for (let i = 0; i < data.length; i++) {
-        benchMarkData.push(data[i].executionTime);
-        benchMarkLabels.push(data[i].createdAt);
+      for (let i = 0; i < sourceData.length; i++) {
+        benchMarkData.push(sourceData[i].executionTime);
+        benchMarkLabels.push(sourceData[i].createdAt);
       }
 
       let chartData = {
@@ -146,12 +170,16 @@ export default {
         ],
         labels: benchMarkLabels
       };
-      this.benchMarkChart.chartData = chartData;
+
+      return chartData;
     }
   },
   watch: {
-    benchMarkData() {
-      this.initChart();
+    coldBenchMarkData() {
+      this.initColdChart();
+    },
+    warmBenchMarkData() {
+      this.initWarmChart();
     }
   }
 };

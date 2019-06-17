@@ -22,6 +22,21 @@ namespace CloudRepublic.BenchMark.API.Infrastructure
                 AverageExecutionTime = Convert.ToInt32(Math.Round(resultDataPoints.Average(c => c.RequestDuration), 0))
             };
 
+            var currentDate = resultDataPoints.OrderByDescending(c => c.CreatedAt).First().CreatedAt.Date;
+            var previousDate = currentDate - TimeSpan.FromDays(1);
+
+            var dataPointsCurrentDate = resultDataPoints.Where(c => c.CreatedAt.Date == currentDate.Date);
+            var dataPointsPreviousDate = resultDataPoints.Where(c => c.CreatedAt.Date == previousDate.Date);
+
+            if (dataPointsCurrentDate.Any() && dataPointsPreviousDate.Any())
+            {
+                var averageCurrentDate = resultDataPoints.Where(c => c.CreatedAt.Date == currentDate.Date).Average(c => c.RequestDuration);
+                var averagePreviousDate = resultDataPoints.Where(c => c.CreatedAt.Date == previousDate.Date).Average(c => c.RequestDuration);
+
+                var difference = ((averageCurrentDate - averagePreviousDate) / Math.Abs(averageCurrentDate)) * 100;
+                benchmarkData.PreviousDayDifference = difference;
+            }
+
             foreach (var dataPoint in resultDataPoints.Where(c=>c.Success))
             {
                 if (dataPoint.IsColdRequest)
