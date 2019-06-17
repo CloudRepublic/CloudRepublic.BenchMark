@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = {
-  publicPath: isProd ? '/vue-argon-dashboard/' : '',
+  publicPath: isProd ? '' : '',
   configureWebpack: {
     // Set up all the aliases we use in our app.
     plugins: [
@@ -12,7 +12,7 @@ module.exports = {
     ]
   },
   pwa: {
-    name: 'Vue Argon Dashboard',
+    name: 'Serverless Benchmark',
     themeColor: '#172b4d',
     msTileColor: '#172b4d',
     appleMobileWebAppCapable: 'yes',

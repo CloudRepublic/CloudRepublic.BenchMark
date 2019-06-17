@@ -167,7 +167,7 @@ export let blueChartOptions = {
           zeroLineColor: Charts.colors.gray[700]
         },
         ticks: {
-          max: 60000,
+          max: 10000,
           display: true
         }
       }
