@@ -30,7 +30,7 @@ namespace CloudRepublic.BenchMark.API.Infrastructure
                 }
                 else
                 {
-                    benchmarkData.HotDataPoints.Add(new DataPoint(dataPoint.CreatedAt, dataPoint.RequestDuration));
+                    benchmarkData.WarmDataPoints.Add(new DataPoint(dataPoint.CreatedAt, dataPoint.RequestDuration));
                 }
             }
 

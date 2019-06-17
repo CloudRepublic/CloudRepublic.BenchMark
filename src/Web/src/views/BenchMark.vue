@@ -38,12 +38,13 @@ export default {
   components: { BenchMarkEnvi, VueElementLoading },
   computed: {
     environment() {
-      return this.benchMarkData.cloudProviders[0].hostingEnvironments[0].name;
+      return this.benchMarkData.hostingEnvironment;
     },
-    data() {
+    coldData() {
       return this.benchMarkData.cloudProviders[0].hostingEnvironments[0]
         .runtimes[0].dataPoints;
     },
+    warmData() {},
     averageExecutionTime() {
       return this.benchMarkData.cloudProviders[0].hostingEnvironments[0]
         .runtimes[0].averageExecutionTime;
@@ -94,7 +95,7 @@ export default {
           'Nodejs'
         );
       }
-
+      console.log(benchMarkData);
       this.benchMarkData = benchMarkData;
       this.isLoading = false;
     }

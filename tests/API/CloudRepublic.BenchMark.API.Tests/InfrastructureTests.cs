@@ -60,7 +60,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             Assert.NotNull(benchMarkData);
             Assert.True(benchMarkData.ColdDataPoints.Count == 2);
-            Assert.True(benchMarkData.HotDataPoints.Count == 0);
+            Assert.True(benchMarkData.WarmDataPoints.Count == 0);
             Assert.True(benchMarkData.CloudProvider == cloudProvider.ToString());
             Assert.True(benchMarkData.HostingEnvironment == hostingEnvironment.ToString());
             Assert.True(benchMarkData.Runtime == runtime.ToString());
