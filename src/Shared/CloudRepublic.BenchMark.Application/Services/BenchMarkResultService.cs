@@ -27,7 +27,7 @@ namespace CloudRepublic.BenchMark.Application.Services
             var parsedRuntime = Enum.Parse(typeof(Runtime), runtime);
 
             var results = await _dbConnection.QueryAsync<BenchMarkResult>(
-                "SELECT * FROM [dbo].[BenchMarkResult] WHERE CloudProvider=@CloudProvider AND HostingEnvironment=@HostingEnvironment AND Runtime=@Runtime AND  CreatedAt >= DATEADD(DAY,-@DayRange,GETDATE())",
+                "SELECT * FROM [dbo].[BenchMarkResult] WHERE CloudProvider=@CloudProvider AND HostingEnvironment=@HostingEnvironment AND Runtime=@Runtime AND  CreatedAt >= DATEADD(DAY,-@DayRange,GETDATE()) order by CreatedAt",
                 new
                 {
                     CloudProvider = (int) parsedCloudProvider, HostingEnvironment = (int) parsedHostingEnvironment,

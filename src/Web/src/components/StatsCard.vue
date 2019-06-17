@@ -3,12 +3,12 @@
     <div class="row">
       <div class="col">
         <slot>
-          <h5 class="card-title text-uppercase text-muted mb-0" v-if="title">
-            {{ title }}
-          </h5>
-          <span class="h2 font-weight-bold mb-0" v-if="subTitle">{{
+          <h5 class="card-title text-uppercase text-muted mb-0" v-if="title">{{ title }}</h5>
+          <span class="h2 font-weight-bold mb-0" v-if="subTitle">
+            {{
             subTitle
-          }}</span>
+            }}
+          </span>
         </slot>
       </div>
 
@@ -25,7 +25,7 @@
     </div>
 
     <p class="mt-3 mb-0 text-sm">
-      <slot name="footer"> </slot>
+      <slot name="footer"></slot>
     </p>
   </card>
 </template>

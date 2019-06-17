@@ -12,7 +12,7 @@
         </div>
         <stats-card
           :title="'Function ' + environment"
-          :sub-title="averageExecutionTime + 'ms'"
+          :sub-title="averageExecutionTime + 'ms avg'"
           class="mb-4 mb-xl-0 mt-2"
         >
           <template slot="icon">
