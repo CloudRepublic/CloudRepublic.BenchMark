@@ -33,8 +33,9 @@ namespace CloudRepublic.BenchMark.API.Infrastructure
                 var averageCurrentDate = resultDataPoints.Where(c => c.CreatedAt.Date == currentDate.Date).Average(c => c.RequestDuration);
                 var averagePreviousDate = resultDataPoints.Where(c => c.CreatedAt.Date == previousDate.Date).Average(c => c.RequestDuration);
 
-                var difference = ((averageCurrentDate - averagePreviousDate) / Math.Abs(averageCurrentDate)) * 100;
+                var difference = Math.Round(((averageCurrentDate - averagePreviousDate) / Math.Abs(averageCurrentDate)) * 100,2);
                 benchmarkData.PreviousDayDifference = difference;
+                benchmarkData.PreviousDayPositive = benchmarkData.PreviousDayDifference < 0;
             }
 
             foreach (var dataPoint in resultDataPoints.Where(c=>c.Success))

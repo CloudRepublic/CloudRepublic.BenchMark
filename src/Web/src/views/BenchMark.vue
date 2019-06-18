@@ -95,7 +95,6 @@ export default {
           'Nodejs'
         );
       }
-      console.log(benchMarkData);
       this.benchMarkData = benchMarkData;
       this.isLoading = false;
     }
