@@ -25,6 +25,8 @@
         :warmBenchMarkData="warmData"
         :averageExecutionTime="averageExecutionTime"
         :runtime="runtime"
+        :changeSinceYesterday="previousDayDifference"
+        :positiveChange="previousDayDifferencePositive"
       ></BenchMarkEnvi>
     </div>
   </div>
@@ -52,6 +54,12 @@ export default {
     },
     runtime() {
       return this.benchMarkData.runtime;
+    },
+    previousDayDifference() {
+      return this.benchMarkData.previousDayDifference;
+    },
+    previousDayDifferencePositive() {
+      return this.benchMarkData.previousDayPositive;
     }
   },
   data() {

@@ -119,7 +119,7 @@
 import { SlideYUpTransition } from 'vue2-transitions';
 
 export default {
-  name: 'auth-layout',
+  name: 'benchmark-layout',
   components: {
     SlideYUpTransition
   },

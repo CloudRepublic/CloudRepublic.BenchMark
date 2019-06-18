@@ -23,8 +23,8 @@
           </template>
           <template slot="footer">
             <span :class="[ positiveChange ? 'text-success' : 'text-danger','mr-2']">
-              <i :class=" ['fa',positiveChange ? 'fa-arrow-up' : 'fa-arrow-down']  "></i>
-              {{changeSinceYesterday}}
+              <i :class=" ['fa',positiveChange ? 'fa-arrow-down' : 'fa-arrow-up']  "></i>
+              {{changeSinceYesterday}}%
             </span>
             <span class="text-nowrap">Since yesterday</span>
           </template>
