@@ -6,7 +6,7 @@ async function getBenchMarkData(cloudProvider, hostingEnvironment, runtime) {
       process.env.VUE_APP_API
     }?cloudProvider=${cloudProvider}&hostingEnvironment=${hostingEnvironment}&runtime=${runtime}`,
     {
-      headers: { 'x-functions-key': process.env.VUE_APP_API_KEY }
+      headers: { 'Ocp-Apim-Subscription-Key': process.env.VUE_APP_API_KEY }
     }
   );
   return handleResponse(response);
