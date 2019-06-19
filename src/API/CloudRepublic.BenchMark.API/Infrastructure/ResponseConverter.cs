@@ -18,11 +18,16 @@ namespace CloudRepublic.BenchMark.API.Infrastructure
                 CloudProvider = Enum.ToObject(typeof(CloudProvider), resultDataPoints.First().CloudProvider).ToString(),
                 HostingEnvironment =
                     Enum.ToObject(typeof(HostingEnvironment), resultDataPoints.First().HostingEnvironment).ToString(),
-                Runtime = Enum.ToObject(typeof(Runtime), resultDataPoints.First().Runtime).ToString(),
-                AverageExecutionTime = Convert.ToInt32(Math.Round(resultDataPoints.Average(c => c.RequestDuration), 0))
+                Runtime = Enum.ToObject(typeof(Runtime), resultDataPoints.First().Runtime).ToString()
             };
 
+
             var currentDate = resultDataPoints.OrderByDescending(c => c.CreatedAt).First().CreatedAt.Date;
+            var averageCurrentDate = resultDataPoints.Where(c => c.CreatedAt.Date == currentDate.Date)
+                .Average(c => c.RequestDuration);
+
+            benchmarkData.AverageExecutionTime = Convert.ToInt32(Math.Round(averageCurrentDate, 0));
+
             var previousDate = currentDate - TimeSpan.FromDays(1);
 
             var dataPointsCurrentDate = resultDataPoints.Where(c => c.CreatedAt.Date == currentDate.Date);
@@ -30,15 +35,16 @@ namespace CloudRepublic.BenchMark.API.Infrastructure
 
             if (dataPointsCurrentDate.Any() && dataPointsPreviousDate.Any())
             {
-                var averageCurrentDate = resultDataPoints.Where(c => c.CreatedAt.Date == currentDate.Date).Average(c => c.RequestDuration);
-                var averagePreviousDate = resultDataPoints.Where(c => c.CreatedAt.Date == previousDate.Date).Average(c => c.RequestDuration);
+                var averagePreviousDate = resultDataPoints.Where(c => c.CreatedAt.Date == previousDate.Date)
+                    .Average(c => c.RequestDuration);
 
-                var difference = Math.Round(((averageCurrentDate - averagePreviousDate) / Math.Abs(averageCurrentDate)) * 100,2);
+                var difference =
+                    Math.Round(((averageCurrentDate - averagePreviousDate) / Math.Abs(averageCurrentDate)) * 100, 2);
                 benchmarkData.PreviousDayDifference = difference;
                 benchmarkData.PreviousDayPositive = benchmarkData.PreviousDayDifference < 0;
             }
 
-            foreach (var dataPoint in resultDataPoints.Where(c=>c.Success))
+            foreach (var dataPoint in resultDataPoints.Where(c => c.Success))
             {
                 if (dataPoint.IsColdRequest)
                 {
