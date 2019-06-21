@@ -42,6 +42,13 @@
                 <img class="ml-1" style="max-width:20px;" src="img/icons/common/snow.svg">
               </div>
             </div>
+            <div class="col">
+              <div class="justify-content-end">
+                <h6
+                  class="text-light text-uppercase ls-1 mb-1 text-right"
+                >from {{coldBenchMarkData.length}} datapoints</h6>
+              </div>
+            </div>
           </div>
           <line-chart
             :height="350"
@@ -59,6 +66,13 @@
               <div class="d-flex align-items-center">
                 <h5 class="h3 text-dark mb-0">Warmstart</h5>
                 <img class="ml-1" style="max-width:20px;" src="img/icons/common/energy.svg">
+              </div>
+            </div>
+            <div class="col">
+              <div class="justify-content-end">
+                <h6
+                  class="text-light text-uppercase ls-1 mb-1 text-right"
+                >from {{warmBenchMarkData.length}} datapoints</h6>
               </div>
             </div>
           </div>
@@ -102,8 +116,8 @@ export default {
       default: false
     },
     changeSinceYesterday: {
-      type: String,
-      default: '1.00%'
+      type: Number,
+      default: 1.0
     },
     runtime: {
       type: String,

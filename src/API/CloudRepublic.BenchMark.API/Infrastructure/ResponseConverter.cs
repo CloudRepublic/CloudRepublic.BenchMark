@@ -48,11 +48,11 @@ namespace CloudRepublic.BenchMark.API.Infrastructure
             {
                 if (dataPoint.IsColdRequest)
                 {
-                    benchmarkData.ColdDataPoints.Add(new DataPoint(dataPoint.CreatedAt, dataPoint.RequestDuration));
+                    benchmarkData.ColdDataPoints.Add(new DataPoint(dataPoint.CreatedAt.ToString("R"), dataPoint.RequestDuration));
                 }
                 else
                 {
-                    benchmarkData.WarmDataPoints.Add(new DataPoint(dataPoint.CreatedAt, dataPoint.RequestDuration));
+                    benchmarkData.WarmDataPoints.Add(new DataPoint(dataPoint.CreatedAt.ToString("R"), dataPoint.RequestDuration));
                 }
             }
 
