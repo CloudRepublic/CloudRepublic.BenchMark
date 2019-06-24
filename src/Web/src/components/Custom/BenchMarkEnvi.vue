@@ -77,9 +77,10 @@
             </div>
             <div class="col">
               <div class="justify-content-end">
+                <h6 class="text-uppercase ls-1 mb-1 text-right">Execution 1/hour</h6>
                 <h6
                   class="text-light text-uppercase ls-1 mb-1 text-right"
-                >from {{coldBenchMarkData.length}} datapoints</h6>
+                >from {{coldBenchMarkDataPointsCount}} datapoints</h6>
               </div>
             </div>
           </div>
@@ -103,9 +104,10 @@
             </div>
             <div class="col">
               <div class="justify-content-end">
+                <h6 class="text-uppercase ls-1 mb-1 text-right">Execution 20/hour</h6>
                 <h6
                   class="text-light text-uppercase ls-1 mb-1 text-right"
-                >from {{warmBenchMarkData.length}} datapoints</h6>
+                >from {{warmBenchMarkDataPointsCount}} datapoints</h6>
               </div>
             </div>
           </div>
@@ -182,6 +184,7 @@ export default {
         },
         options: chartConfigs.boxPlotOptions
       },
+      coldBenchMarkDataPointsCount: 0,
       warmBenchMarkChart: {
         chartData: {
           datasets: [
@@ -193,7 +196,8 @@ export default {
           labels: []
         },
         options: chartConfigs.boxPlotOptions
-      }
+      },
+      warmBenchMarkDataPointsCount: 0
     };
   },
   mounted() {
@@ -204,11 +208,18 @@ export default {
     initColdChart() {
       let chartData = this.formatChartData(this.coldBenchMarkData);
 
+      for (let i = 0; i < chartData.datasets[0].data.length; i++) {
+        this.coldBenchMarkDataPointsCount +=
+          chartData.datasets[0].data[i].length;
+      }
       this.coldBenchMarkChart.chartData = chartData;
     },
     initWarmChart() {
       let chartData = this.formatChartData(this.warmBenchMarkData);
-
+      for (let i = 0; i < chartData.datasets[0].data.length; i++) {
+        this.warmBenchMarkDataPointsCount +=
+          chartData.datasets[0].data[i].length;
+      }
       this.warmBenchMarkChart.chartData = chartData;
     },
     formatChartData(sourceData) {
