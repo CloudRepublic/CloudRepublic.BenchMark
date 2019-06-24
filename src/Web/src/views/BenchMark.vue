@@ -7,8 +7,8 @@
       color="#fff"
       background-color="#172b4d"
     />
-    <div class="row mb-4">
-      <div class="col-md-7">
+    <div class="row mb-4 d-flex justify-content-center">
+      <div class="col-md-7 text-center">
         <span class="display-3 text-white p-0">How the benchmark is executed</span>
         <p
           class="text-white"
