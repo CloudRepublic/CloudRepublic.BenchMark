@@ -33,12 +33,14 @@ namespace CloudRepublic.BenchMark.Orchestrator
                 var tasksCold = new List<Task<BenchMarkResponse>>();
                 var tasksWarm = new List<Task<BenchMarkResponse>>();
 
-                for (int i = 0; i < 1; i++)
+                for (int i = 0; i < 5; i++)
                 {
                     tasksCold.Add(_benchMarkService.RunBenchMark(benchMarkType));
                 }
 
                 await Task.WhenAll(tasksCold);
+
+                await Task.Delay(TimeSpan.FromSeconds(30));
 
                 for (int i = 0; i < 10; i++)
                 {

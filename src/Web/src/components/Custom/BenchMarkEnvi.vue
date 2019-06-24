@@ -77,7 +77,7 @@
             </div>
             <div class="col">
               <div class="justify-content-end">
-                <h6 class="text-uppercase ls-1 mb-1 text-right">Execution 1/hour</h6>
+                <h6 class="text-uppercase ls-1 mb-1 text-right">Execution 5/hour</h6>
                 <h6
                   class="text-light text-uppercase ls-1 mb-1 text-right"
                 >from {{coldBenchMarkDataPointsCount}} datapoints</h6>
@@ -104,7 +104,7 @@
             </div>
             <div class="col">
               <div class="justify-content-end">
-                <h6 class="text-uppercase ls-1 mb-1 text-right">Execution 20/hour</h6>
+                <h6 class="text-uppercase ls-1 mb-1 text-right">Execution 10/hour</h6>
                 <h6
                   class="text-light text-uppercase ls-1 mb-1 text-right"
                 >from {{warmBenchMarkDataPointsCount}} datapoints</h6>

@@ -62,7 +62,7 @@
     </base-nav>
     <!-- Header -->
     <div class="header bg-gradient-success py-7 py-lg-8">
-      <div class="container pt-9 pb-5"></div>
+      <div class="container pt-9 pb-8"></div>
       <div class="separator separator-bottom separator-skew zindex-100">
         <svg
           x="0"
@@ -77,7 +77,7 @@
       </div>
     </div>
     <!-- Page content -->
-    <div class="container pb-5" style="margin-top: -22rem;">
+    <div class="container pb-5" style="margin-top: -27rem;">
       <slide-y-up-transition mode="out-in" origin="center top">
         <router-view></router-view>
       </slide-y-up-transition>
