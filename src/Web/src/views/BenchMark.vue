@@ -22,11 +22,14 @@
       <BenchMarkEnvi
         :environment="environment"
         :coldBenchMarkData="coldData"
+        :coldMedianExecutionTime="coldMedianExecutionTime"
+        :coldChangeSinceYesterday="coldPreviousDayDifference"
+        :coldPositiveChange="coldPreviousDayPositive"
         :warmBenchMarkData="warmData"
-        :averageExecutionTime="averageExecutionTime"
+        :warmMedianExecutionTime="warmMedianExecutionTime"
+        :warmChangeSinceYesterday="warmPreviousDayDifference"
+        :warmPositiveChange="warmPreviousDayPositive"
         :runtime="runtime"
-        :changeSinceYesterday="previousDayDifference"
-        :positiveChange="previousDayDifferencePositive"
       ></BenchMarkEnvi>
     </div>
   </div>
@@ -49,17 +52,26 @@ export default {
     warmData() {
       return this.benchMarkData.warmDataPoints;
     },
-    averageExecutionTime() {
-      return this.benchMarkData.averageExecutionTime;
+    coldMedianExecutionTime() {
+      return this.benchMarkData.coldMedianExecutionTime;
+    },
+    coldPreviousDayDifference() {
+      return this.benchMarkData.coldPreviousDayDifference;
+    },
+    coldPreviousDayPositive() {
+      return this.benchMarkData.coldPreviousDayPositive;
+    },
+    warmMedianExecutionTime() {
+      return this.benchMarkData.warmMedianExecutionTime;
+    },
+    warmPreviousDayDifference() {
+      return this.benchMarkData.warmPreviousDayDifference;
+    },
+    warmPreviousDayPositive() {
+      return this.benchMarkData.warmPreviousDayPositive;
     },
     runtime() {
       return this.benchMarkData.runtime;
-    },
-    previousDayDifference() {
-      return this.benchMarkData.previousDayDifference;
-    },
-    previousDayDifferencePositive() {
-      return this.benchMarkData.previousDayPositive;
     }
   },
   data() {
@@ -103,6 +115,7 @@ export default {
           'Nodejs'
         );
       }
+      console.log(benchMarkData);
       this.benchMarkData = benchMarkData;
       this.isLoading = false;
     }

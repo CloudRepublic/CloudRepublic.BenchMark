@@ -13,9 +13,12 @@ namespace CloudRepublic.BenchMark.API.Models
         public string CloudProvider { get; set; }
         public string HostingEnvironment { get; set; }
         public string Runtime { get; set; }
-        public bool PreviousDayPositive { get; set; }
-        public double PreviousDayDifference { get; set; }
-        public int AverageExecutionTime { get; set; }
+        public bool ColdPreviousDayPositive { get; set; }
+        public double ColdPreviousDayDifference { get; set; }
+        public bool WarmPreviousDayPositive { get; set; }
+        public double WarmPreviousDayDifference { get; set; }
+        public double ColdMedianExecutionTime { get; set; }
+        public double WarmMedianExecutionTime { get; set; }
         public List<DataPoint> ColdDataPoints { get; set; }
         public List<DataPoint> WarmDataPoints { get; set; }
     }

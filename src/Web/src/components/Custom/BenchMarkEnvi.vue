@@ -1,34 +1,67 @@
 <template>
   <div>
     <div class="row">
-      <div v-if="environment !== null" class="col-md-4">
+      <div v-if="environment !== null" class="col-md-6">
         <div class="row">
-          <div class="col-md-6 d-flex flex-column">
+          <div class="col-md-4 d-flex flex-column">
             <div class="d-flex align-items-center">
               <span class="display-1 text-white p-0" style="line-height:0.7;">Azure</span>
             </div>
             <span class="display-4 text-right">{{runtime}}</span>
           </div>
         </div>
-        <stats-card
-          :title="'Function ' + environment"
-          :sub-title="averageExecutionTime + 'ms avg'"
-          class="mb-4 mb-xl-0 mt-2"
-        >
-          <template slot="icon">
-            <img
-              style="max-width:32px;"
-              :src="environment === 'Windows' ? 'img/icons/common/microsoft.svg' : 'img/icons/common/linux.svg'"
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-7">
+            <stats-card
+              title="Coldstart median"
+              :sub-title="coldMedianExecutionTime + 'ms'"
+              class="mb-4 mb-xl-0 mt-2"
             >
-          </template>
-          <template slot="footer">
-            <span :class="[ positiveChange ? 'text-success' : 'text-danger','mr-2']">
-              <i :class=" ['fa',positiveChange ? 'fa-arrow-down' : 'fa-arrow-up']  "></i>
-              {{changeSinceYesterday}}%
-            </span>
-            <span class="text-nowrap">Since yesterday</span>
-          </template>
-        </stats-card>
+              <template slot="icon">
+                <img
+                  style="max-width:32px;"
+                  :src="environment === 'Windows' ? 'img/icons/common/microsoft.svg' : 'img/icons/common/linux.svg'"
+                >
+              </template>
+              <template slot="footer">
+                <span :class="[ coldPositiveChange ? 'text-success' : 'text-danger','mr-2']">
+                  <i :class=" ['fa',coldPositiveChange ? 'fa-arrow-down' : 'fa-arrow-up']  "></i>
+                  {{coldChangeSinceYesterday}}%
+                </span>
+                <span class="text-nowrap">Since yesterday</span>
+              </template>
+            </stats-card>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-7">
+            <stats-card
+              title="Warmstart median"
+              :sub-title="warmMedianExecutionTime + 'ms'"
+              class="mb-4 mb-xl-0 mt-2"
+            >
+              <template slot="icon">
+                <img
+                  style="max-width:32px;"
+                  :src="environment === 'Windows' ? 'img/icons/common/microsoft.svg' : 'img/icons/common/linux.svg'"
+                >
+              </template>
+              <template slot="footer">
+                <span :class="[ warmPositiveChange ? 'text-success' : 'text-danger','mr-2']">
+                  <i :class=" ['fa',warmPositiveChange ? 'fa-arrow-down' : 'fa-arrow-up']  "></i>
+                  {{warmChangeSinceYesterday}}%
+                </span>
+                <span class="text-nowrap">Since yesterday</span>
+              </template>
+            </stats-card>
+          </div>
+        </div>
       </div>
     </div>
     <div class="row mt-3">
@@ -50,12 +83,12 @@
               </div>
             </div>
           </div>
-          <line-chart
+          <box-plot-chart
             :height="350"
             ref="coldChart"
             :chart-data="coldBenchMarkChart.chartData"
             :extra-options="coldBenchMarkChart.options"
-          ></line-chart>
+          ></box-plot-chart>
         </card>
       </div>
       <div v-if="warmBenchMarkData !== null" class="col-md-6">
@@ -76,12 +109,12 @@
               </div>
             </div>
           </div>
-          <line-chart
+          <box-plot-chart
             :height="350"
-            ref="hotChart"
+            ref="warmChart"
             :chart-data="warmBenchMarkChart.chartData"
             :extra-options="warmBenchMarkChart.options"
-          ></line-chart>
+          ></box-plot-chart>
         </card>
       </div>
     </div>
@@ -90,12 +123,11 @@
 
 <script>
 import * as chartConfigs from '@/components/Charts/config';
-
-import LineChart from '@/components/Charts/LineChart';
+import BoxPlotChart from '@/components/Charts/BoxPlotChart.js';
 
 export default {
   name: 'benchmark-envi',
-  components: { LineChart },
+  components: { BoxPlotChart },
   props: {
     coldBenchMarkData: {
       type: Array
@@ -107,15 +139,27 @@ export default {
       type: String,
       default: null
     },
-    averageExecutionTime: {
+    coldMedianExecutionTime: {
       type: Number,
       default: 0
     },
-    positiveChange: {
+    coldPositiveChange: {
       type: Boolean,
       default: false
     },
-    changeSinceYesterday: {
+    coldChangeSinceYesterday: {
+      type: Number,
+      default: 1.0
+    },
+    warmMedianExecutionTime: {
+      type: Number,
+      default: 0
+    },
+    warmPositiveChange: {
+      type: Boolean,
+      default: false
+    },
+    warmChangeSinceYesterday: {
       type: Number,
       default: 1.0
     },
@@ -136,7 +180,7 @@ export default {
           ],
           labels: []
         },
-        options: chartConfigs.blueChartOptions
+        options: chartConfigs.boxPlotOptions
       },
       warmBenchMarkChart: {
         chartData: {
@@ -148,7 +192,7 @@ export default {
           ],
           labels: []
         },
-        options: chartConfigs.blueChartOptions
+        options: chartConfigs.boxPlotOptions
       }
     };
   },
@@ -168,18 +212,27 @@ export default {
       this.warmBenchMarkChart.chartData = chartData;
     },
     formatChartData(sourceData) {
-      let benchMarkData = [];
+      let dataSets = [];
       let benchMarkLabels = [];
-      for (let i = 0; i < sourceData.length; i++) {
-        benchMarkData.push(sourceData[i].executionTime);
-        benchMarkLabels.push(sourceData[i].createdAt);
+
+      //Loop over initial array
+      for (let index = 0; index < sourceData.length; index++) {
+        benchMarkLabels.push(sourceData[index].createdAt);
+
+        dataSets.push(sourceData[index].executionTimes);
       }
 
       let chartData = {
         datasets: [
           {
             label: 'milliseconds',
-            data: benchMarkData
+            backgroundColor: 'rgba(94, 114, 228, 0.5)',
+            borderColor: '#5e72e4',
+            borderWidth: 1,
+            outlierColor: 'rgba(94, 114, 228, 0.5',
+            padding: 10,
+            itemRadius: 0,
+            data: dataSets
           }
         ],
         labels: benchMarkLabels

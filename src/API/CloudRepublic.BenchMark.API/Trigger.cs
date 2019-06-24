@@ -44,7 +44,7 @@ namespace CloudRepublic.BenchMark.API
             
             if(!benchMarkDataPoints.Any()) return new NotFoundResult();
 
-            return new OkObjectResult(_responseConverter.ConvertToBenchMarkData(benchMarkDataPoints));
+            return new OkObjectResult(_responseConverter.ConvertToBenchMarkData(benchMarkDataPoints.Where(c => c.Success).ToList()));
         }
     }
 }

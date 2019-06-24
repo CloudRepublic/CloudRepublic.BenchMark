@@ -25,29 +25,33 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudRepublic.BenchMark.Sam
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Orchestrator", "Orchestrator", "{8D1A35F9-D98F-4F13-869A-6EAB332ACE6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudRepublic.BenchMark.Orchestrator", "src\Orchestrator\CloudRepublic.BenchMark.Orchestrator\CloudRepublic.BenchMark.Orchestrator.csproj", "{1CF2DF29-F36F-45C2-A8E7-731B131C6DC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudRepublic.BenchMark.Orchestrator", "src\Orchestrator\CloudRepublic.BenchMark.Orchestrator\CloudRepublic.BenchMark.Orchestrator.csproj", "{1CF2DF29-F36F-45C2-A8E7-731B131C6DC3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{CEE4DE7A-5CDC-45EE-A459-124C3002BF49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudRepublic.BenchMark.API", "src\API\CloudRepublic.BenchMark.API\CloudRepublic.BenchMark.API.csproj", "{15167AF0-64B7-4159-9285-8477FF0383B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudRepublic.BenchMark.API", "src\API\CloudRepublic.BenchMark.API\CloudRepublic.BenchMark.API.csproj", "{15167AF0-64B7-4159-9285-8477FF0383B0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{BFBAFB26-3EBF-4613-83D3-837A6ED4067E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudRepublic.BenchMark.Application", "src\Shared\CloudRepublic.BenchMark.Application\CloudRepublic.BenchMark.Application.csproj", "{73772B96-9907-4FE5-8C2D-6DA6B19BF232}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudRepublic.BenchMark.Application", "src\Shared\CloudRepublic.BenchMark.Application\CloudRepublic.BenchMark.Application.csproj", "{73772B96-9907-4FE5-8C2D-6DA6B19BF232}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudRepublic.BenchMark.Domain", "src\Shared\CloudRepublic.BenchMark.Domain\CloudRepublic.BenchMark.Domain.csproj", "{02915006-D6BD-42CD-95F2-E551F4F049A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudRepublic.BenchMark.Domain", "src\Shared\CloudRepublic.BenchMark.Domain\CloudRepublic.BenchMark.Domain.csproj", "{02915006-D6BD-42CD-95F2-E551F4F049A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudRepublic.BenchMark.Persistence", "src\Shared\CloudRepublic.BenchMark.Persistence\CloudRepublic.BenchMark.Persistence.csproj", "{0058B49C-E8AC-44C4-B583-2B8666AE1489}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudRepublic.BenchMark.Persistence", "src\Shared\CloudRepublic.BenchMark.Persistence\CloudRepublic.BenchMark.Persistence.csproj", "{0058B49C-E8AC-44C4-B583-2B8666AE1489}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{CEDEECB3-F5BD-4A53-B069-530E2CAD9489}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudRepublic.BenchMark.API.Tests", "tests\API\CloudRepublic.BenchMark.API.Tests\CloudRepublic.BenchMark.API.Tests.csproj", "{921FC096-0A7C-470A-9384-64C80534CA75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudRepublic.BenchMark.API.Tests", "tests\API\CloudRepublic.BenchMark.API.Tests\CloudRepublic.BenchMark.API.Tests.csproj", "{921FC096-0A7C-470A-9384-64C80534CA75}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{7572AE3C-D0EC-4843-9952-EEDD0F0DC68C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudRepublic.BenchMark.Tests.Infrastructure", "tests\Shared\CloudRepublic.BenchMark.Tests.Infrastructure\CloudRepublic.BenchMark.Tests.Infrastructure.csproj", "{41137D3F-C062-446D-B79B-EB830C403855}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudRepublic.BenchMark.Tests.Infrastructure", "tests\Shared\CloudRepublic.BenchMark.Tests.Infrastructure\CloudRepublic.BenchMark.Tests.Infrastructure.csproj", "{41137D3F-C062-446D-B79B-EB830C403855}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{CAF17107-F4CF-4D2A-8B9D-7B0D7BE4B78B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{61317263-9BD7-4C03-A835-706C21500683}"
+EndProject
+Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "CloudRepublic.BenchMark.ARMDeploy", "Deployment\CloudRepublic.BenchMark.ARMDeploy\CloudRepublic.BenchMark.ARMDeploy.deployproj", "{AEA34EBD-B83D-4B19-87CF-48835ADF75C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,6 +95,10 @@ Global
 		{41137D3F-C062-446D-B79B-EB830C403855}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{41137D3F-C062-446D-B79B-EB830C403855}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{41137D3F-C062-446D-B79B-EB830C403855}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEA34EBD-B83D-4B19-87CF-48835ADF75C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEA34EBD-B83D-4B19-87CF-48835ADF75C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEA34EBD-B83D-4B19-87CF-48835ADF75C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEA34EBD-B83D-4B19-87CF-48835ADF75C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -117,6 +125,8 @@ Global
 		{7572AE3C-D0EC-4843-9952-EEDD0F0DC68C} = {3D4FD3F0-1F1F-4B24-B6B7-B73C8A0385FA}
 		{41137D3F-C062-446D-B79B-EB830C403855} = {7572AE3C-D0EC-4843-9952-EEDD0F0DC68C}
 		{CAF17107-F4CF-4D2A-8B9D-7B0D7BE4B78B} = {83A6DE47-D2F3-46C9-8534-EE64C64D1F01}
+		{61317263-9BD7-4C03-A835-706C21500683} = {83A6DE47-D2F3-46C9-8534-EE64C64D1F01}
+		{AEA34EBD-B83D-4B19-87CF-48835ADF75C5} = {61317263-9BD7-4C03-A835-706C21500683}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0580A24C-4FAC-46B1-8BAA-78D167E4D0AF}

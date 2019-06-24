@@ -5,6 +5,19 @@ module.exports = {
   publicPath: isProd ? '' : '',
   configureWebpack: {
     // Set up all the aliases we use in our app.
+    devtool: 'source-map',
+    resolve: {
+      extensions: ['.wasm', '.mjs', '.js', '.jsx', '.json']
+    },
+    module: {
+      rules: [
+        {
+          test: /\.mjs$/,
+          include: /node_modules/,
+          type: 'javascript/auto'
+        }
+      ]
+    },
     plugins: [
       new webpack.optimize.LimitChunkCountPlugin({
         maxChunks: 6

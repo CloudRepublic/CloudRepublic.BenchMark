@@ -461,7 +461,9 @@ export let greenChartOptions = {
     ]
   }
 };
-
+export let boxPlotOptions = {
+  ...basicOptions
+};
 export let barChartOptions = {
   ...basicOptions,
   tooltips: {

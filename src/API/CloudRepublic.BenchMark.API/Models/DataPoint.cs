@@ -1,15 +1,16 @@
 using System;
+using System.Collections.Generic;
 
 namespace CloudRepublic.BenchMark.API.Models
 {
     public class DataPoint
     {
-        public DataPoint(string createdAt, int executionTime)
+        public DataPoint(string createdAt, List<int> executionTimes)
         {
             CreatedAt = createdAt;
-            ExecutionTime = executionTime;
+            ExecutionTimes = executionTimes;
         }
         public string CreatedAt { get;  }
-        public int ExecutionTime { get;  }
+        public List<int> ExecutionTimes { get;  }
     }
 }
