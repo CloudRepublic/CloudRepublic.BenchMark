@@ -207,7 +207,7 @@ export default {
   methods: {
     initColdChart() {
       let chartData = this.formatChartData(this.coldBenchMarkData);
-
+      this.coldBenchMarkDataPointsCount = 0;
       for (let i = 0; i < chartData.datasets[0].data.length; i++) {
         this.coldBenchMarkDataPointsCount +=
           chartData.datasets[0].data[i].length;
@@ -216,6 +216,7 @@ export default {
     },
     initWarmChart() {
       let chartData = this.formatChartData(this.warmBenchMarkData);
+      this.warmBenchMarkDataPointsCount = 0;
       for (let i = 0; i < chartData.datasets[0].data.length; i++) {
         this.warmBenchMarkDataPointsCount +=
           chartData.datasets[0].data[i].length;
