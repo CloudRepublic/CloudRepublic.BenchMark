@@ -4,6 +4,17 @@ We've created a continues benchmark tool for Azure Functions to measure the perf
 ## How the benchmark is executed
 There's an orchestrator function that executes Http Get requests to every function app instance available. The first 5 calls are classified as coldstart, we then wait for 30 seconds to execute 10 requests per function instance to measure the warmed up Http requests.
 
+## Global Architecture
+* Github code repository.
+* Azure Pipeline builds and releases.
+* ARM for Azure infrastructure deployment.
+* Deploys 4 Http Triggered functions (Linux NodeJS, Linux C#, Windows NodeJS, Windows C#)
+* Deploys the benchmark orchestrator.
+* A SQL database to store the results.
+* An Azure Functions API with Azure API Management consumption tier.
+* React front-end hosted on Azure Blob storage with a CDN.
+<img src='docs/global architecture.png' />
+
 ## Author
 Florian Schaal @ cloudrepublic.nl
 
