@@ -7,7 +7,7 @@
       color="#fff"
       background-color="#172b4d"
     />
-    <div class="row mb-4 d-flex justify-content-center">
+    <div class="row exp-text mb-4 d-flex justify-content-center">
       <div class="col-md-7 text-center">
         <span class="display-3 text-white p-0">How the benchmark is executed</span>
         <p
@@ -18,10 +18,10 @@
     <div class="row mb-3">
       <div class="col-md-12">
         <tabs @tabIndexChanged="loadEvironment">
-          <tab-pane title="Windows Csharp"></tab-pane>
-          <tab-pane title="Windows Nodejs"></tab-pane>
-          <tab-pane title="Linux Csharp"></tab-pane>
-          <tab-pane title="Linux Nodejs"></tab-pane>
+          <tab-pane class="envi-tab" title="Windows Csharp"></tab-pane>
+          <tab-pane class="envi-tab" title="Windows Nodejs"></tab-pane>
+          <tab-pane class="envi-tab" title="Linux Csharp"></tab-pane>
+          <tab-pane class="envi-tab" title="Linux Nodejs"></tab-pane>
         </tabs>
       </div>
     </div>
@@ -122,7 +122,6 @@ export default {
           'Nodejs'
         );
       }
-      console.log(benchMarkData);
       this.benchMarkData = benchMarkData;
       this.isLoading = false;
     }
@@ -133,4 +132,14 @@ export default {
   }
 };
 </script>
-<style></style>
+<style>
+@media (max-width: 576px) {
+  .exp-text {
+    margin-top: 2rem;
+  }
+  .nav-pills .nav-link {
+    margin-right: 1rem;
+  }
+}
+</style>
+

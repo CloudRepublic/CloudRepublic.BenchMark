@@ -7,7 +7,7 @@
             <div class="d-flex align-items-center">
               <span class="display-1 text-white p-0" style="line-height:0.7;">Azure</span>
             </div>
-            <span class="display-4 text-right">{{runtime}}</span>
+            <span class="display-4 runtime-text">{{runtime}}</span>
           </div>
         </div>
       </div>
@@ -15,7 +15,7 @@
     <div class="row">
       <div class="col-md-6">
         <div class="row">
-          <div class="col-md-7">
+          <div class="col-md-7 col-lg-8 col-xl-7">
             <stats-card
               title="Coldstart median"
               :sub-title="coldMedianExecutionTime + 'ms'"
@@ -40,7 +40,7 @@
       </div>
       <div class="col-md-6">
         <div class="row">
-          <div class="col-md-7">
+          <div class="col-md-7 col-lg-8 col-xl-7">
             <stats-card
               title="Warmstart median"
               :sub-title="warmMedianExecutionTime + 'ms'"
@@ -65,7 +65,7 @@
       </div>
     </div>
     <div class="row mt-3">
-      <div v-if="coldBenchMarkData !== null" class="col-md-6">
+      <div v-if="coldBenchMarkData !== null" class="col-md-6 mb-3">
         <card type="white" header-classes="bg-transparent">
           <div slot="header" class="row align-items-center">
             <div class="col">
@@ -264,5 +264,14 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style>
+.runtime-text {
+  text-align: right;
+}
+@media (max-width: 576px) {
+  .runtime-text {
+    text-align: left !important;
+    margin-left: 4rem;
+  }
+}
 </style>

@@ -16,7 +16,7 @@
           <div class="row">
             <div class="col-6 collapse-brand">
               <router-link to="/">
-                <img src="img/brand/logo-white.png">
+                <img src="img/brand/logo-grey.png">
               </router-link>
             </div>
             <div class="col-6 collapse-close">
@@ -77,7 +77,7 @@
       </div>
     </div>
     <!-- Page content -->
-    <div class="container pb-5" style="margin-top: -27rem;">
+    <div class="container content pb-5">
       <slide-y-up-transition mode="out-in" origin="center top">
         <router-view></router-view>
       </slide-y-up-transition>
@@ -131,4 +131,58 @@ export default {
   }
 };
 </script>
-<style></style>
+<style>
+.content {
+  margin-top: -27rem;
+}
+
+@media (max-width: 1050px) {
+  .header .container {
+    padding-bottom: 10rem !important;
+    padding-top: 10rem !important;
+  }
+  .content {
+    margin-top: -31rem;
+  }
+}
+
+@media (max-width: 416px) {
+  .header .container {
+    padding-bottom: 15rem !important;
+    padding-top: 20rem !important;
+  }
+  .content {
+    margin-top: -41rem;
+  }
+}
+
+@media (max-width: 376px) {
+  .header .container {
+    padding-bottom: 18rem !important;
+    padding-top: 16rem !important;
+  }
+  .content {
+    margin-top: -44rem;
+  }
+}
+
+@media (max-width: 365px) {
+  .header .container {
+    padding-bottom: 20rem !important;
+    padding-top: 16rem !important;
+  }
+  .content {
+    margin-top: -46rem;
+  }
+}
+
+@media (max-width: 325px) {
+  .header .container {
+    padding-bottom: 20rem !important;
+    padding-top: 20rem !important;
+  }
+  .content {
+    margin-top: -50rem;
+  }
+}
+</style>
