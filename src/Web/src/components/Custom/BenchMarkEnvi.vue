@@ -15,7 +15,7 @@
     <div class="row">
       <div class="col-md-6">
         <div class="row">
-          <div class="col-md-7 col-lg-8 col-xl-7">
+          <div class="col-sm-12 col-md-12 col-lg-8 col-xl-7">
             <stats-card
               title="Coldstart median"
               :sub-title="coldMedianExecutionTime + 'ms'"
@@ -25,7 +25,7 @@
                 <img
                   style="max-width:32px;"
                   :src="environment === 'Windows' ? 'img/icons/common/microsoft.svg' : 'img/icons/common/linux.svg'"
-                >
+                />
               </template>
               <template slot="footer">
                 <span :class="[ coldPositiveChange ? 'text-success' : 'text-danger','mr-2']">
@@ -40,7 +40,7 @@
       </div>
       <div class="col-md-6">
         <div class="row">
-          <div class="col-md-7 col-lg-8 col-xl-7">
+          <div class="col-sm-12 col-md-12 col-lg-8 col-xl-7">
             <stats-card
               title="Warmstart median"
               :sub-title="warmMedianExecutionTime + 'ms'"
@@ -50,7 +50,7 @@
                 <img
                   style="max-width:32px;"
                   :src="environment === 'Windows' ? 'img/icons/common/microsoft.svg' : 'img/icons/common/linux.svg'"
-                >
+                />
               </template>
               <template slot="footer">
                 <span :class="[ warmPositiveChange ? 'text-success' : 'text-danger','mr-2']">
@@ -72,7 +72,7 @@
               <h6 class="text-light text-uppercase ls-1 mb-1">Performance</h6>
               <div class="d-flex align-items-center">
                 <h5 class="h3 text-dark mb-0">Coldstart</h5>
-                <img class="ml-1" style="max-width:20px;" src="img/icons/common/snow.svg">
+                <img class="ml-1" style="max-width:20px;" src="img/icons/common/snow.svg" />
               </div>
             </div>
             <div class="col">
@@ -99,7 +99,7 @@
               <h6 class="text-light text-uppercase ls-1 mb-1">Performance</h6>
               <div class="d-flex align-items-center">
                 <h5 class="h3 text-dark mb-0">Warmstart</h5>
-                <img class="ml-1" style="max-width:20px;" src="img/icons/common/energy.svg">
+                <img class="ml-1" style="max-width:20px;" src="img/icons/common/energy.svg" />
               </div>
             </div>
             <div class="col">
@@ -268,6 +268,14 @@ export default {
 .runtime-text {
   text-align: right;
 }
+
+@media (max-width: 768px) {
+  .runtime-text {
+    text-align: left !important;
+    margin-left: 4rem;
+  }
+}
+
 @media (max-width: 576px) {
   .runtime-text {
     text-align: left !important;
