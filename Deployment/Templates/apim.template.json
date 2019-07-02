@@ -26,7 +26,19 @@
       "type": "string",
       "defaultValue": null
     },
+    "apiFunctionKey": {
+      "type": "string",
+      "defaultValue": null
+    },
     "apiFunctionId": {
+      "type": "string",
+      "defaultValue": null
+    },
+    "redisName": {
+      "type": "string",
+      "defaultValue": null
+    },
+    "redisKey": {
       "type": "string",
       "defaultValue": null
     }
@@ -87,11 +99,20 @@
         "resourceId": "[concat('https://management.azure.com/',parameters('apiFunctionId'))]",
         "credentials": {
           "header": {
-            "x-functions-key": [
-              "[concat('{{',parameters('apiFunctionName'),'-key}}')]"
-            ]
+            "x-functions-key": ["[parameters('apiFunctionKey')]"]
           }
         }
+      }
+    },
+    {
+      "type": "Microsoft.ApiManagement/service/caches",
+      "apiVersion": "2019-01-01",
+      "name": "[concat(parameters('apiManagementServiceName'), '/westeurope')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementServiceName'))]"
+      ],
+      "properties": {
+        "connectionString": "[concat(parameters('redisName'),'.redis.cache.windows.net:6380,password=',parameters('redisKey'),',ssl=True,abortConnect=False')]"
       }
     }
   ],

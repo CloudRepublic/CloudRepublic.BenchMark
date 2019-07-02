@@ -41,13 +41,13 @@ $storageAccount = az storage account create --resource-group $resourceGroupLinux
 $sqlServer = az sql server create --location $location --resource-group $resourceGroupName --name $sqlServerName --admin-user $sqlServerAdminUsername --admin-password $sqlServerAdminPassword | ConvertFrom-Json
 
 #create sql database
-$sqlDatabase = az sql db create --service-objective S0 --capacity 10 --name $sqlDatabaseName --server $sqlServerName --resource-group $resourceGroupName
+$sqlDatabase = az sql db create --service-objective S0 --capacity 10 --name $sqlDatabaseName --server $sqlServerName --resource-group $resourceGroupName | ConvertFrom-Json
 
 #create redis cache
-$redisCache = az redis create --resource-group $resourceGroupName --name $redisCacheName --location $location --sku Basic --vm-size c0
+$redisCache = az redis create --resource-group $resourceGroupName --name $redisCacheName --location $location --sku Basic --vm-size c0 | ConvertFrom-Json
 
 #create api management instance from template
-$apim = az group deployment create --resource-group $resourceGroupName --template-file Deployment/Templates/apim.template.json --parameters location=$location sku='Consumption' publisherEmail='admin@example.com' publisherName='admin' apiFunctionName=$BackendApiFunc.name apiFunctionId=$BackendApiFunc.id
+$apim = az group deployment create --resource-group $resourceGroupName --template-file Deployment/Templates/apim.template.json --parameters location=$location sku='Consumption' publisherEmail='admin@example.com' publisherName='admin' apiFunctionName=$BackendApiFunc.name apiFunctionId=$BackendApiFunc.id redisName=$redisCache.name redisKey=$redisCache.accessKeys.primaryKey | ConvertFrom-Json
 
 #create function for orchestrator
 $orchestratorFunc = az functionapp create --resource-group $resourceGroupName --name $orchestratorFunctionName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Windows --app-insights-key $appInsights.properties.InstrumentationKey | ConvertFrom-Json
