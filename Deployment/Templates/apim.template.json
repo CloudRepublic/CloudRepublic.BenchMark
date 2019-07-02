@@ -8,7 +8,7 @@
     },
     "location": {
       "type": "string",
-      "defaultValue": "West Europe"
+      "defaultValue": null
     },
     "sku": {
       "type": "string",
@@ -16,11 +16,19 @@
     },
     "publisherEmail": {
       "type": "string",
-      "defaultValue": "f.schaal@caesar.nl"
+      "defaultValue": "f.schaal@cloudrepublic.nl"
     },
     "publisherName": {
       "type": "string",
       "defaultValue": "Florian Schaal"
+    },
+    "apiFunctionName": {
+      "type": "string",
+      "defaultValue": null
+    },
+    "apiFunctionId": {
+      "type": "string",
+      "defaultValue": null
     }
   },
   "variables": {},
@@ -47,17 +55,44 @@
           }
         ]
       },
-      "customProperties": {
-        "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10": "False",
-        "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11": "False",
-        "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10": "False",
-        "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11": "False",
-        "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Ssl30": "False",
-        "Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2": "False"
-      },
-      "virtualNetworkType": "None",
-      "enableClientCertificate": false,
       "resources": []
+    },
+    {
+      "type": "Microsoft.ApiManagement/service/apis",
+      "apiVersion": "2019-01-01",
+      "name": "[concat(parameters('apiManagementServiceName'), '/', parameters('apiFunctionName'))]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementServiceName'))]"
+      ],
+      "properties": {
+        "displayName": "[parameters('apiFunctionName')]",
+        "apiRevision": "1",
+        "description": "[concat('Import from ',parameters('apiFunctionName'),' Function App')]",
+        "path": "benchmark",
+        "protocols": ["https"],
+        "isCurrent": true
+      }
+    },
+    {
+      "type": "Microsoft.ApiManagement/service/backends",
+      "apiVersion": "2019-01-01",
+      "name": "[concat(parameters('apiManagementServiceName'), '/', parameters('apiFunctionName'))]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementServiceName'))]"
+      ],
+      "properties": {
+        "description": "[parameters('apiFunctionName')]",
+        "url": "[concat('https://',parameters('apiFunctionName'),'.azurewebsites.net/api')]",
+        "protocol": "http",
+        "resourceId": "[concat('https://management.azure.com/',parameters('apiFunctionId'))]",
+        "credentials": {
+          "header": {
+            "x-functions-key": [
+              "[concat('{{',parameters('apiFunctionName'),'-key}}')]"
+            ]
+          }
+        }
+      }
     }
   ],
   "outputs": {}
