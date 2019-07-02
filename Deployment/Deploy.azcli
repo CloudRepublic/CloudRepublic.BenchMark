@@ -47,7 +47,7 @@ $sqlDatabase = az sql db create --service-objective S0 --capacity 10 --name $sql
 $redisCache = az redis create --resource-group $resourceGroupName --name $redisCacheName --location $location --sku Basic --vm-size c0
 
 #create api management instance from template
-$apim = az group deployment create --resource-group $resourceGroupName --template-file Deployment/Templates/apim.template.json --parameters apiManagementServiceName='apim-benchmark' location=$location sku='Consumption' publisherEmail='admin@example.com' publisherName='admin'
+$apim = az group deployment create --resource-group $resourceGroupName --template-file Deployment/Templates/apim.template.json --parameters location=$location sku='Consumption' publisherEmail='admin@example.com' publisherName='admin' apiFunctionName=$BackendApiFunc.name apiFunctionId=$BackendApiFunc.id
 
 #create function for orchestrator
 $orchestratorFunc = az functionapp create --resource-group $resourceGroupName --name $orchestratorFunctionName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Windows --app-insights-key $appInsights.properties.InstrumentationKey | ConvertFrom-Json
