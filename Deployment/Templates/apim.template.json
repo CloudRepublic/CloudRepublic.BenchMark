@@ -1,0 +1,64 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "apiManagementServiceName": {
+      "type": "string",
+      "defaultValue": "apim-benchmark"
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "West Europe"
+    },
+    "sku": {
+      "type": "string",
+      "defaultValue": "Consumption"
+    },
+    "publisherEmail": {
+      "type": "string",
+      "defaultValue": "#{{USERNAME}}#"
+    },
+    "publisherName": {
+      "type": "string",
+      "defaultValue": "Florian Schaal"
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "apiVersion": "2019-01-01",
+      "name": "[parameters('apiManagementServiceName')]",
+      "type": "Microsoft.ApiManagement/service",
+      "location": "[parameters('location')]",
+      "tags": {},
+      "sku": {
+        "name": "[parameters('sku')]",
+        "capacity": 0
+      },
+      "properties": {
+        "publisherEmail": "[parameters('publisherEmail')]",
+        "publisherName": "[parameters('publisherName')]",
+        "hostnameConfigurations": [
+          {
+            "type": "Proxy",
+            "hostName": "[concat(parameters('apiManagementServiceName'), '.azure-api.net')]",
+            "negotiateClientCertificate": false,
+            "defaultSslBinding": true
+          }
+        ]
+      },
+      "customProperties": {
+        "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10": "False",
+        "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11": "False",
+        "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10": "False",
+        "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11": "False",
+        "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Ssl30": "False",
+        "Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2": "False"
+      },
+      "virtualNetworkType": "None",
+      "enableClientCertificate": false,
+      "resources": []
+    }
+  ],
+  "outputs": {}
+}

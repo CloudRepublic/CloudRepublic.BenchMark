@@ -133,6 +133,14 @@ export default {
 };
 </script>
 <style>
+@media (width: 600px) {
+  .nav-pills .nav-link {
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    max-width: 10rem;
+  }
+}
+
 @media (max-width: 576px) {
   .exp-text {
     margin-top: 2rem;

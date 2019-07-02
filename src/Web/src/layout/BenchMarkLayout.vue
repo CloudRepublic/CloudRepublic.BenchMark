@@ -7,7 +7,7 @@
       expand
     >
       <router-link slot="brand" class="navbar-brand" to="/">
-        <img src="img/brand/logo-white.png">
+        <img src="img/brand/logo-white.png" />
       </router-link>
 
       <template v-slot="{ closeMenu }">
@@ -16,7 +16,7 @@
           <div class="row">
             <div class="col-6 collapse-brand">
               <router-link to="/">
-                <img src="img/brand/logo-grey.png">
+                <img src="img/brand/logo-grey.png" />
               </router-link>
             </div>
             <div class="col-6 collapse-close">
@@ -72,7 +72,7 @@
           version="1.1"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
+          <polygon class="fill-default" points="2560 0 2560 100 0 100" />
         </svg>
       </div>
     </div>
@@ -143,6 +143,26 @@ export default {
   }
   .content {
     margin-top: -31rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .header .container {
+    padding-bottom: 10rem !important;
+    padding-top: 15rem !important;
+  }
+  .content {
+    margin-top: -33rem;
+  }
+}
+
+@media (width: 600px) {
+  .header .container {
+    padding-bottom: 12rem !important;
+    padding-top: 15rem !important;
+  }
+  .content {
+    margin-top: -35rem;
   }
 }
 
