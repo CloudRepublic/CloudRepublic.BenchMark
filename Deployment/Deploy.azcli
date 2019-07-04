@@ -10,13 +10,17 @@ $sqlServerAdminPassword = "MySuperSecurePassword123!";
 $sqlDatabaseName = "benchmark";
 $redisCacheName = "BenchMark";
 $apimName = "BenchMark";
-$consumptionLocation = "westeurope"
-$orchestratorFunctionName = "BenchMark-Win-Orchestrator"
-$windowsSampleFunctionCsharpName = "BenchMark-Sample-Win-Csharp"
-$windowsSampleFunctionNodejsName = "BenchMark-Sample-Win-Nodejs"
-$linuxSampleFunctionCsharpName = "BenchMark-Sample-Lin-Csharp"
-$linuxSampleFunctionNodejsName = "BenchMark-Sample-Lin-Nodejs"
-$backendApiFunctionName = "BenchMark-Win-Api"
+$consumptionLocation = "westeurope";
+$orchestratorFunctionName = "BenchMark-Win-Orchestrator";
+$windowsSampleFunctionCsharpName = "BenchMark-Sample-Win-Csharp";
+$windowsSampleFunctionNodejsName = "BenchMark-Sample-Win-Nodejs";
+$linuxSampleFunctionCsharpName = "BenchMark-Sample-Lin-Csharp";
+$linuxSampleFunctionNodejsName = "BenchMark-Sample-Lin-Nodejs";
+$backendApiFunctionName = "BenchMark-Win-Api";
+$cdnProfileName = "BenchMark";
+$cdnEndpointName = "BenchMark";
+$cdnCustomDomainName = "BenchMark";
+$cdnCustomDomainHostname = "serverlessbenchmark.example.com";
 
 #login into subscription
 $subscription = az login
@@ -35,7 +39,7 @@ $appInsights = az resource create --resource-group $resourceGroupName --resource
 $storageAccount = az storage account create --resource-group $resourceGroupName --name $storageAccountName --sku Standard_LRS --https-only true --location $location --kind StorageV2 --access-tier Hot | ConvertFrom-Json
 
 #create storage account windows
-$storageAccount = az storage account create --resource-group $resourceGroupLinuxName --name $storageAccountLinuxName --sku Standard_LRS --https-only true --location $location --kind StorageV2 --access-tier Hot | ConvertFrom-Json
+$storageAccountLinux = az storage account create --resource-group $resourceGroupLinuxName --name $storageAccountLinuxName --sku Standard_LRS --https-only true --location $location --kind StorageV2 --access-tier Hot | ConvertFrom-Json
 
 #create sql server
 $sqlServer = az sql server create --location $location --resource-group $resourceGroupName --name $sqlServerName --admin-user $sqlServerAdminUsername --admin-password $sqlServerAdminPassword | ConvertFrom-Json
@@ -46,14 +50,14 @@ $sqlDatabase = az sql db create --service-objective S0 --capacity 10 --name $sql
 #create redis cache
 $redisCache = az redis create --resource-group $resourceGroupName --name $redisCacheName --location $location --sku Basic --vm-size c0 | ConvertFrom-Json
 
-#create api management instance from template
-$apim = az group deployment create --resource-group $resourceGroupName --template-file Deployment/Templates/apim.template.json --parameters location=$location sku='Consumption' publisherEmail='admin@example.com' publisherName='admin' apiFunctionName=$BackendApiFunc.name apiFunctionId=$BackendApiFunc.id redisName=$redisCache.name redisKey=$redisCache.accessKeys.primaryKey | ConvertFrom-Json
+#create backend api
+$BackendApiFunc = az functionapp create --resource-group $resourceGroupName --name $backendApiFunctionName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Windows --app-insights-key $appInsights.properties.InstrumentationKey | ConvertFrom-Json
 
 #create function for orchestrator
 $orchestratorFunc = az functionapp create --resource-group $resourceGroupName --name $orchestratorFunctionName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Windows --app-insights-key $appInsights.properties.InstrumentationKey | ConvertFrom-Json
 
-#create backend api
-$BackendApiFunc = az functionapp create --resource-group $resourceGroupName --name $backendApiFunctionName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Windows --app-insights-key $appInsights.properties.InstrumentationKey | ConvertFrom-Json
+#create api management instance from template
+$apim = az group deployment create --mode Incremental  --resource-group $resourceGroupName --template-file Deployment/Templates/apim.template.json --parameters location=$location sku='Consumption' publisherEmail='admin@example.com' publisherName='admin' apiFunctionName=$BackendApiFunc.name apiFunctionId=$BackendApiFunc.id redisName=$redisCache.name redisKey=$redisCache.accessKeys.primaryKey | ConvertFrom-Json
 
 #create windows sample function csharp
 $sampleFuncWindowsCsharp = az functionapp create --resource-group $resourceGroupName --name $windowsSampleFunctionCsharpName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Windows | ConvertFrom-Json
@@ -66,3 +70,14 @@ $sampleFuncLinuxCsharp = az functionapp create --resource-group $resourceGroupLi
 
 #create linux sample function nodejs
 $sampleFuncLinuxNodejs = az functionapp create --resource-group $resourceGroupLinuxName --name $linuxSampleFunctionNodejsName --storage-account $storageAccountLinuxName --consumption-plan-location  $consumptionLocation --runtime node --os-type Linux | ConvertFrom-Json
+
+#create cdn profile
+$cdnProfile = az cdn profile create --location $location --resource-group $resourceGroupName --name $cdnProfileName --sku Standard_Microsoft
+
+#create cdn endpoint
+$originHostname = $storageAccount.primaryEndpoints.web -replace "https://","" -replace "/","";
+$cdnEndpoint = az cdn endpoint create --location $location --resource-group $resourceGroupName --profile-name $cdnProfileName --name $cdnEndpointName --origin $originHostname --origin-host-header $originHostname --enable-compression true --query-string-caching IgnoreQueryString
+
+#create custom domain - Enable only if DNS is in place!
+#$cdnCustomDomain = az cdn custom-domain create --location $location --resource-group $resourceGroupName --profile-name $cdnProfileName --endpoint-name $cdnEndpointName --name $cdnCustomDomainName --hostname $cdnCustomDomainHostname
+#$cdnCustomDomain = az cdn custom-domain enable-https --resource-group $resourceGroupName --profile-name $cdnProfileName --endpoint-name $cdnEndpointName --name $cdnCustomDomainName
