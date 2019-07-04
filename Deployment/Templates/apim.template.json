@@ -26,10 +26,6 @@
       "type": "string",
       "defaultValue": null
     },
-    "apiFunctionKey": {
-      "type": "string",
-      "defaultValue": null
-    },
     "apiFunctionId": {
       "type": "string",
       "defaultValue": null
@@ -68,52 +64,6 @@
         ]
       },
       "resources": []
-    },
-    {
-      "type": "Microsoft.ApiManagement/service/apis",
-      "apiVersion": "2019-01-01",
-      "name": "[concat(parameters('apiManagementServiceName'), '/', parameters('apiFunctionName'))]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementServiceName'))]"
-      ],
-      "properties": {
-        "displayName": "[parameters('apiFunctionName')]",
-        "apiRevision": "1",
-        "description": "[concat('Import from ',parameters('apiFunctionName'),' Function App')]",
-        "path": "benchmark",
-        "protocols": ["https"],
-        "isCurrent": true
-      }
-    },
-    {
-      "type": "Microsoft.ApiManagement/service/backends",
-      "apiVersion": "2019-01-01",
-      "name": "[concat(parameters('apiManagementServiceName'), '/', parameters('apiFunctionName'))]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementServiceName'))]"
-      ],
-      "properties": {
-        "description": "[parameters('apiFunctionName')]",
-        "url": "[concat('https://',parameters('apiFunctionName'),'.azurewebsites.net/api')]",
-        "protocol": "http",
-        "resourceId": "[concat('https://management.azure.com/',parameters('apiFunctionId'))]",
-        "credentials": {
-          "header": {
-            "x-functions-key": ["[parameters('apiFunctionKey')]"]
-          }
-        }
-      }
-    },
-    {
-      "type": "Microsoft.ApiManagement/service/caches",
-      "apiVersion": "2019-01-01",
-      "name": "[concat(parameters('apiManagementServiceName'), '/westeurope')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementServiceName'))]"
-      ],
-      "properties": {
-        "connectionString": "[concat(parameters('redisName'),'.redis.cache.windows.net:6380,password=',parameters('redisKey'),',ssl=True,abortConnect=False')]"
-      }
     }
   ],
   "outputs": {}
