@@ -64,6 +64,30 @@
         ]
       },
       "resources": []
+    },
+    {
+      "type": "Microsoft.ApiManagement/service/products",
+      "apiVersion": "2019-01-01",
+      "name": "[concat(parameters('apiManagementServiceName'), '/basic')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementServiceName'))]"
+      ],
+      "properties": {
+        "displayName": "basic",
+        "description": "basic plan",
+        "subscriptionRequired": true,
+        "approvalRequired": true,
+        "subscriptionsLimit": 1,
+        "state": "published"
+      }
+    },
+    {
+      "name": "BenchMark",
+      "type": "Microsoft.ApiManagement/service/caches",
+      "apiVersion": "2019-01-01",
+      "properties": {
+        "connectionString": "BenchMark.redis.cache.windows.net:6380,password=YVlZnjKEQTYXeCfnX3glAMMwFoVDVlwf6E1nvDrGVg8=,ssl=True,abortConnect=False"
+      }
     }
   ],
   "outputs": {}
