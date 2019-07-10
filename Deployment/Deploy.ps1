@@ -1,4 +1,6 @@
-$location = "West Europe"
+$username = "#{{USERNAME}}#";
+$password = "#{{PASSWORD}}#";
+$location = "West Europe";
 $resourceGroupName = "BenchMark";
 $resourceGroupLinuxName = "BenchMarkLinux";
 $appInsightsName = "BenchMark-Insights";
@@ -23,7 +25,7 @@ $cdnCustomDomainName = "BenchMark";
 $cdnCustomDomainHostname = "serverlessbenchmark.example.com";
 
 #login into subscription
-$subscription = az login
+$subscription = az login -u $username -p $password
 
 #create default resource-group
 $resourceGroup = az group create --name $resourceGroupName --location $location | ConvertFrom-Json
