@@ -56,8 +56,17 @@ $BackendApiFunc = az functionapp create --resource-group $resourceGroupName --na
 #create function for orchestrator
 $orchestratorFunc = az functionapp create --resource-group $resourceGroupName --name $orchestratorFunctionName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Windows --app-insights-key $appInsights.properties.InstrumentationKey | ConvertFrom-Json
 
+#Get function host-key for apim backend header
+$auth = az account get-access-token | ConvertFrom-Json
+$accessTokenHeader = @{ "Authorization" = "Bearer $($auth.accessToken)" }
+$adminBearerTokenUri = "https://management.azure.com$($BackendApiFunc.id)/functions/admin/token?api-version=2016-08-01"
+$adminBearerToken = Invoke-RestMethod -Method Get -Uri $adminBearerTokenUri -Headers $accessTokenHeader
+$adminTokenHeader = @{ "Authorization" = "Bearer $($adminBearerToken)" }
+$hostKeysUri = "https://$($BackendApiFunc.hostNames[0])/admin/host/keys/"
+$hostKeys = Invoke-RestMethod -Method Get -Uri $hostKeysUri -Headers $adminTokenHeader
+
 #create api management instance from template
-$apim = az group deployment create --mode Incremental  --resource-group $resourceGroupName --template-file Deployment/Templates/apim.template.json --parameters location=$location sku='Consumption' publisherEmail='admin@example.com' publisherName='admin' apiFunctionId="$($BackendApiFunc.id)" apiFunctionName="$($BackendApiFunc.name)" apiFunctionDefaultHostname="$($BackendApiFunc.defaultHostName)" apiFunctionKey='xxxxxxx' redisName="$($redisCache.name)" redisKey="$($redisCache.accessKeys.primaryKey)" | ConvertFrom-Json
+$apim = az group deployment create --mode Incremental  --resource-group $resourceGroupName --template-file Deployment/Templates/apim.template.json --parameters location=$location sku='Consumption' publisherEmail='admin@example.com' customHostname=$cdnCustomDomainHostname publisherName='admin' apiFunctionId="$($BackendApiFunc.id)" apiFunctionName="$($BackendApiFunc.name)" apiFunctionDefaultHostname="$($BackendApiFunc.defaultHostName)" apiFunctionKey="$($hostKeys.keys.value)" redisName="$($redisCache.name)" redisKey="$($redisCache.accessKeys.primaryKey)" | ConvertFrom-Json
 
 #create windows sample function csharp
 $sampleFuncWindowsCsharp = az functionapp create --resource-group $resourceGroupName --name $windowsSampleFunctionCsharpName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Windows | ConvertFrom-Json
