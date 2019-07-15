@@ -86,7 +86,7 @@ $sampleFuncLinuxNodejs = az functionapp create --resource-group $resourceGroupLi
 $cdnProfile = az cdn profile create --location $location --resource-group $resourceGroupName --name $cdnProfileName --sku Standard_Microsoft
 
 #create cdn endpoint
-$originHostname = $storageAccount.primaryEndpoints.web -replace "https://","" -replace "/","";
+$originHostname = $storageAccount.primaryEndpoints.web -replace "https://", "" -replace "/", "";
 $cdnEndpoint = az cdn endpoint create --location $location --resource-group $resourceGroupName --profile-name $cdnProfileName --name $cdnEndpointName --origin $originHostname --origin-host-header $originHostname --enable-compression true --query-string-caching IgnoreQueryString
 
 #create custom domain - Enable only if DNS is in place!
