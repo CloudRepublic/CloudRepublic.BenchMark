@@ -22,6 +22,7 @@
           <tab-pane class="envi-tab" title="Windows Nodejs"></tab-pane>
           <tab-pane class="envi-tab" title="Linux Csharp"></tab-pane>
           <tab-pane class="envi-tab" title="Linux Nodejs"></tab-pane>
+          <tab-pane class="envi-tab" title="Firebase Nodejs"></tab-pane>
         </tabs>
       </div>
     </div>
@@ -37,6 +38,7 @@
         :warmChangeSinceYesterday="warmPreviousDayDifference"
         :warmPositiveChange="warmPreviousDayPositive"
         :runtime="runtime"
+        :cloudProvider="cloudProvider"
       ></BenchMarkEnvi>
     </div>
   </div>
@@ -79,6 +81,9 @@ export default {
     },
     runtime() {
       return this.benchMarkData.runtime;
+    },
+    cloudProvider() {
+      return this.benchMarkData.cloudProvider;
     }
   },
   data() {
@@ -122,6 +127,15 @@ export default {
           'Nodejs'
         );
       }
+
+      if(tabIndex === 4) {
+        benchMarkData = await benchMarkService.getBenchMarkData(
+          "Firebase",
+          "Linux",
+          "Nodejs"
+        )
+      }
+
       this.benchMarkData = benchMarkData;
       this.isLoading = false;
     }
