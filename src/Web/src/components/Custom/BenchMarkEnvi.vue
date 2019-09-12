@@ -5,7 +5,7 @@
         <div class="row">
           <div class="col-md-4 d-flex flex-column">
             <div class="d-flex align-items-center">
-              <span class="display-1 text-white p-0" style="line-height:0.7;">Azure</span>
+              <span class="display-1 text-white p-0" style="line-height:0.7;">{{cloudProvider}}</span>
             </div>
             <span class="display-4 runtime-text">{{runtime}}</span>
           </div>
@@ -168,6 +168,10 @@ export default {
     runtime: {
       type: String,
       default: ''
+    },
+    cloudProvider: {
+      type: String,
+      default: ""
     }
   },
   data() {

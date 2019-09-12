@@ -36,6 +36,12 @@ namespace CloudRepublic.BenchMark.Orchestrator.Extensions
                     client.DefaultRequestHeaders.Add("x-functions-key", Environment.GetEnvironmentVariable("AzureLinuxNodejsKey"));
                 });
 
+            services.AddHttpClient("FirebaseLinuxNodejsClient",
+                client =>
+                {
+                    client.BaseAddress = new Uri(Environment.GetEnvironmentVariable("FirebaseLinuxNodejsUrl"));
+                });
+
             return services;
         }
     }
