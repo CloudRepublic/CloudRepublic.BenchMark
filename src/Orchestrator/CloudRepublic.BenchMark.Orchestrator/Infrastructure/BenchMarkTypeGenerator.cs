@@ -1,7 +1,7 @@
-using System;
-using System.Collections.Generic;
 using CloudRepublic.BenchMark.Application.Models;
 using CloudRepublic.BenchMark.Domain.Enums;
+using System;
+using System.Collections.Generic;
 
 namespace CloudRepublic.BenchMark.Orchestrator.Infrastructure
 {
@@ -17,13 +17,25 @@ namespace CloudRepublic.BenchMark.Orchestrator.Infrastructure
 
             foreach (var provider in cloudProviders)
             {
-                foreach (var hostingEnvironment in hostingEnvironments)
+                
+                if (provider.ToString() == "Firebase")
                 {
-                    foreach (var runtime in runtimes)
+                    benchMarkTypes.Add(new BenchMarkType((CloudProvider)provider,
+                        HostEnvironment.Linux,
+                        Runtime.Nodejs));
+                }
+                else
+                {
+                    foreach (var hostingEnvironment in hostingEnvironments)
                     {
-                        benchMarkTypes.Add(new BenchMarkType((CloudProvider)provider,
-                            (HostEnvironment)hostingEnvironment,
-                            (Runtime)runtime));
+
+                        foreach (var runtime in runtimes)
+                        {
+                            benchMarkTypes.Add(new BenchMarkType((CloudProvider)provider,
+                                (HostEnvironment)hostingEnvironment,
+                                (Runtime)runtime));
+                        }
+
                     }
                 }
             }
