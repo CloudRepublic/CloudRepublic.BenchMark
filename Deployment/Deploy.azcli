@@ -14,8 +14,10 @@ $consumptionLocation = "westeurope";
 $orchestratorFunctionName = "BenchMark-Win-Orchestrator";
 $windowsSampleFunctionCsharpName = "BenchMark-Sample-Win-Csharp";
 $windowsSampleFunctionNodejsName = "BenchMark-Sample-Win-Nodejs";
+$windowsSampleFunctionFsharpName = "BenchMark-Sample-Win-Fsharp";
 $linuxSampleFunctionCsharpName = "BenchMark-Sample-Lin-Csharp";
 $linuxSampleFunctionNodejsName = "BenchMark-Sample-Lin-Nodejs";
+$linuxSampleFunctionFsharpName = "BenchMark-Sample-Lin-Fsharp";
 $backendApiFunctionName = "BenchMark-Win-Api";
 $cdnProfileName = "BenchMark";
 $cdnEndpointName = "BenchMark";
@@ -74,11 +76,17 @@ $sampleFuncWindowsCsharp = az functionapp create --resource-group $resourceGroup
 #create windows sample function nodejs
 $sampleFuncWindowsNodejs = az functionapp create --resource-group $resourceGroupName --name $windowsSampleFunctionNodejsName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime node --os-type Windows | ConvertFrom-Json
 
+#create windows sample function fsharp
+$sampleFuncWindowsFsharp = az functionapp create --resource-group $resourceGroupName --name $windowsSampleFunctionFsharpName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Windows | ConvertFrom-Json
+
 #create linux sample function csharp
 $sampleFuncLinuxCsharp = az functionapp create --resource-group $resourceGroupLinuxName --name $linuxSampleFunctionCsharpName --storage-account $storageAccountLinuxName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Linux | ConvertFrom-Json
 
 #create linux sample function nodejs
 $sampleFuncLinuxNodejs = az functionapp create --resource-group $resourceGroupLinuxName --name $linuxSampleFunctionNodejsName --storage-account $storageAccountLinuxName --consumption-plan-location  $consumptionLocation --runtime node --os-type Linux | ConvertFrom-Json
+
+#create linux sample function fsharp
+$sampleFuncLinuxFsharp = az functionapp create --resource-group $resourceGroupLinuxName --name $linuxSampleFunctionFsharpName --storage-account $storageAccountLinuxName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Linux | ConvertFrom-Json
 
 #create cdn profile
 $cdnProfile = az cdn profile create --location $location --resource-group $resourceGroupName --name $cdnProfileName --sku Standard_Microsoft
