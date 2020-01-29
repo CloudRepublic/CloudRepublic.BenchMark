@@ -17,9 +17,13 @@ $orchestratorFunctionName = "BenchMark-Win-Orchestrator";
 $windowsSampleFunctionCsharpName = "BenchMark-Sample-Win-Csharp";
 $windowsSampleFunctionNodejsName = "BenchMark-Sample-Win-Nodejs";
 $windowsSampleFunctionPythonName = "BenchMark-Sample-Win-Python";
+$windowsSampleFunctionFsharpName = "BenchMark-Sample-Win-Fsharp";
+$windowsSampleFunctionJavaName = "BenchMark-Sample-Win-Java";
 $linuxSampleFunctionCsharpName = "BenchMark-Sample-Lin-Csharp";
 $linuxSampleFunctionNodejsName = "BenchMark-Sample-Lin-Nodejs";
 $linuxSampleFunctionPythonName = "BenchMark-Sample-Lin-Python";
+$linuxSampleFunctionFsharpName = "BenchMark-Sample-Lin-Fsharp";
+$linuxSampleFunctionJavaName = "BenchMark-Sample-Lin-Java";
 $backendApiFunctionName = "BenchMark-Win-Api";
 $cdnProfileName = "BenchMark";
 $cdnEndpointName = "BenchMark";
@@ -78,14 +82,26 @@ $sampleFuncWindowsCsharp = az functionapp create --resource-group $resourceGroup
 #create windows sample function nodejs
 $sampleFuncWindowsNodejs = az functionapp create --resource-group $resourceGroupName --name $windowsSampleFunctionNodejsName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime node --os-type Windows | ConvertFrom-Json
 
+#create windows sample function fsharp
+$sampleFuncWindowsFsharp = az functionapp create --resource-group $resourceGroupName --name $windowsSampleFunctionFsharpName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Windows | ConvertFrom-Json
+
 #create windows sample function python
 $sampleFuncWindowsPython = az functionapp create --resource-group $resourceGroupName --name $windowsSampleFunctionPythonName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime python --runtime-version 3.7 --os-type Windows | ConvertFrom-Json
+
+#create windows sample function Java
+$sampleFuncWindowsJava = az functionapp create --resource-group $resourceGroupName --name $windowsSampleFunctionJavaName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Windows | ConvertFrom-Json
 
 #create linux sample function csharp
 $sampleFuncLinuxCsharp = az functionapp create --resource-group $resourceGroupLinuxName --name $linuxSampleFunctionCsharpName --storage-account $storageAccountLinuxName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Linux | ConvertFrom-Json
 
 #create linux sample function nodejs
 $sampleFuncLinuxNodejs = az functionapp create --resource-group $resourceGroupLinuxName --name $linuxSampleFunctionNodejsName --storage-account $storageAccountLinuxName --consumption-plan-location  $consumptionLocation --runtime node --os-type Linux | ConvertFrom-Json
+
+#create linux sample function fsharp
+$sampleFuncLinuxFsharp = az functionapp create --resource-group $resourceGroupLinuxName --name $linuxSampleFunctionFsharpName --storage-account $storageAccountLinuxName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Linux | ConvertFrom-Json
+
+#create linux sample function Java
+$sampleFuncLinuxJava = az functionapp create --resource-group $resourceGroupLinuxName --name $linuxSampleFunctionJavaName --storage-account $storageAccountLinuxName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Linux | ConvertFrom-Json
 
 #create windows sample function python
 $sampleFuncLinuxPython = az functionapp create --resource-group $resourceGroupLinuxName --name $linuxSampleFunctionPythonName --storage-account $storageAccountLinuxName --consumption-plan-location  $consumptionLocation --runtime python --runtime-version 3.7 --os-type Linux | ConvertFrom-Json

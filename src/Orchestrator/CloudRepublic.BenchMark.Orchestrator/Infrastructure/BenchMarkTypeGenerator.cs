@@ -45,6 +45,13 @@ namespace CloudRepublic.BenchMark.Orchestrator.Infrastructure
                      Runtime = Runtime.Java,
                      Name = "AzureWindowsJava",
                 },
+                new BenchMarkType()
+                {
+                     CloudProvider = CloudProvider.Azure,
+                     HostEnvironment = HostEnvironment.Windows,
+                     Runtime = Runtime.Fsharp,
+                     Name = "AzureWindowsFsharp",
+                },
 
 
                 new BenchMarkType()
@@ -75,6 +82,13 @@ namespace CloudRepublic.BenchMark.Orchestrator.Infrastructure
                      Runtime = Runtime.Java,
                      Name = "AzureLinuxJava",
                 },
+                new BenchMarkType()
+                {
+                     CloudProvider = CloudProvider.Azure,
+                     HostEnvironment = HostEnvironment.Linux,
+                     Runtime = Runtime.Fsharp,
+                     Name = "AzureLinuxFsharp",
+                },
 
                 new BenchMarkType()
                 {
@@ -90,6 +104,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Infrastructure
                 /// add a new type into this 'generator'
                 /// assign a name, and add the client, url and key to the enviroment.
                 /// setup the function
+                /// add the function to deployment files.
                 /// assign a new button in the benchmark.vue tab item array.
             };
 
