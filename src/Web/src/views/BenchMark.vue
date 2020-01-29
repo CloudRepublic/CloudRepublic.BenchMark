@@ -17,12 +17,14 @@
     </div>
     <div class="row mb-3">
       <div class="col-md-12">
-        <tabs @tabIndexChanged="loadEvironment">
-          <tab-pane class="envi-tab" title="Windows Csharp"></tab-pane>
-          <tab-pane class="envi-tab" title="Windows Nodejs"></tab-pane>
-          <tab-pane class="envi-tab" title="Linux Csharp"></tab-pane>
-          <tab-pane class="envi-tab" title="Linux Nodejs"></tab-pane>
-          <tab-pane class="envi-tab" title="Firebase Nodejs"></tab-pane>
+        <tabs @activating-tab="loadEnvironment">
+          <tab-pane class="envi-tab" title="Azure Windows Csharp"></tab-pane>
+          <tab-pane class="envi-tab" title="Azure Windows Nodejs"></tab-pane>
+          <tab-pane class="envi-tab" title="Azure Windows Fsharp"></tab-pane>
+          <tab-pane class="envi-tab" title="Azure Linux Csharp"></tab-pane>
+          <tab-pane class="envi-tab" title="Azure Linux Nodejs"></tab-pane>
+          <tab-pane class="envi-tab" title="Azure Linux Fsharp"></tab-pane>
+          <tab-pane class="envi-tab" title="Firebase Linux Nodejs"></tab-pane>
         </tabs>
       </div>
     </div>
@@ -94,55 +96,23 @@ export default {
     };
   },
   methods: {
-    async loadEvironment(tabIndex) {
+    async loadEnvironment(tab) {
       this.isLoading = true;
-      let benchMarkData;
-      if (tabIndex === 0) {
-        benchMarkData = await benchMarkService.getBenchMarkData(
-          'Azure',
-          'Windows',
-          'Csharp'
-        );
+      
+      let environment = tab.title.split(' ');
+
+      if(environment.length < 3) {
+        console.log('Invalid environment string; needs at least 3 elements');
+        return;
       }
 
-      if (tabIndex === 1) {
-        benchMarkData = await benchMarkService.getBenchMarkData(
-          'Azure',
-          'Windows',
-          'Nodejs'
-        );
-      }
-      if (tabIndex === 2) {
-        benchMarkData = await benchMarkService.getBenchMarkData(
-          'Azure',
-          'Linux',
-          'Csharp'
-        );
-      }
-
-      if (tabIndex === 3) {
-        benchMarkData = await benchMarkService.getBenchMarkData(
-          'Azure',
-          'Linux',
-          'Nodejs'
-        );
-      }
-
-      if(tabIndex === 4) {
-        benchMarkData = await benchMarkService.getBenchMarkData(
-          "Firebase",
-          "Linux",
-          "Nodejs"
-        )
-      }
-
-      this.benchMarkData = benchMarkData;
+      this.benchMarkData = await benchMarkService.getBenchMarkData(environment[0], environment[1], environment[2]);
       this.isLoading = false;
     }
   },
   mounted() {},
   async beforeMount() {
-    await this.loadEvironment(0);
+    await this.loadEnvironment({title:'Azure Windows Csharp'});
   }
 };
 </script>
@@ -164,4 +134,3 @@ export default {
   }
 }
 </style>
-

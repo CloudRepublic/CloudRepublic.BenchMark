@@ -148,6 +148,7 @@ export default {
       }
     },
     activateTab(tab) {
+      this.$emit('activating-tab', tab);
       if (this.handleClick) {
         this.handleClick(tab);
       }
