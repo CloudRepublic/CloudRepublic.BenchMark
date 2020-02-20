@@ -11,7 +11,7 @@ There's an orchestrator function that executes Http Get requests to every functi
 - Github code repository.
 - Azure Pipeline builds and releases.
 - ARM for Azure infrastructure deployment.
-- Deploys 4 Http Triggered functions (Linux NodeJS, Linux C#, Windows NodeJS, Windows C#)
+- Deploys 8 Http Triggered functions (Linux NodeJS, Linux C#, Windows NodeJS, Windows C#, all in Azure Functions V2 and V3)
 - Deploys the benchmark orchestrator.
 - A SQL database to store the results.
 - An Azure Functions API with Azure API Management consumption tier.

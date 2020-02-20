@@ -17,6 +17,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Infrastructure
                 CloudProvider = (int) benchMarkType.CloudProvider,
                 HostingEnvironment = (int) benchMarkType.HostEnvironment,
                 Runtime = (int) benchMarkType.Runtime,
+                RunTimeVersion =  benchMarkType.RuntimeVersion,
                 Success = benchMarkResponse.Success,
                 RequestDuration = Convert.ToInt32(benchMarkResponse.Duration),
                 IsColdRequest = isColdRequest
