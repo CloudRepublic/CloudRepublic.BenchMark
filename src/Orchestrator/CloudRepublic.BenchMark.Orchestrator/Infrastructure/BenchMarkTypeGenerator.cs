@@ -33,7 +33,12 @@ namespace CloudRepublic.BenchMark.Orchestrator.Infrastructure
                         {
                             benchMarkTypes.Add(new BenchMarkType((CloudProvider)provider,
                                 (HostEnvironment)hostingEnvironment,
-                                (Runtime)runtime));
+                                (Runtime)runtime,
+                                2));
+                            benchMarkTypes.Add(new BenchMarkType((CloudProvider)provider,
+                                (HostEnvironment)hostingEnvironment,
+                                (Runtime)runtime,
+                                3));
                         }
 
                     }

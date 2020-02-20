@@ -13,17 +13,29 @@ namespace CloudRepublic.BenchMark.Application.Extensions
             switch (benchMarkType.CloudProvider)
             {
                 case CloudProvider.Azure when benchMarkType.HostEnvironment == HostEnvironment.Windows &&
-                                              benchMarkType.Runtime == Runtime.Csharp:
+                                              benchMarkType.Runtime == Runtime.Csharp && benchMarkType.RuntimeVersion == 2:
                     return httpClientFactory.CreateClient("AzureWindowsCsharpClient");
                 case CloudProvider.Azure when benchMarkType.HostEnvironment == HostEnvironment.Linux &&
-                                              benchMarkType.Runtime == Runtime.Csharp:
+                                              benchMarkType.Runtime == Runtime.Csharp && benchMarkType.RuntimeVersion == 2:
                     return httpClientFactory.CreateClient("AzureLinuxCsharpClient");
                 case CloudProvider.Azure when benchMarkType.HostEnvironment == HostEnvironment.Windows &&
-                                              benchMarkType.Runtime == Runtime.Nodejs:
+                                              benchMarkType.Runtime == Runtime.Nodejs && benchMarkType.RuntimeVersion == 2:
                     return httpClientFactory.CreateClient("AzureWindowsNodejsClient");
                 case CloudProvider.Azure when benchMarkType.HostEnvironment == HostEnvironment.Linux &&
-                                              benchMarkType.Runtime == Runtime.Nodejs:
+                                              benchMarkType.Runtime == Runtime.Nodejs && benchMarkType.RuntimeVersion == 2:
                     return httpClientFactory.CreateClient("AzureLinuxNodejsClient");
+                case CloudProvider.Azure when benchMarkType.HostEnvironment == HostEnvironment.Windows &&
+                                              benchMarkType.Runtime == Runtime.Csharp && benchMarkType.RuntimeVersion == 3:
+                    return httpClientFactory.CreateClient("AzureWindowsCsharpClientV3");
+                case CloudProvider.Azure when benchMarkType.HostEnvironment == HostEnvironment.Linux &&
+                                              benchMarkType.Runtime == Runtime.Csharp && benchMarkType.RuntimeVersion == 3:
+                    return httpClientFactory.CreateClient("AzureLinuxCsharpClientV3");
+                case CloudProvider.Azure when benchMarkType.HostEnvironment == HostEnvironment.Windows &&
+                                              benchMarkType.Runtime == Runtime.Nodejs && benchMarkType.RuntimeVersion == 3:
+                    return httpClientFactory.CreateClient("AzureWindowsNodejsClientV3");
+                case CloudProvider.Azure when benchMarkType.HostEnvironment == HostEnvironment.Linux &&
+                                              benchMarkType.Runtime == Runtime.Nodejs && benchMarkType.RuntimeVersion == 3:
+                    return httpClientFactory.CreateClient("AzureLinuxNodejsClientV3");
                 case CloudProvider.Firebase when benchMarkType.HostEnvironment == HostEnvironment.Linux &&
                                               benchMarkType.Runtime == Runtime.Nodejs:
                     return httpClientFactory.CreateClient("FirebaseLinuxNodejsClient");
