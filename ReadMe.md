@@ -1,22 +1,29 @@
 # Serverless Benchmark
 
-We've created a continues benchmark tool for Azure Functions to measure the performance differences between Linux and Windows hosted Azure Functions. Secondly is measures the differences between C# .NET and NodeJS written functions. The performance benchmarking is only focussed on Http Triggered functions.
+We've created a continuous benchmark tool for Azure Functions to measure the performance differences between Linux and Windows hosted Azure Functions. Secondly it measures the differences between functions written in C# .NET , NodeJS and Python. The performance benchmarking is only focussed on Http Triggered functions.
 
 ## How the benchmark is executed
 
-There's an orchestrator function that executes Http Get requests to every function app instance available. The first 5 calls are classified as coldstart, we then wait for 30 seconds to execute 10 requests per function instance to measure the warmed up Http requests.
+There's an orchestrator function that executes HTTP GET requests to every function app instance available. The first 5 calls are classified as coldstart, we then wait for 30 seconds to execute 10 requests per function instance to measure the warmed up HTTP requests.
 
 ## Global Architecture
 
 - Github code repository.
 - Azure Pipeline builds and releases.
 - ARM for Azure infrastructure deployment.
-- Deploys 4 Http Triggered functions (Linux NodeJS, Linux C#, Windows NodeJS, Windows C#)
+- Deploys 6 HTTP Triggered functions:
+ - NodeJS (Linux)
+ - C#.NET (Linux)
+ - Python (Linux)
+ - NodeJS (Windows)
+ - C#.NET (Windows)
+ - Python (Windows )
 - Deploys the benchmark orchestrator.
 - A SQL database to store the results.
 - An Azure Functions API with Azure API Management consumption tier.
 - Vuejs front-end hosted on Azure Blob storage with a CDN.
-  <img src='docs/global architecture.png' />
+
+<img src='docs/global architecture.png' />
 
 ## Author
 

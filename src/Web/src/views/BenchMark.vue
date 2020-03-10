@@ -20,8 +20,10 @@
         <tabs @tabIndexChanged="loadEvironment">
           <tab-pane class="envi-tab" title="Windows Csharp"></tab-pane>
           <tab-pane class="envi-tab" title="Windows Nodejs"></tab-pane>
+          <tab-pane class="envi-tab" title="Windows Python"></tab-pane>
           <tab-pane class="envi-tab" title="Linux Csharp"></tab-pane>
           <tab-pane class="envi-tab" title="Linux Nodejs"></tab-pane>
+          <tab-pane class="envi-tab" title="Linux Python"></tab-pane>
           <tab-pane class="envi-tab" title="Firebase Nodejs"></tab-pane>
         </tabs>
       </div>
@@ -97,6 +99,7 @@ export default {
     async loadEvironment(tabIndex) {
       this.isLoading = true;
       let benchMarkData;
+
       if (tabIndex === 0) {
         benchMarkData = await benchMarkService.getBenchMarkData(
           'Azure',
@@ -112,11 +115,12 @@ export default {
           'Nodejs'
         );
       }
+
       if (tabIndex === 2) {
         benchMarkData = await benchMarkService.getBenchMarkData(
           'Azure',
-          'Linux',
-          'Csharp'
+          'Windows',
+          'Python'
         );
       }
 
@@ -124,16 +128,32 @@ export default {
         benchMarkData = await benchMarkService.getBenchMarkData(
           'Azure',
           'Linux',
+          'Csharp'
+        );
+      }
+
+      if (tabIndex === 4) {
+        benchMarkData = await benchMarkService.getBenchMarkData(
+          'Azure',
+          'Linux',
           'Nodejs'
         );
       }
 
-      if(tabIndex === 4) {
+      if (tabIndex === 5) {
         benchMarkData = await benchMarkService.getBenchMarkData(
-          "Firebase",
-          "Linux",
-          "Nodejs"
-        )
+          'Azure',
+          'Linux',
+          'Python'
+        );
+      }
+
+      if (tabIndex === 6) {
+        benchMarkData = await benchMarkService.getBenchMarkData(
+          'Firebase',
+          'Linux',
+          'Nodejs'
+        );
       }
 
       this.benchMarkData = benchMarkData;
@@ -164,4 +184,3 @@ export default {
   }
 }
 </style>
-
