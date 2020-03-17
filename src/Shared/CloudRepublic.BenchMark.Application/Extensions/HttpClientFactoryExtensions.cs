@@ -25,6 +25,12 @@ namespace CloudRepublic.BenchMark.Application.Extensions
                                               benchMarkType.Runtime == Runtime.Nodejs && benchMarkType.RuntimeVersion == 2:
                     return httpClientFactory.CreateClient("AzureLinuxNodejsClient");
                 case CloudProvider.Azure when benchMarkType.HostEnvironment == HostEnvironment.Windows &&
+                                              benchMarkType.Runtime == Runtime.Python:
+                    return httpClientFactory.CreateClient("AzureWindowsPythonClient");
+                case CloudProvider.Azure when benchMarkType.HostEnvironment == HostEnvironment.Linux &&
+                                              benchMarkType.Runtime == Runtime.Python:
+                    return httpClientFactory.CreateClient("AzureLinuxPythonClient");
+                case CloudProvider.Azure when benchMarkType.HostEnvironment == HostEnvironment.Windows &&
                                               benchMarkType.Runtime == Runtime.Csharp && benchMarkType.RuntimeVersion == 3:
                     return httpClientFactory.CreateClient("AzureWindowsCsharpClientV3");
                 case CloudProvider.Azure when benchMarkType.HostEnvironment == HostEnvironment.Linux &&
