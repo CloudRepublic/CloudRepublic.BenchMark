@@ -4,9 +4,11 @@ namespace CloudRepublic.BenchMark.Application.Models
 {
     public class BenchMarkType
     {
-        public CloudProvider CloudProvider { get; }
-        public HostEnvironment HostEnvironment { get; }
-        public Runtime Runtime { get; }
+        public CloudProvider CloudProvider { get; set; }
+        public HostEnvironment HostEnvironment { get; set; }
+        public Runtime Runtime { get; set; }
+        public string ClientName { get; set; }
+        public BenchMarkType() { }
 
         public BenchMarkType(CloudProvider cloudProvider, HostEnvironment hostEnvironment, Runtime runtime)
         {

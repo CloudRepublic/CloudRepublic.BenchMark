@@ -27,6 +27,14 @@ export default {
       this.$el.parentNode.removeChild(this.$el);
     }
     this.removeTab(this);
+  },
+  watch: {
+    active(activeState) {
+      this.active = activeState;
+      if (activeState) {
+        this.$emit('tabBecomesActive');
+      }
+    }
   }
 };
 </script>

@@ -1,10 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using CloudRepublic.BenchMark.API.Helpers;
 using CloudRepublic.BenchMark.API.Models;
 using CloudRepublic.BenchMark.Domain.Entities;
-using MathNet.Numerics.Statistics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using CloudProvider = CloudRepublic.BenchMark.Domain.Enums.CloudProvider;
 using HostingEnvironment = CloudRepublic.BenchMark.Domain.Enums.HostEnvironment;
 using Runtime = CloudRepublic.BenchMark.Domain.Enums.Runtime;
@@ -15,6 +14,7 @@ namespace CloudRepublic.BenchMark.API.Infrastructure
     {
         public BenchMarkData ConvertToBenchMarkData(List<BenchMarkResult> resultDataPoints)
         {
+
             var benchmarkData = new BenchMarkData()
             {
                 CloudProvider = Enum.ToObject(typeof(CloudProvider), resultDataPoints.First().CloudProvider).ToString(),
@@ -26,27 +26,18 @@ namespace CloudRepublic.BenchMark.API.Infrastructure
             var currentDate = resultDataPoints.OrderByDescending(c => c.CreatedAt).First().CreatedAt.Date;
 
 
-            var coldMedians = MedianCalculator.Calculate(currentDate, resultDataPoints, true);
-            benchmarkData.ColdMedianExecutionTime = coldMedians.currentDay;
-
-            var coldDifference =
-                Math.Round(
-                    ((coldMedians.currentDay - coldMedians.previousDay) /
-                     Math.Abs(coldMedians.currentDay)) * 100, 2);
-
-            benchmarkData.ColdPreviousDayDifference = coldDifference;
+            var coldDataPoints = resultDataPoints.Where(c => c.IsColdRequest).ToList();
+            var coldMedians = MedianCalculator.Calculate(currentDate, coldDataPoints);
+            benchmarkData.ColdMedianExecutionTime = coldMedians.CurrentDay;
+            benchmarkData.ColdPreviousDayDifference = coldMedians.Difference;
             benchmarkData.ColdPreviousDayPositive = benchmarkData.ColdPreviousDayDifference < 0;
 
-            var warmMedians = MedianCalculator.Calculate(currentDate, resultDataPoints, false);
-            benchmarkData.WarmMedianExecutionTime = warmMedians.currentDay;
-
-            var warmDifference =
-                Math.Round(
-                    ((warmMedians.currentDay - warmMedians.previousDay) /
-                     Math.Abs(warmMedians.currentDay)) * 100, 2);
-
-            benchmarkData.WarmPreviousDayDifference = warmDifference;
+            var warmDataPoints = resultDataPoints.Where(c => !c.IsColdRequest).ToList();
+            var warmMedians = MedianCalculator.Calculate(currentDate, warmDataPoints);
+            benchmarkData.WarmMedianExecutionTime = warmMedians.CurrentDay;
+            benchmarkData.WarmPreviousDayDifference = warmMedians.Difference;
             benchmarkData.WarmPreviousDayPositive = benchmarkData.WarmPreviousDayDifference < 0;
+
 
             var dates = new List<DateTime>();
             for (var i = 0; i < Convert.ToInt32(Environment.GetEnvironmentVariable("dayRange")); i++)
@@ -54,16 +45,16 @@ namespace CloudRepublic.BenchMark.API.Infrastructure
                 dates.Add(currentDate - TimeSpan.FromDays(i));
             }
 
-            dates = dates.OrderBy(c=>c.Date).ToList();
-            
+            dates = dates.OrderBy(c => c.Date).ToList();
+
             foreach (var date in dates)
             {
                 benchmarkData.ColdDataPoints.Add(new DataPoint(date.ToString("yyyy MMMM dd"),
-                    resultDataPoints.Where(c => c.CreatedAt.Date == date.Date && c.IsColdRequest)
+                    coldDataPoints.Where(c => c.CreatedAt.Date == date.Date)
                         .Select(c => c.RequestDuration).ToList()));
 
                 benchmarkData.WarmDataPoints.Add(new DataPoint(date.ToString("yyyy MMMM dd"),
-                    resultDataPoints.Where(c => c.CreatedAt.Date == date.Date && !c.IsColdRequest)
+                    warmDataPoints.Where(c => c.CreatedAt.Date == date.Date)
                         .Select(c => c.RequestDuration).ToList()));
             }
 

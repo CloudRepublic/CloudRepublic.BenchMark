@@ -19,7 +19,7 @@ namespace CloudRepublic.BenchMark.API.Tests
     public class FunctionTests
     {
         private readonly ILogger _logger = TestFactory.CreateLogger();
-        private Mock<IBenchMarkResultService> _mockBenchMarkResultService;
+        private readonly Mock<IBenchMarkResultService> _mockBenchMarkResultService;
 
         private Mock<IResponseConverter> _mockResponseConverter;
 

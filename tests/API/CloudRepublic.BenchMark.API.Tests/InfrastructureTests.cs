@@ -1,17 +1,23 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using CloudRepublic.BenchMark.API.Infrastructure;
 using CloudRepublic.BenchMark.Domain.Entities;
 using CloudRepublic.BenchMark.Domain.Enums;
+using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace CloudRepublic.BenchMark.API.Tests
 {
     public class InfrastructureTests
     {
+
         [Fact]
-        public void ResponseConverterShouldConvertBenchMarkResultIntoBenchMarkData()
+        public void ResponseConverter_Should_Convert_BenchMarkResult_Into_BenchMarkData2()
+        {
+            Assert.True(1 == 1);
+        }
+
+        [Fact]
+        public void ResponseConverter_Should_Convert_BenchMarkResult_Into_BenchMarkData()
         {
             #region Arrange
 

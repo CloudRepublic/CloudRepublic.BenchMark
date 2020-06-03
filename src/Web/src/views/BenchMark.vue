@@ -8,23 +8,24 @@
       background-color="#172b4d"
     />
     <div class="row exp-text mb-4 d-flex justify-content-center">
-      <div class="col-md-7 text-center">
+      <div class="col-md-8 text-center">
         <span class="display-3 text-white p-0">How the benchmark is executed</span>
-        <p
-          class="text-white"
-        >There's an orchestrator function that executes Http Get requests to every function app instance available. The first 5 calls are classified as coldstart, we then wait for 30 seconds to execute 10 requests per function instance to measure the warmed up Http requests.</p>
+        <p class="text-white">
+          There's an orchestrator function that executes Http Get requests to every function app instance available.
+          The first 5 calls are classified as coldstart, we then wait for 30 seconds to execute 10 requests per function instance to measure the warmed up Http requests.
+        </p>
       </div>
     </div>
     <div class="row mb-3">
       <div class="col-md-12">
-        <tabs @tabIndexChanged="loadEvironment">
-          <tab-pane class="envi-tab" title="Windows Csharp"></tab-pane>
-          <tab-pane class="envi-tab" title="Windows Nodejs"></tab-pane>
-          <tab-pane class="envi-tab" title="Windows Python"></tab-pane>
-          <tab-pane class="envi-tab" title="Linux Csharp"></tab-pane>
-          <tab-pane class="envi-tab" title="Linux Nodejs"></tab-pane>
-          <tab-pane class="envi-tab" title="Linux Python"></tab-pane>
-          <tab-pane class="envi-tab" title="Firebase Nodejs"></tab-pane>
+        <tabs>
+          <tab-pane
+            v-for="benchmarkOption in benchmarkOptions"
+            v-bind:key="benchmarkOption.position"
+            @tabBecomesActive="loadEnvironment(benchmarkOption)"
+            class="envi-tab"
+            :title="(benchmarkOption.title)"
+          ></tab-pane>
         </tabs>
       </div>
     </div>
@@ -92,10 +93,75 @@ export default {
     return {
       benchMarkData: null,
       activeEnvironmentIndex: 0,
-      isLoading: true
+      isLoading: true,
+      benchmarkOptions: [
+        {
+          position: 1,
+          title: 'Azure - Windows C#',
+          cloud: 'Azure',
+          os: 'Windows',
+          language: 'Csharp'
+        },
+        {
+          position: 2,
+          title: 'Azure - Windows Nodejs',
+          cloud: 'Azure',
+          os: 'Windows',
+          language: 'Nodejs'
+        },
+        {
+          position: 3,
+          title: 'Azure - Windows Python',
+          cloud: 'Azure',
+          os: 'Windows',
+          language: 'Python'
+        },
+        {
+          position: 4,
+          title: 'Azure - Linux C#',
+          cloud: 'Azure',
+          os: 'Linux',
+          language: 'Csharp'
+        },
+        {
+          position: 5,
+          title: 'Azure - Linux  Nodejs',
+          cloud: 'Azure',
+          os: 'Linux',
+          language: 'Nodejs'
+        },
+        {
+          position: 6,
+          title: 'Azure - Linux Python',
+          cloud: 'Azure',
+          os: 'Linux',
+          language: 'Python'
+        },
+        {
+          position: 7,
+          title: 'Firebase - Linux Nodejs',
+          cloud: 'Firebase',
+          os: 'Linux',
+          language: 'Nodejs'
+        }
+      ]
     };
   },
   methods: {
+    async loadEnvironment(benchmarkOptions) {
+      this.isLoading = true;
+      let benchMarkData;
+      // todo enable when backend attached/active
+      if (benchmarkOptions != null) {
+        benchMarkData = await benchMarkService.getBenchMarkData(
+          benchmarkOptions.cloud,
+          benchmarkOptions.os,
+          benchmarkOptions.language
+        );
+        this.benchMarkData = benchMarkData;
+      }
+      this.isLoading = false;
+    },
     async loadEvironment(tabIndex) {
       this.isLoading = true;
       let benchMarkData;
@@ -162,7 +228,7 @@ export default {
   },
   mounted() {},
   async beforeMount() {
-    await this.loadEvironment(0);
+    await this.loadEnvironment(null);
   }
 };
 </script>

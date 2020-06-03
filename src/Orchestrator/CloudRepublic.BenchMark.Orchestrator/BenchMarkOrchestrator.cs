@@ -15,6 +15,8 @@ namespace CloudRepublic.BenchMark.Orchestrator
 {
     public class BenchMarkOrchestrator
     {
+        private readonly int ColdCalls = 5;
+        private readonly int WarmCalls = 10;
         private readonly IBenchMarkService _benchMarkService;
 
         public BenchMarkOrchestrator(IBenchMarkService benchMarkService)
@@ -33,7 +35,7 @@ namespace CloudRepublic.BenchMark.Orchestrator
                 var tasksCold = new List<Task<BenchMarkResponse>>();
                 var tasksWarm = new List<Task<BenchMarkResponse>>();
 
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < ColdCalls; i++)
                 {
                     tasksCold.Add(_benchMarkService.RunBenchMark(benchMarkType));
                 }
@@ -42,7 +44,7 @@ namespace CloudRepublic.BenchMark.Orchestrator
 
                 await Task.Delay(TimeSpan.FromSeconds(30));
 
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < WarmCalls; i++)
                 {
                     tasksWarm.Add(_benchMarkService.RunBenchMark(benchMarkType));
                 }
