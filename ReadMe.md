@@ -6,6 +6,14 @@ We've created a continuous benchmark tool for Azure Functions to measure the per
 
 There's an orchestrator function that executes HTTP GET requests to every function app instance available. The first 5 calls are classified as coldstart, we then wait for 30 seconds to execute 10 requests per function instance to measure the warmed up HTTP requests.
 
+
+## Adding additional benchmark 
+- Expand the enum of: cloudprovider, hostenvironment, runtime or an create additional setting (like V3) (located in the Orchestrator)
+- Enter a new entry into the BenchMarkTypeGenerator and assign a name (the name is currently the name of the settings) (Orchestrator)
+- create the matching function/trigger (located in the 'Azure' folder, not all are loaded in solution).
+- add the function to the deployment files (Deployment folder, not loaded in solution)
+- Load the Frontend project -> BenchMark.Vue and expand the Enums and benchmarkOptions with the newly added entry (Located in Web -> Views -> benchmark.vue)
+
 ## Global Architecture
 
 - Github code repository.
