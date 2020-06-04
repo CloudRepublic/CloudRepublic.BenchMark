@@ -10,6 +10,7 @@ There's an orchestrator function that executes HTTP GET requests to every functi
 ## Adding additional benchmark 
 - Expand the enum of: cloudprovider, hostenvironment, runtime or an create additional setting (like V3) (located in the Orchestrator)
 - Enter a new entry into the BenchMarkTypeGenerator and assign a name (the name is currently the name of the settings) (Orchestrator)
+- Make sure the new entry has the following environment variables (Environment.GetEnvironmentVariable() are set (dots are the assigned name) : .....CLIENT, ... URL (and ....KEY if needed)
 - create the matching function/trigger (located in the 'Azure' folder, not all are loaded in solution).
 - add the function to the deployment files (Deployment folder, not loaded in solution)
 - Load the Frontend project -> BenchMark.Vue and expand the Enums and benchmarkOptions with the newly added entry (Located in Web -> Views -> benchmark.vue)
