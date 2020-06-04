@@ -19,84 +19,84 @@ namespace CloudRepublic.BenchMark.Orchestrator.Infrastructure
             {
                 new BenchMarkType()
                 {
-                     CloudProvider = CloudProvider.Azure,
-                     HostEnvironment = HostEnvironment.Windows,
-                     Runtime = Runtime.Csharp,
                      Name = "AzureWindowsCsharp",
+                     CloudProvider = CloudProvider.Azure,
+                     HostEnvironment = HostEnvironment.Windows,
+                     Runtime = Runtime.Csharp,
                 },
                 new BenchMarkType()
                 {
+                     Name = "AzureWindowsNodejs",
                      CloudProvider = CloudProvider.Azure,
                      HostEnvironment = HostEnvironment.Windows,
                      Runtime = Runtime.Nodejs,
-                     Name = "AzureWindowsNodejs",
                 },
                 new BenchMarkType()
                 {
+                     Name = "AzureWindowsPython",
                      CloudProvider = CloudProvider.Azure,
                      HostEnvironment = HostEnvironment.Windows,
                      Runtime = Runtime.Python,
-                     Name = "AzureWindowsPython",
                 },
                 new BenchMarkType()
                 {
+                     Name = "AzureWindowsJava",
                      CloudProvider = CloudProvider.Azure,
                      HostEnvironment = HostEnvironment.Windows,
                      Runtime = Runtime.Java,
-                     Name = "AzureWindowsJava",
                 },
                 new BenchMarkType()
                 {
+                     Name = "AzureWindowsFsharp",
                      CloudProvider = CloudProvider.Azure,
                      HostEnvironment = HostEnvironment.Windows,
                      Runtime = Runtime.Fsharp,
-                     Name = "AzureWindowsFsharp",
                 },
 
 
                 new BenchMarkType()
                 {
+                     Name = "AzureLinuxCsharp",
                      CloudProvider = CloudProvider.Azure,
                      HostEnvironment = HostEnvironment.Linux,
                      Runtime = Runtime.Csharp,
-                     Name = "AzureLinuxCsharp",
                 },
                 new BenchMarkType()
                 {
+                     Name = "AzureLinuxNodejs",
                      CloudProvider = CloudProvider.Azure,
                      HostEnvironment = HostEnvironment.Linux,
                      Runtime = Runtime.Nodejs,
-                     Name = "AzureLinuxNodejs",
                 },
                 new BenchMarkType()
                 {
+                     Name = "AzureLinuxPython",
                      CloudProvider = CloudProvider.Azure,
                      HostEnvironment = HostEnvironment.Linux,
                      Runtime = Runtime.Python,
-                     Name = "AzureLinuxPython",
                 },
                 new BenchMarkType()
                 {
+                     Name = "AzureLinuxJava",
                      CloudProvider = CloudProvider.Azure,
                      HostEnvironment = HostEnvironment.Linux,
                      Runtime = Runtime.Java,
-                     Name = "AzureLinuxJava",
                 },
                 new BenchMarkType()
                 {
+                     Name = "AzureLinuxFsharp",
                      CloudProvider = CloudProvider.Azure,
                      HostEnvironment = HostEnvironment.Linux,
                      Runtime = Runtime.Fsharp,
-                     Name = "AzureLinuxFsharp",
                 },
 
 
                 new BenchMarkType()
                 {
+                     Name = "FirebaseLinuxNodejs",
                      CloudProvider = CloudProvider.Firebase,
                      HostEnvironment = HostEnvironment.Linux,
                      Runtime = Runtime.Nodejs,
-                     Name = "FirebaseLinuxNodejs",
                      SetXFunctionsKey = false,
                 },
             };
