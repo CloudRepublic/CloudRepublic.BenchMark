@@ -123,6 +123,12 @@ export default {
           language: 'Java'
         },
         {
+          title: 'Azure - Windows Fsharp',
+          cloud: 'Azure',
+          os: 'Windows',
+          language: 'Fsharp'
+        },
+        {
           title: 'Azure - Linux C#',
           cloud: 'Azure',
           os: 'Linux',
@@ -145,6 +151,12 @@ export default {
           cloud: 'Azure',
           os: 'Linux',
           language: 'Java'
+        },
+        {
+          title: 'Azure - Linux Fsharp',
+          cloud: 'Azure',
+          os: 'Linux',
+          language: 'Fsharp'
         },
         {
           title: 'Firebase - Linux Nodejs',
