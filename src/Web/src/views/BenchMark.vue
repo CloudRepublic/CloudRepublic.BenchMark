@@ -21,13 +21,16 @@
         <tabs>
           <tab-pane
             v-for="benchmarkOption in benchmarkOptions"
-            v-bind:key="benchmarkOption.position"
+            v-bind:key="benchmarkOption.title"
             @tabBecomesActive="loadEnvironment(benchmarkOption)"
             class="envi-tab"
             :title="(benchmarkOption.title)"
           ></tab-pane>
         </tabs>
       </div>
+    </div>
+    <div v-if="benchMarkData === null">
+      <p class="text-white text-center">The request did not return any benchmark data.</p>
     </div>
     <div v-if="benchMarkData !== null">
       <BenchMarkEnvi
@@ -96,49 +99,54 @@ export default {
       isLoading: true,
       benchmarkOptions: [
         {
-          position: 1,
           title: 'Azure - Windows C#',
           cloud: 'Azure',
           os: 'Windows',
           language: 'Csharp'
         },
         {
-          position: 2,
           title: 'Azure - Windows Nodejs',
           cloud: 'Azure',
           os: 'Windows',
           language: 'Nodejs'
         },
         {
-          position: 3,
           title: 'Azure - Windows Python',
           cloud: 'Azure',
           os: 'Windows',
           language: 'Python'
         },
         {
-          position: 4,
+          title: 'Azure - Windows Java',
+          cloud: 'Azure',
+          os: 'Windows',
+          language: 'Java'
+        },
+        {
           title: 'Azure - Linux C#',
           cloud: 'Azure',
           os: 'Linux',
           language: 'Csharp'
         },
         {
-          position: 5,
           title: 'Azure - Linux  Nodejs',
           cloud: 'Azure',
           os: 'Linux',
           language: 'Nodejs'
         },
         {
-          position: 6,
           title: 'Azure - Linux Python',
           cloud: 'Azure',
           os: 'Linux',
           language: 'Python'
         },
         {
-          position: 7,
+          title: 'Azure - Linux Java',
+          cloud: 'Azure',
+          os: 'Linux',
+          language: 'Java'
+        },
+        {
           title: 'Firebase - Linux Nodejs',
           cloud: 'Firebase',
           os: 'Linux',
@@ -161,74 +169,11 @@ export default {
         this.benchMarkData = benchMarkData;
       }
       this.isLoading = false;
-    },
-    async loadEvironment(tabIndex) {
-      this.isLoading = true;
-      let benchMarkData;
-
-      if (tabIndex === 0) {
-        benchMarkData = await benchMarkService.getBenchMarkData(
-          'Azure',
-          'Windows',
-          'Csharp'
-        );
-      }
-
-      if (tabIndex === 1) {
-        benchMarkData = await benchMarkService.getBenchMarkData(
-          'Azure',
-          'Windows',
-          'Nodejs'
-        );
-      }
-
-      if (tabIndex === 2) {
-        benchMarkData = await benchMarkService.getBenchMarkData(
-          'Azure',
-          'Windows',
-          'Python'
-        );
-      }
-
-      if (tabIndex === 3) {
-        benchMarkData = await benchMarkService.getBenchMarkData(
-          'Azure',
-          'Linux',
-          'Csharp'
-        );
-      }
-
-      if (tabIndex === 4) {
-        benchMarkData = await benchMarkService.getBenchMarkData(
-          'Azure',
-          'Linux',
-          'Nodejs'
-        );
-      }
-
-      if (tabIndex === 5) {
-        benchMarkData = await benchMarkService.getBenchMarkData(
-          'Azure',
-          'Linux',
-          'Python'
-        );
-      }
-
-      if (tabIndex === 6) {
-        benchMarkData = await benchMarkService.getBenchMarkData(
-          'Firebase',
-          'Linux',
-          'Nodejs'
-        );
-      }
-
-      this.benchMarkData = benchMarkData;
-      this.isLoading = false;
     }
   },
   mounted() {},
   async beforeMount() {
-    await this.loadEnvironment(null);
+    await this.loadEnvironment(this.benchmarkOptions[0]);
   }
 };
 </script>
