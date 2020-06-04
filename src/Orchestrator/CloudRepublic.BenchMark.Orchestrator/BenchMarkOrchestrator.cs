@@ -29,7 +29,7 @@ namespace CloudRepublic.BenchMark.Orchestrator
         {
             log.LogInformation($"C# Timer trigger function executed at: {DateTime.UtcNow}");
 
-            var benchMarkTypes = BenchMarkTypeGenerator.Generate();
+            var benchMarkTypes = BenchMarkTypeGenerator.GetAllTypes();
             foreach (var benchMarkType in benchMarkTypes)
             {
                 var tasksCold = new List<Task<BenchMarkResponse>>();

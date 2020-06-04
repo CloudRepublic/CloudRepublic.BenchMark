@@ -1,5 +1,6 @@
-using System;
+using CloudRepublic.BenchMark.Orchestrator.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace CloudRepublic.BenchMark.Orchestrator.Extensions
 {
@@ -7,41 +8,20 @@ namespace CloudRepublic.BenchMark.Orchestrator.Extensions
     {
         public static IServiceCollection AddBenchMarkClients(this IServiceCollection services)
         {
-            services.AddHttpClient("AzureWindowsCsharpClient",
-                client =>
-                {
-                    client.BaseAddress = new Uri(Environment.GetEnvironmentVariable("AzureWindowsCsharpUrl"));
-                    client.DefaultRequestHeaders.Add("x-functions-key",
-                        Environment.GetEnvironmentVariable("AzureWindowsCsharpKey"));
-                });
+            var benchMarkTypes = BenchMarkTypeGenerator.GetAllTypes();
 
-            services.AddHttpClient("AzureLinuxCsharpClient",
-                client =>
-                {
-                    client.BaseAddress = new Uri(Environment.GetEnvironmentVariable("AzureLinuxCsharpUrl"));
-                    client.DefaultRequestHeaders.Add("x-functions-key", Environment.GetEnvironmentVariable("AzureLinuxCsharpKey"));
-                });            
-            
-            services.AddHttpClient("AzureWindowsNodejsClient",
-                client =>
-                {
-                    client.BaseAddress = new Uri(Environment.GetEnvironmentVariable("AzureWindowsNodejsUrl"));
-                    client.DefaultRequestHeaders.Add("x-functions-key", Environment.GetEnvironmentVariable("AzureWindowsNodejsKey"));
-                });
-            
-            services.AddHttpClient("AzureLinuxNodejsClient",
-                client =>
-                {
-                    client.BaseAddress = new Uri(Environment.GetEnvironmentVariable("AzureLinuxNodejsUrl"));
-                    client.DefaultRequestHeaders.Add("x-functions-key", Environment.GetEnvironmentVariable("AzureLinuxNodejsKey"));
-                });
-
-            services.AddHttpClient("FirebaseLinuxNodejsClient",
-                client =>
-                {
-                    client.BaseAddress = new Uri(Environment.GetEnvironmentVariable("FirebaseLinuxNodejsUrl"));
-                });
-
+            foreach (var benchMarkType in benchMarkTypes)
+            {
+                services.AddHttpClient(benchMarkType.ClientName,
+                   client =>
+                   {
+                       client.BaseAddress = new Uri(Environment.GetEnvironmentVariable(benchMarkType.UrlName));
+                       if (benchMarkType.SetXFunctionsKey)
+                       {
+                           client.DefaultRequestHeaders.Add("x-functions-key", Environment.GetEnvironmentVariable(benchMarkType.KeyName));
+                       }
+                   });
+            }
             return services;
         }
     }
