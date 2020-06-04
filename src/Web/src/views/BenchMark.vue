@@ -202,10 +202,6 @@ export default {
       this.isLoading = false;
     }
   },
-  mounted() {},
-  async beforeMount() {
-    await this.loadEnvironment(this.benchmarkOptions[0]);
-  }
 };
 </script>
 <style>
