@@ -18,11 +18,13 @@ namespace CloudRepublic.BenchMark.API.Helpers
             var dataPointsPreviousDate = dataPoints.Where(c =>
                 c.CreatedAt.Date == currentDate - TimeSpan.FromDays(1));
 
-            var currentDateMedian =
-                Math.Round(dataPointsCurrentDate.Select(c => Convert.ToDouble(c.RequestDuration)).Median(), 0);
+            var currentDateMedian = dataPointsCurrentDate.Any()
+                ? Math.Round(dataPointsCurrentDate.Select(c => Convert.ToDouble(c.RequestDuration)).Median(), 0)
+                : 0;
 
-            var medianPreviousDate =
-                Math.Round(dataPointsPreviousDate.Select(c => Convert.ToDouble(c.RequestDuration)).Median(), 0);
+            var medianPreviousDate = dataPointsPreviousDate.Any()
+                ? Math.Round(dataPointsPreviousDate.Select(c => Convert.ToDouble(c.RequestDuration)).Median(), 0)
+                : 0;
 
             return new BenchmarkMedians()
             {

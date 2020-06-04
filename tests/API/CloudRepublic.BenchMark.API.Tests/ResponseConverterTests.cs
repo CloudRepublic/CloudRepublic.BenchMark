@@ -7,7 +7,7 @@ using Xunit;
 
 namespace CloudRepublic.BenchMark.API.Tests
 {
-    public class InfrastructureTests
+    public class ResponseConverterTests
     {
         [Fact]
         public void ConvertBenchMarkResult_Should_Set_RequestData_Into_BenchMarkData()

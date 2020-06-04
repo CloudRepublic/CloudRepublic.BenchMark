@@ -10,7 +10,7 @@ namespace CloudRepublic.BenchMark.API.Models
         {
             get
             {
-                return Math.Round(((CurrentDay - PreviousDay) / Math.Abs(CurrentDay)) * 100, 2);
+                return CurrentDay == 0 ? 0 : Math.Round(((CurrentDay - PreviousDay) / Math.Abs(CurrentDay)) * 100, 2);
             }
         }
     }
