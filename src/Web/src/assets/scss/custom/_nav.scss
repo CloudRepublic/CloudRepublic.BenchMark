@@ -5,3 +5,11 @@
 
 @import "../core/navs/nav";
 @import "../core/navs/nav-pills";
+
+
+.nav-fill {
+    .nav-item{
+        flex: none;
+        margin-bottom: 5px;
+    }
+} 
