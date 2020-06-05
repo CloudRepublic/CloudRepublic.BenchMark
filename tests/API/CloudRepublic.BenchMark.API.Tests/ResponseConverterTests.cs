@@ -26,9 +26,9 @@ namespace CloudRepublic.BenchMark.API.Tests
             {
                 new BenchMarkResult()
                 {
-                    CloudProvider = (int) cloudProvider,
-                    HostingEnvironment = (int) hostingEnvironment,
-                    Runtime = (int) runtime,
+                    CloudProvider = cloudProvider,
+                    HostingEnvironment = hostingEnvironment,
+                    Runtime = runtime,
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                 },
             };
@@ -63,30 +63,30 @@ namespace CloudRepublic.BenchMark.API.Tests
             {
                 new BenchMarkResult()
                 {
-                    CloudProvider =  (int)CloudProvider.Firebase,
-                    HostingEnvironment = (int) HostEnvironment.Linux,
-                    Runtime = (int) Runtime.Java,
+                    CloudProvider =  CloudProvider.Firebase,
+                    HostingEnvironment =  HostEnvironment.Linux,
+                    Runtime =  Runtime.Java,
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                 },
                 new BenchMarkResult()
                 {
-                    CloudProvider = (int)CloudProvider.Azure, // different than the main
-                    HostingEnvironment = (int) HostEnvironment.Windows,
-                    Runtime = (int) Runtime.Csharp,
+                    CloudProvider = CloudProvider.Azure, // different than the main
+                    HostingEnvironment =  HostEnvironment.Windows,
+                    Runtime =  Runtime.Csharp,
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                 },
                 new BenchMarkResult()
                 {
-                    CloudProvider = (int)CloudProvider.Azure, // different than the main
-                    HostingEnvironment = (int) HostEnvironment.Windows,
-                    Runtime = (int) Runtime.Csharp,
+                    CloudProvider = CloudProvider.Azure, // different than the main
+                    HostingEnvironment =  HostEnvironment.Windows,
+                    Runtime =  Runtime.Csharp,
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                 },
                 new BenchMarkResult()
                 {
-                    CloudProvider = (int)CloudProvider.Azure, // different than the main
-                    HostingEnvironment = (int) HostEnvironment.Windows,
-                    Runtime = (int) Runtime.Csharp,
+                    CloudProvider = CloudProvider.Azure, // different than the main
+                    HostingEnvironment =  HostEnvironment.Windows,
+                    Runtime =  Runtime.Csharp,
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                 },
             };
@@ -121,9 +121,9 @@ namespace CloudRepublic.BenchMark.API.Tests
             {
                 new BenchMarkResult()
                 {
-                    CloudProvider =  -1, // does not exist on enum
-                    HostingEnvironment =100, // does not exist on enum
-                    Runtime = 789, // does not exist on enum
+                    CloudProvider =  (CloudProvider)(-1) , // does not exist on enum
+                    HostingEnvironment =(HostEnvironment)100, // does not exist on enum
+                    Runtime = (Runtime)789, // does not exist on enum
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                 },
             };

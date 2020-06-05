@@ -4,9 +4,6 @@ using CloudRepublic.BenchMark.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CloudProvider = CloudRepublic.BenchMark.Domain.Enums.CloudProvider;
-using HostingEnvironment = CloudRepublic.BenchMark.Domain.Enums.HostEnvironment;
-using Runtime = CloudRepublic.BenchMark.Domain.Enums.Runtime;
 
 namespace CloudRepublic.BenchMark.API.Infrastructure
 {
@@ -17,10 +14,9 @@ namespace CloudRepublic.BenchMark.API.Infrastructure
 
             var benchmarkData = new BenchMarkData()
             {
-                CloudProvider = Enum.ToObject(typeof(CloudProvider), resultDataPoints.First().CloudProvider).ToString(),
-                HostingEnvironment =
-                    Enum.ToObject(typeof(HostingEnvironment), resultDataPoints.First().HostingEnvironment).ToString(),
-                Runtime = Enum.ToObject(typeof(Runtime), resultDataPoints.First().Runtime).ToString()
+                CloudProvider = resultDataPoints.First().CloudProvider.ToString(),
+                HostingEnvironment = resultDataPoints.First().HostingEnvironment.ToString(),
+                Runtime = resultDataPoints.First().Runtime.ToString()
             };
 
             var currentDate = resultDataPoints.OrderByDescending(c => c.CreatedAt).First().CreatedAt.Date;
