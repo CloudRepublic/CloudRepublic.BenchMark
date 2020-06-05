@@ -14,7 +14,7 @@ namespace CloudRepublic.BenchMark.API
     {
         public override void Configure(IFunctionsHostBuilder builder)
         {
-            builder.Services.AddTransient<IDbConnection>(c=> new SqlConnection(Environment.GetEnvironmentVariable("BenchMarkDatabase")));
+            builder.Services.AddTransient<IDbConnection>(c => new SqlConnection(Environment.GetEnvironmentVariable("BenchMarkDatabase")));
             builder.Services.AddTransient<IBenchMarkResultService, BenchMarkResultService>();
 
             builder.Services.AddSingleton<IResponseConverter, ResponseConverter>();

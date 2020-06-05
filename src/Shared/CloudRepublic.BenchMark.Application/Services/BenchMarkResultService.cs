@@ -30,8 +30,10 @@ namespace CloudRepublic.BenchMark.Application.Services
                 "SELECT * FROM [dbo].[BenchMarkResult] WHERE CloudProvider=@CloudProvider AND HostingEnvironment=@HostingEnvironment AND Runtime=@Runtime AND  CreatedAt >= DATEADD(DAY,-@DayRange,GETDATE()) order by CreatedAt",
                 new
                 {
-                    CloudProvider = (int) parsedCloudProvider, HostingEnvironment = (int) parsedHostingEnvironment,
-                    Runtime = (int) parsedRuntime, DayRange = dayRange
+                    CloudProvider = (int) parsedCloudProvider, 
+                    HostingEnvironment = (int) parsedHostingEnvironment,
+                    Runtime = (int) parsedRuntime, 
+                    DayRange = dayRange
                 });
 
             return results.ToList();

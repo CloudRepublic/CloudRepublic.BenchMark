@@ -8,12 +8,12 @@ using Xunit;
 
 namespace CloudRepublic.BenchMark.SampleFunction.Tests
 {
-    public class FunctionTests
+    public class TriggerTests
     {
         private readonly ILogger _logger = TestFactory.CreateLogger();
 
         [Fact]
-        public async Task FunctionShouldReturnProvidedName()
+        public async Task Run_Should_Return_Provided_Name()
         {
             #region Arrange
 
