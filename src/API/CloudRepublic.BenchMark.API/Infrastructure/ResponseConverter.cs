@@ -29,13 +29,13 @@ namespace CloudRepublic.BenchMark.API.Infrastructure
             var coldDataPoints = resultDataPoints.Where(c => c.IsColdRequest).ToList();
             var coldMedians = MedianCalculator.Calculate(currentDate, coldDataPoints);
             benchmarkData.ColdMedianExecutionTime = coldMedians.CurrentDay;
-            benchmarkData.ColdPreviousDayDifference = coldMedians.Difference;
+            benchmarkData.ColdPreviousDayDifference = coldMedians.DifferencePercentage;
             benchmarkData.ColdPreviousDayPositive = benchmarkData.ColdPreviousDayDifference < 0;
 
             var warmDataPoints = resultDataPoints.Where(c => !c.IsColdRequest).ToList();
             var warmMedians = MedianCalculator.Calculate(currentDate, warmDataPoints);
             benchmarkData.WarmMedianExecutionTime = warmMedians.CurrentDay;
-            benchmarkData.WarmPreviousDayDifference = warmMedians.Difference;
+            benchmarkData.WarmPreviousDayDifference = warmMedians.DifferencePercentage;
             benchmarkData.WarmPreviousDayPositive = benchmarkData.WarmPreviousDayDifference < 0;
 
 

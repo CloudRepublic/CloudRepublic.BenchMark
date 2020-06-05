@@ -6,7 +6,7 @@ namespace CloudRepublic.BenchMark.API.Models
     {
         public double CurrentDay;
         public double PreviousDay;
-        public double Difference
+        public double DifferencePercentage
         {
             get
             {

@@ -148,7 +148,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             #endregion
         }
         [Fact]
-        public void ResponseConverter_Throws_InvalidOperationException_when_No_Results_Given()
+        public void ConvertBenchMarkResult_Throws_InvalidOperationException_when_No_Results_Given()
         {
             #region Arrange
 
@@ -165,7 +165,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             #endregion
         }
         [Fact]
-        public void ResponseConverter_Should_Convert_BenchMarkResult_Date_With_The_Enviroment_DataRange_Into_DataPoints_Regardless_Of_Cold_Or_Warm_Status()
+        public void ConvertBenchMarkResult_Should_Convert_BenchMarkResult_Date_With_The_Enviroment_DataRange_Into_DataPoints_Regardless_Of_Cold_Or_Warm_Status()
         {
             #region Arrange
 
@@ -200,7 +200,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             #endregion
         }
         [Fact]
-        public void ResponseConverter_Should_Add_BenchMarkResult_DataRows_Into_DataPoints_By_Cold_Or_Warm_Status()
+        public void ConvertBenchMarkResult_Should_Add_BenchMarkResult_DataRows_Into_DataPoints_By_Cold_Or_Warm_Status()
         {
             #region Arrange
 
@@ -254,7 +254,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             #endregion
         }
         [Fact]
-        public void ResponseConverter_Should_Add_BenchMarkResult_DataRows_Into_DataPoints_By_Cold_Status()
+        public void ConvertBenchMarkResult_Should_Add_BenchMarkResult_DataRows_Into_DataPoints_By_Cold_Status()
         {
             #region Arrange
 
@@ -303,7 +303,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             #endregion
         }
         [Fact]
-        public void ResponseConverter_Should_Add_BenchMarkResult_DataRows_Into_DataPoints_By_Warm_Status()
+        public void ConvertBenchMarkResult_Should_Add_BenchMarkResult_DataRows_Into_DataPoints_By_Warm_Status()
         {
             #region Arrange
 
@@ -354,7 +354,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             #endregion
         }
         [Fact]
-        public void ResponseConverter_Should_Calculate_Correct_Medians_By_Warm_Status()
+        public void ConvertBenchMarkResult_Should_Calculate_Correct_Medians_By_Warm_Status()
         {
             #region Arrange
 
@@ -423,7 +423,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             #endregion
         }
         [Fact]
-        public void ResponseConverter_Should_Calculate_Correct_Medians_By_Cold_Status()
+        public void ConvertBenchMarkResult_Should_Calculate_Correct_Medians_By_Cold_Status()
         {
             #region Arrange
 

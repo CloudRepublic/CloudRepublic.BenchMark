@@ -36,7 +36,7 @@ namespace CloudRepublic.BenchMark.API
             if (!hostingEnvironment.Any()) return new BadRequestResult();
             
             var runtime = req.Query["runtime"];
-            if(!hostingEnvironment.Any()) return new BadRequestResult();
+            if(!runtime.Any()) return new BadRequestResult();
             
             var benchMarkDataPoints =
                 await _benchMarkResultService.GetBenchMarkResults(cloudProvider.First(),hostingEnvironment.First(),runtime.First(),
