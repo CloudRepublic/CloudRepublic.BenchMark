@@ -61,6 +61,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Fsharp", "Fsharp", "{4A2859
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "CloudRepublic.BenchMark.SampleFunction", "src\Azure\Fsharp\CloudRepublic.BenchMark.SampleFunction\CloudRepublic.BenchMark.SampleFunction.fsproj", "{6274C4EF-8FEA-400C-990A-52E98F7793FC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Orchestrator", "Orchestrator", "{5B70698A-1EB4-4A41-A1E8-DA6A87EEEB62}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudRepublic.BenchMark.Orchestrator.Tests", "tests\Orchestrator\CloudRepublic.BenchMark.Orchestrator.Tests\CloudRepublic.BenchMark.Orchestrator.Tests.csproj", "{FBE92687-0D62-4E72-9248-0A3907E1DA14}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +115,10 @@ Global
 		{6274C4EF-8FEA-400C-990A-52E98F7793FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6274C4EF-8FEA-400C-990A-52E98F7793FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6274C4EF-8FEA-400C-990A-52E98F7793FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBE92687-0D62-4E72-9248-0A3907E1DA14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBE92687-0D62-4E72-9248-0A3907E1DA14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBE92687-0D62-4E72-9248-0A3907E1DA14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBE92687-0D62-4E72-9248-0A3907E1DA14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -143,6 +151,8 @@ Global
 		{443E8E35-9FB3-48FA-A44C-74A5CBFB6F91} = {F7832929-3391-4337-AE76-9DEEC0B89DC1}
 		{4A28597F-F3EB-4F7A-BA48-CDA787BDF843} = {F7832929-3391-4337-AE76-9DEEC0B89DC1}
 		{6274C4EF-8FEA-400C-990A-52E98F7793FC} = {4A28597F-F3EB-4F7A-BA48-CDA787BDF843}
+		{5B70698A-1EB4-4A41-A1E8-DA6A87EEEB62} = {3D4FD3F0-1F1F-4B24-B6B7-B73C8A0385FA}
+		{FBE92687-0D62-4E72-9248-0A3907E1DA14} = {5B70698A-1EB4-4A41-A1E8-DA6A87EEEB62}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0580A24C-4FAC-46B1-8BAA-78D167E4D0AF}

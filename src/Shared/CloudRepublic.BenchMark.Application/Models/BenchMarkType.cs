@@ -21,16 +21,5 @@ namespace CloudRepublic.BenchMark.Application.Models
         /// Whether an x-functions-key with the Keyname will be added to the Http client default request
         /// </summary>
         public bool SetXFunctionsKey { get; set; } = true;
-
-
-        /*
-                public BenchMarkType() { }
-                public BenchMarkType(CloudProvider cloudProvider, HostEnvironment hostEnvironment, Runtime runtime, string name = "")
-                {
-                    CloudProvider = cloudProvider;
-                    HostEnvironment = hostEnvironment;
-                    Runtime = runtime;
-                    Name = name;
-                }*/
     }
 }
