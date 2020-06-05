@@ -21,6 +21,7 @@ namespace CloudRepublic.BenchMark.Orchestrator
 
             builder.Services.AddTransient<IBenchMarkService, BenchMarkService>();
             builder.Services.AddTransient<IBenchMarkTypeService, BenchMarkTypeService>();
+            
 
             builder.Services.AddBenchMarkClients();
         }

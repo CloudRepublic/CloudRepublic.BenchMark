@@ -8,7 +8,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Infrastructure
 {
     public static class ResultConverter
     {
-        public static IEnumerable<BenchMarkResult> ConvertToResultObject(
+        public static List<BenchMarkResult> ConvertToResultObject(
             IEnumerable<BenchMarkResponse> benchMarkResponses,
             BenchMarkType benchMarkType, bool isColdRequest)
         {
