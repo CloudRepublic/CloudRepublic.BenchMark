@@ -12,10 +12,12 @@ namespace CloudRepublic.BenchMark.Orchestrator.Infrastructure
     public class BenchMarkTypeService : IBenchMarkTypeService
     {
         private readonly IBenchMarkService _benchMarkService;
+        private readonly BenchMarkDbContext _dbContext;
 
-        public BenchMarkTypeService(IBenchMarkService benchMarkService)
+        public BenchMarkTypeService(IBenchMarkService benchMarkService, BenchMarkDbContext dbContext)
         {
             _benchMarkService = benchMarkService;
+            _dbContext = dbContext;
         }
 
 
@@ -59,17 +61,17 @@ namespace CloudRepublic.BenchMark.Orchestrator.Infrastructure
 
         public async Task StoreBenchMarkResultsAsync(IEnumerable<BenchMarkResult> results)
         {
-            var connectionString = Environment.GetEnvironmentVariable("BenchMarkDatabase");
-
-            using (var dbContext = BenchMarkDbContextFactory.Create(connectionString))
+            if (!results.Any())
             {
-                foreach (var result in results)
-                {
-                    dbContext.BenchMarkResult.Add(result);
-                }
-
-                await dbContext.SaveChangesAsync();
+                return;
             }
+
+            foreach (var result in results)
+            {
+                _dbContext.BenchMarkResult.Add(result);
+            }
+
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

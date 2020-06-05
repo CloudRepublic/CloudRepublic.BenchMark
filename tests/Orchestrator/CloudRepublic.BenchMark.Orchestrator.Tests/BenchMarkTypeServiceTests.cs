@@ -4,10 +4,12 @@ using CloudRepublic.BenchMark.Domain.Entities;
 using CloudRepublic.BenchMark.Domain.Enums;
 using CloudRepublic.BenchMark.Orchestrator.Infrastructure;
 using CloudRepublic.BenchMark.Persistence;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -28,7 +30,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
         {
             #region Arrange
 
-            var testService = new BenchMarkTypeService(null);
+            var testService = new BenchMarkTypeService(null, null);
 
             #endregion
 
@@ -72,7 +74,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
             #region Arrange
 
 
-            var testService = new BenchMarkTypeService(null);
+            var testService = new BenchMarkTypeService(null, null);
 
             #endregion
 
@@ -97,7 +99,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
             #region Arrange
 
             var benchMarks = new List<BenchMarkType>();
-            var testService = new BenchMarkTypeService(null);
+            var testService = new BenchMarkTypeService(null, null);
 
             #endregion
 
@@ -130,7 +132,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
             var benchMarkResponse = new BenchMarkResponse(true, 1);
             _mockIBenchMarkService.Setup(service => service.RunBenchMark(It.IsAny<BenchMarkType>())).ReturnsAsync(benchMarkResponse);
 
-            var testService = new BenchMarkTypeService(_mockIBenchMarkService.Object);
+            var testService = new BenchMarkTypeService(_mockIBenchMarkService.Object, null);
 
             #endregion
 
@@ -164,7 +166,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
             var benchMarkResponse = new BenchMarkResponse(true, 1);
             _mockIBenchMarkService.Setup(service => service.RunBenchMark(It.IsAny<BenchMarkType>())).ReturnsAsync(benchMarkResponse);
 
-            var testService = new BenchMarkTypeService(_mockIBenchMarkService.Object);
+            var testService = new BenchMarkTypeService(_mockIBenchMarkService.Object, null);
 
             #endregion
 
@@ -199,7 +201,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
             var benchMarkResponse = new BenchMarkResponse(true, 1);
             _mockIBenchMarkService.Setup(service => service.RunBenchMark(It.IsAny<BenchMarkType>())).ReturnsAsync(benchMarkResponse);
 
-            var testService = new BenchMarkTypeService(_mockIBenchMarkService.Object);
+            var testService = new BenchMarkTypeService(_mockIBenchMarkService.Object, null);
 
             #endregion
 
@@ -234,7 +236,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
             var benchMarkResponse = new BenchMarkResponse(true, 1);
             _mockIBenchMarkService.Setup(service => service.RunBenchMark(It.IsAny<BenchMarkType>())).ReturnsAsync(benchMarkResponse);
 
-            var testService = new BenchMarkTypeService(_mockIBenchMarkService.Object);
+            var testService = new BenchMarkTypeService(_mockIBenchMarkService.Object, null);
 
             #endregion
 
@@ -276,7 +278,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
             var benchMarkResponse = new BenchMarkResponse(true, 1);
             _mockIBenchMarkService.Setup(service => service.RunBenchMark(It.IsAny<BenchMarkType>())).ReturnsAsync(benchMarkResponse);
 
-            var testService = new BenchMarkTypeService(_mockIBenchMarkService.Object);
+            var testService = new BenchMarkTypeService(_mockIBenchMarkService.Object, null);
 
             #endregion
 
@@ -332,7 +334,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
             var benchMarkResponse = new BenchMarkResponse(true, 567);
             _mockIBenchMarkService.Setup(service => service.RunBenchMark(It.IsAny<BenchMarkType>())).ReturnsAsync(benchMarkResponse);
 
-            var testService = new BenchMarkTypeService(_mockIBenchMarkService.Object);
+            var testService = new BenchMarkTypeService(_mockIBenchMarkService.Object, null);
 
             #endregion
 
@@ -366,23 +368,14 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
 
 
         [Fact]
-        public async Task StoreBenchMarkResultsAsync_Should_Return()
+        public async Task StoreBenchMarkResultsAsync_Should_Return_When_No_Results_and_Not_Call_DbContext()
         {
             #region Arrange
 
-            var benchMarkResults = new List<BenchMarkResult>()
-            {
-                new BenchMarkResult()
-                {
+            var benchMarkResults = new List<BenchMarkResult>();
+            var mockDbContext = new Mock<BenchMarkDbContext>();
 
-                }
-            };
-
-            Environment.SetEnvironmentVariable("BenchMarkDatabase", "w");
-
-
-
-            var testService = new BenchMarkTypeService(null);
+            var testService = new BenchMarkTypeService(null, mockDbContext.Object);
 
             #endregion
 
@@ -393,6 +386,79 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
             #endregion
 
             #region Assert
+
+            mockDbContext.Verify(dbContext => dbContext.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
+
+            #endregion
+        }
+        [Fact]
+        public async Task StoreBenchMarkResultsAsync_Should_Add_Each_Result()
+        {
+            #region Arrange
+
+            var sourceList = new List<BenchMarkResult>()
+            {
+            };
+
+            var mockDbContext = new Mock<BenchMarkDbContext>();
+            var mockedDbSet = new Mock<DbSet<BenchMarkResult>>();
+            mockedDbSet.Setup(d => d.Add(It.IsAny<BenchMarkResult>())).Callback<BenchMarkResult>((s) => sourceList.Add(s));
+            mockDbContext.Setup(dbContext => dbContext.BenchMarkResult).Returns(mockedDbSet.Object);
+
+            var benchMarkResults = new List<BenchMarkResult>()
+            {
+                 new BenchMarkResult(),
+                 new BenchMarkResult(),
+                 new BenchMarkResult(),
+                 new BenchMarkResult(),
+            };
+
+            var testService = new BenchMarkTypeService(null, mockDbContext.Object);
+
+            #endregion
+
+            #region Act
+
+            await testService.StoreBenchMarkResultsAsync(benchMarkResults);
+
+            #endregion
+
+            #region Assert
+            Assert.Equal(4, sourceList.Count);
+            mockDbContext.Verify(dbContext => dbContext.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+
+            #endregion
+        }
+        [Fact]
+        public async Task StoreBenchMarkResultsAsync_Should_SaveChangesAsync_Once()
+        {
+            #region Arrange
+
+            var sourceList = new List<BenchMarkResult>();
+
+            var mockDbContext = new Mock<BenchMarkDbContext>();
+            var mockedDbSet = new Mock<DbSet<BenchMarkResult>>();
+            mockedDbSet.Setup(d => d.Add(It.IsAny<BenchMarkResult>())).Callback<BenchMarkResult>((s) => sourceList.Add(s));
+            mockDbContext.Setup(dbContext => dbContext.BenchMarkResult).Returns(mockedDbSet.Object);
+
+            var benchMarkResults = new List<BenchMarkResult>()
+            {
+                 new BenchMarkResult()
+            };
+
+            var testService = new BenchMarkTypeService(null, mockDbContext.Object);
+
+            #endregion
+
+            #region Act
+
+            await testService.StoreBenchMarkResultsAsync(benchMarkResults);
+
+            #endregion
+
+            #region Assert
+
+            mockDbContext.Verify(dbContext => dbContext.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
 
 
             #endregion

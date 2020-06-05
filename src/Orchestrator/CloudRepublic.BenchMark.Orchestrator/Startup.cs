@@ -16,12 +16,13 @@ namespace CloudRepublic.BenchMark.Orchestrator
     {
         public override void Configure(IFunctionsHostBuilder builder)
         {
-            builder.Services.AddDbContext<IBenchMarkDbContext, BenchMarkDbContext>(options =>
+            builder.Services.AddDbContext<BenchMarkDbContext>(options =>
                 options.UseSqlServer(Environment.GetEnvironmentVariable("BenchMarkDatabase")));
 
             builder.Services.AddTransient<IBenchMarkService, BenchMarkService>();
             builder.Services.AddTransient<IBenchMarkTypeService, BenchMarkTypeService>();
-            
+
+
 
             builder.Services.AddBenchMarkClients();
         }

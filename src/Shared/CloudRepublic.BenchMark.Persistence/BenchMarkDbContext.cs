@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CloudRepublic.BenchMark.Persistence
 {
-    public partial class BenchMarkDbContext : DbContext,IBenchMarkDbContext
+    public partial class BenchMarkDbContext : DbContext //,IBenchMarkDbContext
     {
         public BenchMarkDbContext()
         {
