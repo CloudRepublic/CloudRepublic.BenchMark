@@ -39,7 +39,46 @@ namespace CloudRepublic.BenchMark.API.Tests
         }
 
         [Fact]
-        public void ConvertBenchMarkResult_Should_Return_Empty_Medians_On_No_results_of_Today_Or_Yesterday()
+        public void ConvertBenchMarkResult_Should_Return_Empty_Medians_On_No_results_of_GivenDate_Or_DateBefore_GivenDate()
+        {
+            #region Arrange
+
+            var currentDate = new DateTime(2020, 2, 12);
+
+            var benchMarkResults = new List<BenchMarkResult>()
+            {
+                new BenchMarkResult()
+                {
+                    RequestDuration = 11,
+                    CreatedAt = new DateTimeOffset(new DateTime(2020,2,13)), // tomorrow
+                },
+                new BenchMarkResult()
+                {
+                    RequestDuration = 200,
+                    CreatedAt = new DateTimeOffset(new DateTime(2020,2,10)), // not yesterday but before
+                },
+            };
+
+            #endregion
+
+            #region Act
+
+            var benchMarkData = MedianCalculator.Calculate(currentDate, benchMarkResults);
+
+            #endregion
+
+            #region Assert
+
+            Assert.NotNull(benchMarkData);
+            Assert.Equal(0, benchMarkData.CurrentDay);
+            Assert.Equal(0, benchMarkData.PreviousDay);
+            Assert.Equal(0, benchMarkData.Difference); // for the difference an divide by currentday exists so make so it doesnt crash ;)
+
+            #endregion
+        }
+
+        [Fact]
+        public void ConvertBenchMarkResult_Should_Return_Empty_Medians_On_No_results_of_GivenDate_Or_DateBefore_GivenDate()
         {
             #region Arrange
 

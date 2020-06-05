@@ -16,7 +16,7 @@ namespace CloudRepublic.BenchMark.API.Helpers
                 dataPoints.Where(c => c.CreatedAt.Date == currentDate.Date);
 
             var dataPointsPreviousDate = dataPoints.Where(c =>
-                c.CreatedAt.Date == currentDate - TimeSpan.FromDays(1));
+                c.CreatedAt.Date == (currentDate - TimeSpan.FromDays(1)).Date);
 
             var currentDateMedian = dataPointsCurrentDate.Any()
                 ? Math.Round(dataPointsCurrentDate.Select(c => Convert.ToDouble(c.RequestDuration)).Median(), 0)
