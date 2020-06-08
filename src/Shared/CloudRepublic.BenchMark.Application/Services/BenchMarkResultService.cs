@@ -22,9 +22,8 @@ namespace CloudRepublic.BenchMark.Application.Services
         public async Task<List<BenchMarkResult>> GetBenchMarkResults(CloudProvider cloudProvider,
             HostEnvironment hostingEnvironment, Runtime runtime, int dayRange)
         {
-            var results = new List<BenchMarkResult>();
 
-            var xx = await _dbContext.BenchMarkResult
+            var results = await _dbContext.BenchMarkResult
                 .Where(result => result.CloudProvider == cloudProvider)
                 .Where(result => result.HostingEnvironment == hostingEnvironment)
                 .Where(result => result.Runtime == runtime)
