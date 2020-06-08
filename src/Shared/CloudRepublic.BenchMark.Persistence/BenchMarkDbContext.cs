@@ -22,10 +22,6 @@ namespace CloudRepublic.BenchMark.Persistence
 
             modelBuilder.Entity<BenchMarkResult>(entity =>
             {
-                entity.HasKey(e => e.Id)
-                    .HasName("BenchMarkResults_pk")
-                    .ForSqlServerIsClustered(false);
-
                 entity.HasIndex(e => e.CreatedAt)
                     .HasName("BenchMarkResults__CreatedAt_index");
 
