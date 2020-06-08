@@ -1,5 +1,7 @@
+using CloudRepublic.BenchMark.API.Helpers;
 using CloudRepublic.BenchMark.API.Infrastructure;
 using CloudRepublic.BenchMark.Application.Interfaces;
+using CloudRepublic.BenchMark.Domain.Enums;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -27,20 +29,21 @@ namespace CloudRepublic.BenchMark.API
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            string cloudProvider = req.Query["cloudProvider"];
-            string hostingEnvironment = req.Query["hostingEnvironment"];
-            string runtime = req.Query["runtime"];
-            var dayRange = Convert.ToInt32(Environment.GetEnvironmentVariable("dayRange"));
-
-            if (cloudProvider == null || hostingEnvironment == null || runtime == null)
+            EnumFromString<CloudProvider> cloudProvider = new EnumFromString<CloudProvider>(req.Query["cloudProvider"]);
+            EnumFromString<HostEnvironment> hostingEnvironment = new EnumFromString<HostEnvironment>(req.Query["hostingEnvironment"]);
+            EnumFromString<Runtime> runtime = new EnumFromString<Runtime>(req.Query["runtime"]);
+            if (!cloudProvider.ParsedSuccesfull || !hostingEnvironment.ParsedSuccesfull || !runtime.ParsedSuccesfull)
             {
                 return new BadRequestResult();
             }
 
+            var dayRange = Convert.ToInt32(Environment.GetEnvironmentVariable("dayRange"));
+
+
             var benchMarkDataPoints = await _benchMarkResultService.GetBenchMarkResults(
-                    cloudProvider,
-                    hostingEnvironment,
-                    runtime,
+                    cloudProvider.Value,
+                    hostingEnvironment.Value,
+                    runtime.Value,
                     dayRange
                     );
 

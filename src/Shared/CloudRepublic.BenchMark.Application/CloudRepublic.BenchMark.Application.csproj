@@ -18,6 +18,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\CloudRepublic.BenchMark.Domain\CloudRepublic.BenchMark.Domain.csproj" />
+      <ProjectReference Include="..\CloudRepublic.BenchMark.Persistence\CloudRepublic.BenchMark.Persistence.csproj" />
     </ItemGroup>
 
 </Project>

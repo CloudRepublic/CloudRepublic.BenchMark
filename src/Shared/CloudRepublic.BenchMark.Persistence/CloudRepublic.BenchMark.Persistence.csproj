@@ -10,7 +10,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\CloudRepublic.BenchMark.Application\CloudRepublic.BenchMark.Application.csproj" />
       <ProjectReference Include="..\CloudRepublic.BenchMark.Domain\CloudRepublic.BenchMark.Domain.csproj" />
     </ItemGroup>
 

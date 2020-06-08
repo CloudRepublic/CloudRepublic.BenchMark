@@ -1,7 +1,9 @@
 using CloudRepublic.BenchMark.API.Infrastructure;
 using CloudRepublic.BenchMark.Application.Interfaces;
 using CloudRepublic.BenchMark.Application.Services;
+using CloudRepublic.BenchMark.Persistence;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Data;
@@ -14,7 +16,9 @@ namespace CloudRepublic.BenchMark.API
     {
         public override void Configure(IFunctionsHostBuilder builder)
         {
-            builder.Services.AddTransient<IDbConnection>(c => new SqlConnection(Environment.GetEnvironmentVariable("BenchMarkDatabase")));
+            builder.Services.AddDbContext<BenchMarkDbContext>(options =>
+                options.UseSqlServer(Environment.GetEnvironmentVariable("BenchMarkDatabase")));
+
             builder.Services.AddTransient<IBenchMarkResultService, BenchMarkResultService>();
 
             builder.Services.AddSingleton<IResponseConverter, ResponseConverter>();

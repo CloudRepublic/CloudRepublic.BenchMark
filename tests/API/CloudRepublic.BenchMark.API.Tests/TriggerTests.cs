@@ -2,6 +2,7 @@ using CloudRepublic.BenchMark.API.Infrastructure;
 using CloudRepublic.BenchMark.API.Models;
 using CloudRepublic.BenchMark.Application.Interfaces;
 using CloudRepublic.BenchMark.Domain.Entities;
+using CloudRepublic.BenchMark.Domain.Enums;
 using CloudRepublic.BenchMark.Tests.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -11,6 +12,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
+using CloudProvider = CloudRepublic.BenchMark.Domain.Enums.CloudProvider;
+using Runtime = CloudRepublic.BenchMark.Domain.Enums.Runtime;
 
 namespace CloudRepublic.BenchMark.API.Tests
 {
@@ -106,6 +109,112 @@ namespace CloudRepublic.BenchMark.API.Tests
             #endregion
         }
 
+        [Theory]
+        [InlineData(null)] // parameter is given, but no value
+        [InlineData("")] // parameter is given, but no value
+        [InlineData(" ")] // parameter is given, but whitespace value
+        [InlineData("        ")]// parameter is given, but whitespace value
+        [InlineData("INVALID CLOUDPROVIDER VALUE")]// parameter is given, but invalid name value
+        [InlineData("-1")] // parameter is given, but out of range number value
+        [InlineData("17")] // parameter is given, but out of range number value
+        public async Task Run_Should_Return_BadRequest_When_Invalid_CloudProvider_argument_given(string argumentValue)
+        {
+            #region Arrange
+
+            var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
+
+            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()                {
+                {"cloudProvider", argumentValue},
+                {"hostingEnvironment", "Windows"},
+                {"runtime", "Csharp"},
+            });
+
+            #endregion
+
+            #region Act
+
+            var response = await trigger.Run(request, _logger);
+
+            #endregion
+
+            #region Assert
+
+            Assert.IsType<BadRequestResult>(response);
+
+            #endregion
+        }
+
+
+        [Theory]
+        [InlineData(null)] // parameter is given, but no value
+        [InlineData("")] // parameter is given, but no value
+        [InlineData(" ")] // parameter is given, but whitespace value
+        [InlineData("        ")]// parameter is given, but whitespace value
+        [InlineData("INVALID HOSTINGENVIRONMENT VALUE")]// parameter is given, but invalid name value
+        [InlineData("-1")] // parameter is given, but out of range number value
+        [InlineData("17")] // parameter is given, but out of range number value
+        public async Task Run_Should_Return_BadRequest_When_Invalid_HostingEnvironment_argument_given(string argumentValue)
+        {
+            #region Arrange
+
+            var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
+
+            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()                {
+                {"cloudProvider", "Azure"},
+                {"hostingEnvironment", argumentValue},
+                {"runtime", "Csharp"},
+            });
+
+            #endregion
+
+            #region Act
+
+            var response = await trigger.Run(request, _logger);
+
+            #endregion
+
+            #region Assert
+
+            Assert.IsType<BadRequestResult>(response);
+
+            #endregion
+        }
+
+
+        [Theory]
+        [InlineData(null)] // parameter is given, but no value
+        [InlineData("")] // parameter is given, but no value
+        [InlineData(" ")] // parameter is given, but whitespace value
+        [InlineData("        ")]// parameter is given, but whitespace value
+        [InlineData("INVALID RUNTIME VALUE")]// parameter is given, but invalid name value
+        [InlineData("-1")] // parameter is given, but out of range number value
+        [InlineData("17")] // parameter is given, but out of range number value
+        public async Task Run_Should_Return_BadRequest_When_Invalid_runtime_argument_given(string argumentValue)
+        {
+            #region Arrange
+
+            var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
+
+            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()                {
+                {"cloudProvider", "Azure"},
+                {"hostingEnvironment", "Windows"},
+                {"runtime", argumentValue},
+            });
+
+            #endregion
+
+            #region Act
+
+            var response = await trigger.Run(request, _logger);
+
+            #endregion
+
+            #region Assert
+
+            Assert.IsType<BadRequestResult>(response);
+
+            #endregion
+        }
 
         [Fact]
         public async Task Run_Should_Call_BenchMarkResultService_With_QueryParameters()
@@ -115,7 +224,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             var benchMarkResults = new List<BenchMarkResult>();
 
             _mockBenchMarkResultService.Setup(c =>
-                    c.GetBenchMarkResults(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
+                    c.GetBenchMarkResults(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Runtime>(), It.IsAny<int>()))
                 .Returns(Task.FromResult(benchMarkResults));
 
             var sampleBenchMarkData = new BenchMarkData()
@@ -126,7 +235,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
             var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
-                {{"cloudProvider", "WolkLeverancier"}, {"hostingEnvironment", "GastHeringOmgeving"}, {"runtime", "RenTijd"}});
+                {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"runtime", "Fsharp"}});
 
             #endregion
 
@@ -139,9 +248,9 @@ namespace CloudRepublic.BenchMark.API.Tests
             #region Assert
 
             _mockBenchMarkResultService.Verify(service => service.GetBenchMarkResults(
-                It.Is<string>(cloudProvider => cloudProvider == "WolkLeverancier"),
-                It.Is<string>(hostingEnvironment => hostingEnvironment == "GastHeringOmgeving"),
-                It.Is<string>(runtime => runtime == "RenTijd"),
+                It.Is<CloudProvider>(cloudProvider => cloudProvider == CloudProvider.Firebase),
+                It.Is<HostEnvironment>(hostingEnvironment => hostingEnvironment == HostEnvironment.Linux),
+                It.Is<Runtime>(runtime => runtime == Runtime.Fsharp),
                 It.IsAny<int>()), Times.Once);
 
             #endregion
@@ -157,13 +266,13 @@ namespace CloudRepublic.BenchMark.API.Tests
             var benchMarkResults = new List<BenchMarkResult>();
 
             _mockBenchMarkResultService.Setup(c =>
-                    c.GetBenchMarkResults(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
+                    c.GetBenchMarkResults(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Runtime>(), It.IsAny<int>()))
                 .Returns(Task.FromResult(benchMarkResults));
 
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
             var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
-                {{"cloudProvider", ""}, {"hostingEnvironment", ""}, {"runtime", ""}});
+                {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"runtime", "Fsharp"}});
 
             #endregion
 
@@ -176,9 +285,9 @@ namespace CloudRepublic.BenchMark.API.Tests
             #region Assert
 
             _mockBenchMarkResultService.Verify(service => service.GetBenchMarkResults(
-                It.IsAny<string>(),
-                It.IsAny<string>(),
-                It.IsAny<string>(),
+                It.IsAny<CloudProvider>(),
+                It.IsAny<HostEnvironment>(),
+                It.IsAny<Runtime>(),
                 It.Is<int>(dayRange => dayRange == 99)), Times.Once);
 
             #endregion
@@ -193,12 +302,12 @@ namespace CloudRepublic.BenchMark.API.Tests
             var benchMarkResults = new List<BenchMarkResult>();
 
             _mockBenchMarkResultService.Setup(c =>
-                    c.GetBenchMarkResults(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
+                    c.GetBenchMarkResults(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Runtime>(), It.IsAny<int>()))
                 .Returns(Task.FromResult(benchMarkResults));
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
             var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
-                {{"cloudProvider", ""}, {"hostingEnvironment", ""}, {"runtime", ""}});
+                {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"runtime", "Fsharp"}});
 
             #endregion
 
@@ -232,12 +341,12 @@ namespace CloudRepublic.BenchMark.API.Tests
             };
 
             _mockBenchMarkResultService.Setup(c =>
-                    c.GetBenchMarkResults(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
+                    c.GetBenchMarkResults(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Runtime>(), It.IsAny<int>()))
                 .Returns(Task.FromResult(benchMarkResults));
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
             var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
-                {{"cloudProvider", ""}, {"hostingEnvironment", ""}, {"runtime", ""}});
+                {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"runtime", "Fsharp"}});
 
             #endregion
 
@@ -270,7 +379,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             };
 
             _mockBenchMarkResultService.Setup(c =>
-                    c.GetBenchMarkResults(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
+                    c.GetBenchMarkResults(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Runtime>(), It.IsAny<int>()))
                 .Returns(Task.FromResult(benchMarkResults));
 
             var sampleBenchMarkData = new BenchMarkData()
@@ -278,7 +387,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
             var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
-                {{"cloudProvider", ""}, {"hostingEnvironment", ""}, {"runtime", ""}});
+                {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"runtime", "Fsharp"}});
 
             #endregion
 
@@ -309,7 +418,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             };
 
             _mockBenchMarkResultService.Setup(c =>
-                    c.GetBenchMarkResults(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
+                    c.GetBenchMarkResults(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Runtime>(), It.IsAny<int>()))
                 .Returns(Task.FromResult(benchMarkResults));
 
             var sampleBenchMarkData = new BenchMarkData()
@@ -320,7 +429,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
             var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
-                {{"cloudProvider", ""}, {"hostingEnvironment", ""}, {"runtime", ""}});
+                {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"runtime", "Fsharp"}});
 
             #endregion
 

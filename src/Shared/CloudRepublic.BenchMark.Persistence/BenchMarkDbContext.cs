@@ -1,5 +1,4 @@
-﻿using CloudRepublic.BenchMark.Application.Interfaces;
-using CloudRepublic.BenchMark.Domain.Entities;
+﻿using CloudRepublic.BenchMark.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace CloudRepublic.BenchMark.Persistence
@@ -16,7 +15,6 @@ namespace CloudRepublic.BenchMark.Persistence
         }
 
         public virtual DbSet<BenchMarkResult> BenchMarkResult { get; set; }
-        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

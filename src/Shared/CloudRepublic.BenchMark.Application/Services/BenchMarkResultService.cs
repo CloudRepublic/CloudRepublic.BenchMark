@@ -1,42 +1,38 @@
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using CloudRepublic.BenchMark.Application.Interfaces;
 using CloudRepublic.BenchMark.Domain.Entities;
 using CloudRepublic.BenchMark.Domain.Enums;
-using Dapper;
+using CloudRepublic.BenchMark.Persistence;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace CloudRepublic.BenchMark.Application.Services
 {
     public class BenchMarkResultService : IBenchMarkResultService
     {
-        private readonly IDbConnection _dbConnection;
+        private readonly BenchMarkDbContext _dbContext;
 
-        public BenchMarkResultService(IDbConnection dbConnection)
+        public BenchMarkResultService(BenchMarkDbContext dbContext)
         {
-            _dbConnection = dbConnection;
+            _dbContext = dbContext;
         }
 
-        public async Task<List<BenchMarkResult>> GetBenchMarkResults(string cloudProvider,
-            string hostingEnvironment, string runtime, int dayRange)
+        public async Task<List<BenchMarkResult>> GetBenchMarkResults(CloudProvider cloudProvider,
+            HostEnvironment hostingEnvironment, Runtime runtime, int dayRange)
         {
-            var parsedCloudProvider = Enum.Parse(typeof(CloudProvider), cloudProvider);
-            var parsedHostingEnvironment = Enum.Parse(typeof(HostEnvironment), hostingEnvironment);
-            var parsedRuntime = Enum.Parse(typeof(Runtime), runtime);
+            var results = new List<BenchMarkResult>();
 
-            var results = await _dbConnection.QueryAsync<BenchMarkResult>(
-                "SELECT * FROM [dbo].[BenchMarkResult] WHERE CloudProvider=@CloudProvider AND HostingEnvironment=@HostingEnvironment AND Runtime=@Runtime AND  CreatedAt >= DATEADD(DAY,-@DayRange,GETDATE()) order by CreatedAt",
-                new
-                {
-                    CloudProvider = (int) parsedCloudProvider, 
-                    HostingEnvironment = (int) parsedHostingEnvironment,
-                    Runtime = (int) parsedRuntime, 
-                    DayRange = dayRange
-                });
+            var xx = await _dbContext.BenchMarkResult
+                .Where(result => result.CloudProvider == cloudProvider)
+                .Where(result => result.HostingEnvironment == hostingEnvironment)
+                .Where(result => result.Runtime == runtime)
+                .Where(result => result.CreatedAt >= (DateTime.Now - TimeSpan.FromDays(dayRange)))
+                .OrderByDescending(result => result.CreatedAt)
+                .ToListAsync();
 
-            return results.ToList();
+            return results;
         }
     }
 }
