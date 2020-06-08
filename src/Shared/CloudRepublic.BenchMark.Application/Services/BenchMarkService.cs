@@ -15,15 +15,14 @@ namespace CloudRepublic.BenchMark.Application.Services
         {
             _httpClientFactory = httpClientFactory;
         }
-        public async Task<BenchMarkResponse> RunBenchMark(BenchMarkType benchMarkType)
+        public async Task<BenchMarkResponse> RunBenchMarkAsync(string clientName)
         {
-            var client = _httpClientFactory.CreateClient(benchMarkType.ClientName);
-            long result = 0;
+            var client = _httpClientFactory.CreateClient(clientName);
             try
             {
                 var stopWatch = Stopwatch.StartNew();
                 var response = await client.GetAsync($"api/Trigger?name=BenchMark");
-                result = stopWatch.ElapsedMilliseconds;
+                var result = stopWatch.ElapsedMilliseconds;
 
 
                 return new BenchMarkResponse(response.IsSuccessStatusCode, result);

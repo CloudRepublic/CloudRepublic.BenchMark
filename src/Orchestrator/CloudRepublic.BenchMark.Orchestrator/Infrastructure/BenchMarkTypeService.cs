@@ -37,7 +37,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Infrastructure
 
                 for (int i = 0; i < coldCalls; i++)
                 {
-                    tasksCold.Add(_benchMarkService.RunBenchMark(benchMarkType));
+                    tasksCold.Add(_benchMarkService.RunBenchMarkAsync(benchMarkType.ClientName));
                 }
 
                 await Task.WhenAll(tasksCold);
@@ -46,7 +46,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Infrastructure
 
                 for (int i = 0; i < warmCalls; i++)
                 {
-                    tasksWarm.Add(_benchMarkService.RunBenchMark(benchMarkType));
+                    tasksWarm.Add(_benchMarkService.RunBenchMarkAsync(benchMarkType.ClientName));
                 }
 
                 await Task.WhenAll(tasksWarm);

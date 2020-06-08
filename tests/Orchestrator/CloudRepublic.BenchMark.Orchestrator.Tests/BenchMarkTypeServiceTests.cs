@@ -130,7 +130,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
             var warmCalls = 0;
 
             var benchMarkResponse = new BenchMarkResponse(true, 1);
-            _mockIBenchMarkService.Setup(service => service.RunBenchMark(It.IsAny<BenchMarkType>())).ReturnsAsync(benchMarkResponse);
+            _mockIBenchMarkService.Setup(service => service.RunBenchMarkAsync(It.IsAny<string>())).ReturnsAsync(benchMarkResponse);
 
             var testService = new BenchMarkTypeService(_mockIBenchMarkService.Object, null);
 
@@ -164,7 +164,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
             var warmCalls = 0;
 
             var benchMarkResponse = new BenchMarkResponse(true, 1);
-            _mockIBenchMarkService.Setup(service => service.RunBenchMark(It.IsAny<BenchMarkType>())).ReturnsAsync(benchMarkResponse);
+            _mockIBenchMarkService.Setup(service => service.RunBenchMarkAsync(It.IsAny<string>())).ReturnsAsync(benchMarkResponse);
 
             var testService = new BenchMarkTypeService(_mockIBenchMarkService.Object, null);
 
@@ -199,7 +199,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
             var warmCalls = 1;
 
             var benchMarkResponse = new BenchMarkResponse(true, 1);
-            _mockIBenchMarkService.Setup(service => service.RunBenchMark(It.IsAny<BenchMarkType>())).ReturnsAsync(benchMarkResponse);
+            _mockIBenchMarkService.Setup(service => service.RunBenchMarkAsync(It.IsAny<string>())).ReturnsAsync(benchMarkResponse);
 
             var testService = new BenchMarkTypeService(_mockIBenchMarkService.Object, null);
 
@@ -234,7 +234,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
             var warmCalls = 1;
 
             var benchMarkResponse = new BenchMarkResponse(true, 1);
-            _mockIBenchMarkService.Setup(service => service.RunBenchMark(It.IsAny<BenchMarkType>())).ReturnsAsync(benchMarkResponse);
+            _mockIBenchMarkService.Setup(service => service.RunBenchMarkAsync(It.IsAny<string>())).ReturnsAsync(benchMarkResponse);
 
             var testService = new BenchMarkTypeService(_mockIBenchMarkService.Object, null);
 
@@ -276,7 +276,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
             var warmCalls = 1;
 
             var benchMarkResponse = new BenchMarkResponse(true, 1);
-            _mockIBenchMarkService.Setup(service => service.RunBenchMark(It.IsAny<BenchMarkType>())).ReturnsAsync(benchMarkResponse);
+            _mockIBenchMarkService.Setup(service => service.RunBenchMarkAsync(It.IsAny<string>())).ReturnsAsync(benchMarkResponse);
 
             var testService = new BenchMarkTypeService(_mockIBenchMarkService.Object, null);
 
@@ -332,7 +332,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
             var warmCalls = 0;
 
             var benchMarkResponse = new BenchMarkResponse(true, 567);
-            _mockIBenchMarkService.Setup(service => service.RunBenchMark(It.IsAny<BenchMarkType>())).ReturnsAsync(benchMarkResponse);
+            _mockIBenchMarkService.Setup(service => service.RunBenchMarkAsync(It.IsAny<string>())).ReturnsAsync(benchMarkResponse);
 
             var testService = new BenchMarkTypeService(_mockIBenchMarkService.Object, null);
 
@@ -365,6 +365,45 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
             #endregion
         }
 
+        [Fact]
+        public async Task RunBenchMarksAsync_Should_Call_RunBenchMarkAsync_With_BenchMarkClient_String()
+        {
+
+            #region Arrange
+
+            var benchMarks = new List<BenchMarkType>()
+            {
+                new BenchMarkType(){
+                 Name = "TestBenchMark",
+                 CloudProvider = CloudProvider.Firebase,
+                 HostEnvironment = HostEnvironment.Linux,
+                 Runtime = Runtime.Fsharp,
+                 SetXFunctionsKey = true,
+                },
+            };
+            var coldCalls = 1;
+            var warmCalls = 0;
+
+            var benchMarkResponse = new BenchMarkResponse(true, 567);
+            _mockIBenchMarkService.Setup(service => service.RunBenchMarkAsync(It.IsAny<string>())).ReturnsAsync(benchMarkResponse);
+
+            var testService = new BenchMarkTypeService(_mockIBenchMarkService.Object, null);
+
+            #endregion
+
+            #region Act
+
+            var benchMarkResults = await testService.RunBenchMarksAsync(benchMarks, coldCalls, warmCalls, 0);
+
+            #endregion
+
+            #region Assert
+
+            _mockIBenchMarkService.Verify(service => service.RunBenchMarkAsync(It.Is<string>(clientName => clientName == "TestBenchMarkClient")), Times.Once);
+
+
+            #endregion
+        }
 
 
         [Fact]

@@ -5,6 +5,6 @@ namespace CloudRepublic.BenchMark.Application.Interfaces
 {
     public interface IBenchMarkService
     {
-        Task<BenchMarkResponse> RunBenchMark(BenchMarkType benchMarkType);
+        Task<BenchMarkResponse> RunBenchMarkAsync(string clientName);
     }
 }
