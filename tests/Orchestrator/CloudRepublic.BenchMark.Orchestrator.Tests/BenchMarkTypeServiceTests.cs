@@ -2,7 +2,7 @@
 using CloudRepublic.BenchMark.Application.Models;
 using CloudRepublic.BenchMark.Domain.Entities;
 using CloudRepublic.BenchMark.Domain.Enums;
-using CloudRepublic.BenchMark.Orchestrator.Infrastructure;
+using CloudRepublic.BenchMark.Orchestrator.Services;
 using CloudRepublic.BenchMark.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Moq;

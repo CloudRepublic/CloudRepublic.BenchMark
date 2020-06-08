@@ -3,12 +3,18 @@ using CloudRepublic.BenchMark.Domain.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace CloudRepublic.BenchMark.Orchestrator.Infrastructure
+namespace CloudRepublic.BenchMark.Orchestrator.Interfaces
 {
     public interface IBenchMarkTypeService
     {
+        /// <summary>
+        /// An Extension on the existing static return, this so it can be mocked
+        /// </summary>
+        /// <returns></returns>
         IEnumerable<BenchMarkType> GetAllTypes();
+
         Task StoreBenchMarkResultsAsync(IEnumerable<BenchMarkResult> results);
+
         /// <summary>
         /// This function will first run all 'Cold' BenchMarks, than wait the delay, and than run all 'Warm' BenchMarks
         /// </summary>

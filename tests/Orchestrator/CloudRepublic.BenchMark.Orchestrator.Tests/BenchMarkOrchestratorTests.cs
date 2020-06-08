@@ -1,6 +1,6 @@
 ﻿using CloudRepublic.BenchMark.Application.Models;
 using CloudRepublic.BenchMark.Domain.Entities;
-using CloudRepublic.BenchMark.Orchestrator.Infrastructure;
+using CloudRepublic.BenchMark.Orchestrator.Interfaces;
 using Moq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -19,7 +19,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
             _mockIBenchMarkTypeService = new Mock<IBenchMarkTypeService>();
         }
         [Fact]
-        public async Task RunAndHandleAllBenchMarks_Should_Call_BenchMarkTypeService_for_All_Types()
+        public async Task RunAndHandleAllBenchMarksAsync_Should_Call_BenchMarkTypeService_for_All_Types()
         {
             #region Arrange
 
@@ -37,7 +37,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
 
             #region Act
 
-            await benchMarkOrchestrator.RunAndHandleAllBenchMarks();
+            await benchMarkOrchestrator.RunAndHandleAllBenchMarksAsync();
 
             #endregion
 
@@ -48,7 +48,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
             #endregion
         }
         [Fact]
-        public async Task RunAndHandleAllBenchMarks_Should_Call_BenchMarkTypeService_RunBenchMarks_With_All_Types()
+        public async Task RunAndHandleAllBenchMarksAsync_Should_Call_BenchMarkTypeService_RunBenchMarks_With_All_Types()
         {
             #region Arrange
             var benchMarkTypes = new List<BenchMarkType>()
@@ -69,7 +69,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
 
             #region Act
 
-            await benchMarkOrchestrator.RunAndHandleAllBenchMarks();
+            await benchMarkOrchestrator.RunAndHandleAllBenchMarksAsync();
 
             #endregion
 
@@ -80,7 +80,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
             #endregion
         }
         [Fact]
-        public async Task RunAndHandleAllBenchMarks_Should_Call_BenchMarkTypeService_StoreBenchMarks_With_Results_from_RunBenchMarks()
+        public async Task RunAndHandleAllBenchMarksAsync_Should_Call_BenchMarkTypeService_StoreBenchMarks_With_Results_from_RunBenchMarks()
         {
             #region Arrange
             var benchMarkTypes = new List<BenchMarkType>();
@@ -101,7 +101,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
 
             #region Act
 
-            await benchMarkOrchestrator.RunAndHandleAllBenchMarks();
+            await benchMarkOrchestrator.RunAndHandleAllBenchMarksAsync();
 
             #endregion
 
@@ -112,7 +112,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
             #endregion
         }
         [Fact]
-        public async Task RunAndHandleAllBenchMarks_Should_Not_Call_BenchMarkTypeService_StoreBenchMarks_Without_Results_from_RunBenchMarks()
+        public async Task RunAndHandleAllBenchMarksAsync_Should_Not_Call_BenchMarkTypeService_StoreBenchMarks_Without_Results_from_RunBenchMarks()
         {
             #region Arrange
             var benchMarkTypes = new List<BenchMarkType>();
@@ -127,7 +127,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
 
             #region Act
 
-            await benchMarkOrchestrator.RunAndHandleAllBenchMarks();
+            await benchMarkOrchestrator.RunAndHandleAllBenchMarksAsync();
 
             #endregion
 

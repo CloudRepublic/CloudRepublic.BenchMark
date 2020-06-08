@@ -1,8 +1,8 @@
-using CloudRepublic.BenchMark.Orchestrator.Infrastructure;
+using CloudRepublic.BenchMark.Orchestrator.Interfaces;
 using Microsoft.Azure.WebJobs;
-using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CloudRepublic.BenchMark.Orchestrator
@@ -21,7 +21,7 @@ namespace CloudRepublic.BenchMark.Orchestrator
         {
             log.LogInformation($"C# Timer trigger function executed at: {DateTime.UtcNow}");
 
-            await RunAndHandleAllBenchMarks();
+            await RunAndHandleAllBenchMarksAsync();
 
         }
 
@@ -29,7 +29,7 @@ namespace CloudRepublic.BenchMark.Orchestrator
         /// This function we can test/moq without having to mess with the TimerTrigger/TimerInfo.
         /// </summary>
         /// <returns></returns>
-        public async Task RunAndHandleAllBenchMarks()
+        public async Task RunAndHandleAllBenchMarksAsync()
         {
             var benchMarkTypes = _benchMarkTypeService.GetAllTypes();
 

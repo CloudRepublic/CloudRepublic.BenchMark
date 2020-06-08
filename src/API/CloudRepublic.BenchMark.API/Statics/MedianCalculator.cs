@@ -5,18 +5,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CloudRepublic.BenchMark.API.Helpers
+namespace CloudRepublic.BenchMark.API.Statics
 {
     public class MedianCalculator
     {
         public static BenchmarkMedians Calculate(DateTime currentDate,
             List<BenchMarkResult> dataPoints)
         {
-            var dataPointsCurrentDate =
-                dataPoints.Where(c => c.CreatedAt.Date == currentDate.Date);
+            var dataPointsCurrentDate = dataPoints.Where(c => c.CreatedAt.Date == currentDate.Date);
 
-            var dataPointsPreviousDate = dataPoints.Where(c =>
-                c.CreatedAt.Date == (currentDate - TimeSpan.FromDays(1)).Date);
+            var dataPointsPreviousDate = dataPoints.Where(c => c.CreatedAt.Date == (currentDate - TimeSpan.FromDays(1)).Date);
 
             var currentDateMedian = dataPointsCurrentDate.Any()
                 ? Math.Round(dataPointsCurrentDate.Select(c => Convert.ToDouble(c.RequestDuration)).Median(), 0)

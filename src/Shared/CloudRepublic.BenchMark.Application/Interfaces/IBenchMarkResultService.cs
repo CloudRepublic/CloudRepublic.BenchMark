@@ -13,6 +13,7 @@ namespace CloudRepublic.BenchMark.Application.Interfaces
         /// </summary>
         /// <returns></returns>
         DateTime GetToday();
+
         /// <summary>
         /// Grabs all stored Benchmark results
         /// </summary>

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CloudRepublic.BenchMark.Orchestrator.Infrastructure
+namespace CloudRepublic.BenchMark.Orchestrator.Statics
 {
     public static class ResultConverter
     {

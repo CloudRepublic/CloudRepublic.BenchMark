@@ -1,4 +1,4 @@
-using CloudRepublic.BenchMark.API.Infrastructure;
+using CloudRepublic.BenchMark.API.Interfaces;
 using CloudRepublic.BenchMark.API.Models;
 using CloudRepublic.BenchMark.Application.Interfaces;
 using CloudRepublic.BenchMark.Domain.Entities;
@@ -22,12 +22,12 @@ namespace CloudRepublic.BenchMark.API.Tests
         private readonly ILogger _logger = TestFactory.CreateLogger();
         private readonly Mock<IBenchMarkResultService> _mockBenchMarkResultService;
 
-        private Mock<IResponseConverter> _mockResponseConverter;
+        private Mock<IResponseConverterService> _mockResponseConverter;
 
         public TriggerTests()
         {
             _mockBenchMarkResultService = new Mock<IBenchMarkResultService>();
-            _mockResponseConverter = new Mock<IResponseConverter>();
+            _mockResponseConverter = new Mock<IResponseConverterService>();
         }
 
         [Fact]

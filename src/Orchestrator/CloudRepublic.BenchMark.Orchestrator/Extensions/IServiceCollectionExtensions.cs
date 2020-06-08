@@ -1,10 +1,10 @@
-using CloudRepublic.BenchMark.Orchestrator.Infrastructure;
+using CloudRepublic.BenchMark.Orchestrator.Statics;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
 namespace CloudRepublic.BenchMark.Orchestrator.Extensions
 {
-    public static class ServiceExtensions
+    public static class IServiceCollectionExtensions
     {
         public static IServiceCollection AddBenchMarkClients(this IServiceCollection services)
         {

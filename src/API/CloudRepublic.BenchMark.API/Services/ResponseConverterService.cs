@@ -1,25 +1,26 @@
-using CloudRepublic.BenchMark.API.Helpers;
+using CloudRepublic.BenchMark.API.Interfaces;
 using CloudRepublic.BenchMark.API.Models;
+using CloudRepublic.BenchMark.API.Statics;
 using CloudRepublic.BenchMark.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CloudRepublic.BenchMark.API.Infrastructure
+namespace CloudRepublic.BenchMark.API.Services
 {
-    public class ResponseConverter : IResponseConverter
+    public class ResponseConverterService : IResponseConverterService
     {
         public BenchMarkData ConvertToBenchMarkData(List<BenchMarkResult> resultDataPoints)
         {
-
+            var firstResult = resultDataPoints.OrderByDescending(c => c.CreatedAt).First();
             var benchmarkData = new BenchMarkData()
             {
-                CloudProvider = resultDataPoints.First().CloudProvider.ToString(),
-                HostingEnvironment = resultDataPoints.First().HostingEnvironment.ToString(),
-                Runtime = resultDataPoints.First().Runtime.ToString()
+                CloudProvider = firstResult.CloudProvider.ToString(),
+                HostingEnvironment = firstResult.HostingEnvironment.ToString(),
+                Runtime = firstResult.Runtime.ToString()
             };
 
-            var currentDate = resultDataPoints.OrderByDescending(c => c.CreatedAt).First().CreatedAt.Date;
+            var currentDate = firstResult.CreatedAt.Date;
 
 
             var coldDataPoints = resultDataPoints.Where(c => c.IsColdRequest).ToList();

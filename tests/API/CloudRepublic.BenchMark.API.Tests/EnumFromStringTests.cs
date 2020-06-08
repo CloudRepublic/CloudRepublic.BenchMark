@@ -1,4 +1,4 @@
-﻿using CloudRepublic.BenchMark.API.Helpers;
+﻿using CloudRepublic.BenchMark.API.Models;
 using Xunit;
 
 namespace CloudRepublic.BenchMark.API.Tests

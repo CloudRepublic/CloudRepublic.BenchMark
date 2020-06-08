@@ -1,4 +1,4 @@
-using CloudRepublic.BenchMark.API.Infrastructure;
+using CloudRepublic.BenchMark.API.Services;
 using CloudRepublic.BenchMark.Domain.Entities;
 using CloudRepublic.BenchMark.Domain.Enums;
 using System;
@@ -33,7 +33,7 @@ namespace CloudRepublic.BenchMark.API.Tests
                 },
             };
 
-            var responseConverter = new ResponseConverter();
+            var responseConverter = new ResponseConverterService();
 
             #endregion
 
@@ -91,7 +91,7 @@ namespace CloudRepublic.BenchMark.API.Tests
                 },
             };
 
-            var responseConverter = new ResponseConverter();
+            var responseConverter = new ResponseConverterService();
 
             #endregion
 
@@ -128,7 +128,7 @@ namespace CloudRepublic.BenchMark.API.Tests
                 },
             };
 
-            var responseConverter = new ResponseConverter();
+            var responseConverter = new ResponseConverterService();
 
             #endregion
 
@@ -154,7 +154,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var benchMarkResults = new List<BenchMarkResult>() { };
 
-            var responseConverter = new ResponseConverter();
+            var responseConverter = new ResponseConverterService();
 
             #endregion
 
@@ -180,7 +180,7 @@ namespace CloudRepublic.BenchMark.API.Tests
                 },
             };
 
-            var responseConverter = new ResponseConverter();
+            var responseConverter = new ResponseConverterService();
 
             #endregion
 
@@ -235,7 +235,7 @@ namespace CloudRepublic.BenchMark.API.Tests
                 },
             };
 
-            var responseConverter = new ResponseConverter();
+            var responseConverter = new ResponseConverterService();
 
             #endregion
 
@@ -284,7 +284,7 @@ namespace CloudRepublic.BenchMark.API.Tests
                 },
             };
 
-            var responseConverter = new ResponseConverter();
+            var responseConverter = new ResponseConverterService();
 
             #endregion
 
@@ -335,7 +335,7 @@ namespace CloudRepublic.BenchMark.API.Tests
                 },
             };
 
-            var responseConverter = new ResponseConverter();
+            var responseConverter = new ResponseConverterService();
 
             #endregion
 
@@ -403,7 +403,7 @@ namespace CloudRepublic.BenchMark.API.Tests
                 },
             };
 
-            var responseConverter = new ResponseConverter();
+            var responseConverter = new ResponseConverterService();
 
             #endregion
 
@@ -471,7 +471,7 @@ namespace CloudRepublic.BenchMark.API.Tests
                 },
             };
 
-            var responseConverter = new ResponseConverter();
+            var responseConverter = new ResponseConverterService();
 
             #endregion
 

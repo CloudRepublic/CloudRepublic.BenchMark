@@ -2,7 +2,7 @@ using CloudRepublic.BenchMark.Application.Models;
 using CloudRepublic.BenchMark.Domain.Enums;
 using System.Collections.Generic;
 
-namespace CloudRepublic.BenchMark.Orchestrator.Infrastructure
+namespace CloudRepublic.BenchMark.Orchestrator.Statics
 {
     public static class BenchMarkTypeGenerator
     {

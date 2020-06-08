@@ -1,10 +1,10 @@
-using System.Collections.Generic;
 using CloudRepublic.BenchMark.API.Models;
 using CloudRepublic.BenchMark.Domain.Entities;
+using System.Collections.Generic;
 
-namespace CloudRepublic.BenchMark.API.Infrastructure
+namespace CloudRepublic.BenchMark.API.Interfaces
 {
-    public interface IResponseConverter
+    public interface IResponseConverterService
     {
         BenchMarkData ConvertToBenchMarkData(List<BenchMarkResult> resultDataPoints);
     }

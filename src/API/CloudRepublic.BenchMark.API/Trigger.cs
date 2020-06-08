@@ -1,5 +1,5 @@
-using CloudRepublic.BenchMark.API.Helpers;
-using CloudRepublic.BenchMark.API.Infrastructure;
+using CloudRepublic.BenchMark.API.Interfaces;
+using CloudRepublic.BenchMark.API.Models;
 using CloudRepublic.BenchMark.Application.Interfaces;
 using CloudRepublic.BenchMark.Domain.Enums;
 using Microsoft.AspNetCore.Http;
@@ -16,12 +16,12 @@ namespace CloudRepublic.BenchMark.API
     public class Trigger
     {
         private readonly IBenchMarkResultService _benchMarkResultService;
-        private readonly IResponseConverter _responseConverter;
+        private readonly IResponseConverterService _responseConverterService;
 
-        public Trigger(IBenchMarkResultService benchMarkResultService, IResponseConverter responseConverter)
+        public Trigger(IBenchMarkResultService benchMarkResultService, IResponseConverterService responseConverterService)
         {
             _benchMarkResultService = benchMarkResultService;
-            _responseConverter = responseConverter;
+            _responseConverterService = responseConverterService;
         }
 
         [FunctionName("Trigger")]
@@ -54,7 +54,7 @@ namespace CloudRepublic.BenchMark.API
                 return new NotFoundResult();
             }
 
-            var convertedData = _responseConverter.ConvertToBenchMarkData(benchMarkPointsToReturn);
+            var convertedData = _responseConverterService.ConvertToBenchMarkData(benchMarkPointsToReturn);
             return new OkObjectResult(convertedData);
         }
     }

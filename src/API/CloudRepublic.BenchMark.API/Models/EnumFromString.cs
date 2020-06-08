@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CloudRepublic.BenchMark.API.Helpers
+namespace CloudRepublic.BenchMark.API.Models
 {
     /// <summary>
     /// <para> An Itty Bitty Helper to parse strings to enums. </para>

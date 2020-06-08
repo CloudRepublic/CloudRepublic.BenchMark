@@ -1,12 +1,13 @@
-using System;
 using CloudRepublic.BenchMark.Application.Interfaces;
 using CloudRepublic.BenchMark.Application.Services;
 using CloudRepublic.BenchMark.Orchestrator.Extensions;
-using CloudRepublic.BenchMark.Orchestrator.Infrastructure;
+using CloudRepublic.BenchMark.Orchestrator.Interfaces;
+using CloudRepublic.BenchMark.Orchestrator.Services;
 using CloudRepublic.BenchMark.Persistence;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 [assembly: FunctionsStartup(typeof(CloudRepublic.BenchMark.Orchestrator.Startup))]
 

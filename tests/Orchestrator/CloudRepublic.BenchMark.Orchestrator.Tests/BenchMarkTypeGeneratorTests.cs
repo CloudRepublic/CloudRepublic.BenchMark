@@ -1,5 +1,5 @@
 ﻿using CloudRepublic.BenchMark.Domain.Enums;
-using CloudRepublic.BenchMark.Orchestrator.Infrastructure;
+using CloudRepublic.BenchMark.Orchestrator.Statics;
 using System.Linq;
 using Xunit;
 
