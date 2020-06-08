@@ -103,7 +103,7 @@ $sampleFuncLinuxFsharp = az functionapp create --resource-group $resourceGroupLi
 #create linux sample function Java
 $sampleFuncLinuxJava = az functionapp create --resource-group $resourceGroupLinuxName --name $linuxSampleFunctionJavaName --storage-account $storageAccountLinuxName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Linux | ConvertFrom-Json
 
-#create windows sample function python
+#create Linux sample function python
 $sampleFuncLinuxPython = az functionapp create --resource-group $resourceGroupLinuxName --name $linuxSampleFunctionPythonName --storage-account $storageAccountLinuxName --consumption-plan-location  $consumptionLocation --runtime python --runtime-version 3.7 --os-type Linux | ConvertFrom-Json
 
 #create cdn profile
