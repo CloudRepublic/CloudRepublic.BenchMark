@@ -16,10 +16,12 @@ $windowsSampleFunctionCsharpName = "BenchMark-Sample-Win-Csharp";
 $windowsSampleFunctionNodejsName = "BenchMark-Sample-Win-Nodejs";
 $windowsSampleFunctionPythonName = "BenchMark-Sample-Win-Python";
 $windowsSampleFunctionFsharpName = "BenchMark-Sample-Win-Fsharp";
+$windowsSampleFunctionJavaName = "BenchMark-Sample-Win-Java";
 $linuxSampleFunctionCsharpName = "BenchMark-Sample-Lin-Csharp";
 $linuxSampleFunctionNodejsName = "BenchMark-Sample-Lin-Nodejs";
 $linuxSampleFunctionPythonName = "BenchMark-Sample-Lin-Python";
 $linuxSampleFunctionFsharpame = "BenchMark-Sample-Lin-Fsharp";
+$linuxSampleFunctionJavaame = "BenchMark-Sample-Lin-Java";
 $backendApiFunctionName = "BenchMark-Win-Api";
 $cdnProfileName = "BenchMark";
 $cdnEndpointName = "BenchMark";
@@ -84,6 +86,10 @@ $sampleFuncWindowsPython = az functionapp create --resource-group $resourceGroup
 #create windows sample function fsharp
 $sampleFuncWindowsFsharp = az functionapp create --resource-group $resourceGroupName --name $windowsSampleFunctionFsharpName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Windows | ConvertFrom-Json
 
+#create windows sample function Java
+$sampleFuncWindowsJava = az functionapp create --resource-group $resourceGroupName --name $windowsSampleFunctionJavaName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Windows | ConvertFrom-Json
+
+
 #create linux sample function csharp
 $sampleFuncLinuxCsharp = az functionapp create --resource-group $resourceGroupLinuxName --name $linuxSampleFunctionCsharpName --storage-account $storageAccountLinuxName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Linux | ConvertFrom-Json
 
@@ -95,6 +101,9 @@ $sampleFuncLinuxPython = az functionapp create --resource-group $resourceGroupLi
 
 #create linux sample function fsharp
 $sampleFuncLinuxFsharp = az functionapp create --resource-group $resourceGroupLinuxName --name $linuxSampleFunctionFsharpName --storage-account $storageAccountLinuxName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Linux | ConvertFrom-Json
+
+#create linux sample function Java
+$sampleFuncLinuxJava = az functionapp create --resource-group $resourceGroupLinuxName --name $linuxSampleFunctionJavaName --storage-account $storageAccountLinuxName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Linux | ConvertFrom-Json
 
 #create cdn profile
 $cdnProfile = az cdn profile create --location $location --resource-group $resourceGroupName --name $cdnProfileName --sku Standard_Microsoft

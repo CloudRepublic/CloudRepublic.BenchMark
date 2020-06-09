@@ -7,26 +7,31 @@ We've created a continuous benchmark tool for Azure Functions to measure the per
 There's an orchestrator function that executes HTTP GET requests to every function app instance available. The first 5 calls are classified as coldstart, we then wait for 30 seconds to execute 10 requests per function instance to measure the warmed up HTTP requests.
 
 
-## Adding additional benchmark 
-- Expand the enum of: cloudprovider, hostenvironment, runtime or an create additional setting (like V3) (located in the Orchestrator)
-- Enter a new entry into the BenchMarkTypeGenerator and assign a name (the name is currently the name of the settings) (Orchestrator)
-- Make sure the new entry has the following environment variables (Environment.GetEnvironmentVariable() are set (dots are the assigned name) : .....CLIENT, ... URL (and ....KEY if needed)
-- create the matching function/trigger (located in the 'Azure' folder, not all are loaded in solution).
-- add the function to the deployment files (Deployment folder, not loaded in solution)
-- Load the Frontend project -> BenchMark.Vue and expand the Enums and benchmarkOptions with the newly added entry (Located in Web -> Views -> benchmark.vue)
+## Adding additional benchmark Language
+1- Expand the enum of: cloudprovider, hostenvironment, runtime or an create additional setting (like V3) (located in the Orchestrator)
+2- Enter a new entry into the BenchMarkTypeGenerator and assign a name (the name is currently the name of the settings combined) (Orchestrator)
+3- Make sure the new entry has the following environment variables (Environment.GetEnvironmentVariable() are set (dots are the assigned name from step 2) : .....CLIENT, ... URL (and ....KEY if needed)
+4- create the matching function/trigger (located in the 'Azure' folder, not all are loaded in solution).
+5- add the function to the deployment files (Deployment folder-> Deploy.azcli, Deploy.ps1, not loaded in solution)
+6- Load the Frontend project -> BenchMark.Vue and expand the Enums and benchmarkOptions with the newly added entry (Located in Web -> Views -> benchmark.vue)
+7- Verify all test are still succesfull and Pull request
 
 ## Global Architecture
 
 - Github code repository.
 - Azure Pipeline builds and releases.
 - ARM for Azure infrastructure deployment.
-- Deploys 6 HTTP Triggered functions:
+- Deploys Multiple HTTP Triggered functions To the Cloud:
  - NodeJS (Linux)
  - C#.NET (Linux)
  - Python (Linux)
+ - Java (Linux)
+ - F# (Linux)
  - NodeJS (Windows)
  - C#.NET (Windows)
  - Python (Windows )
+ - Java (Windows )
+ - F# (Windows )
 - Deploys the benchmark orchestrator.
 - A SQL database to store the results.
 - An Azure Functions API with Azure API Management consumption tier.
