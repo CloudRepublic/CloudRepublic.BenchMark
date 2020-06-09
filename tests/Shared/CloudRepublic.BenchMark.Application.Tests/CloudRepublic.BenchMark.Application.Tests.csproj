@@ -19,9 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\Shared\CloudRepublic.BenchMark.Application\CloudRepublic.BenchMark.Application.csproj" />
-    <ProjectReference Include="..\src\Shared\CloudRepublic.BenchMark.Domain\CloudRepublic.BenchMark.Domain.csproj" />
-    <ProjectReference Include="..\src\Shared\CloudRepublic.BenchMark.Persistence\CloudRepublic.BenchMark.Persistence.csproj" />
+    <ProjectReference Include="..\..\..\src\Shared\CloudRepublic.BenchMark.Application\CloudRepublic.BenchMark.Application.csproj" />
+    <ProjectReference Include="..\..\..\src\Shared\CloudRepublic.BenchMark.Domain\CloudRepublic.BenchMark.Domain.csproj" />
+    <ProjectReference Include="..\..\..\src\Shared\CloudRepublic.BenchMark.Persistence\CloudRepublic.BenchMark.Persistence.csproj" />
   </ItemGroup>
 
 </Project>
