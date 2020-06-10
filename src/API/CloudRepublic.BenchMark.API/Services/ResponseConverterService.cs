@@ -17,7 +17,8 @@ namespace CloudRepublic.BenchMark.API.Services
             {
                 CloudProvider = firstResult.CloudProvider.ToString(),
                 HostingEnvironment = firstResult.HostingEnvironment.ToString(),
-                Language = firstResult.Language.ToString()
+                Language = firstResult.Language.ToString(),
+                AzureRuntimeVersion = firstResult.AzureRuntimeVersion.ToString(),
             };
 
             var currentDate = firstResult.CreatedAt.Date;

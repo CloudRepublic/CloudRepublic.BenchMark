@@ -7,6 +7,8 @@ namespace CloudRepublic.BenchMark.Application.Models
         public CloudProvider CloudProvider { get; set; }
         public HostEnvironment HostEnvironment { get; set; }
         public Language Language { get; set; }
+        public AzureRuntimeVersion AzureRuntimeVersion { get; set; } = AzureRuntimeVersion.Version_2;
+
 
         /// <summary>
         /// this is actually the: CloudProviderHostEnvironmentLanguage as string.

@@ -56,6 +56,34 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             #endregion
         }
+
+        [Fact]
+        public async Task Run_Should_Return_BadRequest_When_No_AzureRuntimeVersion_argument_given()
+        {
+            #region Arrange
+
+            var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
+
+            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()                {
+                {"CloudProvider", "Azure"},
+                {"hostingEnvironment", "Windows"},
+                {"language", "Csharp"}
+            });
+
+            #endregion
+
+            #region Act
+
+            var response = await trigger.Run(request, _logger);
+
+            #endregion
+
+            #region Assert
+
+            Assert.IsType<BadRequestResult>(response);
+
+            #endregion
+        }
         [Fact]
         public async Task Run_Should_Return_BadRequest_When_No_hostingEnvironment_argument_given()
         {

@@ -17,9 +17,10 @@ namespace CloudRepublic.BenchMark.Orchestrator.Statics
                 CloudProvider = benchMarkType.CloudProvider,
                 HostingEnvironment = benchMarkType.HostEnvironment,
                 Language = benchMarkType.Language,
+                AzureRuntimeVersion = benchMarkType.AzureRuntimeVersion,
                 Success = benchMarkResponse.Success,
                 RequestDuration = Convert.ToInt32(benchMarkResponse.Duration),
-                IsColdRequest = isColdRequest
+                IsColdRequest = isColdRequest,
             }).ToList();
         }
     }

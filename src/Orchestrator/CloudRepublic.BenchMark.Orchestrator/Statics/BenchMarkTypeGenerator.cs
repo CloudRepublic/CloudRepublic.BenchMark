@@ -17,6 +17,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Statics
             // zelfde resultaat maar je kan de params "duidelijk" zien en uitbreiden zonder dat de constructor huge wordt
             return new List<BenchMarkType>()
             {
+                // WINDOWS OPERATING SYSTEMS
                 new BenchMarkType()
                 {
                      Name = "AzureWindowsCsharp",
@@ -53,7 +54,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Statics
                      Language = Language.Fsharp,
                 },
 
-
+                // LINUX OPERATING SYSTEMS
                 new BenchMarkType()
                 {
                      Name = "AzureLinuxCsharp",
@@ -90,7 +91,42 @@ namespace CloudRepublic.BenchMark.Orchestrator.Statics
                      Language = Language.Fsharp,
                 },
 
+                // AZURE FUNCTIONS V3
+                new BenchMarkType()
+                {
+                     Name = "AzureWindowsCsharpV3",
+                     CloudProvider = CloudProvider.Azure,
+                     HostEnvironment = HostEnvironment.Windows,
+                     Language = Language.Csharp,
+                     AzureRuntimeVersion = AzureRuntimeVersion.Version_3,
+                },
 
+                new BenchMarkType()
+                {
+                     Name = "AzureWindowsFsharpV3",
+                     CloudProvider = CloudProvider.Azure,
+                     HostEnvironment = HostEnvironment.Windows,
+                     Language = Language.Fsharp,
+                     AzureRuntimeVersion = AzureRuntimeVersion.Version_3,
+                },
+                new BenchMarkType()
+                {
+                     Name = "AzureWindowsNodejsV3",
+                     CloudProvider = CloudProvider.Azure,
+                     HostEnvironment = HostEnvironment.Windows,
+                     Language = Language.Nodejs,
+                     AzureRuntimeVersion = AzureRuntimeVersion.Version_3,
+                },
+                new BenchMarkType()
+                {
+                     Name = "AzureWindowsJavaV3",
+                     CloudProvider = CloudProvider.Azure,
+                     HostEnvironment = HostEnvironment.Windows,
+                     Language = Language.Java,
+                     AzureRuntimeVersion = AzureRuntimeVersion.Version_3,
+                },
+
+                // FIREBASE
                 new BenchMarkType()
                 {
                      Name = "FirebaseLinuxNodejs",

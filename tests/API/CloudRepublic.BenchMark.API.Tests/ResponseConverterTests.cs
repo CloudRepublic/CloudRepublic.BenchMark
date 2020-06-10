@@ -20,6 +20,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             var cloudProvider = CloudProvider.Azure;
             var hostingEnvironment = HostEnvironment.Windows;
             var language = Language.Csharp;
+            var azureRuntimeVersion = AzureRuntimeVersion.Version_3;
 
 
             var benchMarkResults = new List<BenchMarkResult>()
@@ -29,6 +30,7 @@ namespace CloudRepublic.BenchMark.API.Tests
                     CloudProvider = cloudProvider,
                     HostingEnvironment = hostingEnvironment,
                     Language = language,
+                    AzureRuntimeVersion = azureRuntimeVersion,
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                 },
             };
@@ -49,6 +51,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             Assert.Equal(cloudProvider.ToString(), benchMarkData.CloudProvider);
             Assert.Equal(hostingEnvironment.ToString(), benchMarkData.HostingEnvironment);
             Assert.Equal(language.ToString(), benchMarkData.Language);
+            Assert.Equal(azureRuntimeVersion.ToString(), benchMarkData.AzureRuntimeVersion);
 
             #endregion
         }
@@ -66,6 +69,7 @@ namespace CloudRepublic.BenchMark.API.Tests
                     CloudProvider =  CloudProvider.Firebase,
                     HostingEnvironment =  HostEnvironment.Linux,
                     Language =  Language.Java,
+                    AzureRuntimeVersion = AzureRuntimeVersion.Version_3,
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                 },
                 new BenchMarkResult()
@@ -73,6 +77,7 @@ namespace CloudRepublic.BenchMark.API.Tests
                     CloudProvider = CloudProvider.Azure, // different than the main
                     HostingEnvironment =  HostEnvironment.Windows,
                     Language =  Language.Csharp,
+                    AzureRuntimeVersion = AzureRuntimeVersion.Version_2,
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                 },
                 new BenchMarkResult()
@@ -80,6 +85,7 @@ namespace CloudRepublic.BenchMark.API.Tests
                     CloudProvider = CloudProvider.Azure, // different than the main
                     HostingEnvironment =  HostEnvironment.Windows,
                     Language =  Language.Csharp,
+                    AzureRuntimeVersion = AzureRuntimeVersion.Version_2,
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                 },
                 new BenchMarkResult()
@@ -87,6 +93,7 @@ namespace CloudRepublic.BenchMark.API.Tests
                     CloudProvider = CloudProvider.Azure, // different than the main
                     HostingEnvironment =  HostEnvironment.Windows,
                     Language =  Language.Csharp,
+                    AzureRuntimeVersion = AzureRuntimeVersion.Version_2,
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                 },
             };
@@ -107,6 +114,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             Assert.Equal(CloudProvider.Firebase.ToString(), benchMarkData.CloudProvider);
             Assert.Equal(HostEnvironment.Linux.ToString(), benchMarkData.HostingEnvironment);
             Assert.Equal(Language.Java.ToString(), benchMarkData.Language);
+            Assert.Equal(AzureRuntimeVersion.Version_3.ToString(), benchMarkData.AzureRuntimeVersion);
 
             #endregion
         }
@@ -124,6 +132,7 @@ namespace CloudRepublic.BenchMark.API.Tests
                     CloudProvider =  (CloudProvider)(-1) , // does not exist on enum
                     HostingEnvironment =(HostEnvironment)100, // does not exist on enum
                     Language = (Language)789, // does not exist on enum
+                    AzureRuntimeVersion = (AzureRuntimeVersion)(-22), // does not exist on enum
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                 },
             };
@@ -144,6 +153,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             Assert.Equal("-1", benchMarkData.CloudProvider);
             Assert.Equal("100", benchMarkData.HostingEnvironment);
             Assert.Equal("789", benchMarkData.Language);
+            Assert.Equal("-22", benchMarkData.AzureRuntimeVersion);
 
             #endregion
         }
