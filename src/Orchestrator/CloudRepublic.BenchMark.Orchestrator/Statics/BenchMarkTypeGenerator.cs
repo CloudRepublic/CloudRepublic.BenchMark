@@ -22,35 +22,35 @@ namespace CloudRepublic.BenchMark.Orchestrator.Statics
                      Name = "AzureWindowsCsharp",
                      CloudProvider = CloudProvider.Azure,
                      HostEnvironment = HostEnvironment.Windows,
-                     Runtime = Runtime.Csharp,
+                     Language = Language.Csharp,
                 },
                 new BenchMarkType()
                 {
                      Name = "AzureWindowsNodejs",
                      CloudProvider = CloudProvider.Azure,
                      HostEnvironment = HostEnvironment.Windows,
-                     Runtime = Runtime.Nodejs,
+                     Language = Language.Nodejs,
                 },
                 new BenchMarkType()
                 {
                      Name = "AzureWindowsPython",
                      CloudProvider = CloudProvider.Azure,
                      HostEnvironment = HostEnvironment.Windows,
-                     Runtime = Runtime.Python,
+                     Language = Language.Python,
                 },
                 new BenchMarkType()
                 {
                      Name = "AzureWindowsJava",
                      CloudProvider = CloudProvider.Azure,
                      HostEnvironment = HostEnvironment.Windows,
-                     Runtime = Runtime.Java,
+                     Language = Language.Java,
                 },
                 new BenchMarkType()
                 {
                      Name = "AzureWindowsFsharp",
                      CloudProvider = CloudProvider.Azure,
                      HostEnvironment = HostEnvironment.Windows,
-                     Runtime = Runtime.Fsharp,
+                     Language = Language.Fsharp,
                 },
 
 
@@ -59,35 +59,35 @@ namespace CloudRepublic.BenchMark.Orchestrator.Statics
                      Name = "AzureLinuxCsharp",
                      CloudProvider = CloudProvider.Azure,
                      HostEnvironment = HostEnvironment.Linux,
-                     Runtime = Runtime.Csharp,
+                     Language = Language.Csharp,
                 },
                 new BenchMarkType()
                 {
                      Name = "AzureLinuxNodejs",
                      CloudProvider = CloudProvider.Azure,
                      HostEnvironment = HostEnvironment.Linux,
-                     Runtime = Runtime.Nodejs,
+                     Language = Language.Nodejs,
                 },
                 new BenchMarkType()
                 {
                      Name = "AzureLinuxPython",
                      CloudProvider = CloudProvider.Azure,
                      HostEnvironment = HostEnvironment.Linux,
-                     Runtime = Runtime.Python,
+                     Language = Language.Python,
                 },
                 new BenchMarkType()
                 {
                      Name = "AzureLinuxJava",
                      CloudProvider = CloudProvider.Azure,
                      HostEnvironment = HostEnvironment.Linux,
-                     Runtime = Runtime.Java,
+                     Language = Language.Java,
                 },
                 new BenchMarkType()
                 {
                      Name = "AzureLinuxFsharp",
                      CloudProvider = CloudProvider.Azure,
                      HostEnvironment = HostEnvironment.Linux,
-                     Runtime = Runtime.Fsharp,
+                     Language = Language.Fsharp,
                 },
 
 
@@ -96,7 +96,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Statics
                      Name = "FirebaseLinuxNodejs",
                      CloudProvider = CloudProvider.Firebase,
                      HostEnvironment = HostEnvironment.Linux,
-                     Runtime = Runtime.Nodejs,
+                     Language = Language.Nodejs,
                      SetXFunctionsKey = false,
                 },
             };

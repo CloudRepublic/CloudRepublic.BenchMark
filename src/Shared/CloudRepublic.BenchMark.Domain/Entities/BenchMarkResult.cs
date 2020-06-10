@@ -8,7 +8,7 @@ namespace CloudRepublic.BenchMark.Domain.Entities
         public int Id { get; set; }
         public CloudProvider CloudProvider { get; set; }
         public HostEnvironment HostingEnvironment { get; set; }
-        public Runtime Runtime { get; set; }
+        public Language Language { get; set; }
         public bool Success { get; set; }
         public int RequestDuration { get; set; }
         public DateTimeOffset CreatedAt { get; set; }

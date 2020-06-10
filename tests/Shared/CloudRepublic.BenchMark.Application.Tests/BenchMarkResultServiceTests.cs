@@ -34,7 +34,7 @@ namespace CloudRepublic.BenchMark.Application.Tests
 
                 #region Act
 
-                var results = await testService.GetBenchMarkResultsAsync(CloudProvider.Azure, HostEnvironment.Linux, Runtime.Csharp, new DateTime(2020, 2, 2));
+                var results = await testService.GetBenchMarkResultsAsync(CloudProvider.Azure, HostEnvironment.Linux, Language.Csharp, new DateTime(2020, 2, 2));
 
                 #endregion
 
@@ -67,7 +67,7 @@ namespace CloudRepublic.BenchMark.Application.Tests
                         Id = 12,
                         CloudProvider = CloudProvider.Azure,
                         HostingEnvironment = HostEnvironment.Linux,
-                        Runtime = Runtime.Csharp,
+                        Language = Language.Csharp,
                         CreatedAt = new DateTimeOffset(requestAndResultDate),
                         RequestDuration = 18,
                         IsColdRequest = true,
@@ -79,7 +79,7 @@ namespace CloudRepublic.BenchMark.Application.Tests
 
                 #region Act
 
-                var results = await testService.GetBenchMarkResultsAsync(CloudProvider.Azure, HostEnvironment.Linux, Runtime.Csharp, requestAndResultDate);
+                var results = await testService.GetBenchMarkResultsAsync(CloudProvider.Azure, HostEnvironment.Linux, Language.Csharp, requestAndResultDate);
 
                 #endregion
 
@@ -90,7 +90,7 @@ namespace CloudRepublic.BenchMark.Application.Tests
                 Assert.Equal(12, validationModel.Id);
                 Assert.Equal(CloudProvider.Azure, validationModel.CloudProvider);
                 Assert.Equal(HostEnvironment.Linux, validationModel.HostingEnvironment);
-                Assert.Equal(Runtime.Csharp, validationModel.Runtime);
+                Assert.Equal(Language.Csharp, validationModel.Language);
                 Assert.Equal(new DateTimeOffset(new DateTime(2020, 2, 2)), validationModel.CreatedAt);
                 Assert.Equal(18, validationModel.RequestDuration);
                 Assert.True(validationModel.IsColdRequest);
@@ -126,7 +126,7 @@ namespace CloudRepublic.BenchMark.Application.Tests
                         Id = 12,
                         CloudProvider = CloudProvider.Azure,
                         HostingEnvironment = HostEnvironment.Linux,
-                        Runtime = Runtime.Csharp,
+                        Language = Language.Csharp,
                         CreatedAt = new DateTimeOffset(validResultDate),
                     });
 
@@ -136,7 +136,7 @@ namespace CloudRepublic.BenchMark.Application.Tests
                         Id = 55,
                         CloudProvider = CloudProvider.Azure,
                         HostingEnvironment = HostEnvironment.Linux,
-                        Runtime = Runtime.Csharp,
+                        Language = Language.Csharp,
                         CreatedAt = new DateTimeOffset(invalidResultDate),
                     });
                 context.SaveChanges();
@@ -145,7 +145,7 @@ namespace CloudRepublic.BenchMark.Application.Tests
 
                 #region Act
 
-                var results = await testService.GetBenchMarkResultsAsync(CloudProvider.Azure, HostEnvironment.Linux, Runtime.Csharp, requestDate);
+                var results = await testService.GetBenchMarkResultsAsync(CloudProvider.Azure, HostEnvironment.Linux, Language.Csharp, requestDate);
 
                 #endregion
 
@@ -179,7 +179,7 @@ namespace CloudRepublic.BenchMark.Application.Tests
                         Id = 12,
                         CloudProvider = CloudProvider.Azure,
                         HostingEnvironment = HostEnvironment.Linux,
-                        Runtime = Runtime.Csharp,
+                        Language = Language.Csharp,
                         CreatedAt = new DateTimeOffset(resultDate),
                     });
 
@@ -189,7 +189,7 @@ namespace CloudRepublic.BenchMark.Application.Tests
 
                 #region Act
 
-                var results = await testService.GetBenchMarkResultsAsync(CloudProvider.Azure, HostEnvironment.Linux, Runtime.Csharp, requestDate);
+                var results = await testService.GetBenchMarkResultsAsync(CloudProvider.Azure, HostEnvironment.Linux, Language.Csharp, requestDate);
 
                 #endregion
 
@@ -223,7 +223,7 @@ namespace CloudRepublic.BenchMark.Application.Tests
                         Id = 12,
                         CloudProvider = CloudProvider.Azure, // Requested
                         HostingEnvironment = HostEnvironment.Linux,
-                        Runtime = Runtime.Csharp,
+                        Language = Language.Csharp,
                         CreatedAt = new DateTimeOffset(resultAndRequestDate),
                     });
 
@@ -233,7 +233,7 @@ namespace CloudRepublic.BenchMark.Application.Tests
                         Id = 55,
                         CloudProvider = CloudProvider.Firebase, //  Different
                         HostingEnvironment = HostEnvironment.Linux,
-                        Runtime = Runtime.Csharp,
+                        Language = Language.Csharp,
                         CreatedAt = new DateTimeOffset(resultAndRequestDate),
                     });
                 context.SaveChanges();
@@ -242,7 +242,7 @@ namespace CloudRepublic.BenchMark.Application.Tests
 
                 #region Act
 
-                var results = await testService.GetBenchMarkResultsAsync(CloudProvider.Azure, HostEnvironment.Linux, Runtime.Csharp, resultAndRequestDate);
+                var results = await testService.GetBenchMarkResultsAsync(CloudProvider.Azure, HostEnvironment.Linux, Language.Csharp, resultAndRequestDate);
 
                 #endregion
 
@@ -275,7 +275,7 @@ namespace CloudRepublic.BenchMark.Application.Tests
                         Id = 12,
                         CloudProvider = CloudProvider.Azure,
                         HostingEnvironment = HostEnvironment.Linux,// Requested
-                        Runtime = Runtime.Csharp,
+                        Language = Language.Csharp,
                         CreatedAt = new DateTimeOffset(resultAndRequestDate),
                     });
 
@@ -285,7 +285,7 @@ namespace CloudRepublic.BenchMark.Application.Tests
                         Id = 55,
                         CloudProvider = CloudProvider.Azure,
                         HostingEnvironment = HostEnvironment.Windows,//  Different
-                        Runtime = Runtime.Csharp,
+                        Language = Language.Csharp,
                         CreatedAt = new DateTimeOffset(resultAndRequestDate),
                     });
                 context.SaveChanges();
@@ -294,7 +294,7 @@ namespace CloudRepublic.BenchMark.Application.Tests
 
                 #region Act
 
-                var results = await testService.GetBenchMarkResultsAsync(CloudProvider.Azure, HostEnvironment.Linux, Runtime.Csharp, resultAndRequestDate);
+                var results = await testService.GetBenchMarkResultsAsync(CloudProvider.Azure, HostEnvironment.Linux, Language.Csharp, resultAndRequestDate);
 
                 #endregion
 
@@ -310,7 +310,7 @@ namespace CloudRepublic.BenchMark.Application.Tests
 
         }
         [Fact]
-        public async Task GetBenchMarkResultsAsync_Should_Return_Items_by_Runtime()
+        public async Task GetBenchMarkResultsAsync_Should_Return_Items_by_Language()
         {
             #region Arrange
 
@@ -327,7 +327,7 @@ namespace CloudRepublic.BenchMark.Application.Tests
                         Id = 12,
                         CloudProvider = CloudProvider.Azure,
                         HostingEnvironment = HostEnvironment.Linux,
-                        Runtime = Runtime.Csharp,// Requested
+                        Language = Language.Csharp,// Requested
                         CreatedAt = new DateTimeOffset(resultAndRequestDate),
                     });
 
@@ -337,7 +337,7 @@ namespace CloudRepublic.BenchMark.Application.Tests
                         Id = 55,
                         CloudProvider = CloudProvider.Azure,
                         HostingEnvironment = HostEnvironment.Linux,
-                        Runtime = Runtime.Java,//  Different
+                        Language = Language.Java,//  Different
                         CreatedAt = new DateTimeOffset(resultAndRequestDate),
                     });
 
@@ -347,7 +347,7 @@ namespace CloudRepublic.BenchMark.Application.Tests
                         Id = 34,
                         CloudProvider = CloudProvider.Azure,
                         HostingEnvironment = HostEnvironment.Linux,
-                        Runtime = Runtime.Nodejs,//  Different
+                        Language = Language.Nodejs,//  Different
                         CreatedAt = new DateTimeOffset(resultAndRequestDate),
                     });
                 context.SaveChanges();
@@ -356,7 +356,7 @@ namespace CloudRepublic.BenchMark.Application.Tests
 
                 #region Act
 
-                var results = await testService.GetBenchMarkResultsAsync(CloudProvider.Azure, HostEnvironment.Linux, Runtime.Csharp, resultAndRequestDate);
+                var results = await testService.GetBenchMarkResultsAsync(CloudProvider.Azure, HostEnvironment.Linux, Language.Csharp, resultAndRequestDate);
 
                 #endregion
 

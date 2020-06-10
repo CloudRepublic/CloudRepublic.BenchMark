@@ -17,7 +17,7 @@ namespace CloudRepublic.BenchMark.API.Services
             {
                 CloudProvider = firstResult.CloudProvider.ToString(),
                 HostingEnvironment = firstResult.HostingEnvironment.ToString(),
-                Runtime = firstResult.Runtime.ToString()
+                Language = firstResult.Language.ToString()
             };
 
             var currentDate = firstResult.CreatedAt.Date;

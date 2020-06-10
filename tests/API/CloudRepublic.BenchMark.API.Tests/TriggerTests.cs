@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 using CloudProvider = CloudRepublic.BenchMark.Domain.Enums.CloudProvider;
-using Runtime = CloudRepublic.BenchMark.Domain.Enums.Runtime;
+using Language = CloudRepublic.BenchMark.Domain.Enums.Language;
 
 namespace CloudRepublic.BenchMark.API.Tests
 {
@@ -39,7 +39,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()                {
                 {"hostingEnvironment", "Windows"},
-                {"runtime", "Csharp"}
+                {"language", "Csharp"}
             });
 
             #endregion
@@ -65,7 +65,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()                {
                 {"cloudProvider", "Azure"},
-                {"runtime", "Csharp"}
+                {"language", "Csharp"}
             });
 
             #endregion
@@ -83,7 +83,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             #endregion
         }
         [Fact]
-        public async Task Run_Should_Return_BadRequest_When_No_runtime_argument_given()
+        public async Task Run_Should_Return_BadRequest_When_No_language_argument_given()
         {
             #region Arrange
 
@@ -126,7 +126,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()                {
                 {"cloudProvider", argumentValue},
                 {"hostingEnvironment", "Windows"},
-                {"runtime", "Csharp"},
+                {"language", "Csharp"},
             });
 
             #endregion
@@ -162,7 +162,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()                {
                 {"cloudProvider", "Azure"},
                 {"hostingEnvironment", argumentValue},
-                {"runtime", "Csharp"},
+                {"language", "Csharp"},
             });
 
             #endregion
@@ -186,10 +186,10 @@ namespace CloudRepublic.BenchMark.API.Tests
         [InlineData("")] // parameter is given, but no value
         [InlineData(" ")] // parameter is given, but whitespace value
         [InlineData("        ")]// parameter is given, but whitespace value
-        [InlineData("INVALID RUNTIME VALUE")]// parameter is given, but invalid name value
+        [InlineData("INVALID LANGUAGE VALUE")]// parameter is given, but invalid name value
         [InlineData("-1")] // parameter is given, but out of range number value
         [InlineData("17")] // parameter is given, but out of range number value
-        public async Task Run_Should_Return_BadRequest_When_Invalid_runtime_argument_given(string argumentValue)
+        public async Task Run_Should_Return_BadRequest_When_Invalid_language_argument_given(string argumentValue)
         {
             #region Arrange
 
@@ -198,7 +198,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()                {
                 {"cloudProvider", "Azure"},
                 {"hostingEnvironment", "Windows"},
-                {"runtime", argumentValue},
+                {"language", argumentValue},
             });
 
             #endregion
@@ -226,7 +226,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             Environment.SetEnvironmentVariable("dayRange", "1");
             _mockBenchMarkResultService.Setup(c => c.GetToday()).Returns(new DateTime(2020, 1, 2));
             _mockBenchMarkResultService.Setup(c =>
-                    c.GetBenchMarkResultsAsync(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Runtime>(), It.IsAny<DateTime>()))
+                    c.GetBenchMarkResultsAsync(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Language>(), It.IsAny<DateTime>()))
                 .Returns(Task.FromResult(benchMarkResults));
 
             var sampleBenchMarkData = new BenchMarkData()
@@ -237,7 +237,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
             var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
-                {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"runtime", "Fsharp"}});
+                {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"language", "Fsharp"}});
 
             #endregion
 
@@ -252,7 +252,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             _mockBenchMarkResultService.Verify(service => service.GetBenchMarkResultsAsync(
                 It.Is<CloudProvider>(cloudProvider => cloudProvider == CloudProvider.Firebase),
                 It.Is<HostEnvironment>(hostingEnvironment => hostingEnvironment == HostEnvironment.Linux),
-                It.Is<Runtime>(runtime => runtime == Runtime.Fsharp),
+                It.Is<Language>(language => language == Language.Fsharp),
                 It.IsAny<DateTime>()), Times.Once);
 
             #endregion
@@ -269,13 +269,13 @@ namespace CloudRepublic.BenchMark.API.Tests
             var benchMarkResults = new List<BenchMarkResult>();
 
             _mockBenchMarkResultService.Setup(c =>
-                    c.GetBenchMarkResultsAsync(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Runtime>(), It.IsAny<DateTime>()))
+                    c.GetBenchMarkResultsAsync(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Language>(), It.IsAny<DateTime>()))
                 .Returns(Task.FromResult(benchMarkResults));
 
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
             var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
-                {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"runtime", "Fsharp"}});
+                {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"language", "Fsharp"}});
 
             #endregion
 
@@ -302,13 +302,13 @@ namespace CloudRepublic.BenchMark.API.Tests
             var benchMarkResults = new List<BenchMarkResult>();
 
             _mockBenchMarkResultService.Setup(c =>
-                    c.GetBenchMarkResultsAsync(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Runtime>(), It.IsAny<DateTime>()))
+                    c.GetBenchMarkResultsAsync(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Language>(), It.IsAny<DateTime>()))
                 .Returns(Task.FromResult(benchMarkResults));
 
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
             var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
-                {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"runtime", "Fsharp"}});
+                {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"language", "Fsharp"}});
 
             #endregion
 
@@ -323,7 +323,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             _mockBenchMarkResultService.Verify(service => service.GetBenchMarkResultsAsync(
                 It.IsAny<CloudProvider>(),
                 It.IsAny<HostEnvironment>(),
-                It.IsAny<Runtime>(),
+                It.IsAny<Language>(),
                 It.Is<DateTime>(sinceDate => sinceDate == new DateTime(2020, 1, 11, 1, 3, 44))), Times.Once);
             // the given day was 21, minus the daterange 10 it should become the exact same date but 10 days earlier
 
@@ -342,12 +342,12 @@ namespace CloudRepublic.BenchMark.API.Tests
             var benchMarkResults = new List<BenchMarkResult>();
 
             _mockBenchMarkResultService.Setup(c =>
-                    c.GetBenchMarkResultsAsync(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Runtime>(), It.IsAny<DateTime>()))
+                    c.GetBenchMarkResultsAsync(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Language>(), It.IsAny<DateTime>()))
                 .Returns(Task.FromResult(benchMarkResults));
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
             var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
-                {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"runtime", "Fsharp"}});
+                {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"language", "Fsharp"}});
 
             #endregion
 
@@ -383,12 +383,12 @@ namespace CloudRepublic.BenchMark.API.Tests
             Environment.SetEnvironmentVariable("dayRange", "1");
             _mockBenchMarkResultService.Setup(c => c.GetToday()).Returns(new DateTime(2020, 1, 2));
             _mockBenchMarkResultService.Setup(c =>
-                    c.GetBenchMarkResultsAsync(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Runtime>(), It.IsAny<DateTime>()))
+                    c.GetBenchMarkResultsAsync(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Language>(), It.IsAny<DateTime>()))
                 .Returns(Task.FromResult(benchMarkResults));
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
             var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
-                {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"runtime", "Fsharp"}});
+                {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"language", "Fsharp"}});
 
             #endregion
 
@@ -423,7 +423,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             Environment.SetEnvironmentVariable("dayRange", "1");
             _mockBenchMarkResultService.Setup(c => c.GetToday()).Returns(new DateTime(2020, 1, 2));
             _mockBenchMarkResultService.Setup(c =>
-                    c.GetBenchMarkResultsAsync(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Runtime>(), It.IsAny<DateTime>()))
+                    c.GetBenchMarkResultsAsync(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Language>(), It.IsAny<DateTime>()))
                 .Returns(Task.FromResult(benchMarkResults));
 
             var sampleBenchMarkData = new BenchMarkData()
@@ -431,7 +431,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
             var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
-                {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"runtime", "Fsharp"}});
+                {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"language", "Fsharp"}});
 
             #endregion
 
@@ -464,7 +464,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             Environment.SetEnvironmentVariable("dayRange", "1");
             _mockBenchMarkResultService.Setup(c => c.GetToday()).Returns(new DateTime(2020, 1, 2));
             _mockBenchMarkResultService.Setup(c =>
-                    c.GetBenchMarkResultsAsync(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Runtime>(), It.IsAny<DateTime>()))
+                    c.GetBenchMarkResultsAsync(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Language>(), It.IsAny<DateTime>()))
                 .Returns(Task.FromResult(benchMarkResults));
 
             var sampleBenchMarkData = new BenchMarkData()
@@ -475,7 +475,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
             var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
-                {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"runtime", "Fsharp"}});
+                {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"language", "Fsharp"}});
 
             #endregion
 

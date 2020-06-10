@@ -19,7 +19,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var cloudProvider = CloudProvider.Azure;
             var hostingEnvironment = HostEnvironment.Windows;
-            var runtime = Runtime.Csharp;
+            var language = Language.Csharp;
 
 
             var benchMarkResults = new List<BenchMarkResult>()
@@ -28,7 +28,7 @@ namespace CloudRepublic.BenchMark.API.Tests
                 {
                     CloudProvider = cloudProvider,
                     HostingEnvironment = hostingEnvironment,
-                    Runtime = runtime,
+                    Language = language,
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                 },
             };
@@ -48,7 +48,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             Assert.NotNull(benchMarkData);
             Assert.Equal(cloudProvider.ToString(), benchMarkData.CloudProvider);
             Assert.Equal(hostingEnvironment.ToString(), benchMarkData.HostingEnvironment);
-            Assert.Equal(runtime.ToString(), benchMarkData.Runtime);
+            Assert.Equal(language.ToString(), benchMarkData.Language);
 
             #endregion
         }
@@ -65,28 +65,28 @@ namespace CloudRepublic.BenchMark.API.Tests
                 {
                     CloudProvider =  CloudProvider.Firebase,
                     HostingEnvironment =  HostEnvironment.Linux,
-                    Runtime =  Runtime.Java,
+                    Language =  Language.Java,
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                 },
                 new BenchMarkResult()
                 {
                     CloudProvider = CloudProvider.Azure, // different than the main
                     HostingEnvironment =  HostEnvironment.Windows,
-                    Runtime =  Runtime.Csharp,
+                    Language =  Language.Csharp,
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                 },
                 new BenchMarkResult()
                 {
                     CloudProvider = CloudProvider.Azure, // different than the main
                     HostingEnvironment =  HostEnvironment.Windows,
-                    Runtime =  Runtime.Csharp,
+                    Language =  Language.Csharp,
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                 },
                 new BenchMarkResult()
                 {
                     CloudProvider = CloudProvider.Azure, // different than the main
                     HostingEnvironment =  HostEnvironment.Windows,
-                    Runtime =  Runtime.Csharp,
+                    Language =  Language.Csharp,
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                 },
             };
@@ -106,7 +106,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             Assert.NotNull(benchMarkData);
             Assert.Equal(CloudProvider.Firebase.ToString(), benchMarkData.CloudProvider);
             Assert.Equal(HostEnvironment.Linux.ToString(), benchMarkData.HostingEnvironment);
-            Assert.Equal(Runtime.Java.ToString(), benchMarkData.Runtime);
+            Assert.Equal(Language.Java.ToString(), benchMarkData.Language);
 
             #endregion
         }
@@ -123,7 +123,7 @@ namespace CloudRepublic.BenchMark.API.Tests
                 {
                     CloudProvider =  (CloudProvider)(-1) , // does not exist on enum
                     HostingEnvironment =(HostEnvironment)100, // does not exist on enum
-                    Runtime = (Runtime)789, // does not exist on enum
+                    Language = (Language)789, // does not exist on enum
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                 },
             };
@@ -143,7 +143,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             Assert.NotNull(benchMarkData);
             Assert.Equal("-1", benchMarkData.CloudProvider);
             Assert.Equal("100", benchMarkData.HostingEnvironment);
-            Assert.Equal("789", benchMarkData.Runtime);
+            Assert.Equal("789", benchMarkData.Language);
 
             #endregion
         }

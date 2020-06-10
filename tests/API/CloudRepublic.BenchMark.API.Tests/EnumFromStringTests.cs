@@ -28,6 +28,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             #endregion
 
             #region Act
+
             var enumToTest = new EnumFromString<TestEnum>(invalidInput);
 
             #endregion

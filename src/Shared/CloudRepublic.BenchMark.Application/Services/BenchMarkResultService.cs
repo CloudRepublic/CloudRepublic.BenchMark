@@ -24,13 +24,13 @@ namespace CloudRepublic.BenchMark.Application.Services
             return DateTime.Now;
         }
         public async Task<List<BenchMarkResult>> GetBenchMarkResultsAsync(CloudProvider cloudProvider,
-            HostEnvironment hostingEnvironment, Runtime runtime, DateTime afterDate)
+            HostEnvironment hostingEnvironment, Language language, DateTime afterDate)
         {
 
             var results = await _dbContext.BenchMarkResult
                 .Where(result => result.CloudProvider == cloudProvider)
                 .Where(result => result.HostingEnvironment == hostingEnvironment)
-                .Where(result => result.Runtime == runtime)
+                .Where(result => result.Language == language)
                 .Where(result => result.CreatedAt.Date >= afterDate.Date)
                 .OrderByDescending(result => result.CreatedAt)
                 .ToListAsync();

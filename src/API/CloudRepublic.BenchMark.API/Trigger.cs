@@ -31,8 +31,8 @@ namespace CloudRepublic.BenchMark.API
 
             EnumFromString<CloudProvider> cloudProvider = new EnumFromString<CloudProvider>(req.Query["cloudProvider"]);
             EnumFromString<HostEnvironment> hostingEnvironment = new EnumFromString<HostEnvironment>(req.Query["hostingEnvironment"]);
-            EnumFromString<Runtime> runtime = new EnumFromString<Runtime>(req.Query["runtime"]);
-            if (!cloudProvider.ParsedSuccesfull || !hostingEnvironment.ParsedSuccesfull || !runtime.ParsedSuccesfull)
+            EnumFromString<Language> language = new EnumFromString<Language>(req.Query["language"]);
+            if (!cloudProvider.ParsedSuccesfull || !hostingEnvironment.ParsedSuccesfull || !language.ParsedSuccesfull)
             {
                 return new BadRequestResult();
             }
@@ -44,7 +44,7 @@ namespace CloudRepublic.BenchMark.API
             var benchMarkDataPoints = await _benchMarkResultService.GetBenchMarkResultsAsync(
                     cloudProvider.Value,
                     hostingEnvironment.Value,
-                    runtime.Value,
+                    language.Value,
                     resultsSinceDate
                     );
 

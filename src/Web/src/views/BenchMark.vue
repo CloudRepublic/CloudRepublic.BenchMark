@@ -43,7 +43,7 @@
         :warmMedianExecutionTime="warmMedianExecutionTime"
         :warmChangeSinceYesterday="warmPreviousDayDifference"
         :warmPositiveChange="warmPreviousDayPositive"
-        :runtime="runtime"
+        :language="language"
         :cloudProvider="cloudProvider"
       ></BenchMarkEnvi>
     </div>
@@ -55,7 +55,7 @@ import BenchMarkEnvi from '@/components/Custom/BenchMarkEnvi';
 import VueElementLoading from 'vue-element-loading';
 
 // The frontend -> backend communication looks at string names not enum int values so we use strings here that must match the names of the backend enum.
-const Runtime = Object.freeze({
+const Language = Object.freeze({
   Csharp: 'Csharp',
   Nodejs: 'Nodejs',
   Python: 'Python',
@@ -104,8 +104,8 @@ export default {
     warmPreviousDayPositive() {
       return this.benchMarkData.warmPreviousDayPositive;
     },
-    runtime() {
-      return this.benchMarkData.runtime;
+    language() {
+      return this.benchMarkData.language;
     },
     cloudProvider() {
       return this.benchMarkData.cloudProvider;
@@ -121,67 +121,67 @@ export default {
           title: 'Azure - Windows C#',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Windows,
-          language: Runtime.Csharp
+          language: Language.Csharp
         },
         {
           title: 'Azure - Windows Nodejs',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Windows,
-          language: Runtime.Nodejs
+          language: Language.Nodejs
         },
         {
           title: 'Azure - Windows Python',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Windows,
-          language: Runtime.Python
+          language: Language.Python
         },
         {
           title: 'Azure - Windows Java',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Windows,
-          language: Runtime.Java
+          language: Language.Java
         },
         {
           title: 'Azure - Windows Fsharp',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Windows,
-          language: Runtime.Fsharp
+          language: Language.Fsharp
         },
         {
           title: 'Azure - Linux C#',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Linux,
-          language: Runtime.Csharp
+          language: Language.Csharp
         },
         {
           title: 'Azure - Linux  Nodejs',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Linux,
-          language: Runtime.Nodejs
+          language: Language.Nodejs
         },
         {
           title: 'Azure - Linux Python',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Linux,
-          language: Runtime.Python
+          language: Language.Python
         },
         {
           title: 'Azure - Linux Java',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Linux,
-          language: Runtime.Java
+          language: Language.Java
         },
         {
           title: 'Azure - Linux Fsharp',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Linux,
-          language: Runtime.Fsharp
+          language: Language.Fsharp
         },
         {
           title: 'Firebase - Linux Nodejs',
           cloud: CloudProvider.Firebase,
           os: HostEnvironment.Linux,
-          language: Runtime.Nodejs
+          language: Language.Nodejs
         }
       ]
     };
@@ -201,7 +201,7 @@ export default {
       }
       this.isLoading = false;
     }
-  },
+  }
 };
 </script>
 <style>

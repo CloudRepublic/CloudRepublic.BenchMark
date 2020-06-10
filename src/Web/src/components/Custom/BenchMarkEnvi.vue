@@ -7,7 +7,7 @@
             <div class="d-flex align-items-center">
               <span class="display-1 text-white p-0" style="line-height:0.7;">{{cloudProvider}}</span>
             </div>
-            <span class="display-4 runtime-text">{{runtime}}</span>
+            <span class="display-4 language-text">{{language}}</span>
           </div>
         </div>
       </div>
@@ -165,13 +165,13 @@ export default {
       type: Number,
       default: 1.0
     },
-    runtime: {
+    language: {
       type: String,
       default: ''
     },
     cloudProvider: {
       type: String,
-      default: ""
+      default: ''
     }
   },
   data() {
@@ -269,19 +269,19 @@ export default {
 </script>
 
 <style>
-.runtime-text {
+.language-text {
   text-align: right;
 }
 
 @media (max-width: 768px) {
-  .runtime-text {
+  .language-text {
     text-align: left !important;
     margin-left: 4rem;
   }
 }
 
 @media (max-width: 576px) {
-  .runtime-text {
+  .language-text {
     text-align: left !important;
     margin-left: 4rem;
   }

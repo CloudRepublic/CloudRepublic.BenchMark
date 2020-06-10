@@ -16,7 +16,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Statics
             {
                 CloudProvider = benchMarkType.CloudProvider,
                 HostingEnvironment = benchMarkType.HostEnvironment,
-                Runtime = benchMarkType.Runtime,
+                Language = benchMarkType.Language,
                 Success = benchMarkResponse.Success,
                 RequestDuration = Convert.ToInt32(benchMarkResponse.Duration),
                 IsColdRequest = isColdRequest

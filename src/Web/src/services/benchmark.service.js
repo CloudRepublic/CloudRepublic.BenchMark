@@ -1,10 +1,10 @@
 export const benchMarkService = { getBenchMarkData };
 
-async function getBenchMarkData(cloudProvider, hostingEnvironment, runtime) {
+async function getBenchMarkData(cloudProvider, hostingEnvironment, language) {
   let response = await fetch(
     `${
     process.env.VUE_APP_API
-    }?cloudProvider=${cloudProvider}&hostingEnvironment=${hostingEnvironment}&runtime=${runtime}`,
+    }?cloudProvider=${cloudProvider}&hostingEnvironment=${hostingEnvironment}&language=${language}`,
     {
       headers: { 'Ocp-Apim-Subscription-Key': process.env.VUE_APP_API_KEY }
     }

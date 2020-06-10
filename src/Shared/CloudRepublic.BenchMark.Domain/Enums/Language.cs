@@ -1,6 +1,6 @@
 namespace CloudRepublic.BenchMark.Domain.Enums
 {
-    public enum Runtime
+    public enum Language
     {
         Csharp = 0,
         Nodejs = 1,
