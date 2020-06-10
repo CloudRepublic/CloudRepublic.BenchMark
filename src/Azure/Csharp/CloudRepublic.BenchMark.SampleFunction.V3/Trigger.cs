@@ -5,7 +5,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
-namespace CloudRepublic.BenchMark.SampleFunction.V2
+namespace CloudRepublic.BenchMark.SampleFunction.V3
 {
     public static class Trigger
     {

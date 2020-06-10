@@ -1,4 +1,4 @@
-namespace CloudRepublic.BenchMark.SampleFunction.V2
+﻿namespace CloudRepublic.BenchMark.SampleFunction.FSharp.V3
 
 module Trigger =
 

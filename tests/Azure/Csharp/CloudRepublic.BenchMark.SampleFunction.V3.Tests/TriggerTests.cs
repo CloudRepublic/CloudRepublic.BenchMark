@@ -1,4 +1,4 @@
-﻿using CloudRepublic.BenchMark.Tests.Infrastructure;
+using CloudRepublic.BenchMark.Tests.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace CloudRepublic.BenchMark.SampleFunction.V2.Tests
+namespace CloudRepublic.BenchMark.SampleFunction.V3.Tests
 {
     public class TriggerTests
     {

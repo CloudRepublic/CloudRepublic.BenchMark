@@ -19,9 +19,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Csharp", "Csharp", "{BD8131
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nodejs", "Nodejs", "{ED094364-3124-4204-9121-485ED1D927B7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudRepublic.BenchMark.SampleFunction", "src\Azure\Csharp\CloudRepublic.BenchMark.SampleFunction\CloudRepublic.BenchMark.SampleFunction.csproj", "{B13F07F8-45AC-49D8-A26B-56197D05FBBB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudRepublic.BenchMark.SampleFunction.V2", "src\Azure\Csharp\CloudRepublic.BenchMark.SampleFunction\CloudRepublic.BenchMark.SampleFunction.V2.csproj", "{B13F07F8-45AC-49D8-A26B-56197D05FBBB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudRepublic.BenchMark.SampleFunction.Tests", "tests\Azure\Csharp\CloudRepublic.BenchMark.SampleFunction.Tests\CloudRepublic.BenchMark.SampleFunction.Tests.csproj", "{14913B77-D7ED-4AF8-A4DE-52BD583197BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudRepublic.BenchMark.SampleFunction.V2.Tests", "tests\Azure\Csharp\CloudRepublic.BenchMark.SampleFunction.Tests\CloudRepublic.BenchMark.SampleFunction.V2.Tests.csproj", "{14913B77-D7ED-4AF8-A4DE-52BD583197BD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Orchestrator", "Orchestrator", "{8D1A35F9-D98F-4F13-869A-6EAB332ACE6B}"
 EndProject
@@ -59,13 +59,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Python", "Python", "{443E8E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Fsharp", "Fsharp", "{4A28597F-F3EB-4F7A-BA48-CDA787BDF843}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "CloudRepublic.BenchMark.SampleFunction", "src\Azure\Fsharp\CloudRepublic.BenchMark.SampleFunction\CloudRepublic.BenchMark.SampleFunction.fsproj", "{6274C4EF-8FEA-400C-990A-52E98F7793FC}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "CloudRepublic.BenchMark.SampleFunction.V2", "src\Azure\Fsharp\CloudRepublic.BenchMark.SampleFunction\CloudRepublic.BenchMark.SampleFunction.V2.fsproj", "{6274C4EF-8FEA-400C-990A-52E98F7793FC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Orchestrator", "Orchestrator", "{5B70698A-1EB4-4A41-A1E8-DA6A87EEEB62}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudRepublic.BenchMark.Orchestrator.Tests", "tests\Orchestrator\CloudRepublic.BenchMark.Orchestrator.Tests\CloudRepublic.BenchMark.Orchestrator.Tests.csproj", "{FBE92687-0D62-4E72-9248-0A3907E1DA14}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudRepublic.BenchMark.Application.Tests", "tests\Shared\CloudRepublic.BenchMark.Application.Tests\CloudRepublic.BenchMark.Application.Tests.csproj", "{8FE1199A-D16E-46AF-82BE-776B7A73481A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudRepublic.BenchMark.SampleFunction.V3", "src\Azure\Csharp\CloudRepublic.BenchMark.SampleFunction.V3\CloudRepublic.BenchMark.SampleFunction.V3.csproj", "{666CD9A0-30A2-47A4-8FDC-69CE955561E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudRepublic.BenchMark.SampleFunction.V3.Tests", "tests\Azure\Csharp\CloudRepublic.BenchMark.SampleFunction.V3.Tests\CloudRepublic.BenchMark.SampleFunction.V3.Tests.csproj", "{ABA11F45-AA56-41D9-B33F-E5AC750E5748}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CloudRepublic.BenchMark.SampleFunction.FSharp.V3", "src\Azure\Fsharp\CloudRepublic.BenchMark.SampleFunction.FSharp.V3\CloudRepublic.BenchMark.SampleFunction.FSharp.V3.fsproj", "{83B411DB-A763-478F-AFCC-85E45B178530}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -125,6 +131,18 @@ Global
 		{8FE1199A-D16E-46AF-82BE-776B7A73481A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FE1199A-D16E-46AF-82BE-776B7A73481A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FE1199A-D16E-46AF-82BE-776B7A73481A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{666CD9A0-30A2-47A4-8FDC-69CE955561E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{666CD9A0-30A2-47A4-8FDC-69CE955561E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{666CD9A0-30A2-47A4-8FDC-69CE955561E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{666CD9A0-30A2-47A4-8FDC-69CE955561E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABA11F45-AA56-41D9-B33F-E5AC750E5748}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABA11F45-AA56-41D9-B33F-E5AC750E5748}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABA11F45-AA56-41D9-B33F-E5AC750E5748}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABA11F45-AA56-41D9-B33F-E5AC750E5748}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83B411DB-A763-478F-AFCC-85E45B178530}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83B411DB-A763-478F-AFCC-85E45B178530}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83B411DB-A763-478F-AFCC-85E45B178530}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83B411DB-A763-478F-AFCC-85E45B178530}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -160,6 +178,9 @@ Global
 		{5B70698A-1EB4-4A41-A1E8-DA6A87EEEB62} = {3D4FD3F0-1F1F-4B24-B6B7-B73C8A0385FA}
 		{FBE92687-0D62-4E72-9248-0A3907E1DA14} = {5B70698A-1EB4-4A41-A1E8-DA6A87EEEB62}
 		{8FE1199A-D16E-46AF-82BE-776B7A73481A} = {7572AE3C-D0EC-4843-9952-EEDD0F0DC68C}
+		{666CD9A0-30A2-47A4-8FDC-69CE955561E7} = {933EB6A4-2196-47DB-A5D1-F7F4ED77C5E8}
+		{ABA11F45-AA56-41D9-B33F-E5AC750E5748} = {BD81317E-3D73-4EFC-AD7C-C7DAFEE00CB2}
+		{83B411DB-A763-478F-AFCC-85E45B178530} = {4A28597F-F3EB-4F7A-BA48-CDA787BDF843}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0580A24C-4FAC-46B1-8BAA-78D167E4D0AF}
