@@ -1,6 +1,5 @@
 using CloudRepublic.BenchMark.Application.Interfaces;
 using CloudRepublic.BenchMark.Application.Models;
-using System;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -27,7 +26,7 @@ namespace CloudRepublic.BenchMark.Application.Services
 
                 return new BenchMarkResponse(response.IsSuccessStatusCode, result);
             }
-            catch (Exception e)
+            catch
             {
                 return new BenchMarkResponse(false, 0);
             }
