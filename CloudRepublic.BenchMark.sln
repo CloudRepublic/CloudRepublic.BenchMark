@@ -59,7 +59,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Python", "Python", "{443E8E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Fsharp", "Fsharp", "{4A28597F-F3EB-4F7A-BA48-CDA787BDF843}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "CloudRepublic.BenchMark.SampleFunction.V2", "src\Azure\Fsharp\CloudRepublic.BenchMark.SampleFunction\CloudRepublic.BenchMark.SampleFunction.V2.fsproj", "{6274C4EF-8FEA-400C-990A-52E98F7793FC}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "CloudRepublic.BenchMark.SampleFunction.FSharp.V2", "src\Azure\Fsharp\CloudRepublic.BenchMark.SampleFunction\CloudRepublic.BenchMark.SampleFunction.FSharp.V2.fsproj", "{6274C4EF-8FEA-400C-990A-52E98F7793FC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Orchestrator", "Orchestrator", "{5B70698A-1EB4-4A41-A1E8-DA6A87EEEB62}"
 EndProject
