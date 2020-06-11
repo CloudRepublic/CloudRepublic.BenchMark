@@ -17,6 +17,33 @@ using Language = CloudRepublic.BenchMark.Domain.Enums.Language;
 
 namespace CloudRepublic.BenchMark.API.Tests
 {
+    public static class DictionaryExtension
+    {
+
+        public static void SetDefaultHeaders_All(this Dictionary<string, StringValues> dictionary)
+        {
+            dictionary.SetDefaultHeader_CloudProvider();
+            dictionary.SetDefaultHeader_Language();
+            dictionary.SetDefaultHeader_AzureRuntimeVersion();
+            dictionary.SetDefaultHeader_HostingEnvironment();
+        }
+        public static void SetDefaultHeader_CloudProvider(this Dictionary<string, StringValues> dictionary, string cloudProvider = "Azure")
+        {
+            dictionary.Add("cloudProvider", cloudProvider);
+        }
+        public static void SetDefaultHeader_Language(this Dictionary<string, StringValues> dictionary, string language = "Csharp")
+        {
+            dictionary.Add("language", language);
+        }
+        public static void SetDefaultHeader_AzureRuntimeVersion(this Dictionary<string, StringValues> dictionary, string azureRuntimeVersion = "Version_2")
+        {
+            dictionary.Add("azureRuntimeVersion", azureRuntimeVersion);
+        }
+        public static void SetDefaultHeader_HostingEnvironment(this Dictionary<string, StringValues> dictionary, string hostingEnvironment = "Windows")
+        {
+            dictionary.Add("hostingEnvironment", hostingEnvironment);
+        }
+    }
     public class TriggerTests
     {
         private readonly ILogger _logger = TestFactory.CreateLogger();
@@ -28,6 +55,15 @@ namespace CloudRepublic.BenchMark.API.Tests
         {
             _mockBenchMarkResultService = new Mock<IBenchMarkResultService>();
             _mockResponseConverter = new Mock<IResponseConverterService>();
+
+            // default dayrange and datetime
+            Environment.SetEnvironmentVariable("dayRange", "1");
+            _mockBenchMarkResultService.Setup(c => c.GetToday()).Returns(new DateTime(2020, 1, 2));
+
+            // setup a default empty return
+            _mockBenchMarkResultService.Setup(c =>
+                    c.GetBenchMarkResultsAsync(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Language>(), It.IsAny<AzureRuntimeVersion>(), It.IsAny<DateTime>()))
+                .Returns(Task.FromResult(new List<BenchMarkResult>()));
         }
 
         [Fact]
@@ -37,10 +73,13 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
 
-            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()                {
-                {"hostingEnvironment", "Windows"},
-                {"language", "Csharp"}
-            });
+            var dictionary = new Dictionary<string, StringValues>();
+            // dictionary.SetDefaultHeader_CloudProvider();
+            dictionary.SetDefaultHeader_Language();
+            dictionary.SetDefaultHeader_AzureRuntimeVersion();
+            dictionary.SetDefaultHeader_HostingEnvironment();
+
+            var request = TestFactory.CreateHttpRequest(dictionary);
 
             #endregion
 
@@ -64,11 +103,13 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
 
-            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()                {
-                {"CloudProvider", "Azure"},
-                {"hostingEnvironment", "Windows"},
-                {"language", "Csharp"}
-            });
+            var dictionary = new Dictionary<string, StringValues>();
+            dictionary.SetDefaultHeader_CloudProvider();
+            dictionary.SetDefaultHeader_Language();
+            // dictionary.SetDefaultHeader_AzureRuntimeVersion();
+            dictionary.SetDefaultHeader_HostingEnvironment();
+
+            var request = TestFactory.CreateHttpRequest(dictionary);
 
             #endregion
 
@@ -91,10 +132,13 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
 
-            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()                {
-                {"cloudProvider", "Azure"},
-                {"language", "Csharp"}
-            });
+            var dictionary = new Dictionary<string, StringValues>();
+            dictionary.SetDefaultHeader_CloudProvider();
+            dictionary.SetDefaultHeader_Language();
+            dictionary.SetDefaultHeader_AzureRuntimeVersion();
+            // dictionary.SetDefaultHeader_HostingEnvironment();
+
+            var request = TestFactory.CreateHttpRequest(dictionary);
 
             #endregion
 
@@ -117,10 +161,13 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
 
-            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()                {
-                {"cloudProvider", "Azure"},
-                {"hostingEnvironment", "Windows"},
-            });
+            var dictionary = new Dictionary<string, StringValues>();
+            dictionary.SetDefaultHeader_CloudProvider();
+            // dictionary.SetDefaultHeader_Language();
+            dictionary.SetDefaultHeader_AzureRuntimeVersion();
+            dictionary.SetDefaultHeader_HostingEnvironment();
+
+            var request = TestFactory.CreateHttpRequest(dictionary);
 
             #endregion
 
@@ -151,11 +198,13 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
 
-            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()                {
-                {"cloudProvider", argumentValue},
-                {"hostingEnvironment", "Windows"},
-                {"language", "Csharp"},
-            });
+            var dictionary = new Dictionary<string, StringValues>();
+            dictionary.SetDefaultHeader_CloudProvider(argumentValue);
+            dictionary.SetDefaultHeader_Language();
+            dictionary.SetDefaultHeader_AzureRuntimeVersion();
+            dictionary.SetDefaultHeader_HostingEnvironment();
+
+            var request = TestFactory.CreateHttpRequest(dictionary);
 
             #endregion
 
@@ -187,11 +236,13 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
 
-            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()                {
-                {"cloudProvider", "Azure"},
-                {"hostingEnvironment", argumentValue},
-                {"language", "Csharp"},
-            });
+            var dictionary = new Dictionary<string, StringValues>();
+            dictionary.SetDefaultHeader_CloudProvider();
+            dictionary.SetDefaultHeader_Language();
+            dictionary.SetDefaultHeader_AzureRuntimeVersion();
+            dictionary.SetDefaultHeader_HostingEnvironment(argumentValue);
+
+            var request = TestFactory.CreateHttpRequest(dictionary);
 
             #endregion
 
@@ -223,11 +274,13 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
 
-            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()                {
-                {"cloudProvider", "Azure"},
-                {"hostingEnvironment", "Windows"},
-                {"language", argumentValue},
-            });
+            var dictionary = new Dictionary<string, StringValues>();
+            dictionary.SetDefaultHeader_CloudProvider();
+            dictionary.SetDefaultHeader_Language(argumentValue);
+            dictionary.SetDefaultHeader_AzureRuntimeVersion();
+            dictionary.SetDefaultHeader_HostingEnvironment();
+
+            var request = TestFactory.CreateHttpRequest(dictionary);
 
             #endregion
 
@@ -249,23 +302,20 @@ namespace CloudRepublic.BenchMark.API.Tests
         {
             #region Arrange
 
-            var benchMarkResults = new List<BenchMarkResult>();
-
-            Environment.SetEnvironmentVariable("dayRange", "1");
-            _mockBenchMarkResultService.Setup(c => c.GetToday()).Returns(new DateTime(2020, 1, 2));
-            _mockBenchMarkResultService.Setup(c =>
-                    c.GetBenchMarkResultsAsync(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Language>(), It.IsAny<DateTime>()))
-                .Returns(Task.FromResult(benchMarkResults));
-
             var sampleBenchMarkData = new BenchMarkData()
             { CloudProvider = "Azure" };
 
-            _mockResponseConverter.Setup(c => c.ConvertToBenchMarkData(benchMarkResults))
-                .Returns(sampleBenchMarkData);
+            _mockResponseConverter.Setup(c => c.ConvertToBenchMarkData(new List<BenchMarkResult>())).Returns(sampleBenchMarkData);
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
-            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
-                {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"language", "Fsharp"}});
+
+            var dictionary = new Dictionary<string, StringValues>();
+            dictionary.SetDefaultHeader_CloudProvider(CloudProvider.Firebase.ToString());
+            dictionary.SetDefaultHeader_HostingEnvironment(HostEnvironment.Linux.ToString());
+            dictionary.SetDefaultHeader_Language(Language.Fsharp.ToString());
+            dictionary.SetDefaultHeader_AzureRuntimeVersion(AzureRuntimeVersion.Version_3.ToString());
+
+            var request = TestFactory.CreateHttpRequest(dictionary);
 
             #endregion
 
@@ -281,6 +331,7 @@ namespace CloudRepublic.BenchMark.API.Tests
                 It.Is<CloudProvider>(cloudProvider => cloudProvider == CloudProvider.Firebase),
                 It.Is<HostEnvironment>(hostingEnvironment => hostingEnvironment == HostEnvironment.Linux),
                 It.Is<Language>(language => language == Language.Fsharp),
+                It.Is<AzureRuntimeVersion>(azureRuntimeVersion => azureRuntimeVersion == AzureRuntimeVersion.Version_3),
                 It.IsAny<DateTime>()), Times.Once);
 
             #endregion
@@ -290,20 +341,12 @@ namespace CloudRepublic.BenchMark.API.Tests
         {
             #region Arrange
 
-            Environment.SetEnvironmentVariable("dayRange", "1");
-            _mockBenchMarkResultService.Setup(c => c.GetToday()).Returns(new DateTime(2020, 1, 2));
-
-
-            var benchMarkResults = new List<BenchMarkResult>();
-
-            _mockBenchMarkResultService.Setup(c =>
-                    c.GetBenchMarkResultsAsync(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Language>(), It.IsAny<DateTime>()))
-                .Returns(Task.FromResult(benchMarkResults));
-
-
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
-            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
-                {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"language", "Fsharp"}});
+
+            var dictionary = new Dictionary<string, StringValues>();
+            dictionary.SetDefaultHeaders_All();
+
+            var request = TestFactory.CreateHttpRequest(dictionary);
 
             #endregion
 
@@ -327,16 +370,13 @@ namespace CloudRepublic.BenchMark.API.Tests
             Environment.SetEnvironmentVariable("dayRange", "10");
             _mockBenchMarkResultService.Setup(c => c.GetToday()).Returns(new DateTime(2020, 1, 21, 1, 3, 44));
 
-            var benchMarkResults = new List<BenchMarkResult>();
-
-            _mockBenchMarkResultService.Setup(c =>
-                    c.GetBenchMarkResultsAsync(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Language>(), It.IsAny<DateTime>()))
-                .Returns(Task.FromResult(benchMarkResults));
-
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
-            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
-                {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"language", "Fsharp"}});
+
+            var dictionary = new Dictionary<string, StringValues>();
+            dictionary.SetDefaultHeaders_All();
+
+            var request = TestFactory.CreateHttpRequest(dictionary);
 
             #endregion
 
@@ -352,6 +392,7 @@ namespace CloudRepublic.BenchMark.API.Tests
                 It.IsAny<CloudProvider>(),
                 It.IsAny<HostEnvironment>(),
                 It.IsAny<Language>(),
+                It.IsAny<AzureRuntimeVersion>(),
                 It.Is<DateTime>(sinceDate => sinceDate == new DateTime(2020, 1, 11, 1, 3, 44))), Times.Once);
             // the given day was 21, minus the daterange 10 it should become the exact same date but 10 days earlier
 
@@ -364,18 +405,13 @@ namespace CloudRepublic.BenchMark.API.Tests
         {
             #region Arrange
 
-            Environment.SetEnvironmentVariable("dayRange", "1");
-            _mockBenchMarkResultService.Setup(c => c.GetToday()).Returns(new DateTime(2020, 1, 2));
-
-            var benchMarkResults = new List<BenchMarkResult>();
-
-            _mockBenchMarkResultService.Setup(c =>
-                    c.GetBenchMarkResultsAsync(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Language>(), It.IsAny<DateTime>()))
-                .Returns(Task.FromResult(benchMarkResults));
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
-            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
-                {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"language", "Fsharp"}});
+
+            var dictionary = new Dictionary<string, StringValues>();
+            dictionary.SetDefaultHeaders_All();
+
+            var request = TestFactory.CreateHttpRequest(dictionary);
 
             #endregion
 
@@ -408,15 +444,16 @@ namespace CloudRepublic.BenchMark.API.Tests
                 }
             };
 
-            Environment.SetEnvironmentVariable("dayRange", "1");
-            _mockBenchMarkResultService.Setup(c => c.GetToday()).Returns(new DateTime(2020, 1, 2));
             _mockBenchMarkResultService.Setup(c =>
-                    c.GetBenchMarkResultsAsync(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Language>(), It.IsAny<DateTime>()))
+                    c.GetBenchMarkResultsAsync(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Language>(), It.IsAny<AzureRuntimeVersion>(), It.IsAny<DateTime>()))
                 .Returns(Task.FromResult(benchMarkResults));
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
-            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
-                {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"language", "Fsharp"}});
+
+            var dictionary = new Dictionary<string, StringValues>();
+            dictionary.SetDefaultHeaders_All();
+
+            var request = TestFactory.CreateHttpRequest(dictionary);
 
             #endregion
 
@@ -448,18 +485,19 @@ namespace CloudRepublic.BenchMark.API.Tests
                 }
             };
 
-            Environment.SetEnvironmentVariable("dayRange", "1");
-            _mockBenchMarkResultService.Setup(c => c.GetToday()).Returns(new DateTime(2020, 1, 2));
             _mockBenchMarkResultService.Setup(c =>
-                    c.GetBenchMarkResultsAsync(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Language>(), It.IsAny<DateTime>()))
+                    c.GetBenchMarkResultsAsync(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Language>(), It.IsAny<AzureRuntimeVersion>(), It.IsAny<DateTime>()))
                 .Returns(Task.FromResult(benchMarkResults));
 
             var sampleBenchMarkData = new BenchMarkData()
             { CloudProvider = "ReturnedData" };
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
-            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
-                {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"language", "Fsharp"}});
+
+            var dictionary = new Dictionary<string, StringValues>();
+            dictionary.SetDefaultHeaders_All();
+
+            var request = TestFactory.CreateHttpRequest(dictionary);
 
             #endregion
 
@@ -489,10 +527,8 @@ namespace CloudRepublic.BenchMark.API.Tests
                 }
             };
 
-            Environment.SetEnvironmentVariable("dayRange", "1");
-            _mockBenchMarkResultService.Setup(c => c.GetToday()).Returns(new DateTime(2020, 1, 2));
             _mockBenchMarkResultService.Setup(c =>
-                    c.GetBenchMarkResultsAsync(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Language>(), It.IsAny<DateTime>()))
+                    c.GetBenchMarkResultsAsync(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Language>(), It.IsAny<AzureRuntimeVersion>(), It.IsAny<DateTime>()))
                 .Returns(Task.FromResult(benchMarkResults));
 
             var sampleBenchMarkData = new BenchMarkData()
@@ -502,8 +538,11 @@ namespace CloudRepublic.BenchMark.API.Tests
                 .Returns(sampleBenchMarkData);
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
-            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
-                {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"language", "Fsharp"}});
+
+            var dictionary = new Dictionary<string, StringValues>();
+            dictionary.SetDefaultHeaders_All();
+
+            var request = TestFactory.CreateHttpRequest(dictionary);
 
             #endregion
 

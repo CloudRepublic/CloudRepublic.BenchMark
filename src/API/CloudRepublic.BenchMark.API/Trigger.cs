@@ -32,7 +32,8 @@ namespace CloudRepublic.BenchMark.API
             EnumFromString<CloudProvider> cloudProvider = new EnumFromString<CloudProvider>(req.Query["cloudProvider"]);
             EnumFromString<HostEnvironment> hostingEnvironment = new EnumFromString<HostEnvironment>(req.Query["hostingEnvironment"]);
             EnumFromString<Language> language = new EnumFromString<Language>(req.Query["language"]);
-            if (!cloudProvider.ParsedSuccesfull || !hostingEnvironment.ParsedSuccesfull || !language.ParsedSuccesfull)
+            EnumFromString<AzureRuntimeVersion> azureRuntimeVersion = new EnumFromString<AzureRuntimeVersion>(req.Query["azureRuntimeVersion"]);
+            if (!cloudProvider.ParsedSuccesfull || !hostingEnvironment.ParsedSuccesfull || !language.ParsedSuccesfull || !azureRuntimeVersion.ParsedSuccesfull)
             {
                 return new BadRequestResult();
             }
@@ -45,6 +46,7 @@ namespace CloudRepublic.BenchMark.API
                     cloudProvider.Value,
                     hostingEnvironment.Value,
                     language.Value,
+                    azureRuntimeVersion.Value,
                     resultsSinceDate
                     );
 

@@ -20,8 +20,9 @@ namespace CloudRepublic.BenchMark.Application.Interfaces
         /// <param name="cloudProvider">Results matching the given</param>
         /// <param name="hostingEnvironment">Results matching the given</param>
         /// <param name="language">Results matching the given</param>
+        /// <param name="azureRuntimeVersion">Results matching the given</param>
         /// <param name="afterDate">Only entries which are created on or after the given Datetime.Date </param>
         /// <returns></returns>
-        Task<List<BenchMarkResult>> GetBenchMarkResultsAsync(CloudProvider cloudProvider, HostEnvironment hostingEnvironment, Language language, DateTime afterDate);
+        Task<List<BenchMarkResult>> GetBenchMarkResultsAsync(CloudProvider cloudProvider, HostEnvironment hostingEnvironment, Language language, AzureRuntimeVersion azureRuntimeVersion, DateTime afterDate);
     }
 }
