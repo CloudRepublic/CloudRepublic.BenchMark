@@ -73,6 +73,11 @@ const CloudProvider = Object.freeze({
   Firebase: 'Firebase'
 });
 
+const AzureRuntimeVersion = Object.freeze({
+  Version_2: 'Version_2',
+  Version_3: 'Version_3',
+  Not_Azure: 'Not_Azure'
+});
 export default {
   name: 'benchmark',
   components: { BenchMarkEnvi, VueElementLoading },
@@ -117,71 +122,115 @@ export default {
       activeEnvironmentIndex: 0,
       isLoading: true,
       benchmarkOptions: [
+        // AZURE WINDOWS V2
         {
           title: 'Azure - Windows C#',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Windows,
-          language: Language.Csharp
+          language: Language.Csharp,
+          azureRuntimeVersion: AzureRuntimeVersion.Version_2
         },
         {
           title: 'Azure - Windows Nodejs',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Windows,
-          language: Language.Nodejs
+          language: Language.Nodejs,
+          azureRuntimeVersion: AzureRuntimeVersion.Version_2
         },
         {
           title: 'Azure - Windows Python',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Windows,
-          language: Language.Python
+          language: Language.Python,
+          azureRuntimeVersion: AzureRuntimeVersion.Version_2
         },
         {
           title: 'Azure - Windows Java',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Windows,
-          language: Language.Java
+          language: Language.Java,
+          azureRuntimeVersion: AzureRuntimeVersion.Version_2
         },
         {
           title: 'Azure - Windows Fsharp',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Windows,
-          language: Language.Fsharp
+          language: Language.Fsharp,
+          azureRuntimeVersion: AzureRuntimeVersion.Version_2
         },
+        // AZURE LINUX V2
         {
           title: 'Azure - Linux C#',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Linux,
-          language: Language.Csharp
+          language: Language.Csharp,
+          azureRuntimeVersion: AzureRuntimeVersion.Version_2
         },
         {
           title: 'Azure - Linux  Nodejs',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Linux,
-          language: Language.Nodejs
+          language: Language.Nodejs,
+          azureRuntimeVersion: AzureRuntimeVersion.Version_2
         },
         {
           title: 'Azure - Linux Python',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Linux,
-          language: Language.Python
+          language: Language.Python,
+          azureRuntimeVersion: AzureRuntimeVersion.Version_2
         },
         {
           title: 'Azure - Linux Java',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Linux,
-          language: Language.Java
+          language: Language.Java,
+          azureRuntimeVersion: AzureRuntimeVersion.Version_2
         },
         {
           title: 'Azure - Linux Fsharp',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Linux,
-          language: Language.Fsharp
+          language: Language.Fsharp,
+          azureRuntimeVersion: AzureRuntimeVersion.Version_2
         },
+        // AZURE WINDOWS V3
+        {
+          title: 'Azure V3 - Windows C#',
+          cloud: CloudProvider.Azure,
+          os: HostEnvironment.Windows,
+          language: Language.Csharp,
+          azureRuntimeVersion: AzureRuntimeVersion.Version_3
+        },
+        {
+          title: 'Azure V3 - Windows Nodejs',
+          cloud: CloudProvider.Azure,
+          os: HostEnvironment.Windows,
+          language: Language.Nodejs,
+          azureRuntimeVersion: AzureRuntimeVersion.Version_3
+        },
+        {
+          title: 'Azure V3 - Windows Java',
+          cloud: CloudProvider.Azure,
+          os: HostEnvironment.Windows,
+          language: Language.Java,
+          azureRuntimeVersion: AzureRuntimeVersion.Version_3
+        },
+        {
+          title: 'Azure V3 - Windows Fsharp ',
+          cloud: CloudProvider.Azure,
+          os: HostEnvironment.Windows,
+          language: Language.Fsharp,
+          azureRuntimeVersion: AzureRuntimeVersion.Version_3
+        },
+
+        // FIREBASE
         {
           title: 'Firebase - Linux Nodejs',
           cloud: CloudProvider.Firebase,
           os: HostEnvironment.Linux,
-          language: Language.Nodejs
+          language: Language.Nodejs,
+          azureRuntimeVersion: AzureRuntimeVersion.Not_Azure
         }
       ]
     };
@@ -195,7 +244,8 @@ export default {
         benchMarkData = await benchMarkService.getBenchMarkData(
           benchmarkOptions.cloud,
           benchmarkOptions.os,
-          benchmarkOptions.language
+          benchmarkOptions.language,
+          benchmarkOptions.azureRuntimeVersion
         );
         this.benchMarkData = benchMarkData;
       }

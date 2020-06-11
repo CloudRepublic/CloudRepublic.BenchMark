@@ -134,6 +134,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Statics
                      HostEnvironment = HostEnvironment.Linux,
                      Language = Language.Nodejs,
                      SetXFunctionsKey = false,
+                     AzureRuntimeVersion = AzureRuntimeVersion.Not_Azure,
                 },
             };
         }
