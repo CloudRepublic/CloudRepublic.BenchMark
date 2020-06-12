@@ -17,9 +17,8 @@ using Language = CloudRepublic.BenchMark.Domain.Enums.Language;
 
 namespace CloudRepublic.BenchMark.API.Tests
 {
-    public static class DictionaryExtension
+    public static class DictionaryExtensionForTesting
     {
-
         public static void SetDefaultHeaders_All(this Dictionary<string, StringValues> dictionary)
         {
             dictionary.SetDefaultHeader_CloudProvider();
@@ -44,14 +43,14 @@ namespace CloudRepublic.BenchMark.API.Tests
             dictionary.Add("hostingEnvironment", hostingEnvironment);
         }
     }
-    public class TriggerTests
+    public class GetResultsTriggerTests
     {
         private readonly ILogger _logger = TestFactory.CreateLogger();
         private readonly Mock<IBenchMarkResultService> _mockBenchMarkResultService;
 
         private Mock<IResponseConverterService> _mockResponseConverter;
 
-        public TriggerTests()
+        public GetResultsTriggerTests()
         {
             _mockBenchMarkResultService = new Mock<IBenchMarkResultService>();
             _mockResponseConverter = new Mock<IResponseConverterService>();
@@ -67,11 +66,11 @@ namespace CloudRepublic.BenchMark.API.Tests
         }
 
         [Fact]
-        public async Task Run_Should_Return_BadRequest_When_No_CloudProvider_argument_given()
+        public async Task GetResultsAsync_Should_Return_BadRequest_When_No_CloudProvider_argument_given()
         {
             #region Arrange
 
-            var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
+            var trigger = new GetResultsTrigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
 
             var dictionary = new Dictionary<string, StringValues>();
             // dictionary.SetDefaultHeader_CloudProvider();
@@ -85,7 +84,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             #region Act
 
-            var response = await trigger.Run(request, _logger);
+            var response = await trigger.GetResultsAsync(request, _logger);
 
             #endregion
 
@@ -97,11 +96,11 @@ namespace CloudRepublic.BenchMark.API.Tests
         }
 
         [Fact]
-        public async Task Run_Should_Return_BadRequest_When_No_AzureRuntimeVersion_argument_given()
+        public async Task GetResultsAsync_Should_Return_BadRequest_When_No_AzureRuntimeVersion_argument_given()
         {
             #region Arrange
 
-            var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
+            var trigger = new GetResultsTrigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
 
             var dictionary = new Dictionary<string, StringValues>();
             dictionary.SetDefaultHeader_CloudProvider();
@@ -115,7 +114,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             #region Act
 
-            var response = await trigger.Run(request, _logger);
+            var response = await trigger.GetResultsAsync(request, _logger);
 
             #endregion
 
@@ -126,11 +125,11 @@ namespace CloudRepublic.BenchMark.API.Tests
             #endregion
         }
         [Fact]
-        public async Task Run_Should_Return_BadRequest_When_No_hostingEnvironment_argument_given()
+        public async Task GetResultsAsync_Should_Return_BadRequest_When_No_hostingEnvironment_argument_given()
         {
             #region Arrange
 
-            var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
+            var trigger = new GetResultsTrigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
 
             var dictionary = new Dictionary<string, StringValues>();
             dictionary.SetDefaultHeader_CloudProvider();
@@ -144,7 +143,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             #region Act
 
-            var response = await trigger.Run(request, _logger);
+            var response = await trigger.GetResultsAsync(request, _logger);
 
             #endregion
 
@@ -155,11 +154,11 @@ namespace CloudRepublic.BenchMark.API.Tests
             #endregion
         }
         [Fact]
-        public async Task Run_Should_Return_BadRequest_When_No_language_argument_given()
+        public async Task GetResultsAsync_Should_Return_BadRequest_When_No_language_argument_given()
         {
             #region Arrange
 
-            var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
+            var trigger = new GetResultsTrigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
 
             var dictionary = new Dictionary<string, StringValues>();
             dictionary.SetDefaultHeader_CloudProvider();
@@ -173,7 +172,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             #region Act
 
-            var response = await trigger.Run(request, _logger);
+            var response = await trigger.GetResultsAsync(request, _logger);
 
             #endregion
 
@@ -192,11 +191,11 @@ namespace CloudRepublic.BenchMark.API.Tests
         [InlineData("INVALID CLOUDPROVIDER VALUE")]// parameter is given, but invalid name value
         [InlineData("-1")] // parameter is given, but out of range number value
         [InlineData("17")] // parameter is given, but out of range number value
-        public async Task Run_Should_Return_BadRequest_When_Invalid_CloudProvider_argument_given(string argumentValue)
+        public async Task GetResultsAsync_Should_Return_BadRequest_When_Invalid_CloudProvider_argument_given(string argumentValue)
         {
             #region Arrange
 
-            var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
+            var trigger = new GetResultsTrigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
 
             var dictionary = new Dictionary<string, StringValues>();
             dictionary.SetDefaultHeader_CloudProvider(argumentValue);
@@ -210,7 +209,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             #region Act
 
-            var response = await trigger.Run(request, _logger);
+            var response = await trigger.GetResultsAsync(request, _logger);
 
             #endregion
 
@@ -230,11 +229,11 @@ namespace CloudRepublic.BenchMark.API.Tests
         [InlineData("INVALID HOSTINGENVIRONMENT VALUE")]// parameter is given, but invalid name value
         [InlineData("-1")] // parameter is given, but out of range number value
         [InlineData("17")] // parameter is given, but out of range number value
-        public async Task Run_Should_Return_BadRequest_When_Invalid_HostingEnvironment_argument_given(string argumentValue)
+        public async Task GetResultsAsync_Should_Return_BadRequest_When_Invalid_HostingEnvironment_argument_given(string argumentValue)
         {
             #region Arrange
 
-            var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
+            var trigger = new GetResultsTrigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
 
             var dictionary = new Dictionary<string, StringValues>();
             dictionary.SetDefaultHeader_CloudProvider();
@@ -248,7 +247,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             #region Act
 
-            var response = await trigger.Run(request, _logger);
+            var response = await trigger.GetResultsAsync(request, _logger);
 
             #endregion
 
@@ -268,11 +267,11 @@ namespace CloudRepublic.BenchMark.API.Tests
         [InlineData("INVALID LANGUAGE VALUE")]// parameter is given, but invalid name value
         [InlineData("-1")] // parameter is given, but out of range number value
         [InlineData("17")] // parameter is given, but out of range number value
-        public async Task Run_Should_Return_BadRequest_When_Invalid_language_argument_given(string argumentValue)
+        public async Task GetResultsAsync_Should_Return_BadRequest_When_Invalid_language_argument_given(string argumentValue)
         {
             #region Arrange
 
-            var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
+            var trigger = new GetResultsTrigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
 
             var dictionary = new Dictionary<string, StringValues>();
             dictionary.SetDefaultHeader_CloudProvider();
@@ -286,7 +285,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             #region Act
 
-            var response = await trigger.Run(request, _logger);
+            var response = await trigger.GetResultsAsync(request, _logger);
 
             #endregion
 
@@ -298,7 +297,7 @@ namespace CloudRepublic.BenchMark.API.Tests
         }
 
         [Fact]
-        public async Task Run_Should_Call_BenchMarkResultService_With_QueryParameters()
+        public async Task GetResultsAsync_Should_Call_BenchMarkResultService_With_QueryParameters()
         {
             #region Arrange
 
@@ -307,7 +306,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             _mockResponseConverter.Setup(c => c.ConvertToBenchMarkData(new List<BenchMarkResult>())).Returns(sampleBenchMarkData);
 
-            var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
+            var trigger = new GetResultsTrigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
 
             var dictionary = new Dictionary<string, StringValues>();
             dictionary.SetDefaultHeader_CloudProvider(CloudProvider.Firebase.ToString());
@@ -321,7 +320,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             #region Act
 
-            var response = await trigger.Run(request, _logger);
+            var response = await trigger.GetResultsAsync(request, _logger);
 
             #endregion
 
@@ -337,11 +336,11 @@ namespace CloudRepublic.BenchMark.API.Tests
             #endregion
         }
         [Fact]
-        public async Task Run_Should_Call_BenchMarkResultService_For_Todays_Date()
+        public async Task GetResultsAsync_Should_Call_BenchMarkResultService_For_Todays_Date()
         {
             #region Arrange
 
-            var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
+            var trigger = new GetResultsTrigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
 
             var dictionary = new Dictionary<string, StringValues>();
             dictionary.SetDefaultHeaders_All();
@@ -352,7 +351,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             #region Act
 
-            var response = await trigger.Run(request, _logger);
+            var response = await trigger.GetResultsAsync(request, _logger);
 
             #endregion
 
@@ -363,7 +362,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             #endregion
         }
         [Fact]
-        public async Task Run_Should_Call_BenchMarkResultService_With_Date_Of_Today_Combined_With_Environment_DateRange()
+        public async Task GetResultsAsync_Should_Call_BenchMarkResultService_With_Date_Of_Today_Combined_With_Environment_DateRange()
         {
             #region Arrange
 
@@ -371,7 +370,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             _mockBenchMarkResultService.Setup(c => c.GetToday()).Returns(new DateTime(2020, 1, 21, 1, 3, 44));
 
 
-            var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
+            var trigger = new GetResultsTrigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
 
             var dictionary = new Dictionary<string, StringValues>();
             dictionary.SetDefaultHeaders_All();
@@ -382,7 +381,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             #region Act
 
-            var response = await trigger.Run(request, _logger);
+            var response = await trigger.GetResultsAsync(request, _logger);
 
             #endregion
 
@@ -401,12 +400,12 @@ namespace CloudRepublic.BenchMark.API.Tests
 
 
         [Fact]
-        public async Task Run_Should_Return_NotFoundResult_When_Service_returns_No_BenchMarkData()
+        public async Task GetResultsAsync_Should_Return_NotFoundResult_When_Service_returns_No_BenchMarkData()
         {
             #region Arrange
 
 
-            var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
+            var trigger = new GetResultsTrigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
 
             var dictionary = new Dictionary<string, StringValues>();
             dictionary.SetDefaultHeaders_All();
@@ -417,7 +416,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             #region Act
 
-            var response = await trigger.Run(request, _logger);
+            var response = await trigger.GetResultsAsync(request, _logger);
 
             #endregion
 
@@ -428,7 +427,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             #endregion
         }
         [Fact]
-        public async Task Run_Should_Return_NotFoundResult_When_Service_returns_No_Succes_BenchMarkData()
+        public async Task GetResultsAsync_Should_Return_NotFoundResult_When_Service_returns_No_Succes_BenchMarkData()
         {
             #region Arrange
 
@@ -448,7 +447,7 @@ namespace CloudRepublic.BenchMark.API.Tests
                     c.GetBenchMarkResultsAsync(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Language>(), It.IsAny<AzureRuntimeVersion>(), It.IsAny<DateTime>()))
                 .Returns(Task.FromResult(benchMarkResults));
 
-            var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
+            var trigger = new GetResultsTrigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
 
             var dictionary = new Dictionary<string, StringValues>();
             dictionary.SetDefaultHeaders_All();
@@ -459,7 +458,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             #region Act
 
-            var response = await trigger.Run(request, _logger);
+            var response = await trigger.GetResultsAsync(request, _logger);
 
             #endregion
 
@@ -472,7 +471,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
 
         [Fact]
-        public async Task Run_Should_Call_ResponseConverter_With_Result_Of_BenchmarkResultService()
+        public async Task GetResultsAsync_Should_Call_ResponseConverter_With_Result_Of_BenchmarkResultService()
         {
             #region Arrange
 
@@ -492,7 +491,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             var sampleBenchMarkData = new BenchMarkData()
             { CloudProvider = "ReturnedData" };
 
-            var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
+            var trigger = new GetResultsTrigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
 
             var dictionary = new Dictionary<string, StringValues>();
             dictionary.SetDefaultHeaders_All();
@@ -503,7 +502,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             #region Act
 
-            var response = await trigger.Run(request, _logger);
+            var response = await trigger.GetResultsAsync(request, _logger);
 
             #endregion
 
@@ -515,7 +514,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             #endregion
         }
         [Fact]
-        public async Task Run_Should_Return_OkObjectResult_Containing_ConvertedBenchMarkData_From_Service()
+        public async Task GetResultsAsync_Should_Return_OkObjectResult_Containing_ConvertedBenchMarkData_From_Service()
         {
             #region Arrange
 
@@ -537,7 +536,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             _mockResponseConverter.Setup(c => c.ConvertToBenchMarkData(benchMarkResults))
                 .Returns(sampleBenchMarkData);
 
-            var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
+            var trigger = new GetResultsTrigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
 
             var dictionary = new Dictionary<string, StringValues>();
             dictionary.SetDefaultHeaders_All();
@@ -548,7 +547,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             #region Act
 
-            var response = await trigger.Run(request, _logger);
+            var response = await trigger.GetResultsAsync(request, _logger);
 
             #endregion
 

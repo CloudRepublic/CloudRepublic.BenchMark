@@ -61,7 +61,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
             Assert.Equal(CloudProvider.Firebase, lastTypeForTesting.CloudProvider);
             Assert.Equal(HostEnvironment.Linux, lastTypeForTesting.HostEnvironment);
             Assert.Equal(Language.Nodejs, lastTypeForTesting.Language);
-            Assert.Equal(AzureRuntimeVersion.Version_2, lastTypeForTesting.AzureRuntimeVersion);
+            Assert.Equal(AzureRuntimeVersion.Not_Azure, lastTypeForTesting.AzureRuntimeVersion);
             Assert.Equal("FirebaseLinuxNodejs", lastTypeForTesting.Name);
             Assert.Equal("FirebaseLinuxNodejsClient", lastTypeForTesting.ClientName);
             Assert.Equal("FirebaseLinuxNodejsKey", lastTypeForTesting.KeyName);

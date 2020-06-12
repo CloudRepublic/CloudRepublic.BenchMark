@@ -13,19 +13,20 @@ using System.Threading.Tasks;
 
 namespace CloudRepublic.BenchMark.API
 {
-    public class Trigger
+    public class GetResultsTrigger
     {
         private readonly IBenchMarkResultService _benchMarkResultService;
         private readonly IResponseConverterService _responseConverterService;
 
-        public Trigger(IBenchMarkResultService benchMarkResultService, IResponseConverterService responseConverterService)
+        public GetResultsTrigger(IBenchMarkResultService benchMarkResultService, IResponseConverterService responseConverterService)
         {
             _benchMarkResultService = benchMarkResultService;
             _responseConverterService = responseConverterService;
         }
 
         [FunctionName("Trigger")]
-        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req, ILogger log)
+        public async Task<IActionResult> GetResultsAsync([HttpTrigger(AuthorizationLevel.
+            Function, "get", Route = null)] HttpRequest req, ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 

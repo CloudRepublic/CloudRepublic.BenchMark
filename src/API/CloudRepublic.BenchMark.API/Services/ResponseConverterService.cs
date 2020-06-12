@@ -1,6 +1,7 @@
 using CloudRepublic.BenchMark.API.Interfaces;
 using CloudRepublic.BenchMark.API.Models;
 using CloudRepublic.BenchMark.API.Statics;
+using CloudRepublic.BenchMark.Application.Models;
 using CloudRepublic.BenchMark.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,27 @@ namespace CloudRepublic.BenchMark.API.Services
 {
     public class ResponseConverterService : IResponseConverterService
     {
+        public List<BenchMarkOption> ConvertToBenchMarkOptions(List<BenchMarkType> benchMarkTypes)
+        {
+            var benchMarkOptions = new List<BenchMarkOption>();
+            if (!benchMarkTypes.Any())
+            {
+                return benchMarkOptions;
+            }
+
+            benchMarkOptions = benchMarkTypes.ConvertAll<BenchMarkOption>(benchMarkType =>
+            {
+                return new BenchMarkOption()
+                {
+                    CloudProviderName = benchMarkType.CloudProvider.ToString(),
+                    HostEnvironmentName = benchMarkType.HostEnvironment.ToString(),
+                    LanguageName = benchMarkType.Language.ToString(),
+                    AzureRuntimeVersionName = benchMarkType.AzureRuntimeVersion.ToString(),
+                };
+            });
+            return benchMarkOptions;
+        }
+
         public BenchMarkData ConvertToBenchMarkData(List<BenchMarkResult> resultDataPoints)
         {
             var firstResult = resultDataPoints.OrderByDescending(c => c.CreatedAt).First();
