@@ -13,7 +13,6 @@ async function getBenchMarkData(cloudProvider, hostingEnvironment, language, azu
 }
 
 function handleResponse(response) {
-
   if (!response.ok || response.status != 200) {
     return null;
   }
