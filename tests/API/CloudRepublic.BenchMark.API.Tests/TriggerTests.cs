@@ -224,7 +224,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             var benchMarkResults = new List<BenchMarkResult>();
 
             Environment.SetEnvironmentVariable("dayRange", "1");
-            _mockBenchMarkResultService.Setup(c => c.GetToday()).Returns(new DateTime(2020, 1, 2));
+            _mockBenchMarkResultService.Setup(c => c.GetDateTimeNow()).Returns(new DateTime(2020, 1, 2));
             _mockBenchMarkResultService.Setup(c =>
                     c.GetBenchMarkResultsAsync(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Runtime>(), It.IsAny<DateTime>()))
                 .Returns(Task.FromResult(benchMarkResults));
@@ -258,12 +258,12 @@ namespace CloudRepublic.BenchMark.API.Tests
             #endregion
         }
         [Fact]
-        public async Task Run_Should_Call_BenchMarkResultService_For_Todays_Date()
+        public async Task Run_Should_Call_BenchMarkResultService_For_DateTimeNow()
         {
             #region Arrange
 
             Environment.SetEnvironmentVariable("dayRange", "1");
-            _mockBenchMarkResultService.Setup(c => c.GetToday()).Returns(new DateTime(2020, 1, 2));
+            _mockBenchMarkResultService.Setup(c => c.GetDateTimeNow()).Returns(new DateTime(2020, 1, 2));
 
 
             var benchMarkResults = new List<BenchMarkResult>();
@@ -287,17 +287,17 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             #region Assert
 
-            _mockBenchMarkResultService.Verify(service => service.GetToday(), Times.Once);
+            _mockBenchMarkResultService.Verify(service => service.GetDateTimeNow(), Times.Once);
 
             #endregion
         }
         [Fact]
-        public async Task Run_Should_Call_BenchMarkResultService_With_Date_Of_Today_Combined_With_Environment_DateRange()
+        public async Task Run_Should_Call_BenchMarkResultService_With_DateNow_From_Service_Combined_With_Environment_DateRange()
         {
             #region Arrange
 
             Environment.SetEnvironmentVariable("dayRange", "10");
-            _mockBenchMarkResultService.Setup(c => c.GetToday()).Returns(new DateTime(2020, 1, 21, 1, 3, 44));
+            _mockBenchMarkResultService.Setup(c => c.GetDateTimeNow()).Returns(new DateTime(2020, 1, 21, 1, 3, 44));
 
             var benchMarkResults = new List<BenchMarkResult>();
 
@@ -337,7 +337,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             #region Arrange
 
             Environment.SetEnvironmentVariable("dayRange", "1");
-            _mockBenchMarkResultService.Setup(c => c.GetToday()).Returns(new DateTime(2020, 1, 2));
+            _mockBenchMarkResultService.Setup(c => c.GetDateTimeNow()).Returns(new DateTime(2020, 1, 2));
 
             var benchMarkResults = new List<BenchMarkResult>();
 
@@ -381,7 +381,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             };
 
             Environment.SetEnvironmentVariable("dayRange", "1");
-            _mockBenchMarkResultService.Setup(c => c.GetToday()).Returns(new DateTime(2020, 1, 2));
+            _mockBenchMarkResultService.Setup(c => c.GetDateTimeNow()).Returns(new DateTime(2020, 1, 2));
             _mockBenchMarkResultService.Setup(c =>
                     c.GetBenchMarkResultsAsync(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Runtime>(), It.IsAny<DateTime>()))
                 .Returns(Task.FromResult(benchMarkResults));
@@ -421,7 +421,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             };
 
             Environment.SetEnvironmentVariable("dayRange", "1");
-            _mockBenchMarkResultService.Setup(c => c.GetToday()).Returns(new DateTime(2020, 1, 2));
+            _mockBenchMarkResultService.Setup(c => c.GetDateTimeNow()).Returns(new DateTime(2020, 1, 2));
             _mockBenchMarkResultService.Setup(c =>
                     c.GetBenchMarkResultsAsync(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Runtime>(), It.IsAny<DateTime>()))
                 .Returns(Task.FromResult(benchMarkResults));
@@ -462,7 +462,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             };
 
             Environment.SetEnvironmentVariable("dayRange", "1");
-            _mockBenchMarkResultService.Setup(c => c.GetToday()).Returns(new DateTime(2020, 1, 2));
+            _mockBenchMarkResultService.Setup(c => c.GetDateTimeNow()).Returns(new DateTime(2020, 1, 2));
             _mockBenchMarkResultService.Setup(c =>
                     c.GetBenchMarkResultsAsync(It.IsAny<CloudProvider>(), It.IsAny<HostEnvironment>(), It.IsAny<Runtime>(), It.IsAny<DateTime>()))
                 .Returns(Task.FromResult(benchMarkResults));

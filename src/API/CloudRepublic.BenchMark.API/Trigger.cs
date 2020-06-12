@@ -38,7 +38,7 @@ namespace CloudRepublic.BenchMark.API
             }
 
             var dayRange = Convert.ToInt32(Environment.GetEnvironmentVariable("dayRange"));
-            var currentDate = _benchMarkResultService.GetToday();
+            var currentDate = _benchMarkResultService.GetDateTimeNow();
             var resultsSinceDate = (currentDate - TimeSpan.FromDays(dayRange));
 
             var benchMarkDataPoints = await _benchMarkResultService.GetBenchMarkResultsAsync(

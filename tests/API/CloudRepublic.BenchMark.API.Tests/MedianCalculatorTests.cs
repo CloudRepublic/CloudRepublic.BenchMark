@@ -92,7 +92,7 @@ namespace CloudRepublic.BenchMark.API.Tests
                 },
                 new BenchMarkResult()
                 {
-                    RequestDuration = 11,
+                    RequestDuration = 33,
                     CreatedAt = new DateTimeOffset(new DateTime(2020,2,11)), // today
                 },
                 new BenchMarkResult()
@@ -113,7 +113,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             #region Assert
 
             Assert.NotNull(benchMarkData);
-            Assert.Equal(11, benchMarkData.CurrentDay);
+            Assert.Equal(22, benchMarkData.CurrentDay);
 
             #endregion
         }

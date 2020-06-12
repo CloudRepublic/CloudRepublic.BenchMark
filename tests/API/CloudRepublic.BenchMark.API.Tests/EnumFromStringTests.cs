@@ -7,7 +7,7 @@ namespace CloudRepublic.BenchMark.API.Tests
     {
         private enum TestEnum
         {
-            value_one = 0,
+            Value_one = 0,
             Value_two = 1,
         }
 
@@ -42,7 +42,7 @@ namespace CloudRepublic.BenchMark.API.Tests
         [Theory]
         [InlineData("0")] // number in range succeeds
         [InlineData("1")] // number in range succeeds
-        [InlineData("value_one")] // name in enum succeeds
+        [InlineData("Value_one")] // name in enum succeeds
         public void EnumFromString_Should_Parse_ValidStrings_Succesfull(string validInput)
         {
             #region Arrange

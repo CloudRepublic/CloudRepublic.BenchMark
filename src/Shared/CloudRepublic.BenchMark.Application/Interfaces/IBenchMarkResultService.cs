@@ -12,7 +12,7 @@ namespace CloudRepublic.BenchMark.Application.Interfaces
         /// This allows us to mock DateTime.Now and as such test query that uses it.
         /// </summary>
         /// <returns></returns>
-        DateTime GetToday();
+        DateTime GetDateTimeNow();
 
         /// <summary>
         /// Grabs all stored Benchmark results

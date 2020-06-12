@@ -19,7 +19,7 @@ namespace CloudRepublic.BenchMark.Application.Services
             _dbContext = dbContext;
         }
 
-        public DateTime GetToday()
+        public DateTime GetDateTimeNow()
         {
             return DateTime.Now;
         }
