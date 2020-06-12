@@ -224,6 +224,35 @@ export default {
           azureRuntimeVersion: AzureRuntimeVersion.Version_3
         },
 
+        // AZURE Linux V3
+        {
+          title: 'Azure V3 - Linux C#',
+          cloud: CloudProvider.Azure,
+          os: HostEnvironment.Linux,
+          language: Language.Csharp,
+          azureRuntimeVersion: AzureRuntimeVersion.Version_3
+        },
+        {
+          title: 'Azure V3 - Linux Nodejs',
+          cloud: CloudProvider.Azure,
+          os: HostEnvironment.Linux,
+          language: Language.Nodejs,
+          azureRuntimeVersion: AzureRuntimeVersion.Version_3
+        },
+        {
+          title: 'Azure V3 - Linux Java',
+          cloud: CloudProvider.Azure,
+          os: HostEnvironment.Linux,
+          language: Language.Java,
+          azureRuntimeVersion: AzureRuntimeVersion.Version_3
+        },
+        {
+          title: 'Azure V3 - Linux Fsharp ',
+          cloud: CloudProvider.Azure,
+          os: HostEnvironment.Linux,
+          language: Language.Fsharp,
+          azureRuntimeVersion: AzureRuntimeVersion.Version_3
+        },
         // FIREBASE
         {
           title: 'Firebase - Linux Nodejs',

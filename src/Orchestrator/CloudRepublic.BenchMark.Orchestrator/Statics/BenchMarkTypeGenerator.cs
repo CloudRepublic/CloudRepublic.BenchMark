@@ -91,7 +91,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Statics
                      Language = Language.Fsharp,
                 },
 
-                // AZURE FUNCTIONS V3
+                // AZURE FUNCTIONS V3 Windows
                 new BenchMarkType()
                 {
                      Name = "AzureWindowsCsharpV3",
@@ -122,6 +122,41 @@ namespace CloudRepublic.BenchMark.Orchestrator.Statics
                      Name = "AzureWindowsJavaV3",
                      CloudProvider = CloudProvider.Azure,
                      HostEnvironment = HostEnvironment.Windows,
+                     Language = Language.Java,
+                     AzureRuntimeVersion = AzureRuntimeVersion.Version_3,
+                },
+
+                 // AZURE FUNCTIONS V3 Linux
+                new BenchMarkType()
+                {
+                     Name = "AzureLinuxCsharpV3",
+                     CloudProvider = CloudProvider.Azure,
+                     HostEnvironment = HostEnvironment.Linux,
+                     Language = Language.Csharp,
+                     AzureRuntimeVersion = AzureRuntimeVersion.Version_3,
+                },
+
+                new BenchMarkType()
+                {
+                     Name = "AzureLinuxFsharpV3",
+                     CloudProvider = CloudProvider.Azure,
+                     HostEnvironment = HostEnvironment.Linux,
+                     Language = Language.Fsharp,
+                     AzureRuntimeVersion = AzureRuntimeVersion.Version_3,
+                },
+                new BenchMarkType()
+                {
+                     Name = "AzureLinuxNodejsV3",
+                     CloudProvider = CloudProvider.Azure,
+                     HostEnvironment = HostEnvironment.Linux,
+                     Language = Language.Nodejs,
+                     AzureRuntimeVersion = AzureRuntimeVersion.Version_3,
+                },
+                new BenchMarkType()
+                {
+                     Name = "AzureLinuxJavaV3",
+                     CloudProvider = CloudProvider.Azure,
+                     HostEnvironment = HostEnvironment.Linux,
                      Language = Language.Java,
                      AzureRuntimeVersion = AzureRuntimeVersion.Version_3,
                 },
