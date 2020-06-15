@@ -190,7 +190,6 @@ export default {
     async loadEnvironment(benchmarkOptions) {
       this.isLoading = true;
       let benchMarkData;
-      // todo enable when backend attached/active
       if (benchmarkOptions != null) {
         benchMarkData = await benchMarkService.getBenchMarkData(
           benchmarkOptions.cloud,
