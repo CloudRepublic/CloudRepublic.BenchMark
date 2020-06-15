@@ -33,13 +33,6 @@ namespace CloudRepublic.BenchMark.Orchestrator.Statics
                 },
                 new BenchMarkType()
                 {
-                     Name = "AzureWindowsPython",
-                     CloudProvider = CloudProvider.Azure,
-                     HostEnvironment = HostEnvironment.Windows,
-                     Runtime = Runtime.Python,
-                },
-                new BenchMarkType()
-                {
                      Name = "AzureWindowsJava",
                      CloudProvider = CloudProvider.Azure,
                      HostEnvironment = HostEnvironment.Windows,

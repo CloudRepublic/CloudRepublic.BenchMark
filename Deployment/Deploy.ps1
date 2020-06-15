@@ -89,9 +89,6 @@ $sampleFuncWindowsNodejs = az functionapp create --app-insights $appInsightsWinN
 #create windows sample function fsharp
 $sampleFuncWindowsFsharp = az functionapp create --app-insights $appInsightsWinName --resource-group $resourceGroupName --name $windowsSampleFunctionFsharpName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Windows --functions-version 2 | ConvertFrom-Json
 
-#create windows sample function python
-$sampleFuncWindowsPython = az functionapp create --app-insights $appInsightsWinName --resource-group $resourceGroupName --name $windowsSampleFunctionPythonName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime python --runtime-version 3.7 --os-type Windows --functions-version 2 | ConvertFrom-Json
-
 #create windows sample function Java
 $sampleFuncWindowsJava = az functionapp create --app-insights $appInsightsWinName --resource-group $resourceGroupName --name $windowsSampleFunctionJavaName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Windows --functions-version 2 | ConvertFrom-Json
 

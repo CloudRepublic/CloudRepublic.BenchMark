@@ -130,12 +130,6 @@ export default {
           language: Runtime.Nodejs
         },
         {
-          title: 'Azure - Windows Python',
-          cloud: CloudProvider.Azure,
-          os: HostEnvironment.Windows,
-          language: Runtime.Python
-        },
-        {
           title: 'Azure - Windows Java',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Windows,
