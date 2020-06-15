@@ -1,30 +1,32 @@
 $username = "#{{USERNAME}}#";
 $password = "#{{PASSWORD}}#";
 $location = "West Europe";
-$resourceGroupName = "BenchMark";
-$resourceGroupLinuxName = "BenchMarkLinux";
+$resourceGroupName = "Rg-BenchMark-Win";
+$resourceGroupLinuxName = "Rg-BenchMark-Lin";
 $appInsightsName = "BenchMark-Insights";
-$storageAccountName = "benchmark";
-$storageAccountLinuxName = "benchmarklinux";
+$appInsightsWinName = "BenchMark-Insights-Win";
+$appInsightsLinName = "BenchMark-Insights-Lin";
+$storageAccountName = "stbenchmarkwin";
+$storageAccountLinuxName = "stbenchmarklin";
 $sqlServerName = "sql-srv-benchMark";
 $sqlServerAdminUsername = "benchmarkAdmin";
 $sqlServerAdminPassword = "MySuperSecurePassword123!";
-$sqlDatabaseName = "benchmark";
-$redisCacheName = "BenchMark";
+$sqlDatabaseName = "benchmarkdb";
+$redisCacheName = "redis-BenchMark";
 $apimName = "BenchMark";
 $consumptionLocation = "westeurope";
 $orchestratorFunctionName = "BenchMark-Win-Orchestrator";
-$windowsSampleFunctionCsharpName = "BenchMark-Sample-Win-Csharp";
-$windowsSampleFunctionNodejsName = "BenchMark-Sample-Win-Nodejs";
-$windowsSampleFunctionPythonName = "BenchMark-Sample-Win-Python";
-$windowsSampleFunctionFsharpName = "BenchMark-Sample-Win-Fsharp";
-$windowsSampleFunctionJavaName = "BenchMark-Sample-Win-Java";
-$linuxSampleFunctionCsharpName = "BenchMark-Sample-Lin-Csharp";
-$linuxSampleFunctionNodejsName = "BenchMark-Sample-Lin-Nodejs";
-$linuxSampleFunctionPythonName = "BenchMark-Sample-Lin-Python";
-$linuxSampleFunctionFsharpName = "BenchMark-Sample-Lin-Fsharp";
-$linuxSampleFunctionJavaName = "BenchMark-Sample-Lin-Java";
-$backendApiFunctionName = "BenchMark-Win-Api";
+$windowsSampleFunctionCsharpName = "func-BenchMark-Sample-Win-Csharp";
+$windowsSampleFunctionNodejsName = "func-BenchMark-Sample-Win-Nodejs";
+$windowsSampleFunctionPythonName = "func-BenchMark-Sample-Win-Python";
+$windowsSampleFunctionFsharpName = "func-BenchMark-Sample-Win-Fsharp";
+$windowsSampleFunctionJavaName = "func-BenchMark-Sample-Win-Java";
+$linuxSampleFunctionCsharpName = "func-BenchMark-Sample-Lin-Csharp";
+$linuxSampleFunctionNodejsName = "func-BenchMark-Sample-Lin-Nodejs";
+$linuxSampleFunctionPythonName = "func-BenchMark-Sample-Lin-Python";
+$linuxSampleFunctionFsharpName = "func-BenchMark-Sample-Lin-Fsharp";
+$linuxSampleFunctionJavaName = "func-BenchMark-Sample-Lin-Java";
+$backendApiFunctionName = "func-BenchMark-Win-Api";
 $cdnProfileName = "BenchMark";
 $cdnEndpointName = "BenchMark";
 $cdnCustomDomainName = "BenchMark";
@@ -41,6 +43,8 @@ $resourceGroupLinux = az group create --location $location --name $resourceGroup
 
 #create app-insights
 $appInsights = az resource create --resource-group $resourceGroupName --resource-type "Microsoft.Insights/components" --name $appInsightsName --location $location --properties '{}' | ConvertFrom-Json
+$appInsightsWin = az resource create --resource-group $resourceGroupName --resource-type "Microsoft.Insights/components" --name $appInsightsWinName --location $location --properties '{}' | ConvertFrom-Json
+$appInsightsLin = az resource create --resource-group $resourceGroupLinuxName --resource-type "Microsoft.Insights/components" --name $appInsightsLinName --location $location --properties '{}' | ConvertFrom-Json
 
 #create storage account windows
 #static websites needs to be enable manually 
@@ -59,10 +63,10 @@ $sqlDatabase = az sql db create --service-objective S0 --capacity 10 --name $sql
 $redisCache = az redis create --resource-group $resourceGroupName --name $redisCacheName --location $location --sku Basic --vm-size c0 | ConvertFrom-Json
 
 #create backend api
-$BackendApiFunc = az functionapp create --resource-group $resourceGroupName --name $backendApiFunctionName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Windows --app-insights-key $appInsights.properties.InstrumentationKey | ConvertFrom-Json
+$BackendApiFunc = az functionapp create --resource-group $resourceGroupName --name $backendApiFunctionName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Windows --functions-version 2 --app-insights-key $appInsights.properties.InstrumentationKey | ConvertFrom-Json
 
 #create function for orchestrator
-$orchestratorFunc = az functionapp create --resource-group $resourceGroupName --name $orchestratorFunctionName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Windows --app-insights-key $appInsights.properties.InstrumentationKey | ConvertFrom-Json
+$orchestratorFunc = az functionapp create --resource-group $resourceGroupName --name $orchestratorFunctionName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Windows --functions-version 2 --app-insights-key $appInsights.properties.InstrumentationKey | ConvertFrom-Json
 
 #Get function host-key for apim backend header
 $auth = az account get-access-token | ConvertFrom-Json
@@ -77,34 +81,34 @@ $hostKeys = Invoke-RestMethod -Method Get -Uri $hostKeysUri -Headers $adminToken
 $apim = az group deployment create --mode Incremental  --resource-group $resourceGroupName --template-file ../Deployment/Templates/apim.template.json --parameters location=$location sku='Consumption' publisherEmail='admin@example.com' customHostname=$cdnCustomDomainHostname publisherName='admin' apiFunctionId="$($BackendApiFunc.id)" apiFunctionName="$($BackendApiFunc.name)" apiFunctionDefaultHostname="$($BackendApiFunc.defaultHostName)" apiFunctionKey="$($hostKeys.keys.value)" redisName="$($redisCache.name)" redisKey="$($redisCache.accessKeys.primaryKey)" | ConvertFrom-Json
 
 #create windows sample function csharp
-$sampleFuncWindowsCsharp = az functionapp create --resource-group $resourceGroupName --name $windowsSampleFunctionCsharpName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Windows | ConvertFrom-Json
+$sampleFuncWindowsCsharp = az functionapp create --app-insights $appInsightsWinName  --resource-group $resourceGroupName --name $windowsSampleFunctionCsharpName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Windows --functions-version 2 | ConvertFrom-Json
 
 #create windows sample function nodejs
-$sampleFuncWindowsNodejs = az functionapp create --resource-group $resourceGroupName --name $windowsSampleFunctionNodejsName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime node --os-type Windows | ConvertFrom-Json
+$sampleFuncWindowsNodejs = az functionapp create --app-insights $appInsightsWinName --resource-group $resourceGroupName --name $windowsSampleFunctionNodejsName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime node --os-type Windows --functions-version 2 | ConvertFrom-Json
 
 #create windows sample function fsharp
-$sampleFuncWindowsFsharp = az functionapp create --resource-group $resourceGroupName --name $windowsSampleFunctionFsharpName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Windows | ConvertFrom-Json
+$sampleFuncWindowsFsharp = az functionapp create --app-insights $appInsightsWinName --resource-group $resourceGroupName --name $windowsSampleFunctionFsharpName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Windows --functions-version 2 | ConvertFrom-Json
 
 #create windows sample function python
-$sampleFuncWindowsPython = az functionapp create --resource-group $resourceGroupName --name $windowsSampleFunctionPythonName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime python --runtime-version 3.7 --os-type Windows | ConvertFrom-Json
+$sampleFuncWindowsPython = az functionapp create --app-insights $appInsightsWinName --resource-group $resourceGroupName --name $windowsSampleFunctionPythonName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime python --runtime-version 3.7 --os-type Windows --functions-version 2 | ConvertFrom-Json
 
 #create windows sample function Java
-$sampleFuncWindowsJava = az functionapp create --resource-group $resourceGroupName --name $windowsSampleFunctionJavaName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Windows | ConvertFrom-Json
+$sampleFuncWindowsJava = az functionapp create --app-insights $appInsightsWinName --resource-group $resourceGroupName --name $windowsSampleFunctionJavaName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Windows --functions-version 2 | ConvertFrom-Json
 
 #create linux sample function csharp
-$sampleFuncLinuxCsharp = az functionapp create --resource-group $resourceGroupLinuxName --name $linuxSampleFunctionCsharpName --storage-account $storageAccountLinuxName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Linux | ConvertFrom-Json
+$sampleFuncLinuxCsharp = az functionapp create --app-insights $appInsightsLinName --resource-group $resourceGroupLinuxName --name $linuxSampleFunctionCsharpName --storage-account $storageAccountLinuxName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Linux --functions-version 2| ConvertFrom-Json
 
 #create linux sample function nodejs
-$sampleFuncLinuxNodejs = az functionapp create --resource-group $resourceGroupLinuxName --name $linuxSampleFunctionNodejsName --storage-account $storageAccountLinuxName --consumption-plan-location  $consumptionLocation --runtime node --os-type Linux | ConvertFrom-Json
+$sampleFuncLinuxNodejs = az functionapp create --app-insights $appInsightsLinName --resource-group $resourceGroupLinuxName --name $linuxSampleFunctionNodejsName --storage-account $storageAccountLinuxName --consumption-plan-location  $consumptionLocation --runtime node --os-type Linux --functions-version 2 | ConvertFrom-Json 
 
 #create linux sample function fsharp
-$sampleFuncLinuxFsharp = az functionapp create --resource-group $resourceGroupLinuxName --name $linuxSampleFunctionFsharpName --storage-account $storageAccountLinuxName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Linux | ConvertFrom-Json
+$sampleFuncLinuxFsharp = az functionapp create --app-insights $appInsightsLinName --resource-group $resourceGroupLinuxName --name $linuxSampleFunctionFsharpName --storage-account $storageAccountLinuxName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Linux --functions-version 2 | ConvertFrom-Json 
 
 #create linux sample function Java
-$sampleFuncLinuxJava = az functionapp create --resource-group $resourceGroupLinuxName --name $linuxSampleFunctionJavaName --storage-account $storageAccountLinuxName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Linux | ConvertFrom-Json
+$sampleFuncLinuxJava = az functionapp create --app-insights $appInsightsLinName --resource-group $resourceGroupLinuxName --name $linuxSampleFunctionJavaName --storage-account $storageAccountLinuxName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Linux --functions-version 2 | ConvertFrom-Json 
 
 #create Linux sample function python
-$sampleFuncLinuxPython = az functionapp create --resource-group $resourceGroupLinuxName --name $linuxSampleFunctionPythonName --storage-account $storageAccountLinuxName --consumption-plan-location  $consumptionLocation --runtime python --runtime-version 3.7 --os-type Linux | ConvertFrom-Json
+$sampleFuncLinuxPython = az functionapp create --app-insights $appInsightsLinName --resource-group $resourceGroupLinuxName --name $linuxSampleFunctionPythonName --storage-account $storageAccountLinuxName --consumption-plan-location  $consumptionLocation --runtime python --runtime-version 3.7 --os-type Linux --functions-version 2 | ConvertFrom-Json 
 
 #create cdn profile
 $cdnProfile = az cdn profile create --location $location --resource-group $resourceGroupName --name $cdnProfileName --sku Standard_Microsoft
