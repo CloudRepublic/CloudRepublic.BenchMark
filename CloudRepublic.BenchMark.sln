@@ -65,7 +65,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudRepublic.BenchMark.Orc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudRepublic.BenchMark.Application.Tests", "tests\Shared\CloudRepublic.BenchMark.Application.Tests\CloudRepublic.BenchMark.Application.Tests.csproj", "{8FE1199A-D16E-46AF-82BE-776B7A73481A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudRepublic.BenchMark.Test.Helpers", "tests\Shared\CloudRepublic.BenchMark.Test.Helpers\CloudRepublic.BenchMark.Test.Helpers.csproj", "{D5F0C005-7C85-4C5E-BC5D-7A657E134A15}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudRepublic.BenchMark.Test.Helpers", "tests\Shared\CloudRepublic.BenchMark.Test.Helpers\CloudRepublic.BenchMark.Test.Helpers.csproj", "{D5F0C005-7C85-4C5E-BC5D-7A657E134A15}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B4A17794-B897-491E-BDE4-6FDAA50B2A06}"
+	ProjectSection(SolutionItems) = preProject
+		ReadMe.md = ReadMe.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
