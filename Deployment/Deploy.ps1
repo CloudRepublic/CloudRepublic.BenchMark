@@ -5,7 +5,7 @@ param(
     $TestSecret
 )
 
-
+Write-Host "Starting deployment"
 Write-Host "testSecret: $($TestSecret)"
 
 $username = $UserName;
