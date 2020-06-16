@@ -1,4 +1,13 @@
-param($UserName,$Password)
+[CmdletBinding()]
+param(
+    $UserName,
+    $Password,
+    $TestSecret
+)
+
+
+Write-Host "testSecret: $($TestSecret)"
+
 $username = $UserName;
 $password = $Password;
 $location = "West Europe";
@@ -34,8 +43,6 @@ $cdnCustomDomainName = "BenchMark";
 $cdnCustomDomainHostname = "serverlessbenchmark.example.com";
 
 Write-Host "Starting deployment"
-Write-Host $username
-Write-Host $password
 
 #login into subscription
 $subscription = az login -u $username -p $password
