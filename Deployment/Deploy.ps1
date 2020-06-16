@@ -1,15 +1,5 @@
-[CmdletBinding()]
-param(
-    $UserName,
-    $Password,
-    $TestSecret
-)
-
-Write-Host "Starting deployment"
-Write-Host "testSecret: $($TestSecret)"
-
-$username = $UserName;
-$password = $Password;
+$username = "#{{USERNAME}}#";
+$password = "#{{PASSWORD}}#";
 $location = "West Europe";
 $resourceGroupName = "Rg-BenchMark-Win";
 $resourceGroupLinuxName = "Rg-BenchMark-Lin";
@@ -41,8 +31,6 @@ $cdnProfileName = "BenchMark";
 $cdnEndpointName = "BenchMark";
 $cdnCustomDomainName = "BenchMark";
 $cdnCustomDomainHostname = "serverlessbenchmark.example.com";
-
-Write-Host "Starting deployment"
 
 #login into subscription
 $subscription = az login -u $username -p $password

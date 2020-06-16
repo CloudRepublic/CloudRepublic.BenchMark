@@ -1,5 +1,5 @@
 [CmdletBinding()]
-param(    $TestSecret)
+param($TestSecret)
 
 $secret = "$(TestSecret)"
 
