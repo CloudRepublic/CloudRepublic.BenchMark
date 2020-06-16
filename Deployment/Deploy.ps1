@@ -33,6 +33,10 @@ $cdnEndpointName = "BenchMark";
 $cdnCustomDomainName = "BenchMark";
 $cdnCustomDomainHostname = "serverlessbenchmark.example.com";
 
+Write-Host "Starting deployment"
+Write-Host $username
+Write-Host $password
+
 #login into subscription
 $subscription = az login -u $username -p $password
 
