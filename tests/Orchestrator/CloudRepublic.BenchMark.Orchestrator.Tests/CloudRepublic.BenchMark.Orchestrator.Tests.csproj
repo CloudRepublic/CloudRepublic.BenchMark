@@ -17,7 +17,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Orchestrator\CloudRepublic.BenchMark.Orchestrator\CloudRepublic.BenchMark.Orchestrator.csproj" />
-    <ProjectReference Include="..\..\Shared\CloudRepublic.BenchMark.Tests.Infrastructure\CloudRepublic.BenchMark.Tests.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

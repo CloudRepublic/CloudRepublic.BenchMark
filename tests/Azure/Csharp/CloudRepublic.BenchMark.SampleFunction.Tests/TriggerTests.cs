@@ -1,4 +1,4 @@
-﻿using CloudRepublic.BenchMark.Tests.Infrastructure;
+﻿using CloudRepublic.BenchMark.Test.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
@@ -10,14 +10,14 @@ namespace CloudRepublic.BenchMark.SampleFunction.Tests
 {
     public class TriggerTests
     {
-        private readonly ILogger _logger = TestFactory.CreateLogger();
+        private readonly ILogger _logger = MockILoggerFactory.CreateLogger();
 
         [Fact]
         public async Task Run_Should_Return_BadRequest_When_No_Name_Provided()
         {
             #region Arrange
 
-            var request = TestFactory.CreateHttpRequest();
+            var request = MockHttpRequestFactory.CreateHttpRequest();
 
             #endregion
 
@@ -47,7 +47,7 @@ namespace CloudRepublic.BenchMark.SampleFunction.Tests
         {
             #region Arrange
 
-            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>() { { "name", nameToTest } });
+            var request = MockHttpRequestFactory.CreateHttpRequest(new Dictionary<string, StringValues>() { { "name", nameToTest } });
 
             #endregion
 

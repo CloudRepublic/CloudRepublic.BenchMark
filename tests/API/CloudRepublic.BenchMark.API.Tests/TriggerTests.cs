@@ -3,7 +3,7 @@ using CloudRepublic.BenchMark.API.Models;
 using CloudRepublic.BenchMark.Application.Interfaces;
 using CloudRepublic.BenchMark.Domain.Entities;
 using CloudRepublic.BenchMark.Domain.Enums;
-using CloudRepublic.BenchMark.Tests.Infrastructure;
+using CloudRepublic.BenchMark.Test.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
@@ -19,7 +19,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 {
     public class TriggerTests
     {
-        private readonly ILogger _logger = TestFactory.CreateLogger();
+        private readonly ILogger _logger = MockILoggerFactory.CreateLogger();
         private readonly Mock<IBenchMarkResultService> _mockBenchMarkResultService;
 
         private Mock<IResponseConverterService> _mockResponseConverter;
@@ -37,7 +37,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
 
-            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()                {
+            var request = MockHttpRequestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()                {
                 {"hostingEnvironment", "Windows"},
                 {"runtime", "Csharp"}
             });
@@ -63,7 +63,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
 
-            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()                {
+            var request = MockHttpRequestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()                {
                 {"cloudProvider", "Azure"},
                 {"runtime", "Csharp"}
             });
@@ -89,7 +89,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
 
-            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()                {
+            var request = MockHttpRequestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()                {
                 {"cloudProvider", "Azure"},
                 {"hostingEnvironment", "Windows"},
             });
@@ -123,7 +123,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
 
-            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()                {
+            var request = MockHttpRequestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()                {
                 {"cloudProvider", argumentValue},
                 {"hostingEnvironment", "Windows"},
                 {"runtime", "Csharp"},
@@ -159,7 +159,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
 
-            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()                {
+            var request = MockHttpRequestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()                {
                 {"cloudProvider", "Azure"},
                 {"hostingEnvironment", argumentValue},
                 {"runtime", "Csharp"},
@@ -195,7 +195,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
 
-            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()                {
+            var request = MockHttpRequestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()                {
                 {"cloudProvider", "Azure"},
                 {"hostingEnvironment", "Windows"},
                 {"runtime", argumentValue},
@@ -236,7 +236,7 @@ namespace CloudRepublic.BenchMark.API.Tests
                 .Returns(sampleBenchMarkData);
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
-            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
+            var request = MockHttpRequestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
                 {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"runtime", "Fsharp"}});
 
             #endregion
@@ -274,7 +274,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
-            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
+            var request = MockHttpRequestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
                 {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"runtime", "Fsharp"}});
 
             #endregion
@@ -307,7 +307,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
-            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
+            var request = MockHttpRequestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
                 {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"runtime", "Fsharp"}});
 
             #endregion
@@ -346,7 +346,7 @@ namespace CloudRepublic.BenchMark.API.Tests
                 .Returns(Task.FromResult(benchMarkResults));
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
-            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
+            var request = MockHttpRequestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
                 {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"runtime", "Fsharp"}});
 
             #endregion
@@ -387,7 +387,7 @@ namespace CloudRepublic.BenchMark.API.Tests
                 .Returns(Task.FromResult(benchMarkResults));
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
-            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
+            var request = MockHttpRequestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
                 {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"runtime", "Fsharp"}});
 
             #endregion
@@ -430,7 +430,7 @@ namespace CloudRepublic.BenchMark.API.Tests
             { CloudProvider = "ReturnedData" };
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
-            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
+            var request = MockHttpRequestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
                 {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"runtime", "Fsharp"}});
 
             #endregion
@@ -474,7 +474,7 @@ namespace CloudRepublic.BenchMark.API.Tests
                 .Returns(sampleBenchMarkData);
 
             var trigger = new Trigger(_mockBenchMarkResultService.Object, _mockResponseConverter.Object);
-            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
+            var request = MockHttpRequestFactory.CreateHttpRequest(new Dictionary<string, StringValues>()
                 {{"cloudProvider", "Firebase"}, {"hostingEnvironment", "Linux"}, {"runtime", "Fsharp"}});
 
             #endregion

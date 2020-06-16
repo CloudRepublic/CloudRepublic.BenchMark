@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\src\Azure\Csharp\CloudRepublic.BenchMark.SampleFunction\CloudRepublic.BenchMark.SampleFunction.csproj" />
-    <ProjectReference Include="..\..\..\Shared\CloudRepublic.BenchMark.Tests.Infrastructure\CloudRepublic.BenchMark.Tests.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\Shared\CloudRepublic.BenchMark.Test.Helpers\CloudRepublic.BenchMark.Test.Helpers.csproj" />
   </ItemGroup>
 
 </Project>
