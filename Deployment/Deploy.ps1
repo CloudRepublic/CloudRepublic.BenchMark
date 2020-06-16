@@ -1,5 +1,6 @@
-$username = "#{{USERNAME}}#";
-$password = "#{{PASSWORD}}#";
+param($UserName,$Password)
+$username = $UserName;
+$password = $Password;
 $location = "West Europe";
 $resourceGroupName = "Rg-BenchMark-Win";
 $resourceGroupLinuxName = "Rg-BenchMark-Lin";
