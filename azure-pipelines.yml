@@ -24,7 +24,7 @@ stages:
       displayName: 'Install nu Get'
 
     - task: NuGetCommand@2
-      displayName: 'Restore the dependencies -$(solution)'
+      displayName: 'Restore the dependencies -'
       inputs:
         restoreSolution: '$(solution)'
         
