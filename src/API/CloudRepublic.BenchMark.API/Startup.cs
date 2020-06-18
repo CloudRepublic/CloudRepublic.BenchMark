@@ -18,7 +18,6 @@ namespace CloudRepublic.BenchMark.API
             builder.Services.AddDbContext<BenchMarkDbContext>(options => options.UseSqlServer(Environment.GetEnvironmentVariable("BenchMarkDatabase")));
 
             builder.Services.AddTransient<IBenchMarkResultService, BenchMarkResultService>();
-
             builder.Services.AddSingleton<IResponseConverterService, ResponseConverterService>();
         }
     }
