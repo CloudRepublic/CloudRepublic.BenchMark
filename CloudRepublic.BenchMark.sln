@@ -69,6 +69,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudRepublic.BenchMark.Tes
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B4A17794-B897-491E-BDE4-6FDAA50B2A06}"
 	ProjectSection(SolutionItems) = preProject
+		azure-pipelines.yml = azure-pipelines.yml
 		ReadMe.md = ReadMe.md
 	EndProjectSection
 EndProject
