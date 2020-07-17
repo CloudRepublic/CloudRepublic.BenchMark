@@ -2,6 +2,9 @@
 
 We've created a continuous benchmark tool for Azure Functions to measure the performance differences between Linux and Windows hosted Azure Functions. Secondly it measures the differences between functions written in C# .NET , NodeJS and Python. The performance benchmarking is only focussed on Http Triggered functions.
 
+## builds
+[![Build Status](https://dev.azure.com/rgertsen/BenchMark/_apis/build/status/BenchMark?branchName=master)](https://dev.azure.com/rgertsen/BenchMark/_build/latest?definitionId=1&branchName=master)
+
 ## How the benchmark is executed
 
 There's an orchestrator function that executes HTTP GET requests to every function app instance available. The first 5 calls are classified as coldstart, we then wait for 30 seconds to execute 10 requests per function instance to measure the warmed up HTTP requests.

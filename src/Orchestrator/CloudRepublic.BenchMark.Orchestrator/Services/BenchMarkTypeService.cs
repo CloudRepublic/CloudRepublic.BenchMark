@@ -1,9 +1,9 @@
 ﻿using CloudRepublic.BenchMark.Application.Interfaces;
 using CloudRepublic.BenchMark.Application.Models;
+using CloudRepublic.BenchMark.Data;
 using CloudRepublic.BenchMark.Domain.Entities;
 using CloudRepublic.BenchMark.Orchestrator.Interfaces;
 using CloudRepublic.BenchMark.Orchestrator.Statics;
-using CloudRepublic.BenchMark.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;

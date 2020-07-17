@@ -20,32 +20,32 @@ namespace CloudRepublic.BenchMark.Application.Tests
         [InlineData("-1")]
         public async Task RunBenchMarkAsync_Should_Call_HttpClientFactory_With_Given_Name(string givenName)
         {
-            #region Arrange
+            //  Arrange
 
             var httpClientFactoryMoq = new Mock<IHttpClientFactory>();
 
             var testService = new BenchMarkService(httpClientFactoryMoq.Object);
 
-            #endregion
 
-            #region Act
+
+            //  Act
 
             var results = await testService.RunBenchMarkAsync(givenName);
 
-            #endregion
 
-            #region Assert
+
+            //  Assert
 
             httpClientFactoryMoq.Verify(factory => factory.CreateClient(It.Is<string>(clientName => clientName == givenName)), Times.Once);
 
-            #endregion
+
         }
 
         [Fact]
         public async Task RunBenchMarkAsync_Should_Catch_Exception_Of_HttpClient_and_Return_Failed_Response()
         {
 
-            #region Arrange
+            //  Arrange
 
             var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
             handlerMock
@@ -70,20 +70,20 @@ namespace CloudRepublic.BenchMark.Application.Tests
 
             var testService = new BenchMarkService(httpClientFactoryMoq.Object);
 
-            #endregion
 
-            #region Act
+
+            //  Act
 
             var result = await testService.RunBenchMarkAsync("ClientName");
 
-            #endregion
 
-            #region Assert
+
+            //  Assert
 
             Assert.False(result.Success);
             Assert.Equal(0, result.Duration);
 
-            #endregion
+
 
         }
 
@@ -91,7 +91,7 @@ namespace CloudRepublic.BenchMark.Application.Tests
         public async Task RunBenchMarkAsync_Should_Call_HttpClient_By_Given_Name_And_BenchMark_Trigger()
         {
 
-            #region Arrange
+            //  Arrange
 
             var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
             handlerMock
@@ -120,15 +120,15 @@ namespace CloudRepublic.BenchMark.Application.Tests
 
             var testService = new BenchMarkService(httpClientFactoryMoq.Object);
 
-            #endregion
 
-            #region Act
+
+            //  Act
 
             var result = await testService.RunBenchMarkAsync("ClientName");
 
-            #endregion
 
-            #region Assert
+
+            //  Assert
 
             // also check the 'http' call was like we expected it
             var expectedUri = new Uri("http://validURI.com/api/Trigger?name=BenchMark");
@@ -142,7 +142,7 @@ namespace CloudRepublic.BenchMark.Application.Tests
                ),
                ItExpr.IsAny<CancellationToken>()
             );
-            #endregion
+
 
         }
 
@@ -150,7 +150,7 @@ namespace CloudRepublic.BenchMark.Application.Tests
         public async Task RunBenchMarkAsync_Should_Return_A_Failed_Response_With_Duration_When_HttpClient_Returns_A_Non_Succes_StatusCode_After_A_Delay()
         {
 
-            #region Arrange
+            //  Arrange
 
             var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
             handlerMock
@@ -179,20 +179,20 @@ namespace CloudRepublic.BenchMark.Application.Tests
 
             var testService = new BenchMarkService(httpClientFactoryMoq.Object);
 
-            #endregion
 
-            #region Act
+
+            //  Act
 
             var result = await testService.RunBenchMarkAsync("ClientName");
 
-            #endregion
 
-            #region Assert
+
+            //  Assert
 
             Assert.False(result.Success);
             Assert.NotEqual(0, result.Duration);
 
-            #endregion
+
 
         }
 
@@ -200,7 +200,7 @@ namespace CloudRepublic.BenchMark.Application.Tests
         public async Task RunBenchMarkAsync_Should_Return_An_Succesfull_Response_When_HttpClient_Returns_Succes()
         {
 
-            #region Arrange
+            //  Arrange
 
             var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
             handlerMock
@@ -229,26 +229,26 @@ namespace CloudRepublic.BenchMark.Application.Tests
 
             var testService = new BenchMarkService(httpClientFactoryMoq.Object);
 
-            #endregion
 
-            #region Act
+
+            //  Act
 
             var result = await testService.RunBenchMarkAsync("ClientName");
 
-            #endregion
 
-            #region Assert
+
+            //  Assert
 
             Assert.True(result.Success);
 
-            #endregion
+
 
         }
 
         [Fact]
         public async Task RunBenchMarkAsync_Should_Return_A_Duration_When_HttpClient_Returns_Succes_After_A_Delay()
         {
-            #region Arrange
+            //  Arrange
 
             var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
             handlerMock
@@ -277,20 +277,20 @@ namespace CloudRepublic.BenchMark.Application.Tests
 
             var testService = new BenchMarkService(httpClientFactoryMoq.Object);
 
-            #endregion
 
-            #region Act
+
+            //  Act
 
             var result = await testService.RunBenchMarkAsync("ClientName");
 
-            #endregion
 
-            #region Assert
+
+            //  Assert
 
             Assert.True(result.Success);
             Assert.NotEqual(0, result.Duration);
 
-            #endregion
+
 
         }
 

@@ -1,7 +1,7 @@
 using CloudRepublic.BenchMark.Application.Interfaces;
 using CloudRepublic.BenchMark.Domain.Entities;
 using CloudRepublic.BenchMark.Domain.Enums;
-using CloudRepublic.BenchMark.Persistence;
+using CloudRepublic.BenchMark.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

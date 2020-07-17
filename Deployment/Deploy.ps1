@@ -1,37 +1,36 @@
 $username = "#{{USERNAME}}#";
 $password = "#{{PASSWORD}}#";
 $location = "West Europe";
-$environmentName = "";
-$resourceGroupName = "Rg-BenchMark-Win" + $environmentName;
-$resourceGroupLinuxName = "Rg-BenchMark-Lin" + $environmentName;
-$appInsightsName = "BenchMark-Insights" + $environmentName;
-$appInsightsWinName = "BenchMark-Insights-Win" + $environmentName;
-$appInsightsLinName = "BenchMark-Insights-Lin" + $environmentName;
-$storageAccountName = "stbenchmarkwin" + $environmentName;
-$storageAccountLinuxName = "stbenchmarklin" + $environmentName;
-$sqlServerName = "sql-srv-benchMark" + $environmentName;
+$resourceGroupName = "Rg-BenchMark-Win";
+$resourceGroupLinuxName = "Rg-BenchMark-Lin";
+$appInsightsName = "BenchMark-Insights";
+$appInsightsWinName = "BenchMark-Insights-Win";
+$appInsightsLinName = "BenchMark-Insights-Lin";
+$storageAccountName = "stbenchmarkwin";
+$storageAccountLinuxName = "stbenchmarklin";
+$sqlServerName = "sql-srv-benchMark";
 $sqlServerAdminUsername = "benchmarkAdmin";
 $sqlServerAdminPassword = "MySuperSecurePassword123!";
-$sqlDatabaseName = "benchmarkdb" + $environmentName;
-$redisCacheName = "redis-BenchMark" + $environmentName;
-$apimName = "BenchMark" + $environmentName;
+$sqlDatabaseName = "benchmarkdb";
+$redisCacheName = "redis-BenchMark";
+$apimName = "BenchMark";
 $consumptionLocation = "westeurope";
-$orchestratorFunctionName = "BenchMark-Win-Orchestrator" + $environmentName;
-$windowsSampleFunctionCsharpName = "func-BenchMark-Sample-Win-Csharp" + $environmentName;
-$windowsSampleFunctionNodejsName = "func-BenchMark-Sample-Win-Nodejs" + $environmentName;
-$windowsSampleFunctionPythonName = "func-BenchMark-Sample-Win-Python" + $environmentName;
-$windowsSampleFunctionFsharpName = "func-BenchMark-Sample-Win-Fsharp" + $environmentName;
-$windowsSampleFunctionJavaName = "func-BenchMark-Sample-Win-Java" + $environmentName;
-$linuxSampleFunctionCsharpName = "func-BenchMark-Sample-Lin-Csharp" + $environmentName;
-$linuxSampleFunctionNodejsName = "func-BenchMark-Sample-Lin-Nodejs" + $environmentName;
-$linuxSampleFunctionPythonName = "func-BenchMark-Sample-Lin-Python" + $environmentName;
-$linuxSampleFunctionFsharpName = "func-BenchMark-Sample-Lin-Fsharp" + $environmentName;
-$linuxSampleFunctionJavaName = "func-BenchMark-Sample-Lin-Java" + $environmentName;
-$backendApiFunctionName = "func-BenchMark-Win-Api" + $environmentName;
-$cdnProfileName = "BenchMark" + $environmentName;
-$cdnEndpointName = "BenchMark" + $environmentName;
-$cdnCustomDomainName = "BenchMark" + $environmentName;
-$cdnCustomDomainHostname = "serverlessbenchmark" + $environmentName+".example.com";
+$orchestratorFunctionName = "BenchMark-Win-Orchestrator";
+$windowsSampleFunctionCsharpName = "func-BenchMark-Sample-Win-Csharp";
+$windowsSampleFunctionNodejsName = "func-BenchMark-Sample-Win-Nodejs";
+$windowsSampleFunctionPythonName = "func-BenchMark-Sample-Win-Python";
+$windowsSampleFunctionFsharpName = "func-BenchMark-Sample-Win-Fsharp";
+$windowsSampleFunctionJavaName = "func-BenchMark-Sample-Win-Java";
+$linuxSampleFunctionCsharpName = "func-BenchMark-Sample-Lin-Csharp";
+$linuxSampleFunctionNodejsName = "func-BenchMark-Sample-Lin-Nodejs";
+$linuxSampleFunctionPythonName = "func-BenchMark-Sample-Lin-Python";
+$linuxSampleFunctionFsharpName = "func-BenchMark-Sample-Lin-Fsharp";
+$linuxSampleFunctionJavaName = "func-BenchMark-Sample-Lin-Java";
+$backendApiFunctionName = "func-BenchMark-Win-Api";
+$cdnProfileName = "BenchMark";
+$cdnEndpointName = "BenchMark";
+$cdnCustomDomainName = "BenchMark";
+$cdnCustomDomainHostname = "serverlessbenchmark.example.com";
 
 #login into subscription
 $subscription = az login -u $username -p $password
@@ -91,7 +90,7 @@ $sampleFuncWindowsNodejs = az functionapp create --app-insights $appInsightsWinN
 $sampleFuncWindowsFsharp = az functionapp create --app-insights $appInsightsWinName --resource-group $resourceGroupName --name $windowsSampleFunctionFsharpName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Windows --functions-version 2 | ConvertFrom-Json
 
 #create windows sample function Java
-$sampleFuncWindowsJava = az functionapp create --app-insights $appInsightsWinName --resource-group $resourceGroupName --name $windowsSampleFunctionJavaName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Windows --functions-version 2 | ConvertFrom-Json
+$sampleFuncWindowsJava = az functionapp create --app-insights $appInsightsWinName --resource-group $resourceGroupName --name $windowsSampleFunctionJavaName --storage-account $storageAccountName --consumption-plan-location  $consumptionLocation --runtime java --os-type Windows --functions-version 2 | ConvertFrom-Json
 
 #create linux sample function csharp
 $sampleFuncLinuxCsharp = az functionapp create --app-insights $appInsightsLinName --resource-group $resourceGroupLinuxName --name $linuxSampleFunctionCsharpName --storage-account $storageAccountLinuxName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Linux --functions-version 2| ConvertFrom-Json
@@ -103,7 +102,7 @@ $sampleFuncLinuxNodejs = az functionapp create --app-insights $appInsightsLinNam
 $sampleFuncLinuxFsharp = az functionapp create --app-insights $appInsightsLinName --resource-group $resourceGroupLinuxName --name $linuxSampleFunctionFsharpName --storage-account $storageAccountLinuxName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Linux --functions-version 2 | ConvertFrom-Json 
 
 #create linux sample function Java
-$sampleFuncLinuxJava = az functionapp create --app-insights $appInsightsLinName --resource-group $resourceGroupLinuxName --name $linuxSampleFunctionJavaName --storage-account $storageAccountLinuxName --consumption-plan-location  $consumptionLocation --runtime dotnet --os-type Linux --functions-version 2 | ConvertFrom-Json 
+$sampleFuncLinuxJava = az functionapp create --app-insights $appInsightsLinName --resource-group $resourceGroupLinuxName --name $linuxSampleFunctionJavaName --storage-account $storageAccountLinuxName --consumption-plan-location  $consumptionLocation --runtime java --os-type Linux --functions-version 2 | ConvertFrom-Json 
 
 #create Linux sample function python
 $sampleFuncLinuxPython = az functionapp create --app-insights $appInsightsLinName --resource-group $resourceGroupLinuxName --name $linuxSampleFunctionPythonName --storage-account $storageAccountLinuxName --consumption-plan-location  $consumptionLocation --runtime python --runtime-version 3.7 --os-type Linux --functions-version 2 | ConvertFrom-Json 

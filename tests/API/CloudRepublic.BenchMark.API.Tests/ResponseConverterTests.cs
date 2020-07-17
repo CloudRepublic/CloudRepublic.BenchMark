@@ -12,7 +12,7 @@ namespace CloudRepublic.BenchMark.API.Tests
         [Fact]
         public void ConvertBenchMarkResult_Should_Set_RequestData_Into_BenchMarkData()
         {
-            #region Arrange
+            //  Arrange
 
             Environment.SetEnvironmentVariable("dayRange", "2");
 
@@ -35,27 +35,27 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var responseConverter = new ResponseConverterService();
 
-            #endregion
 
-            #region Act
+
+            //  Act
 
             var benchMarkData = responseConverter.ConvertToBenchMarkData(benchMarkResults);
 
-            #endregion
 
-            #region Assert
+
+            //  Assert
 
             Assert.NotNull(benchMarkData);
             Assert.Equal(cloudProvider.ToString(), benchMarkData.CloudProvider);
             Assert.Equal(hostingEnvironment.ToString(), benchMarkData.HostingEnvironment);
             Assert.Equal(runtime.ToString(), benchMarkData.Runtime);
 
-            #endregion
+
         }
         [Fact]
         public void ConvertBenchMarkResult_Should_Set_RequestData_Of_First_Result_Into_BenchMarkData_When_Conflicting_RequestData()
         {
-            #region Arrange
+            //  Arrange
 
             Environment.SetEnvironmentVariable("dayRange", "2");
 
@@ -93,27 +93,27 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var responseConverter = new ResponseConverterService();
 
-            #endregion
 
-            #region Act
+
+            //  Act
 
             var benchMarkData = responseConverter.ConvertToBenchMarkData(benchMarkResults);
 
-            #endregion
 
-            #region Assert
+
+            //  Assert
 
             Assert.NotNull(benchMarkData);
             Assert.Equal(CloudProvider.Firebase.ToString(), benchMarkData.CloudProvider);
             Assert.Equal(HostEnvironment.Linux.ToString(), benchMarkData.HostingEnvironment);
             Assert.Equal(Runtime.Java.ToString(), benchMarkData.Runtime);
 
-            #endregion
+
         }
         [Fact]
         public void ConvertBenchMarkResult_Should_Set_Enum_Number_Into_BenchMarkData_When_RequestData_Is_Outside_Of_EnumRange()
         {
-            #region Arrange
+            //  Arrange
 
             Environment.SetEnvironmentVariable("dayRange", "2");
 
@@ -130,44 +130,44 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var responseConverter = new ResponseConverterService();
 
-            #endregion
 
-            #region Act
+
+            //  Act
 
             var benchMarkData = responseConverter.ConvertToBenchMarkData(benchMarkResults);
 
-            #endregion
 
-            #region Assert
+
+            //  Assert
 
             Assert.NotNull(benchMarkData);
             Assert.Equal("-1", benchMarkData.CloudProvider);
             Assert.Equal("100", benchMarkData.HostingEnvironment);
             Assert.Equal("789", benchMarkData.Runtime);
 
-            #endregion
+
         }
         [Fact]
         public void ConvertBenchMarkResult_Throws_InvalidOperationException_when_No_Results_Given()
         {
-            #region Arrange
+            //  Arrange
 
             var benchMarkResults = new List<BenchMarkResult>() { };
 
             var responseConverter = new ResponseConverterService();
 
-            #endregion
 
-            #region Act & Assert
+
+            //  Act & Assert
 
             Assert.Throws<InvalidOperationException>(() => responseConverter.ConvertToBenchMarkData(benchMarkResults));
 
-            #endregion
+
         }
         [Fact]
         public void ConvertBenchMarkResult_Should_Convert_BenchMarkResult_Date_With_The_Enviroment_DataRange_Into_DataPoints_Regardless_Of_Cold_Or_Warm_Status()
         {
-            #region Arrange
+            //  Arrange
 
             Environment.SetEnvironmentVariable("dayRange", "20");
 
@@ -182,27 +182,27 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var responseConverter = new ResponseConverterService();
 
-            #endregion
 
-            #region Act
+
+            //  Act
 
             var benchMarkData = responseConverter.ConvertToBenchMarkData(benchMarkResults);
 
-            #endregion
 
-            #region Assert
+
+            //  Assert
 
             Assert.NotNull(benchMarkData);
             // 20 of the date range
             Assert.Equal(20, benchMarkData.ColdDataPoints.Count);
             Assert.Equal(20, benchMarkData.WarmDataPoints.Count);
 
-            #endregion
+
         }
         [Fact]
         public void ConvertBenchMarkResult_Should_Add_BenchMarkResult_DataRows_Into_DataPoints_By_Cold_Or_Warm_Status()
         {
-            #region Arrange
+            //  Arrange
 
             Environment.SetEnvironmentVariable("dayRange", "1");
 
@@ -237,26 +237,26 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var responseConverter = new ResponseConverterService();
 
-            #endregion
 
-            #region Act
+
+            //  Act
 
             var benchMarkData = responseConverter.ConvertToBenchMarkData(benchMarkResults);
 
-            #endregion
 
-            #region Assert
+
+            //  Assert
 
             Assert.NotNull(benchMarkData);
             Assert.Equal(4, benchMarkData.ColdDataPoints[0].ExecutionTimes.Count);
             Assert.Single(benchMarkData.WarmDataPoints[0].ExecutionTimes);
 
-            #endregion
+
         }
         [Fact]
         public void ConvertBenchMarkResult_Should_Add_BenchMarkResult_DataRows_Into_DataPoints_By_Cold_Status()
         {
-            #region Arrange
+            //  Arrange
 
             Environment.SetEnvironmentVariable("dayRange", "1");
 
@@ -286,26 +286,26 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var responseConverter = new ResponseConverterService();
 
-            #endregion
 
-            #region Act
+
+            //  Act
 
             var benchMarkData = responseConverter.ConvertToBenchMarkData(benchMarkResults);
 
-            #endregion
 
-            #region Assert
+
+            //  Assert
 
             Assert.NotNull(benchMarkData);
             Assert.Equal(4, benchMarkData.ColdDataPoints[0].ExecutionTimes.Count);
             Assert.Empty(benchMarkData.WarmDataPoints[0].ExecutionTimes);
 
-            #endregion
+
         }
         [Fact]
         public void ConvertBenchMarkResult_Should_Add_BenchMarkResult_DataRows_Into_DataPoints_By_Warm_Status()
         {
-            #region Arrange
+            //  Arrange
 
             Environment.SetEnvironmentVariable("dayRange", "1");
 
@@ -337,26 +337,26 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var responseConverter = new ResponseConverterService();
 
-            #endregion
 
-            #region Act
+
+            //  Act
 
             var benchMarkData = responseConverter.ConvertToBenchMarkData(benchMarkResults);
 
-            #endregion
 
-            #region Assert
+
+            //  Assert
 
             Assert.NotNull(benchMarkData);
             Assert.Empty(benchMarkData.ColdDataPoints[0].ExecutionTimes);
             Assert.Equal(4, benchMarkData.WarmDataPoints[0].ExecutionTimes.Count);
 
-            #endregion
+
         }
         [Fact]
         public void ConvertBenchMarkResult_Should_Calculate_Correct_Medians_By_Warm_Status()
         {
-            #region Arrange
+            //  Arrange
 
             Environment.SetEnvironmentVariable("dayRange", "1");
 
@@ -405,27 +405,27 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var responseConverter = new ResponseConverterService();
 
-            #endregion
 
-            #region Act
+
+            //  Act
 
             var benchMarkData = responseConverter.ConvertToBenchMarkData(benchMarkResults);
 
-            #endregion
 
-            #region Assert
+
+            //  Assert
 
             Assert.NotNull(benchMarkData);
             Assert.Equal(63, benchMarkData.WarmMedianExecutionTime); // 42-84 = 63 median
             Assert.Equal(-122.22, benchMarkData.WarmPreviousDayDifference);// (42-84)(63) vs (120-160)(140) = -77 diff = -122.22%
             Assert.True(benchMarkData.WarmPreviousDayPositive);
 
-            #endregion
+
         }
         [Fact]
         public void ConvertBenchMarkResult_Should_Calculate_Correct_Medians_By_Cold_Status()
         {
-            #region Arrange
+            //  Arrange
 
             Environment.SetEnvironmentVariable("dayRange", "1");
 
@@ -473,22 +473,22 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var responseConverter = new ResponseConverterService();
 
-            #endregion
 
-            #region Act
+
+            //  Act
 
             var benchMarkData = responseConverter.ConvertToBenchMarkData(benchMarkResults);
 
-            #endregion
 
-            #region Assert
+
+            //  Assert
 
             Assert.NotNull(benchMarkData);
             Assert.Equal(63, benchMarkData.ColdMedianExecutionTime); // 42-84 = 63 median
             Assert.Equal(-122.22, benchMarkData.ColdPreviousDayDifference);// (42-84)(63) vs (120-160)(140) = -77 diff = -122.22%
             Assert.True(benchMarkData.ColdPreviousDayPositive);
 
-            #endregion
+
         }
     }
 }

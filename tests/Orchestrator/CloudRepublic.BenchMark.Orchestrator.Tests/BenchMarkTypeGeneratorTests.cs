@@ -11,17 +11,17 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
         [Fact]
         public void GetAllTypes_Should_Return_BenchMarkType_With_All_Data()
         {
-            #region Arrange
+            //  Arrange
 
-            #endregion
 
-            #region Act
+
+            //  Act
 
             var benchMarkTypes = BenchMarkTypeGenerator.GetAllTypes();
 
-            #endregion
 
-            #region Assert
+
+            //  Assert
 
             Assert.NotNull(benchMarkTypes);
 
@@ -47,27 +47,27 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
             Assert.Equal("FirebaseLinuxNodejsUrl", lastTypeForTesting.UrlName);
             Assert.False(lastTypeForTesting.SetXFunctionsKey);
 
-            #endregion
+
         }
         [Fact]
         public void GetAllTypes_Should_Return_BenchMarkTypes()
         {
-            #region Arrange
+            //  Arrange
 
-            #endregion
 
-            #region Act
+
+            //  Act
 
             var benchMarkTypes = BenchMarkTypeGenerator.GetAllTypes();
 
-            #endregion
 
-            #region Assert
+
+            //  Assert
 
             Assert.NotNull(benchMarkTypes);
             Assert.NotEmpty(benchMarkTypes);
 
-            #endregion
+
         }
     }
 }

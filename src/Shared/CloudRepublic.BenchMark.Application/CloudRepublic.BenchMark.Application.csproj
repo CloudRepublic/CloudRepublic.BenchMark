@@ -1,8 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
-    </PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>
+	</PropertyGroup>
 
     <ItemGroup>
       <Reference Include="Microsoft.Extensions.Http, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
@@ -11,14 +12,14 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Dapper" Version="1.60.6" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.4" />
-      <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.4" />
+      <PackageReference Include="Dapper" Version="2.0.35" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.5" />
+      <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.5" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\CloudRepublic.BenchMark.Data\CloudRepublic.BenchMark.Data\CloudRepublic.BenchMark.Data.csproj" />
       <ProjectReference Include="..\CloudRepublic.BenchMark.Domain\CloudRepublic.BenchMark.Domain.csproj" />
-      <ProjectReference Include="..\CloudRepublic.BenchMark.Persistence\CloudRepublic.BenchMark.Persistence.csproj" />
     </ItemGroup>
 
 </Project>

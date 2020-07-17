@@ -12,7 +12,7 @@ namespace CloudRepublic.BenchMark.API.Tests
         [Fact]
         public void Calculate_Should_Return_Zero_Medians_On_No_results()
         {
-            #region Arrange
+            //  Arrange
 
             var currentDate = new DateTime(2020, 2, 2);
 
@@ -20,27 +20,27 @@ namespace CloudRepublic.BenchMark.API.Tests
             {
             };
 
-            #endregion
 
-            #region Act
+
+            //  Act
 
             var benchMarkData = MedianCalculator.Calculate(currentDate, benchMarkResults);
 
-            #endregion
 
-            #region Assert
+
+            //  Assert
 
             Assert.NotNull(benchMarkData);
             Assert.Equal(0, benchMarkData.CurrentDay);
             Assert.Equal(0, benchMarkData.PreviousDay);
             Assert.Equal(0, benchMarkData.DifferencePercentage); // for the difference an divide by currentday exists so make so it doesnt crash ;)
 
-            #endregion
+
         }
         [Fact]
         public void Calculate_Should_Return_Zero_Medians_On_No_results_of_GivenDate_Or_DateBefore_GivenDate()
         {
-            #region Arrange
+            //  Arrange
 
             var currentDate = new DateTime(2020, 2, 12);
 
@@ -58,28 +58,28 @@ namespace CloudRepublic.BenchMark.API.Tests
                 },
             };
 
-            #endregion
 
-            #region Act
+
+            //  Act
 
             var benchMarkData = MedianCalculator.Calculate(currentDate, benchMarkResults);
 
-            #endregion
 
-            #region Assert
+
+            //  Assert
 
             Assert.NotNull(benchMarkData);
             Assert.Equal(0, benchMarkData.CurrentDay);
             Assert.Equal(0, benchMarkData.PreviousDay);
             Assert.Equal(0, benchMarkData.DifferencePercentage); // for the difference an divide by currentday exists so make so it doesnt crash ;)
 
-            #endregion
+
         }
 
         [Fact]
         public void Calculate_Should_Return_Calculated_CurrentMedian_From_Results_By_Dates_Matching_Given()
         {
-            #region Arrange
+            //  Arrange
 
             var currentDate = new DateTime(2020, 2, 11);
 
@@ -102,25 +102,25 @@ namespace CloudRepublic.BenchMark.API.Tests
                 },
             };
 
-            #endregion
 
-            #region Act
+
+            //  Act
 
             var benchMarkData = MedianCalculator.Calculate(currentDate, benchMarkResults);
 
-            #endregion
 
-            #region Assert
+
+            //  Assert
 
             Assert.NotNull(benchMarkData);
             Assert.Equal(22, benchMarkData.CurrentDay);
 
-            #endregion
+
         }
         [Fact]
         public void Calculate_Should_Return_Calculated_PreviousMedian_From_Results_By_Dates_Matching_Day_Before_Given()
         {
-            #region Arrange
+            //  Arrange
 
             var currentDate = new DateTime(2020, 2, 11);
 
@@ -143,25 +143,25 @@ namespace CloudRepublic.BenchMark.API.Tests
                 },
             };
 
-            #endregion
 
-            #region Act
+
+            //  Act
 
             var benchMarkData = MedianCalculator.Calculate(currentDate, benchMarkResults);
 
-            #endregion
 
-            #region Assert
+
+            //  Assert
 
             Assert.NotNull(benchMarkData);
             Assert.Equal(22, benchMarkData.PreviousDay);
 
-            #endregion
+
         }
         [Fact]
         public void Calculate_Should_Return_Calculated_Medians_From_Results_By_Dates_()
         {
-            #region Arrange
+            //  Arrange
 
             var currentDate = new DateTime(2020, 2, 11);
 
@@ -189,22 +189,22 @@ namespace CloudRepublic.BenchMark.API.Tests
                 },
             };
 
-            #endregion
 
-            #region Act
+
+            //  Act
 
             var benchMarkData = MedianCalculator.Calculate(currentDate, benchMarkResults);
 
-            #endregion
 
-            #region Assert
+
+            //  Assert
 
             Assert.NotNull(benchMarkData);
             Assert.Equal(50, benchMarkData.CurrentDay);
             Assert.Equal(22, benchMarkData.PreviousDay);
             Assert.Equal(56, benchMarkData.DifferencePercentage);
 
-            #endregion
+
         }
     }
 }

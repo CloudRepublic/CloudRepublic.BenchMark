@@ -1,4 +1,5 @@
 ﻿using CloudRepublic.BenchMark.API.Models;
+using Shouldly;
 using Xunit;
 
 namespace CloudRepublic.BenchMark.API.Tests
@@ -23,20 +24,20 @@ namespace CloudRepublic.BenchMark.API.Tests
         [InlineData("value_two")] // cased down name in enum fails
         public void EnumFromString_Should_Not_Parse_InvalidStrings_Succesfull(string invalidInput)
         {
-            #region Arrange
+            //  Arrange
 
-            #endregion
 
-            #region Act
+
+            //  Act
             var enumToTest = new EnumFromString<TestEnum>(invalidInput);
 
-            #endregion
 
-            #region Assert
 
-            Assert.False(enumToTest.ParsedSuccesfull);
+            //  Assert
 
-            #endregion
+            enumToTest.ParsedSuccesfull.ShouldBe(false);
+
+
         }
 
         [Theory]
@@ -45,21 +46,17 @@ namespace CloudRepublic.BenchMark.API.Tests
         [InlineData("Value_one")] // name in enum succeeds
         public void EnumFromString_Should_Parse_ValidStrings_Succesfull(string validInput)
         {
-            #region Arrange
+            // Arrange
 
-            #endregion
 
-            #region Act
+            // Act
 
             var enumToTest = new EnumFromString<TestEnum>(validInput);
 
-            #endregion
+            // Assert
 
-            #region Assert
+            enumToTest.ParsedSuccesfull.ShouldBe(true);
 
-            Assert.True(enumToTest.ParsedSuccesfull);
-
-            #endregion
         }
     }
 }

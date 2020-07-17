@@ -1,7 +1,7 @@
 ﻿using CloudRepublic.BenchMark.Application.Services;
+using CloudRepublic.BenchMark.Data;
 using CloudRepublic.BenchMark.Domain.Entities;
 using CloudRepublic.BenchMark.Domain.Enums;
-using CloudRepublic.BenchMark.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
@@ -23,7 +23,7 @@ namespace CloudRepublic.BenchMark.Application.Tests
         [Fact]
         public async Task GetBenchMarkResultsAsync_Should_Return_empty_List_On_Empty_Db()
         {
-            #region Arrange
+            //  Arrange
 
             using (var context = new BenchMarkDbContext(ContextOptions))
             {
@@ -32,27 +32,27 @@ namespace CloudRepublic.BenchMark.Application.Tests
 
                 var testService = new BenchMarkResultService(context);
 
-                #region Act
+                //  Act
 
                 var results = await testService.GetBenchMarkResultsAsync(CloudProvider.Azure, HostEnvironment.Linux, Runtime.Csharp, new DateTime(2020, 2, 2));
 
-                #endregion
 
-                #region Assert
+
+                //  Assert
 
                 Assert.NotNull(results);
                 Assert.Empty(results);
 
-                #endregion
+
             }
 
-            #endregion
+
 
         }
         [Fact]
         public async Task GetBenchMarkResultsAsync_Should_Return_Item_With_all_Properties_Set()
         {
-            #region Arrange
+            //  Arrange
 
             var requestAndResultDate = new DateTime(2020, 2, 2);
 
@@ -77,13 +77,13 @@ namespace CloudRepublic.BenchMark.Application.Tests
 
                 var testService = new BenchMarkResultService(context);
 
-                #region Act
+                //  Act
 
                 var results = await testService.GetBenchMarkResultsAsync(CloudProvider.Azure, HostEnvironment.Linux, Runtime.Csharp, requestAndResultDate);
 
-                #endregion
 
-                #region Assert
+
+                //  Assert
 
                 Assert.NotEmpty(results);
                 var validationModel = results[0];
@@ -96,10 +96,10 @@ namespace CloudRepublic.BenchMark.Application.Tests
                 Assert.True(validationModel.IsColdRequest);
                 Assert.True(validationModel.Success);
 
-                #endregion
+
             }
 
-            #endregion
+
         }
 
         [Theory] // testing with DateTime(2020, 2, 2)
@@ -109,7 +109,7 @@ namespace CloudRepublic.BenchMark.Application.Tests
         [InlineData(2021, 2, 2)] // next year
         public async Task GetBenchMarkResultsAsync_Should_Only_Return_Items_On_Or_After_given_afterDate_Date(int year, int month, int day)
         {
-            #region Arrange
+            //  Arrange
 
             var requestDate = new DateTime(2020, 2, 2);
             var invalidResultDate = new DateTime(2020, 1, 1); // earlier the date
@@ -143,27 +143,27 @@ namespace CloudRepublic.BenchMark.Application.Tests
 
                 var testService = new BenchMarkResultService(context);
 
-                #region Act
+                //  Act
 
                 var results = await testService.GetBenchMarkResultsAsync(CloudProvider.Azure, HostEnvironment.Linux, Runtime.Csharp, requestDate);
 
-                #endregion
 
-                #region Assert
+
+                //  Assert
 
                 Assert.NotEmpty(results); // we need a result
                 Assert.Single(results); // we need a single result
                 Assert.Equal(12, results[0].Id); // it must be the proper result
 
-                #endregion
+
             }
-            #endregion
+
 
         }
         [Fact]
         public async Task GetBenchMarkResultsAsync_Should_Return_Items_On_Given_afterDate_Date_Regardless_Of_Time()
         {
-            #region Arrange
+            //  Arrange
 
             var requestDate = new DateTime(2020, 2, 2, 5, 5, 5);  // has time: 5.5.5
             var resultDate = new DateTime(2020, 2, 2, 3, 3, 3); // has time:  3.3.3 which is earlier than the request date
@@ -187,28 +187,28 @@ namespace CloudRepublic.BenchMark.Application.Tests
 
                 var testService = new BenchMarkResultService(context);
 
-                #region Act
+                //  Act
 
                 var results = await testService.GetBenchMarkResultsAsync(CloudProvider.Azure, HostEnvironment.Linux, Runtime.Csharp, requestDate);
 
-                #endregion
 
-                #region Assert
+
+                //  Assert
 
                 Assert.NotEmpty(results); // we need a result
                 Assert.Single(results); // we need a single result
                 Assert.Equal(12, results[0].Id); // it must be the proper result
 
-                #endregion
+
             }
-            #endregion
+
 
         }
 
         [Fact]
         public async Task GetBenchMarkResultsAsync_Should_Return_Items_by_CloudProvider()
         {
-            #region Arrange
+            //  Arrange
 
             var resultAndRequestDate = new DateTime(2020, 2, 2);
 
@@ -240,27 +240,27 @@ namespace CloudRepublic.BenchMark.Application.Tests
 
                 var testService = new BenchMarkResultService(context);
 
-                #region Act
+                //  Act
 
                 var results = await testService.GetBenchMarkResultsAsync(CloudProvider.Azure, HostEnvironment.Linux, Runtime.Csharp, resultAndRequestDate);
 
-                #endregion
 
-                #region Assert
+
+                //  Assert
 
                 Assert.NotEmpty(results); // we need a result
                 Assert.Single(results); // we need a single result
                 Assert.Equal(12, results[0].Id); // it must be the proper result
 
-                #endregion
+
             }
-            #endregion
+
 
         }
         [Fact]
         public async Task GetBenchMarkResultsAsync_Should_Return_Items_by_HostingEnvironment()
         {
-            #region Arrange
+            //  Arrange
 
             var resultAndRequestDate = new DateTime(2020, 2, 2);
 
@@ -292,27 +292,27 @@ namespace CloudRepublic.BenchMark.Application.Tests
 
                 var testService = new BenchMarkResultService(context);
 
-                #region Act
+                //  Act
 
                 var results = await testService.GetBenchMarkResultsAsync(CloudProvider.Azure, HostEnvironment.Linux, Runtime.Csharp, resultAndRequestDate);
 
-                #endregion
 
-                #region Assert
+
+                //  Assert
 
                 Assert.NotEmpty(results); // we need a result
                 Assert.Single(results); // we need a single result
                 Assert.Equal(12, results[0].Id); // it must be the proper result
 
-                #endregion
+
             }
-            #endregion
+
 
         }
         [Fact]
         public async Task GetBenchMarkResultsAsync_Should_Return_Items_by_Runtime()
         {
-            #region Arrange
+            //  Arrange
 
             var resultAndRequestDate = new DateTime(2020, 2, 2);
 
@@ -354,21 +354,21 @@ namespace CloudRepublic.BenchMark.Application.Tests
 
                 var testService = new BenchMarkResultService(context);
 
-                #region Act
+                //  Act
 
                 var results = await testService.GetBenchMarkResultsAsync(CloudProvider.Azure, HostEnvironment.Linux, Runtime.Csharp, resultAndRequestDate);
 
-                #endregion
 
-                #region Assert
+
+                //  Assert
 
                 Assert.NotEmpty(results); // we need a result
                 Assert.Single(results); // we need a single result
                 Assert.Equal(12, results[0].Id); // it must be the proper result
 
-                #endregion
+
             }
-            #endregion
+
 
         }
     }

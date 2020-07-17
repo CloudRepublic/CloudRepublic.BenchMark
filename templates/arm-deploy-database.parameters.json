@@ -1,0 +1,18 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "serverName": {
+            "value": "clr-rfg-sql-db"
+        },
+        "sqlDBName": {
+            "value": "BenchMarkDB"
+        },
+        "administratorLogin": {
+            "value": "tester45"
+        },
+        "administratorLoginPassword": {
+            "value": "Tester1$LALALA128"
+        }
+    }
+}

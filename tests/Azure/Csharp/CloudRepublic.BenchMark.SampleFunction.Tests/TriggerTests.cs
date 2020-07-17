@@ -1,4 +1,4 @@
-﻿using CloudRepublic.BenchMark.Test.Helpers;
+﻿using CloudRepublic.BenchMark.Tests.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
@@ -10,29 +10,29 @@ namespace CloudRepublic.BenchMark.SampleFunction.Tests
 {
     public class TriggerTests
     {
-        private readonly ILogger _logger = MockILoggerFactory.CreateLogger();
+        private readonly ILogger _logger = TestFactory.CreateLogger();
 
         [Fact]
         public async Task Run_Should_Return_BadRequest_When_No_Name_Provided()
         {
-            #region Arrange
+            //  Arrange
 
-            var request = MockHttpRequestFactory.CreateHttpRequest();
+            var request = TestFactory.CreateHttpRequest();
 
-            #endregion
 
-            #region Act
+
+            //  Act
 
             var response = await Trigger.Run(request, _logger);
 
-            #endregion
 
-            #region Assert
+
+            //  Assert
 
             var responseObject = Assert.IsType<BadRequestObjectResult>(response);
             Assert.Equal("Please pass a name on the query string", responseObject.Value);
 
-            #endregion
+
         }
 
 
@@ -45,24 +45,24 @@ namespace CloudRepublic.BenchMark.SampleFunction.Tests
         [InlineData("{name}")]
         public async Task Run_Should_Return_OkObjectResult_With_Provided_Name_When_Any_Name_given(string nameToTest)
         {
-            #region Arrange
+            //  Arrange
 
-            var request = MockHttpRequestFactory.CreateHttpRequest(new Dictionary<string, StringValues>() { { "name", nameToTest } });
+            var request = TestFactory.CreateHttpRequest(new Dictionary<string, StringValues>() { { "name", nameToTest } });
 
-            #endregion
 
-            #region Act
+
+            //  Act
 
             var response = await Trigger.Run(request, _logger);
 
-            #endregion
 
-            #region Assert
+
+            //  Assert
 
             var responseObject = Assert.IsType<OkObjectResult>(response);
             Assert.Equal($"Hello, {nameToTest}", responseObject.Value);
 
-            #endregion
+
         }
 
     }

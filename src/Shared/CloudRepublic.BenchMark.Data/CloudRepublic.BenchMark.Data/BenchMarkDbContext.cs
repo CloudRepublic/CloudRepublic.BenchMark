@@ -1,7 +1,7 @@
 ﻿using CloudRepublic.BenchMark.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace CloudRepublic.BenchMark.Persistence
+namespace CloudRepublic.BenchMark.Data
 {
     public partial class BenchMarkDbContext : DbContext
     {
@@ -12,7 +12,8 @@ namespace CloudRepublic.BenchMark.Persistence
         public BenchMarkDbContext(DbContextOptions<BenchMarkDbContext> options)
             : base(options)
         {
-        }
+        }     
+
 
         public virtual DbSet<BenchMarkResult> BenchMarkResult { get; set; }
 
@@ -24,7 +25,7 @@ namespace CloudRepublic.BenchMark.Persistence
             {
 
                 entity.HasKey(e => e.Id)
-                    .HasName("BenchMarkResults_pk");
+                                  .HasName("BenchMarkResults_pk");
 
                 entity.HasIndex(e => e.CreatedAt)
                     .HasName("BenchMarkResults__CreatedAt_index");

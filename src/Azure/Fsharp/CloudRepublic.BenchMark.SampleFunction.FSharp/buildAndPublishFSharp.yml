@@ -1,0 +1,22 @@
+parameters:
+- name: buildConfiguration
+  displayName: Set the state for the build, 'Release' or 'Debug' are expected options
+  type: string
+  default: 'Release'
+  
+steps:
+  - task: DotNetCoreCLI@2
+    displayName: 'Build the fsharp project - ${{ parameters.buildConfiguration }}'
+    inputs:
+      command: 'build'
+      arguments: '--configuration ${{ parameters.buildConfiguration }}'
+      projects: '**/*.fsproj'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Publish the fsharp project -${{ parameters.buildConfiguration }}'
+    inputs:
+      command: 'publish'
+      projects: '**/*.fsproj'
+      publishWebProjects: false
+      arguments: '--no-build --configuration ${{ parameters.buildConfiguration }} --output $(Build.ArtifactStagingDirectory)/${{ parameters.buildConfiguration }}'
+      zipAfterPublish: true

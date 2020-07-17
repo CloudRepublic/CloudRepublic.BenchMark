@@ -21,7 +21,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
         [Fact]
         public async Task RunAndHandleAllBenchMarksAsync_Should_Call_BenchMarkTypeService_for_All_Types()
         {
-            #region Arrange
+            //  Arrange
 
 
             var benchMarkTypes = new List<BenchMarkType>();
@@ -33,24 +33,24 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
             var benchMarkOrchestrator = new BenchMarkOrchestrator(_mockIBenchMarkTypeService.Object);
 
 
-            #endregion
 
-            #region Act
+
+            //  Act
 
             await benchMarkOrchestrator.RunAndHandleAllBenchMarksAsync();
 
-            #endregion
 
-            #region Assert
+
+            //  Assert
 
             _mockIBenchMarkTypeService.Verify(service => service.GetAllTypes(), Times.Once);
 
-            #endregion
+
         }
         [Fact]
         public async Task RunAndHandleAllBenchMarksAsync_Should_Call_BenchMarkTypeService_RunBenchMarks_With_All_Types()
         {
-            #region Arrange
+            //  Arrange
             var benchMarkTypes = new List<BenchMarkType>()
             {
                  new BenchMarkType()
@@ -65,24 +65,24 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
 
             var benchMarkOrchestrator = new BenchMarkOrchestrator(_mockIBenchMarkTypeService.Object);
 
-            #endregion
 
-            #region Act
+
+            //  Act
 
             await benchMarkOrchestrator.RunAndHandleAllBenchMarksAsync();
 
-            #endregion
 
-            #region Assert
+
+            //  Assert
 
             _mockIBenchMarkTypeService.Verify(service => service.RunBenchMarksAsync(It.Is<List<BenchMarkType>>(benchMarks => benchMarks[0].Name == "Henkie"), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()), Times.Once);
 
-            #endregion
+
         }
         [Fact]
         public async Task RunAndHandleAllBenchMarksAsync_Should_Call_BenchMarkTypeService_StoreBenchMarks_With_Results_from_RunBenchMarks()
         {
-            #region Arrange
+            //  Arrange
             var benchMarkTypes = new List<BenchMarkType>();
             _mockIBenchMarkTypeService.Setup(service => service.GetAllTypes()).Returns(benchMarkTypes);
 
@@ -97,24 +97,24 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
 
             var benchMarkOrchestrator = new BenchMarkOrchestrator(_mockIBenchMarkTypeService.Object);
 
-            #endregion
 
-            #region Act
+
+            //  Act
 
             await benchMarkOrchestrator.RunAndHandleAllBenchMarksAsync();
 
-            #endregion
 
-            #region Assert
+
+            //  Assert
 
             _mockIBenchMarkTypeService.Verify(service => service.StoreBenchMarkResultsAsync(It.Is<List<BenchMarkResult>>(results => results[0].Id == 800)), Times.Once);
 
-            #endregion
+
         }
         [Fact]
         public async Task RunAndHandleAllBenchMarksAsync_Should_Not_Call_BenchMarkTypeService_StoreBenchMarks_Without_Results_from_RunBenchMarks()
         {
-            #region Arrange
+            //  Arrange
             var benchMarkTypes = new List<BenchMarkType>();
             _mockIBenchMarkTypeService.Setup(service => service.GetAllTypes()).Returns(benchMarkTypes);
 
@@ -123,19 +123,19 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
 
             var benchMarkOrchestrator = new BenchMarkOrchestrator(_mockIBenchMarkTypeService.Object);
 
-            #endregion
 
-            #region Act
+
+            //  Act
 
             await benchMarkOrchestrator.RunAndHandleAllBenchMarksAsync();
 
-            #endregion
 
-            #region Assert
+
+            //  Assert
 
             _mockIBenchMarkTypeService.Verify(service => service.StoreBenchMarkResultsAsync(It.IsAny<List<BenchMarkResult>>()), Times.Never);
 
-            #endregion
+
         }
     }
 }
