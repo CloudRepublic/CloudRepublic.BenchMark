@@ -1,25 +1,19 @@
+using CloudRepublic.BenchMark.Orchestrator.Interfaces;
+using Microsoft.Azure.WebJobs;
+using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using CloudRepublic.BenchMark.Application.Interfaces;
-using CloudRepublic.BenchMark.Application.Models;
-using CloudRepublic.BenchMark.Orchestrator.Infrastructure;
-using CloudRepublic.BenchMark.Persistence;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Host;
-using Microsoft.Extensions.Logging;
 
 namespace CloudRepublic.BenchMark.Orchestrator
 {
     public class BenchMarkOrchestrator
     {
-        private readonly IBenchMarkService _benchMarkService;
+        private readonly IBenchMarkTypeService _benchMarkTypeService;
 
-        public BenchMarkOrchestrator(IBenchMarkService benchMarkService)
+        public BenchMarkOrchestrator(IBenchMarkTypeService benchMarkTypeService)
         {
-            _benchMarkService = benchMarkService;
+            _benchMarkTypeService = benchMarkTypeService;
         }
 
         [FunctionName("BenchMarkOrchestrator")]
@@ -27,51 +21,22 @@ namespace CloudRepublic.BenchMark.Orchestrator
         {
             log.LogInformation($"C# Timer trigger function executed at: {DateTime.UtcNow}");
 
-            var benchMarkTypes = BenchMarkTypeGenerator.Generate();
-            foreach (var benchMarkType in benchMarkTypes)
+            await RunAndHandleAllBenchMarksAsync();
+
+        }
+
+        /// <summary>
+        /// This function we can test/moq without having to mess with the TimerTrigger/TimerInfo.
+        /// </summary>
+        /// <returns></returns>
+        public async Task RunAndHandleAllBenchMarksAsync()
+        {
+            var benchMarkTypes = _benchMarkTypeService.GetAllTypes();
+
+            var benchMarkResults = await _benchMarkTypeService.RunBenchMarksAsync(benchMarkTypes);
+            if (benchMarkResults.Any())
             {
-                var tasksCold = new List<Task<BenchMarkResponse>>();
-                var tasksWarm = new List<Task<BenchMarkResponse>>();
-
-                for (int i = 0; i < 5; i++)
-                {
-                    tasksCold.Add(_benchMarkService.RunBenchMark(benchMarkType));
-                }
-
-                await Task.WhenAll(tasksCold);
-
-                await Task.Delay(TimeSpan.FromSeconds(30));
-
-                for (int i = 0; i < 10; i++)
-                {
-                    tasksWarm.Add(_benchMarkService.RunBenchMark(benchMarkType));
-                }
-
-                await Task.WhenAll(tasksWarm);
-
-                var resultsCold =
-                    ResultConverter.ConvertToResultObject(tasksCold.Select(t => t.Result), benchMarkType,true);
-                
-                var resultWarm =
-                    ResultConverter.ConvertToResultObject(tasksWarm.Select(t => t.Result), benchMarkType,false);
-
-
-                using (var dbContext =
-                    BenchMarkDbContextFactory.Create(Environment.GetEnvironmentVariable("BenchMarkDatabase")))
-                {
-                    foreach (var result in resultsCold)
-                    {
-                        dbContext.BenchMarkResult.Add(result);
-                    }
-
-                    foreach (var result in resultWarm)
-                    {
-                        dbContext.BenchMarkResult.Add(result);
-                    }
-
- 
-                    await dbContext.SaveChangesAsync();
-                }
+                await _benchMarkTypeService.StoreBenchMarkResultsAsync(benchMarkResults);
             }
         }
     }

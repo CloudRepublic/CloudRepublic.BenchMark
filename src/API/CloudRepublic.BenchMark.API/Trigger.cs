@@ -1,50 +1,61 @@
-using System;
-using System.Threading.Tasks;
-using CloudRepublic.BenchMark.API.Infrastructure;
+using CloudRepublic.BenchMark.API.Interfaces;
+using CloudRepublic.BenchMark.API.Models;
 using CloudRepublic.BenchMark.Application.Interfaces;
+using CloudRepublic.BenchMark.Domain.Enums;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CloudRepublic.BenchMark.API
 {
     public class Trigger
     {
         private readonly IBenchMarkResultService _benchMarkResultService;
-        private readonly IResponseConverter _responseConverter;
+        private readonly IResponseConverterService _responseConverterService;
 
-        public Trigger(IBenchMarkResultService benchMarkResultService,IResponseConverter responseConverter)
+        public Trigger(IBenchMarkResultService benchMarkResultService, IResponseConverterService responseConverterService)
         {
             _benchMarkResultService = benchMarkResultService;
-            _responseConverter = responseConverter;
+            _responseConverterService = responseConverterService;
         }
 
         [FunctionName("Trigger")]
-        public async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)]
-            HttpRequest req, ILogger log)
+        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req, ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            var cloudProvider = req.Query["cloudProvider"];
-            if(!cloudProvider.Any()) return new BadRequestResult();
-            
-            var hostingEnvironment = req.Query["hostingEnvironment"];
-            if (!hostingEnvironment.Any()) return new BadRequestResult();
-            
-            var runtime = req.Query["runtime"];
-            if(!hostingEnvironment.Any()) return new BadRequestResult();
-            
-            var benchMarkDataPoints =
-                await _benchMarkResultService.GetBenchMarkResults(cloudProvider.First(),hostingEnvironment.First(),runtime.First(),
-                    Convert.ToInt32(Environment.GetEnvironmentVariable("dayRange")));
-            
-            if(!benchMarkDataPoints.Any()) return new NotFoundResult();
+            EnumFromString<CloudProvider> cloudProvider = new EnumFromString<CloudProvider>(req.Query["cloudProvider"]);
+            EnumFromString<HostEnvironment> hostingEnvironment = new EnumFromString<HostEnvironment>(req.Query["hostingEnvironment"]);
+            EnumFromString<Runtime> runtime = new EnumFromString<Runtime>(req.Query["runtime"]);
+            if (!cloudProvider.ParsedSuccesfull || !hostingEnvironment.ParsedSuccesfull || !runtime.ParsedSuccesfull)
+            {
+                return new BadRequestResult();
+            }
 
-            return new OkObjectResult(_responseConverter.ConvertToBenchMarkData(benchMarkDataPoints.Where(c => c.Success).ToList()));
+            var dayRange = Convert.ToInt32(Environment.GetEnvironmentVariable("dayRange"));
+            var currentDate = _benchMarkResultService.GetDateTimeNow();
+            var resultsSinceDate = (currentDate - TimeSpan.FromDays(dayRange));
+
+            var benchMarkDataPoints = await _benchMarkResultService.GetBenchMarkResultsAsync(
+                    cloudProvider.Value,
+                    hostingEnvironment.Value,
+                    runtime.Value,
+                    resultsSinceDate
+                    );
+
+            var benchMarkPointsToReturn = benchMarkDataPoints.Where(c => c.Success).ToList();
+            if (!benchMarkPointsToReturn.Any())
+            {
+                return new NotFoundResult();
+            }
+
+            var convertedData = _responseConverterService.ConvertToBenchMarkData(benchMarkPointsToReturn);
+            return new OkObjectResult(convertedData);
         }
     }
 }

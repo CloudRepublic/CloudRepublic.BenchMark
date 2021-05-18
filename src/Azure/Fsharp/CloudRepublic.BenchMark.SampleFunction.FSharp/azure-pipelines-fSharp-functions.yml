@@ -1,0 +1,112 @@
+# Starter pipeline
+
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+# specific path build
+trigger: none
+  # branches:
+  #   include:
+  #   - '*'  # must quote since "*" is a YAML reserved character; we want a string
+  # paths:
+  #   include:
+  #   - src/Azure/FSharp/*
+  #   - templates/*
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  runTests: 'false'
+  subscription: 'Подписка Visual Studio Professional(0c3dc46e-aea9-45a1-9b97-229a4bcd84e9)'
+  subscriptionId: '0c3dc46e-aea9-45a1-9b97-229a4bcd84e9'
+  resourceGroupNameLinux: 'clr-rfg-storage-lin'
+  resourceGroupNameWindows: 'clr-rfg-storage'
+
+
+
+stages:
+
+- stage: BuildTestAndPublish
+  jobs:
+  - job: BuildCore
+    steps:
+    - task: NuGetToolInstaller@1
+      displayName: 'Install nu Get packages'
+
+    - task: NuGetCommand@2
+      displayName: 'Restore the dependencies'
+      inputs:
+        restoreSolution: '$(solution)'
+         
+    - template: buildAndPublishFSharp.yml
+      parameters:
+        buildConfiguration: 'Release'
+        
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact: drop'
+      condition: succeeded()
+
+
+- stage: DeployARMTemplates
+  dependsOn: "BuildTestAndPublish"
+  jobs:
+  - job: DeployARMTemplatesjob
+    steps:
+      - task: CopyFiles@2
+        inputs:
+          SourceFolder: '$(Build.SourcesDirectory)/templates'
+          Contents: '**'
+          TargetFolder: '$(Build.ArtifactStagingDirectory)/armtemplates'
+
+      - task: AzureResourceManagerTemplateDeployment@3
+        inputs:
+          deploymentScope: 'Resource Group'
+          azureResourceManagerConnection: '$(subscription)'
+          subscriptionId: '$(subscriptionId)'
+          action: 'Create Or Update Resource Group'
+          resourceGroupName: '$(resourceGroupNameLinux)'
+          location: 'West Europe'
+          templateLocation: 'Linked artifact'
+          csmFile: '$(Build.ArtifactStagingDirectory)\armtemplates\deploy-fsharp-function-linux.json'
+          csmParametersFile: '$(Build.ArtifactStagingDirectory)\armtemplates\linux-deploy-ARM.parameters.json'
+          deploymentMode: 'Incremental'
+
+      - task: AzureResourceManagerTemplateDeployment@3
+        inputs:
+          deploymentScope: 'Resource Group'
+          azureResourceManagerConnection: '$(subscription)'
+          subscriptionId: '$(subscriptionId)'
+          action: 'Create Or Update Resource Group'
+          resourceGroupName: '$(resourceGroupNameWindows)'
+          location: 'West Europe'
+          templateLocation: 'Linked artifact'
+          csmFile: '$(Build.ArtifactStagingDirectory)\armtemplates\deploy-fsharp-function-windows.json'
+          csmParametersFile: '$(Build.ArtifactStagingDirectory)\armtemplates\windows-deploy-ARM.parameters.json'
+          deploymentMode: 'Incremental'
+
+- stage: deployFunctionCode
+  dependsOn: ["DeployARMTemplates","BuildTestAndPublish"]
+  jobs:
+  - job: deployFunctionCodejob
+    steps:
+    - task: DownloadPipelineArtifact@2
+      displayName: download the artifact
+        
+    - template: deployFunction.yml
+      parameters:
+        azureSubscription: '$(subscription)'
+        functionName: 'clr-rfg-func-win-fsharp'
+        packageName: 'CloudRepublic.BenchMark.SampleFunction.FSharp'
+        appType: "functionApp"
+        
+    - template: deployFunction.yml
+      parameters:
+        azureSubscription: '$(subscription)'
+        functionName: 'clr-rfg-func-lin-fsharp'
+        packageName: 'CloudRepublic.BenchMark.SampleFunction.FSharp'
+        appType: "functionAppLinux"

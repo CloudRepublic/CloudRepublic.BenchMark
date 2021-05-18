@@ -1,5 +1,5 @@
 {
-    "azureFunctions.deploySubpath": "CloudRepublic.BenchMark.SampleFunction",
+    "azureFunctions.deploySubpath": "CloudRepublic.BenchMark.SampleFunction.NodeJs",
     "azureFunctions.projectLanguage": "JavaScript",
     "azureFunctions.projectRuntime": "~2",
     "debug.internalConsoleOptions": "neverOpen",

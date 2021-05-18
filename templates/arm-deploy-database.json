@@ -1,0 +1,60 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "serverName": {
+            "type": "string",
+            "defaultValue": "[uniqueString('sql', resourceGroup().id)]",
+            "metadata": {
+                "description": "The name of the SQL logical server."
+            }
+        },
+        "sqlDBName": {
+            "type": "string",
+            "defaultValue": "SampleDB",
+            "metadata": {
+                "description": "The name of the SQL Database."
+            }
+        },
+        "administratorLogin": {
+            "type": "string",
+            "metadata": {
+                "description": "The administrator username of the SQL logical server."
+            }
+        },
+        "administratorLoginPassword": {
+            "type": "securestring",
+            "metadata": {
+                "description": "The administrator password of the SQL logical server."
+            }
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Sql/servers",
+            "apiVersion": "2019-06-01-preview",
+            "name": "[parameters('serverName')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "administratorLogin": "[parameters('administratorLogin')]",
+                "administratorLoginPassword": "[parameters('administratorLoginPassword')]"
+            },
+            "resources": [
+                {
+                    "type": "databases",
+                    "apiVersion": "2019-06-01-preview",
+                    "name": "[parameters('sqlDBName')]",
+                    "sku": {
+                        "name": "Standard",
+                        "tier": "Standard"
+                    },
+                    "location": "[resourceGroup().location]",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Sql/servers', concat(parameters('serverName')))]"
+                    ]
+                }
+            ]
+        }
+    ]
+}

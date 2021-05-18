@@ -2,7 +2,7 @@ namespace CloudRepublic.BenchMark.Domain.Enums
 {
     public enum CloudProvider
     {
-        Azure,
-        Firebase
+        Azure = 0,
+        Firebase = 1,
     }
 }

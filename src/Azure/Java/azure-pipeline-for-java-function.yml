@@ -1,0 +1,126 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+# specific path build
+trigger: none
+  # branches:
+  #   include:
+  #   - '*'  # must quote since "*" is a YAML reserved character; we want a string
+  # paths:
+  #   include:
+  #   - src/Azure/Java/*
+  #   - templates/*
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  subscription: 'Подписка Visual Studio Professional(0c3dc46e-aea9-45a1-9b97-229a4bcd84e9)'
+  subscriptionId: '0c3dc46e-aea9-45a1-9b97-229a4bcd84e9'
+  resourceGroupNameLinux: 'clr-rfg-storage-lin'
+  resourceGroupNameWindows: 'clr-rfg-storage'
+
+stages:
+
+- stage: BuildJava
+  jobs:
+  - job: BuildAndPublishJava
+    steps:
+
+    - task: Maven@3
+      inputs:
+        mavenPomFile: 'src\Azure\Java\pom.xml'
+        mavenOptions: '-Xmx3072m'
+        javaHomeOption: 'JDKVersion'
+        jdkVersionOption: '1.11'
+        jdkArchitectureOption: 'x64'
+        publishJUnitResults: false
+        testResultsFiles: '**/TEST-*.xml'
+        goals: 'package'
+    - task: CopyFiles@2
+      displayName: Copy java Files variables
+      inputs:
+        SourceFolder: $(system.defaultworkingdirectory)/src/azure/java/target/azure-functions/
+        Contents: '**'
+        TargetFolder: $(Build.ArtifactStagingDirectory)/java   
+
+    - task: PublishBuildArtifacts@1
+      displayName: Publish java Artifact from $(Build.ArtifactStagingDirectory)
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)/java'
+        ArtifactName: 'java'
+        # publishLocation: 'Container'
+
+
+- stage: DeployARMTemplates
+  dependsOn: "BuildJava"
+  jobs:
+  - job: DeployARMTemplatesjob
+    steps:
+      - task: CopyFiles@2
+        inputs:
+          SourceFolder: '$(Build.SourcesDirectory)/templates'
+          Contents: '**'
+          TargetFolder: '$(Build.ArtifactStagingDirectory)/armtemplates'
+
+      - task: AzureResourceManagerTemplateDeployment@3
+        inputs:
+          deploymentScope: 'Resource Group'
+          azureResourceManagerConnection: '$(subscription)'
+          subscriptionId: '$(subscriptionId)'
+          action: 'Create Or Update Resource Group'
+          resourceGroupName: '$(resourceGroupNameLinux)'
+          location: 'West Europe'
+          templateLocation: 'Linked artifact'
+          csmFile: '$(Build.ArtifactStagingDirectory)\armtemplates\Deploy-Java-Function-Lin.json'
+          csmParametersFile: '$(Build.ArtifactStagingDirectory)\armtemplates\linux-deploy-ARM.parameters.json'
+          deploymentMode: 'Incremental'
+
+      - task: AzureResourceManagerTemplateDeployment@3
+        inputs:
+          deploymentScope: 'Resource Group'
+          azureResourceManagerConnection: '$(subscription)'
+          subscriptionId: '$(subscriptionId)'
+          action: 'Create Or Update Resource Group'
+          resourceGroupName: '$(resourceGroupNameWindows)'
+          location: 'West Europe'
+          templateLocation: 'Linked artifact'
+          csmFile: '$(Build.ArtifactStagingDirectory)\armtemplates\Deploy-Java-Function-Win.json'
+          csmParametersFile: '$(Build.ArtifactStagingDirectory)\armtemplates\windows-deploy-ARM.parameters.json'
+          deploymentMode: 'Incremental'
+
+- stage: deployFunctionCode
+  dependsOn: ["DeployARMTemplates","BuildJava"]
+  jobs:
+  - job: deployFunctionCodejob
+    steps:
+    - task: DownloadPipelineArtifact@2
+      displayName: download the artifact
+
+    - task: AzureFunctionApp@1
+      displayName: Publish function code to azure function by named folder '
+      inputs:
+        azureSubscription: '$(subscription)'
+        appType: "functionAppLinux"
+        appName: 'clr-rfg-func-lin-java'
+        package: '$(Pipeline.Workspace)\java\CloudRepublic.BenchMark.Java'
+        deploymentMethod: "auto"
+
+    - template: deployFunction.yml
+      parameters:
+        azureSubscription: '$(subscription)'
+        functionName: 'clr-rfg-func-lin-java'
+        packageName: 'CloudRepublic.BenchMark.Java'
+        appType: "functionAppLinux"
+        
+    - template: deployFunction.yml
+      parameters:
+        azureSubscription: '$(subscription)'
+        functionName: 'clr-rfg-func-win-java'
+        packageName: 'CloudRepublic.BenchMark.Java'
+        appType: "functionApp"

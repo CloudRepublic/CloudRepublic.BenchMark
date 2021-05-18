@@ -1,0 +1,28 @@
+parameters:
+    - name: azureSubscription
+      displayName: Set the subscription example:Free Trial (767058f0-43e0-45da-a32e-ba7ee09e4846)
+      type: string
+      default: ''    
+    - name: functionName
+      displayName: Set the function name
+      type: string
+      default: ''    
+    - name: packageName
+      displayName: set the NAME of the zip in the artifacts folder. example; CloudRepublic.BenchMark.SampleFunction, the suffix isn't needed
+      type: string
+      default: 'functionApp'      
+    - name: appType
+      displayName: Setthe deploy type for the function, 'functionApp' for Windows or 'functionAppLinux' for Linux
+      type: string
+      default: 'functionApp'
+
+
+steps:
+  - task: AzureFunctionApp@1
+    displayName: Publish function(${{ parameters.functionName}}) code to azure function by named folder (${{ parameters.packageName}})'
+    inputs:
+      azureSubscription: "${{ parameters.azureSubscription}}"
+      appType: "${{ parameters.appType}}"
+      appName: "${{ parameters.functionName }}"
+      package: "$(Pipeline.Workspace)/**/${{ parameters.packageName}}"
+      deploymentMethod: "auto"

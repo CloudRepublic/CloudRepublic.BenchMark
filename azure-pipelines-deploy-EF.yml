@@ -1,0 +1,121 @@
+# Starter pipeline
+
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+# specific path build
+trigger: none
+  # branches:
+  #   include:
+  #   - '*'  # must quote since "*" is a YAML reserved character; we want a string
+  # paths:
+  #   exclude:
+  #   - src/Azure/* 
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  runTests: 'false'
+  subscription: 'Подписка Visual Studio Professional(0c3dc46e-aea9-45a1-9b97-229a4bcd84e9)'
+  subscriptionId: '0c3dc46e-aea9-45a1-9b97-229a4bcd84e9'
+  resourceGroupName: 'clr-rfg-storage'
+
+stages:
+
+- stage: BuildTestAndPublish
+  jobs:
+  - job: BuildCore
+    steps:
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'sdk'
+        version: '3.1.200'
+        
+    - task: DotNetCoreCLI@2
+      displayName: Install dotnet-ef
+      inputs:
+        command: 'custom'
+        custom: 'tool'
+        arguments: 'install --global dotnet-ef'
+        
+    - task: DotNetCoreCLI@2
+      displayName: Check dotnet-ef version
+      inputs:
+        command: 'custom'
+        custom: 'ef'
+        arguments: '--version'
+
+
+    - task: PowerShell@2
+      inputs:
+        targetType: 'inline'
+        script: dotnet ef migrations script -i --project $(Build.SourcesDirectory)\src\Shared\CloudRepublic.BenchMark.Data\CloudRepublic.BenchMark.Data\CloudRepublic.BenchMark.Data.csproj --startup-project $(Build.SourcesDirectory)\src\Shared\CloudRepublic.BenchMark.Data\CloudRepublic.BenchMark.Data\CloudRepublic.BenchMark.Data.csproj -o $(Build.artifactstagingdirectory)\MigrationsScripts.sql
+
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact: drop'
+      condition: succeeded()
+
+
+- stage: DeployARMTemplates
+  dependsOn: "BuildTestAndPublish"
+  jobs:
+  - job: DeployARMTemplatesjob
+    steps:
+      - task: CopyFiles@2
+        inputs:
+          SourceFolder: '$(Build.SourcesDirectory)/templates'
+          Contents: '**'
+          TargetFolder: '$(Build.ArtifactStagingDirectory)/armtemplates'
+
+      - task: AzureResourceManagerTemplateDeployment@3
+        inputs:
+          deploymentScope: 'Resource Group'
+          azureResourceManagerConnection: '$(subscription)'
+          subscriptionId: '$(subscriptionId)'
+          action: 'Create Or Update Resource Group'
+          resourceGroupName: '$(resourceGroupName)'
+          location: 'West Europe'
+          templateLocation: 'Linked artifact'
+          csmFile: '$(Build.ArtifactStagingDirectory)\armtemplates\arm-deploy-database.json'
+          csmParametersFile: '$(Build.ArtifactStagingDirectory)\armtemplates\arm-deploy-database.parameters.json'
+          deploymentMode: 'Incremental'
+
+
+- stage: deployMirationDbScripts
+  dependsOn: ["DeployARMTemplates","BuildTestAndPublish"]
+  jobs:
+  - job: deployFunctionCodejob
+    steps:
+    - task: DownloadPipelineArtifact@2
+      displayName: download the artifact
+
+    - task: SqlAzureDacpacDeployment@1
+      inputs:
+        azureSubscription: '$(subscription)'
+        AuthenticationType: 'server'
+        ServerName: 'clr-rfg-sql-db.database.windows.net'
+        DatabaseName: 'BenchMarkDb'
+        SqlUsername: 'Tester45'
+        SqlPassword: 'Tester1$LALALA128'
+        deployType: 'SqlTask'
+        SqlFile: '$(Pipeline.Workspace)\drop\MigrationsScripts.sql'
+        IpDetectionMethod: 'AutoDetect'
+
+
+    # - task: AzureMysqlDeployment@1
+    #   inputs:
+    #     azureSubscription: 'Подписка Visual Studio Professional(0c3dc46e-aea9-45a1-9b97-229a4bcd84e9)'
+    #     ServerName: 'clr-rfg-sql-db.database.windows.net'
+    #     DatabaseName: 'BenchMarkDb'
+    #     SqlUsername: 'Tester45'
+    #     SqlPassword: 'Tester1$LALALA128'
+    #     TaskNameSelector: 'SqlTaskFile'
+    #     SqlFile: '$(Pipeline.Workspace)\drop\MigrationsScripts.sql'
+    #     IpDetectionMethod: 'AutoDetect'
+

@@ -1,0 +1,146 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "storageAccountName": {
+            "type": "string",
+            "metadata": {
+                "description": "the name for the windows storage account"
+            },
+            "minLength": 3,
+            "maxLength": 24
+        },
+        "functionName": {
+            "type": "string",
+            "metadata": {
+                "description": "the name for the function base"
+            }
+        }
+    },
+    "functions": [],
+    "variables": {
+        "hostingPlanNameLinux": "[concat('hpn-lin-', resourceGroup().name)]",
+        "storageAccountId": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
+        "serverFarmLinuxId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanNameLinux'))]",
+        "appInsightsName": "[concat('app-ins-',resourceGroup().name)]",
+        "appInsightsId": "[resourceId('Microsoft.Insights/components', variables('appInsightsName'))]"
+    },
+    "resources": [
+        {
+            "name": "[parameters('storageAccountName')]",
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2019-06-01",
+            "location": "[resourceGroup().location]",
+            "kind": "StorageV2",
+            "sku": {
+                "name": "Standard_LRS"
+            }
+        },
+        {
+            "type": "Microsoft.Web/serverfarms",
+            "apiVersion": "2018-02-01",
+            "name": "[variables('hostingPlanNameLinux')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "reserved": true
+            },
+            "sku": {
+                "Tier": "Dynamic",
+                "Name": "Y1"
+            }
+        },
+        {
+            "apiVersion": "2015-05-01",
+            "name": "[variables('appInsightsName')]",
+            "type": "Microsoft.Insights/components",
+            "kind": "web",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "Application_Type": "web",
+                "ApplicationId": "[variables('appInsightsName')]"
+            }
+        },
+        {
+            "name": "[concat(parameters( 'functionName'),'-csharp')]",
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2018-11-01",
+            "location": "[resourceGroup().location]",
+            "kind": "functionapp,linux",
+            "dependsOn": [
+                "[variables('serverFarmLinuxId')]",
+                "[variables('appInsightsId')]",
+                "[variables('storageAccountId')]"
+            ],
+            "properties": {
+                "serverFarmId": "[variables('serverFarmLinuxId')]",
+                "siteConfig": {
+                    "reserved": true,
+                    "appSettings": [
+                        {
+                            "name": "AzureWebJobsDashboard",
+                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountId'),'2015-05-01-preview').key1)]"
+                        },
+                        {
+                            "name": "AzureWebJobsStorage",
+                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountId'),'2015-05-01-preview').key1)]"
+                        },
+                        {
+                            "name": "FUNCTIONS_EXTENSION_VERSION",
+                            "value": "~2"
+                        },
+                        {
+                            "name": "FUNCTIONS_WORKER_RUNTIME",
+                            "value": "dotnet"
+                        },
+                        {
+                            "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                            "value": "[reference(resourceId('microsoft.insights/components/', variables('appInsightsName')), '2015-05-01').InstrumentationKey]"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "[concat(parameters( 'functionName'),'-fsharp')]",
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2018-11-01",
+            "location": "[resourceGroup().location]",
+            "kind": "functionapp,linux",
+            "dependsOn": [
+                "[variables('serverFarmLinuxId')]",
+                "[variables('appInsightsId')]",
+                "[variables('storageAccountId')]"
+            ],
+            "properties": {
+                "serverFarmId": "[variables('serverFarmLinuxId')]",
+                "siteConfig": {
+                    "reserved": true,
+                    "appSettings": [
+                        {
+                            "name": "AzureWebJobsDashboard",
+                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountId'),'2015-05-01-preview').key1)]"
+                        },
+                        {
+                            "name": "AzureWebJobsStorage",
+                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountId'),'2015-05-01-preview').key1)]"
+                        },
+                        {
+                            "name": "FUNCTIONS_EXTENSION_VERSION",
+                            "value": "~2"
+                        },
+                        {
+                            "name": "FUNCTIONS_WORKER_RUNTIME",
+                            "value": "dotnet"
+                        },
+                        {
+                            "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                            "value": "[reference(resourceId('microsoft.insights/components/', variables('appInsightsName')), '2015-05-01').InstrumentationKey]"
+                        }
+                    ]
+                }
+            }
+        }
+
+    ],
+    "outputs": {}
+}
