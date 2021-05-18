@@ -26,7 +26,6 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Build VueJS frontend
         run: |
-          ls
           cd ${{ github.workspace }}/src/Web
           npm install
           npm run build
