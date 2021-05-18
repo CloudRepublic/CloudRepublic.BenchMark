@@ -6,8 +6,7 @@ name: validate-frontend-build
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   pull_request:
-    paths:
-      - /src/Web
+    branches: [ master ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
