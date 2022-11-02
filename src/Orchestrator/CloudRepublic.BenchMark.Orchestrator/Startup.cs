@@ -11,27 +11,25 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 [assembly: FunctionsStartup(typeof(CloudRepublic.BenchMark.Orchestrator.Startup))]
+namespace CloudRepublic.BenchMark.Orchestrator;
 
-namespace CloudRepublic.BenchMark.Orchestrator
+public class Startup : FunctionsStartup
 {
-    public class Startup : FunctionsStartup
+    public override void Configure(IFunctionsHostBuilder builder)
     {
-        public override void Configure(IFunctionsHostBuilder builder)
-        {
-            var configuration = new ConfigurationBuilder()
-                .AddEnvironmentVariables()
-                .Build();
+        var configuration = new ConfigurationBuilder()
+            .AddEnvironmentVariables()
+            .Build();
             
-            var storageSection = configuration.GetSection("storage");
-            builder.Services.AddBenchMarkData(
-                new Uri(storageSection.GetValue<string>("endpoint")),
-                storageSection.GetValue<string>("resultsTableName"),
-                new ChainedTokenCredential(new ManagedIdentityCredential(), new AzureCliCredential()));
+        var storageSection = configuration.GetSection("storage");
+        builder.Services.AddBenchMarkData(
+            new Uri(storageSection.GetValue<string>("endpoint")),
+            storageSection.GetValue<string>("resultsTableName"),
+            new ChainedTokenCredential(new ManagedIdentityCredential(), new AzureCliCredential()));
             
-            builder.Services.AddTransient<IBenchMarkService, BenchMarkService>();
-            builder.Services.AddTransient<IBenchMarkTypeService, BenchMarkTypeService>();
+        builder.Services.AddTransient<IBenchMarkService, BenchMarkService>();
+        builder.Services.AddTransient<IBenchMarkTypeService, BenchMarkTypeService>();
 
-            builder.Services.AddBenchMarkClients();
-        }
+        builder.Services.AddBenchMarkClients();
     }
 }
