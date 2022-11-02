@@ -5,7 +5,7 @@ param testRunnerFunctionName string
 param location string = resourceGroup().location
 
 module sharedStorage 'parts/sharedStorage.bicep' = {
-  name: '${deployment().name}-funcstor'
+  name: sharedStorageName
   params: {
     storageAccountName: '${apiFunctionName}stor'
     location: location
