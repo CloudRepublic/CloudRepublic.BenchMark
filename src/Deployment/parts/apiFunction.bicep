@@ -1,10 +1,31 @@
 param functionStorageAccountName string
+param sharedStorageName string
+param resultsTableName string
 param functionName string
 param appInsightsName string
 param location string
 
 resource functionStorageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' existing = {
   name: functionStorageAccountName
+}
+
+resource sharedStorageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' existing = {
+  name: sharedStorageName
+}
+
+resource StorageTableDataReaderRole 'Microsoft.Authorization/roleDefinitions@2022-04-01' existing = {
+  name: '76199698-9eea-4c19-bc75-cec21354c6b6'
+}
+
+resource storageRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(functionStorageAccount.id, StorageTableDataReaderRole.id)
+  scope: functionStorageAccount
+  properties: {
+    roleDefinitionId: StorageTableDataReaderRole.id
+    principalId: function.identity.principalId
+    principalType: 'ServicePrincipal'
+  }
+
 }
 
 resource functionFarm 'Microsoft.Web/serverfarms@2022-03-01' = {
@@ -78,6 +99,14 @@ resource function 'Microsoft.Web/sites@2021-01-15' = {
         {
           name: 'dayRange'
           value: '7'
+        }
+        {
+          name: 'storage__endpoint'
+          value: sharedStorageAccount.properties.primaryEndpoints.table
+        }
+        {
+          name: 'storage__resultsTableName'
+          value: resultsTableName
         }
       ]
     }

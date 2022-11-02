@@ -1,7 +1,16 @@
 
 param apiFunctionName string
+param sharedStorageName string
 param testRunnerFunctionName string
 param location string = resourceGroup().location
+
+module sharedStorage 'parts/sharedStorage.bicep' = {
+  name: '${deployment().name}-funcstor'
+  params: {
+    storageAccountName: '${apiFunctionName}stor'
+    location: location
+  }
+}
 
 module apiFunctionStorage 'parts/storage.bicep' = {
   name: '${deployment().name}-funcstor'
@@ -26,6 +35,8 @@ module apiFunction 'parts/apiFunction.bicep' = {
     location: location
     functionStorageAccountName: apiFunctionStorage.outputs.storageName
     appInsightsName: apiFunctionName
+    sharedStorageName: sharedStorage.outputs.storageName
+    resultsTableName: sharedStorage.outputs.resultsTableName
   }
 }
 
@@ -36,5 +47,7 @@ module testRunnerFunction 'parts/testRunnerFunction.bicep' = {
     location: location
     functionStorageAccountName: testRunnerStorage.outputs.storageName
     appInsightsName: testRunnerFunctionName
+    sharedStorageName: sharedStorage.outputs.storageName
+    resultsTableName: sharedStorage.outputs.resultsTableName
   }
 }
