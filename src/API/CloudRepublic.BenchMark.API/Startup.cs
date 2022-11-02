@@ -24,7 +24,7 @@ namespace CloudRepublic.BenchMark.API
             builder.Services.AddBenchMarkData(
                 new Uri(storageSection.GetValue<string>("endpoint")),
                     storageSection.GetValue<string>("resultsTableName"),
-                    new ManagedIdentityCredential());
+                    new ChainedTokenCredential(new ManagedIdentityCredential(), new AzureCliCredential()));
             
             builder.Services.AddTransient<IBenchMarkResultService, BenchMarkResultService>();
             builder.Services.AddSingleton<IResponseConverterService, ResponseConverterService>();
