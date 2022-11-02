@@ -7,6 +7,7 @@ namespace CloudRepublic.BenchMark.Application.Models
         public CloudProvider CloudProvider { get; set; }
         public HostEnvironment HostEnvironment { get; set; }
         public Runtime Runtime { get; set; }
+        public Language Language { get; set; }
 
         /// <summary>
         /// this is actually the: CloudProviderHostEnvironmentRuntime as string.

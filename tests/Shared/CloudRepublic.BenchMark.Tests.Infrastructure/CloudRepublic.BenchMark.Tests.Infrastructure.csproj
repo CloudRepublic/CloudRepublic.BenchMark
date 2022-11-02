@@ -1,17 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<TargetFramework>net6.0</TargetFramework>
         <RootNamespace>CloudRepublic.BenchMark.Tests.Infrastructure</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.5" />
-      <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.5" />
-      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.5" />
-      <PackageReference Include="Moq" Version="4.14.3" />
-      <PackageReference Include="Shouldly" Version="3.0.2" />
+      <PackageReference Include="Moq" Version="4.18.2" />
+      <PackageReference Include="Shouldly" Version="4.1.0" />
     </ItemGroup>
 
     <ItemGroup>

@@ -29,9 +29,11 @@ namespace CloudRepublic.BenchMark.API
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            EnumFromString<CloudProvider> cloudProvider = new EnumFromString<CloudProvider>(req.Query["cloudProvider"]);
-            EnumFromString<HostEnvironment> hostingEnvironment = new EnumFromString<HostEnvironment>(req.Query["hostingEnvironment"]);
-            EnumFromString<Runtime> runtime = new EnumFromString<Runtime>(req.Query["runtime"]);
+            var cloudProvider = new EnumFromString<CloudProvider>(req.Query["cloudProvider"]);
+            var hostingEnvironment = new EnumFromString<HostEnvironment>(req.Query["hostingEnvironment"]);
+            var runtime = new EnumFromString<Runtime>(req.Query["runtime"]);
+            var language = new EnumFromString<Language>(req.Query["language"]);
+            
             if (!cloudProvider.ParsedSuccesfull || !hostingEnvironment.ParsedSuccesfull || !runtime.ParsedSuccesfull)
             {
                 return new BadRequestResult();
@@ -41,12 +43,14 @@ namespace CloudRepublic.BenchMark.API
             var currentDate = _benchMarkResultService.GetDateTimeNow();
             var resultsSinceDate = (currentDate - TimeSpan.FromDays(dayRange));
 
+            // IMPORTANT: ToListAsync has a potential deadlock when not provided with a cancellation token
             var benchMarkDataPoints = await _benchMarkResultService.GetBenchMarkResultsAsync(
                     cloudProvider.Value,
                     hostingEnvironment.Value,
                     runtime.Value,
+                    language.Value,
                     resultsSinceDate
-                    );
+                    ).ToListAsync(req.HttpContext.RequestAborted);
 
             var benchMarkPointsToReturn = benchMarkDataPoints.Where(c => c.Success).ToList();
             if (!benchMarkPointsToReturn.Any())

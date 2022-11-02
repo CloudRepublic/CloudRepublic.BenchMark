@@ -13,83 +13,88 @@ namespace CloudRepublic.BenchMark.Orchestrator.Statics
         /// <returns></returns>
         public static IEnumerable<BenchMarkType> GetAllTypes()
         {
-
-            // zelfde resultaat maar je kan de params "duidelijk" zien en uitbreiden zonder dat de constructor huge wordt
-            return new List<BenchMarkType>()
+             return new List<BenchMarkType>
             {
-                new BenchMarkType()
+                new()
                 {
                      Name = "AzureWindowsCsharp",
                      CloudProvider = CloudProvider.Azure,
                      HostEnvironment = HostEnvironment.Windows,
-                     Runtime = Runtime.Csharp,
+                     Runtime = Runtime.FunctionsV4,
+                     Language = Language.Csharp
                 },
-                new BenchMarkType()
+                new()
                 {
                      Name = "AzureWindowsNodejs",
                      CloudProvider = CloudProvider.Azure,
                      HostEnvironment = HostEnvironment.Windows,
-                     Runtime = Runtime.Nodejs,
+                     Runtime = Runtime.FunctionsV4,
+                     Language = Language.Nodejs
                 },
-                new BenchMarkType()
+                new()
                 {
                      Name = "AzureWindowsJava",
                      CloudProvider = CloudProvider.Azure,
                      HostEnvironment = HostEnvironment.Windows,
-                     Runtime = Runtime.Java,
+                     Runtime = Runtime.FunctionsV4,
+                     Language = Language.Java
                 },
-                new BenchMarkType()
+                new()
                 {
                      Name = "AzureWindowsFsharp",
                      CloudProvider = CloudProvider.Azure,
                      HostEnvironment = HostEnvironment.Windows,
-                     Runtime = Runtime.Fsharp,
+                     Runtime = Runtime.FunctionsV4,
+                     Language = Language.Fsharp
                 },
-
-
-                new BenchMarkType()
+                new()
                 {
                      Name = "AzureLinuxCsharp",
                      CloudProvider = CloudProvider.Azure,
                      HostEnvironment = HostEnvironment.Linux,
-                     Runtime = Runtime.Csharp,
+                     Runtime = Runtime.FunctionsV4,
+                     Language = Language.Csharp
                 },
-                new BenchMarkType()
+                new()
                 {
                      Name = "AzureLinuxNodejs",
                      CloudProvider = CloudProvider.Azure,
                      HostEnvironment = HostEnvironment.Linux,
-                     Runtime = Runtime.Nodejs,
+                     Runtime = Runtime.FunctionsV4,
+                     Language = Language.Nodejs
                 },
-                new BenchMarkType()
+                new()
                 {
                      Name = "AzureLinuxPython",
                      CloudProvider = CloudProvider.Azure,
                      HostEnvironment = HostEnvironment.Linux,
-                     Runtime = Runtime.Python,
+                     Runtime = Runtime.FunctionsV4,
+                     Language = Language.Python
                 },
-                new BenchMarkType()
+                new()
                 {
                      Name = "AzureLinuxJava",
                      CloudProvider = CloudProvider.Azure,
                      HostEnvironment = HostEnvironment.Linux,
-                     Runtime = Runtime.Java,
+                     Runtime = Runtime.FunctionsV4,
+                     Language = Language.Java
                 },
-                new BenchMarkType()
+                new()
                 {
                      Name = "AzureLinuxFsharp",
                      CloudProvider = CloudProvider.Azure,
                      HostEnvironment = HostEnvironment.Linux,
-                     Runtime = Runtime.Fsharp,
+                     Runtime = Runtime.FunctionsV4,
+                     Language = Language.Fsharp
                 },
 
-
-                new BenchMarkType()
+                new()
                 {
                      Name = "FirebaseLinuxNodejs",
                      CloudProvider = CloudProvider.Firebase,
                      HostEnvironment = HostEnvironment.Linux,
-                     Runtime = Runtime.Nodejs,
+                     Runtime = Runtime.FunctionsV4,
+                     Language = Language.Nodejs,
                      SetXFunctionsKey = false,
                 },
             };

@@ -14,12 +14,15 @@ namespace CloudRepublic.BenchMark.Orchestrator.Statics
         {
             return benchMarkResponses.Select(benchMarkResponse => new BenchMarkResult
             {
+                Id = Guid.NewGuid().ToString(),
                 CloudProvider = benchMarkType.CloudProvider,
                 HostingEnvironment = benchMarkType.HostEnvironment,
                 Runtime = benchMarkType.Runtime,
+                Language = benchMarkType.Language,
                 Success = benchMarkResponse.Success,
                 RequestDuration = Convert.ToInt32(benchMarkResponse.Duration),
-                IsColdRequest = isColdRequest
+                IsColdRequest = isColdRequest,
+                CreatedAt = DateTimeOffset.UtcNow,
             }).ToList();
         }
     }

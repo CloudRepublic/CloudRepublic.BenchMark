@@ -14,12 +14,12 @@ namespace CloudRepublic.BenchMark.Orchestrator.Services
     public class BenchMarkTypeService : IBenchMarkTypeService
     {
         private readonly IBenchMarkService _benchMarkService;
-        private readonly BenchMarkDbContext _dbContext;
+        private readonly IBenchMarkResultRepository _benchMarkResultRepository;
 
-        public BenchMarkTypeService(IBenchMarkService benchMarkService, BenchMarkDbContext dbContext)
+        public BenchMarkTypeService(IBenchMarkService benchMarkService, IBenchMarkResultRepository benchMarkResultRepository)
         {
             _benchMarkService = benchMarkService;
-            _dbContext = dbContext;
+            _benchMarkResultRepository = benchMarkResultRepository;
         }
 
 
@@ -56,9 +56,12 @@ namespace CloudRepublic.BenchMark.Orchestrator.Services
                 results.AddRange(ResultConverter.ConvertToResultObject(tasksCold.Select(t => t.Result), benchMarkType, true));
                 results.AddRange(ResultConverter.ConvertToResultObject(tasksWarm.Select(t => t.Result), benchMarkType, false));
 
+                for(var i = 0; i < results.Count; i++)
+                {
+                    results[i].CallPositionNumber = i;
+                }
             }
             return results;
-
         }
 
         public async Task StoreBenchMarkResultsAsync(IEnumerable<BenchMarkResult> results)
@@ -70,10 +73,8 @@ namespace CloudRepublic.BenchMark.Orchestrator.Services
 
             foreach (var result in results)
             {
-                _dbContext.BenchMarkResult.Add(result);
+                await _benchMarkResultRepository.AddBenchMarkResultAsync(result);
             }
-
-            await _dbContext.SaveChangesAsync();
         }
     }
 }
