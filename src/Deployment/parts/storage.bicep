@@ -1,17 +1,13 @@
 // global
 param location string
-param serviceTag string
 
 // resources
-param functionName string
+param storageAccountName string
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' = {
-  name: '${functionName}stor'
+  name: storageAccountName
   location: location
   kind: 'StorageV2'
-  tags: {
-    service: serviceTag
-  }
   sku: {
     name: 'Standard_LRS'
   }
@@ -34,4 +30,4 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' = {
   }
 }
 
-output functionStorageName string = storageAccount.name
+output storageName string = storageAccount.name
