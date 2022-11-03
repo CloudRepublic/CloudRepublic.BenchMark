@@ -13,15 +13,15 @@ resource sharedStorageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' exi
   name: sharedStorageName
 }
 
-resource StorageTableDataReaderRole 'Microsoft.Authorization/roleDefinitions@2022-04-01' existing = {
-  name: '76199698-9eea-4c19-bc75-cec21354c6b6'
+resource StorageTableDataContributorRole 'Microsoft.Authorization/roleDefinitions@2022-04-01' existing = {
+  name: '0a9a7e1f-b9d0-4cc4-a60d-0319b160aaa3'
 }
 
 resource storageRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(functionStorageAccount.id, StorageTableDataReaderRole.id)
+  name: guid(functionStorageAccount.id, StorageTableDataContributorRole.id)
   scope: functionStorageAccount
   properties: {
-    roleDefinitionId: StorageTableDataReaderRole.id
+    roleDefinitionId: StorageTableDataContributorRole.id
     principalId: function.identity.principalId
     principalType: 'ServicePrincipal'
   }
@@ -31,13 +31,16 @@ resource storageRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-
 resource functionFarm 'Microsoft.Web/serverfarms@2022-03-01' = {
   name: '${functionName}plan'
   location: location
-  kind: 'functionapp'
+  kind: 'linux'
   sku: {
     name: 'Y1'
     tier: 'Dynamic'
     size: 'Y1'
     family: 'Y'
     capacity: 0
+  }
+  properties: {
+    reserved: true
   }
 }
 
@@ -51,10 +54,10 @@ resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
 }
 
 
-resource function 'Microsoft.Web/sites@2021-01-15' = {
+resource function 'Microsoft.Web/sites@2022-03-01' = {
   name: functionName
   location: location
-  kind: 'functionapp'
+  kind: 'functionapp,linux'
   identity: {
     type: 'SystemAssigned'
   }
@@ -66,7 +69,7 @@ resource function 'Microsoft.Web/sites@2021-01-15' = {
       minTlsVersion: '1.2'
       scmMinTlsVersion: '1.2'
       http20Enabled: true
-      windowsFxVersion: '6.0'
+      linuxFxVersion: 'DOTNET|6.0'
       appSettings: [
         {
           name: 'AzureWebJobsStorage'
@@ -95,10 +98,6 @@ resource function 'Microsoft.Web/sites@2021-01-15' = {
         {
           name: 'WEBSITE_RUN_FROM_PACKAGE'
           value: '1'
-        }
-        {
-          name: 'dayRange'
-          value: '7'
         }
         {
           name: 'storage__endpoint'
