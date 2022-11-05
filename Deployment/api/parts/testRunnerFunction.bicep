@@ -1,5 +1,6 @@
 param functionStorageAccountName string
 param sharedStorageName string
+param configServiceName string
 param resultsTableName string
 param functionName string
 param appInsightsName string
@@ -13,21 +14,37 @@ resource sharedStorageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' exi
   name: sharedStorageName
 }
 
-resource StorageTableDataContributorRole 'Microsoft.Authorization/roleDefinitions@2022-04-01' existing = {
-  name: '0a9a7e1f-b9d0-4cc4-a60d-0319b160aaa3'
+resource appConfigurationService 'Microsoft.AppConfiguration/configurationStores@2022-05-01' existing = {
+  name: configServiceName
+}
+
+resource StorageTableDataReaderRole 'Microsoft.Authorization/roleDefinitions@2022-04-01' existing = {
+  name: '76199698-9eea-4c19-bc75-cec21354c6b6'
+}
+
+resource configServiceDataReaderRole 'Microsoft.Authorization/roleDefinitions@2022-04-01' existing = {
+  name: '516239f1-63e1-4d78-a4de-a74fb236a071'
 }
 
 resource storageRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(functionStorageAccount.id, StorageTableDataContributorRole.id)
+  name: guid(functionStorageAccount.id, StorageTableDataReaderRole.id)
   scope: functionStorageAccount
   properties: {
-    roleDefinitionId: StorageTableDataContributorRole.id
+    roleDefinitionId: StorageTableDataReaderRole.id
     principalId: function.identity.principalId
     principalType: 'ServicePrincipal'
   }
-
 }
 
+resource configServiceRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(functionStorageAccount.id, configServiceDataReaderRole.id)
+  scope: appConfigurationService
+  properties: {
+    roleDefinitionId: configServiceDataReaderRole.id
+    principalId: function.identity.principalId
+    principalType: 'ServicePrincipal'
+  }
+}
 resource functionFarm 'Microsoft.Web/serverfarms@2022-03-01' = {
   name: '${functionName}plan'
   location: location

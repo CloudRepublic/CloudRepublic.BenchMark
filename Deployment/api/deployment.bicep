@@ -30,6 +30,14 @@ module testRunnerStorage 'parts/storage.bicep' = {
   }
 }
 
+module configService 'parts/appConfigurationService.bicep' = {
+  name: '${deployment().name}-config'
+  params: {
+    prefix: prefix
+    location: location
+  }
+}
+
 module apiFunction 'parts/apiFunction.bicep' = {
   name: '${deployment().name}-func'
   params: {
@@ -39,6 +47,7 @@ module apiFunction 'parts/apiFunction.bicep' = {
     appInsightsName: apiFunctionName
     sharedStorageName: sharedStorage.outputs.storageName
     resultsTableName: sharedStorage.outputs.resultsTableName
+    configServiceName: configService.outputs.appConfigurationServiceName
   }
 }
 
@@ -51,6 +60,7 @@ module testRunnerFunction 'parts/testRunnerFunction.bicep' = {
     appInsightsName: testRunnerFunctionName
     sharedStorageName: sharedStorage.outputs.storageName
     resultsTableName: sharedStorage.outputs.resultsTableName
+    configServiceName: configService.outputs.appConfigurationServiceName
   }
 }
 
