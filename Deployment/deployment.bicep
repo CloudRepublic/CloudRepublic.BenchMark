@@ -16,3 +16,12 @@ module api 'api/deployment.bicep' = {
     prefix: prefix
   }
 }
+
+module frontend 'frontend/staticWebApp.bicep' = {
+  name: 'frontend'
+  params: {
+    location: location
+    apiFunctionName: api.outputs.apiFunctionName
+    prefix: prefix
+  }
+}

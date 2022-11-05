@@ -55,4 +55,4 @@ module testRunnerFunction 'parts/testRunnerFunction.bicep' = {
 }
 
 
-output apiEndpoint string = ''
+output apiFunctionName string = apiFunction.outputs.functionName

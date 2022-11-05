@@ -115,3 +115,5 @@ resource function 'Microsoft.Web/sites@2022-03-01' = {
     }
   }
 }
+
+output functionName string = function.name
