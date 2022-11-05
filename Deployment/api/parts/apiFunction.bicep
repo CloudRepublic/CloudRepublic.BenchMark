@@ -129,6 +129,10 @@ resource function 'Microsoft.Web/sites@2022-03-01' = {
           name: 'storage__resultsTableName'
           value: resultsTableName
         }
+        {
+          name: 'ConfigurationServiceEndpoint'
+          value: appConfigurationService.properties.endpoint
+        }
       ]
     }
   }
