@@ -47,8 +47,7 @@ public class Startup : FunctionsStartup
 
             options.Connect(new Uri(configServiceEndpoint), chainedTokenCredential);
 
-                options
-                // Load all keys that start with `BankSearch:`
+            options
                 .Select("TestFunctions:*")
                 .ConfigureRefresh(refreshOptions =>
                 {
