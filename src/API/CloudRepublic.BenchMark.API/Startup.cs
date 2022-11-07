@@ -1,26 +1,53 @@
+using System;
+using Azure.Core;
+using Azure.Identity;
 using CloudRepublic.BenchMark.API.Interfaces;
 using CloudRepublic.BenchMark.API.Services;
+using CloudRepublic.BenchMark.Application;
 using CloudRepublic.BenchMark.Application.Interfaces;
 using CloudRepublic.BenchMark.Application.Services;
-using CloudRepublic.BenchMark.Data;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 [assembly: FunctionsStartup(typeof(CloudRepublic.BenchMark.API.Startup))]
-namespace CloudRepublic.BenchMark.API
+namespace CloudRepublic.BenchMark.API;
+
+public class Startup : FunctionsStartup
 {
-    public class Startup : FunctionsStartup
+    public override void Configure(IFunctionsHostBuilder builder)
     {
-        public override void Configure(IFunctionsHostBuilder builder)
+        builder.Services.AddBenchMarkData(
+            "storage",
+            new ChainedTokenCredential(new ManagedIdentityCredential(), new AzureCliCredential()));
+
+        builder.Services.AddTransient<IBenchMarkResultService, BenchMarkResultService>();
+        builder.Services.AddSingleton<IResponseConverterService, ResponseConverterService>();
+    }
+
+    public override void ConfigureAppConfiguration(IFunctionsConfigurationBuilder builder)
+    {
+        builder.ConfigurationBuilder.AddEnvironmentVariables();
+
+        // Add Azure App Configuration as additional configuration source
+        builder.ConfigurationBuilder.AddAzureAppConfiguration(options =>
         {
+            var configServiceEndpoint = Environment.GetEnvironmentVariable("ConfigurationServiceEndpoint");
 
-            builder.Services.AddDbContext<BenchMarkDbContext>(options => options.UseSqlServer(Environment.GetEnvironmentVariable("BenchMarkDatabase")));
+            var managedIdentityTokenCredential = new ManagedIdentityCredential() as TokenCredential;
+            var azureCliCredential = new AzureCliCredential() as TokenCredential;
+            var chainedTokenCredential = new ChainedTokenCredential(
+                managedIdentityTokenCredential, azureCliCredential);
 
-            builder.Services.AddTransient<IBenchMarkResultService, BenchMarkResultService>();
+            options.Connect(new Uri(configServiceEndpoint), chainedTokenCredential);
 
-            builder.Services.AddSingleton<IResponseConverterService, ResponseConverterService>();
-        }
+            options
+                .Select("TestFunctions:*")
+                .ConfigureRefresh(refreshOptions =>
+                {
+                    refreshOptions.Register("TestFunctions:Sentinel", refreshAll: true)
+                        .SetCacheExpiration(TimeSpan.FromSeconds(30));
+                });
+        });
     }
 }

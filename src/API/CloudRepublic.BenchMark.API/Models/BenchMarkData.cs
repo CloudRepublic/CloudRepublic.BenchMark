@@ -13,6 +13,7 @@ namespace CloudRepublic.BenchMark.API.Models
         public string CloudProvider { get; set; }
         public string HostingEnvironment { get; set; }
         public string Runtime { get; set; }
+        public string Language { get; set; }
         public bool ColdPreviousDayPositive { get; set; }
         public double ColdPreviousDayDifference { get; set; }
         public bool WarmPreviousDayPositive { get; set; }
