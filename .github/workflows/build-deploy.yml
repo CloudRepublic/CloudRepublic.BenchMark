@@ -24,11 +24,11 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore -configuration "RELEASE"
     - name: Test
-      run: dotnet test --no-build --verbosity normal
-    - name: Pack
-      run: dotnet pack ./src/API/CloudRepublic.BenchMark.API -o ./outputs/api
+      run: dotnet test --no-build --verbosity normal -configuration "RELEASE"
+    - name: Publish
+      run: dotnet publish ./src/API/CloudRepublic.BenchMark.API --output ./outputs/api --no-build -configuration "RELEASE"
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.1
       with:
