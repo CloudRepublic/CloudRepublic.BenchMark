@@ -1,18 +1,13 @@
 ﻿using CloudRepublic.BenchMark.Application.Interfaces;
 using CloudRepublic.BenchMark.Application.Models;
-using CloudRepublic.BenchMark.Data;
-using CloudRepublic.BenchMark.Domain.Entities;
 using CloudRepublic.BenchMark.Domain.Enums;
 using CloudRepublic.BenchMark.Orchestrator.Services;
-using Microsoft.EntityFrameworkCore;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
-
 
 namespace CloudRepublic.BenchMark.Orchestrator.Tests
 {
@@ -48,7 +43,8 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
             var firstTypeForTesting = benchMarkTypes.First();
             Assert.Equal(CloudProvider.Azure, firstTypeForTesting.CloudProvider);
             Assert.Equal(HostEnvironment.Windows, firstTypeForTesting.HostEnvironment);
-            Assert.Equal(Runtime.Csharp, firstTypeForTesting.Runtime);
+            Assert.Equal(Runtime.FunctionsV4, firstTypeForTesting.Runtime);
+            Assert.Equal(Language.Csharp, firstTypeForTesting.Language);
             Assert.Equal("AzureWindowsCsharp", firstTypeForTesting.Name);
             Assert.Equal("AzureWindowsCsharpClient", firstTypeForTesting.ClientName);
             Assert.Equal("AzureWindowsCsharpKey", firstTypeForTesting.KeyName);
@@ -59,7 +55,8 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
             var lastTypeForTesting = benchMarkTypes.Last();
             Assert.Equal(CloudProvider.Firebase, lastTypeForTesting.CloudProvider);
             Assert.Equal(HostEnvironment.Linux, lastTypeForTesting.HostEnvironment);
-            Assert.Equal(Runtime.Nodejs, lastTypeForTesting.Runtime);
+            Assert.Equal(Runtime.FunctionsV4, lastTypeForTesting.Runtime);
+            Assert.Equal(Language.Nodejs, lastTypeForTesting.Language);
             Assert.Equal("FirebaseLinuxNodejs", lastTypeForTesting.Name);
             Assert.Equal("FirebaseLinuxNodejsClient", lastTypeForTesting.ClientName);
             Assert.Equal("FirebaseLinuxNodejsKey", lastTypeForTesting.KeyName);
@@ -324,7 +321,8 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
                  Name = "TestBenchMark",
                  CloudProvider = CloudProvider.Firebase,
                  HostEnvironment = HostEnvironment.Linux,
-                 Runtime = Runtime.Fsharp,
+                 Runtime = Runtime.FunctionsV4,
+                 Language = Language.Fsharp,
                  SetXFunctionsKey = true,
                 },
             };
@@ -353,16 +351,12 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
             Assert.True(validationResult.IsColdRequest);
             Assert.Equal(CloudProvider.Firebase, validationResult.CloudProvider);
             Assert.Equal(HostEnvironment.Linux, validationResult.HostingEnvironment);
-            Assert.Equal(Runtime.Fsharp, validationResult.Runtime);
+            Assert.Equal(Runtime.FunctionsV4, validationResult.Runtime);
+            Assert.Equal(Language.Fsharp, validationResult.Language);
+            
             // from the actual benchmark
             Assert.Equal(567, validationResult.RequestDuration);
             Assert.True(validationResult.Success);
-
-            // Set by the DB
-            Assert.Equal(default(DateTimeOffset), validationResult.CreatedAt);
-            Assert.Equal(0, validationResult.Id);
-
-
         }
 
         [Fact]
@@ -377,7 +371,8 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
                  Name = "TestBenchMark",
                  CloudProvider = CloudProvider.Firebase,
                  HostEnvironment = HostEnvironment.Linux,
-                 Runtime = Runtime.Fsharp,
+                 Runtime = Runtime.FunctionsV4,
+                 Language = Language.Fsharp,
                  SetXFunctionsKey = true,
                 },
             };
@@ -396,111 +391,8 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
             var benchMarkResults = await testService.RunBenchMarksAsync(benchMarks, coldCalls, warmCalls, 0);
 
 
-
             //  Assert
-
             _mockIBenchMarkService.Verify(service => service.RunBenchMarkAsync(It.Is<string>(clientName => clientName == "TestBenchMarkClient")), Times.Once);
-
-
-
-        }
-
-
-        [Fact]
-        public async Task StoreBenchMarkResultsAsync_Should_Return_When_No_Results_and_Not_Call_DbContext()
-        {
-            //  Arrange
-
-            var benchMarkResults = new List<BenchMarkResult>();
-            var mockDbContext = new Mock<BenchMarkDbContext>();
-
-            var testService = new BenchMarkTypeService(null, mockDbContext.Object);
-
-
-
-            //  Act
-
-            await testService.StoreBenchMarkResultsAsync(benchMarkResults);
-
-
-
-            //  Assert
-
-            mockDbContext.Verify(dbContext => dbContext.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
-
-
-        }
-        [Fact]
-        public async Task StoreBenchMarkResultsAsync_Should_Add_Each_Result()
-        {
-            //  Arrange
-
-            var sourceList = new List<BenchMarkResult>()
-            {
-            };
-
-            var mockDbContext = new Mock<BenchMarkDbContext>();
-            var mockedDbSet = new Mock<DbSet<BenchMarkResult>>();
-            mockedDbSet.Setup(d => d.Add(It.IsAny<BenchMarkResult>())).Callback<BenchMarkResult>((s) => sourceList.Add(s));
-            mockDbContext.Setup(dbContext => dbContext.BenchMarkResult).Returns(mockedDbSet.Object);
-
-            var benchMarkResults = new List<BenchMarkResult>()
-            {
-                 new BenchMarkResult(),
-                 new BenchMarkResult(),
-                 new BenchMarkResult(),
-                 new BenchMarkResult(),
-            };
-
-            var testService = new BenchMarkTypeService(null, mockDbContext.Object);
-
-
-
-            //  Act
-
-            await testService.StoreBenchMarkResultsAsync(benchMarkResults);
-
-
-
-            //  Assert
-            Assert.Equal(4, sourceList.Count);
-            mockDbContext.Verify(dbContext => dbContext.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
-
-
-        }
-        [Fact]
-        public async Task StoreBenchMarkResultsAsync_Should_SaveChangesAsync_Once()
-        {
-            //  Arrange
-
-            var sourceList = new List<BenchMarkResult>();
-
-            var mockDbContext = new Mock<BenchMarkDbContext>();
-            var mockedDbSet = new Mock<DbSet<BenchMarkResult>>();
-            mockedDbSet.Setup(d => d.Add(It.IsAny<BenchMarkResult>())).Callback<BenchMarkResult>((s) => sourceList.Add(s));
-            mockDbContext.Setup(dbContext => dbContext.BenchMarkResult).Returns(mockedDbSet.Object);
-
-            var benchMarkResults = new List<BenchMarkResult>()
-            {
-                 new BenchMarkResult()
-            };
-
-            var testService = new BenchMarkTypeService(null, mockDbContext.Object);
-
-
-
-            //  Act
-
-            await testService.StoreBenchMarkResultsAsync(benchMarkResults);
-
-
-
-            //  Assert
-
-            mockDbContext.Verify(dbContext => dbContext.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
-
-
-
         }
     }
 }

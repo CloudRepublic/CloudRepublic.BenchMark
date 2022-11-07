@@ -1,6 +1,7 @@
 ﻿using CloudRepublic.BenchMark.Domain.Enums;
 using CloudRepublic.BenchMark.Orchestrator.Statics;
 using System.Linq;
+using CloudRepublic.BenchMark.Application.Statics;
 using Xunit;
 
 
@@ -29,7 +30,8 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
             var firstTypeForTesting = benchMarkTypes.First();
             Assert.Equal(CloudProvider.Azure, firstTypeForTesting.CloudProvider);
             Assert.Equal(HostEnvironment.Windows, firstTypeForTesting.HostEnvironment);
-            Assert.Equal(Runtime.Csharp, firstTypeForTesting.Runtime);
+            Assert.Equal(Runtime.FunctionsV4, firstTypeForTesting.Runtime);
+            Assert.Equal(Language.Csharp, firstTypeForTesting.Language);
             Assert.Equal("AzureWindowsCsharp", firstTypeForTesting.Name);
             Assert.Equal("AzureWindowsCsharpClient", firstTypeForTesting.ClientName);
             Assert.Equal("AzureWindowsCsharpKey", firstTypeForTesting.KeyName);
@@ -40,7 +42,8 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
             var lastTypeForTesting = benchMarkTypes.Last();
             Assert.Equal(CloudProvider.Firebase, lastTypeForTesting.CloudProvider);
             Assert.Equal(HostEnvironment.Linux, lastTypeForTesting.HostEnvironment);
-            Assert.Equal(Runtime.Nodejs, lastTypeForTesting.Runtime);
+            Assert.Equal(Runtime.FunctionsV4, lastTypeForTesting.Runtime);
+            Assert.Equal(Language.Nodejs, lastTypeForTesting.Language);
             Assert.Equal("FirebaseLinuxNodejs", lastTypeForTesting.Name);
             Assert.Equal("FirebaseLinuxNodejsClient", lastTypeForTesting.ClientName);
             Assert.Equal("FirebaseLinuxNodejsKey", lastTypeForTesting.KeyName);

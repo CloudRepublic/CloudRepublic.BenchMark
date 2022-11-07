@@ -90,7 +90,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
             {
                 new BenchMarkResult()
                 {
-                     Id = 800,
+                     Id = "800",
                 }
             };
             _mockIBenchMarkTypeService.Setup(service => service.RunBenchMarksAsync(It.IsAny<List<BenchMarkType>>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(benchMarkResults);
@@ -107,7 +107,7 @@ namespace CloudRepublic.BenchMark.Orchestrator.Tests
 
             //  Assert
 
-            _mockIBenchMarkTypeService.Verify(service => service.StoreBenchMarkResultsAsync(It.Is<List<BenchMarkResult>>(results => results[0].Id == 800)), Times.Once);
+            _mockIBenchMarkTypeService.Verify(service => service.StoreBenchMarkResultsAsync(It.Is<List<BenchMarkResult>>(results => results[0].Id == "800")), Times.Once);
 
 
         }
