@@ -60,7 +60,7 @@ jobs:
   deploy:
     name: deploy application
     runs-on: ubuntu-latest
-    dependencies: [buildApi, buildTestRunner]
+    needs: ["buildApi", "buildTestRunner"]
     steps:
       # Checkout code
     - uses: actions/checkout@v3
