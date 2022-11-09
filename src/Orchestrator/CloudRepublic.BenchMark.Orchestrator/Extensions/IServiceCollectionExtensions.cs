@@ -9,15 +9,15 @@ namespace CloudRepublic.BenchMark.Orchestrator.Extensions;
 
 public static class IServiceCollectionExtensions
 {
-    public static IServiceCollection AddBenchMark(this IServiceCollection services, IConfiguration configurationSection)
+    public static IServiceCollection AddBenchMark(this IServiceCollection services)
     {
-        var benchMarkTypes = configurationSection.GetAllTypesFromConfiguration();
-        
-        services.AddSingleton(benchMarkTypes);
-        foreach (var benchMarkType in benchMarkTypes)
+        services.AddScoped((s) =>
         {
-            services.AddHttpClient(benchMarkType.Name);
-        }
+            var configuration = s.GetRequiredService<IConfiguration>();
+            var configurationSection = configuration.GetSection("BenchMarkTests");
+            return configurationSection.GetAllTypesFromConfiguration();
+        });
+
         return services;
     }
 }
