@@ -15,19 +15,20 @@ namespace CloudRepublic.BenchMark.Application.Services
         {
             _httpClientFactory = httpClientFactory;
         }
-        public async Task<BenchMarkResponse> RunBenchMarkAsync(string clientName)
+        public async Task<BenchMarkResponse> RunBenchMarkAsync(BenchMarkType benchMarkType)
         {
-            var client = _httpClientFactory.CreateClient(clientName);
+            var client = _httpClientFactory.CreateClient(benchMarkType.Name);
             try
             {
                 var stopWatch = Stopwatch.StartNew();
-                var response = await client.GetAsync($"api/Trigger?name=BenchMark");
+                client.DefaultRequestHeaders.Add(benchMarkType.AuthenticationHeaderName, benchMarkType.AuthenticationHeaderValue);
+                var response = await client.GetAsync(benchMarkType.TestEndpoint, new HttpCompletionOption());
                 var result = stopWatch.ElapsedMilliseconds;
 
 
                 return new BenchMarkResponse(response.IsSuccessStatusCode, result);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return new BenchMarkResponse(false, 0);
             }

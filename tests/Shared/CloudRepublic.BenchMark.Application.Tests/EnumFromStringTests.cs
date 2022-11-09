@@ -1,8 +1,8 @@
-﻿using CloudRepublic.BenchMark.API.Models;
+﻿using CloudRepublic.BenchMark.Application.Models;
 using Shouldly;
 using Xunit;
 
-namespace CloudRepublic.BenchMark.API.Tests
+namespace CloudRepublic.BenchMark.Application.Tests
 {
     public class EnumFromStringTests
     {

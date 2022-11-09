@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CloudRepublic.BenchMark.Application.Statics;
 
 namespace CloudRepublic.BenchMark.Orchestrator.Services;
 
@@ -16,31 +15,30 @@ public class BenchMarkTypeService : IBenchMarkTypeService
 {
     private readonly IBenchMarkService _benchMarkService;
     private readonly IBenchMarkResultRepository _benchMarkResultRepository;
+    private readonly IEnumerable<BenchMarkType> _benchMarkTypes;
 
-    public BenchMarkTypeService(IBenchMarkService benchMarkService, IBenchMarkResultRepository benchMarkResultRepository)
+    public BenchMarkTypeService(
+        IBenchMarkService benchMarkService, 
+        IBenchMarkResultRepository benchMarkResultRepository,
+        IEnumerable<BenchMarkType> benchMarkTypes)
     {
         _benchMarkService = benchMarkService;
         _benchMarkResultRepository = benchMarkResultRepository;
+        _benchMarkTypes = benchMarkTypes;
     }
-
-
-    public IEnumerable<BenchMarkType> GetAllTypes()
-    {
-        return BenchMarkTypeGenerator.GetAllTypes();
-    }
-
-    public async Task<List<BenchMarkResult>> RunBenchMarksAsync(IEnumerable<BenchMarkType> benchMarkTypes, int coldCalls = 5, int warmCalls = 10, int delayBetweenCalls = 30)
+    
+    public async Task<List<BenchMarkResult>> RunBenchMarksAsync(int coldCalls = 5, int warmCalls = 10, int delayBetweenCalls = 30)
     {
         var results = new List<BenchMarkResult>();
 
-        foreach (var benchMarkType in benchMarkTypes)
+        foreach (var benchMarkType in _benchMarkTypes)
         {
             var tasksCold = new List<Task<BenchMarkResponse>>();
             var tasksWarm = new List<Task<BenchMarkResponse>>();
 
             for (int i = 0; i < coldCalls; i++)
             {
-                tasksCold.Add(_benchMarkService.RunBenchMarkAsync(benchMarkType.ClientName));
+                tasksCold.Add(_benchMarkService.RunBenchMarkAsync(benchMarkType));
             }
 
             await Task.WhenAll(tasksCold);
@@ -49,7 +47,7 @@ public class BenchMarkTypeService : IBenchMarkTypeService
 
             for (int i = 0; i < warmCalls; i++)
             {
-                tasksWarm.Add(_benchMarkService.RunBenchMarkAsync(benchMarkType.ClientName));
+                tasksWarm.Add(_benchMarkService.RunBenchMarkAsync(benchMarkType));
             }
 
             await Task.WhenAll(tasksWarm);

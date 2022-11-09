@@ -1,103 +1,32 @@
 using CloudRepublic.BenchMark.Application.Models;
 using CloudRepublic.BenchMark.Domain.Enums;
 using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Extensions.Configuration;
 
-namespace CloudRepublic.BenchMark.Application.Statics
+namespace CloudRepublic.BenchMark.Application.Statics;
+
+public static class BenchMarkTypeGenerator
 {
-    public static class BenchMarkTypeGenerator
-    {
-        /// <summary>
-        /// Creates all the benchmark options to be tested.
-        /// foreach type a client is created, functions are called cold/warm.
-        /// </summary>
-        /// <returns></returns>
-        public static IEnumerable<BenchMarkType> GetAllTypes()
-        {
-             return new List<BenchMarkType>
-            {
-                new()
-                {
-                     Name = "AzureWindowsCsharp",
-                     CloudProvider = CloudProvider.Azure,
-                     HostEnvironment = HostEnvironment.Windows,
-                     Runtime = Runtime.FunctionsV4,
-                     Language = Language.Csharp
-                },
-                new()
-                {
-                     Name = "AzureWindowsNodejs",
-                     CloudProvider = CloudProvider.Azure,
-                     HostEnvironment = HostEnvironment.Windows,
-                     Runtime = Runtime.FunctionsV4,
-                     Language = Language.Nodejs
-                },
-                new()
-                {
-                     Name = "AzureWindowsJava",
-                     CloudProvider = CloudProvider.Azure,
-                     HostEnvironment = HostEnvironment.Windows,
-                     Runtime = Runtime.FunctionsV4,
-                     Language = Language.Java
-                },
-                new()
-                {
-                     Name = "AzureWindowsFsharp",
-                     CloudProvider = CloudProvider.Azure,
-                     HostEnvironment = HostEnvironment.Windows,
-                     Runtime = Runtime.FunctionsV4,
-                     Language = Language.Fsharp
-                },
-                new()
-                {
-                     Name = "AzureLinuxCsharp",
-                     CloudProvider = CloudProvider.Azure,
-                     HostEnvironment = HostEnvironment.Linux,
-                     Runtime = Runtime.FunctionsV4,
-                     Language = Language.Csharp
-                },
-                new()
-                {
-                     Name = "AzureLinuxNodejs",
-                     CloudProvider = CloudProvider.Azure,
-                     HostEnvironment = HostEnvironment.Linux,
-                     Runtime = Runtime.FunctionsV4,
-                     Language = Language.Nodejs
-                },
-                new()
-                {
-                     Name = "AzureLinuxPython",
-                     CloudProvider = CloudProvider.Azure,
-                     HostEnvironment = HostEnvironment.Linux,
-                     Runtime = Runtime.FunctionsV4,
-                     Language = Language.Python
-                },
-                new()
-                {
-                     Name = "AzureLinuxJava",
-                     CloudProvider = CloudProvider.Azure,
-                     HostEnvironment = HostEnvironment.Linux,
-                     Runtime = Runtime.FunctionsV4,
-                     Language = Language.Java
-                },
-                new()
-                {
-                     Name = "AzureLinuxFsharp",
-                     CloudProvider = CloudProvider.Azure,
-                     HostEnvironment = HostEnvironment.Linux,
-                     Runtime = Runtime.FunctionsV4,
-                     Language = Language.Fsharp
-                },
-
-                new()
-                {
-                     Name = "FirebaseLinuxNodejs",
-                     CloudProvider = CloudProvider.Firebase,
-                     HostEnvironment = HostEnvironment.Linux,
-                     Runtime = Runtime.FunctionsV4,
-                     Language = Language.Nodejs,
-                     SetXFunctionsKey = false,
-                },
-            };
-        }
-    }
+     /// <summary>
+     /// Creates all the benchmark options to be tested.
+     /// foreach type a client is created, functions are called cold/warm.
+     /// </summary>
+     /// <returns></returns>
+     public static IEnumerable<BenchMarkType> GetAllTypesFromConfiguration(this IConfiguration configuration)
+     {
+          var sections = configuration.GetChildren();
+          return sections.Select(s => new BenchMarkType
+          {
+               Name = s.Key,
+               Language = new EnumFromString<Language>(s["Language"]).Value,
+               Runtime = new EnumFromString<Runtime>(s["Runtime"]).Value,
+               CloudProvider = new EnumFromString<CloudProvider>(s["CloudProvider"]).Value,
+               HostEnvironment = new EnumFromString<HostEnvironment>(s["HostEnvironment"]).Value,
+               TestEndpoint = s["TestEndpoint"],
+               AuthenticationHeaderName = s["AuthenticationHeaderName"],
+               AuthenticationHeaderValue = s["AuthenticationHeaderValue"],
+          });
+          
+     }
 }

@@ -27,8 +27,10 @@ public class Startup : FunctionsStartup
             
         builder.Services.AddTransient<IBenchMarkService, BenchMarkService>();
         builder.Services.AddTransient<IBenchMarkTypeService, BenchMarkTypeService>();
+        
+        var config = builder.Services.BuildServiceProvider().GetRequiredService<IConfiguration>();
 
-        builder.Services.AddBenchMarkClients();
+        builder.Services.AddBenchMark(config.GetSection("BenchMarkEndpoints"));
     }
     
     public override void ConfigureAppConfiguration(IFunctionsConfigurationBuilder builder)

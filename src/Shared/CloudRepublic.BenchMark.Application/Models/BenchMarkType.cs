@@ -14,13 +14,8 @@ namespace CloudRepublic.BenchMark.Application.Models
         ///  the identifier for this Benchmark, this is used to designate the Client,  Url and Key.
         /// </summary>
         public string Name { get; set; }
-        public string ClientName { get { return Name + "Client"; } }
-        public string UrlName { get { return Name + "Url"; } }
-        public string KeyName { get { return Name + "Key"; } }
-
-        /// <summary>
-        /// Whether an x-functions-key with the Keyname will be added to the Http client default request
-        /// </summary>
-        public bool SetXFunctionsKey { get; set; } = true;
+        public string TestEndpoint { get; set; }
+        public string AuthenticationHeaderName { get; set; }
+        public string AuthenticationHeaderValue { get; set; }
     }
 }

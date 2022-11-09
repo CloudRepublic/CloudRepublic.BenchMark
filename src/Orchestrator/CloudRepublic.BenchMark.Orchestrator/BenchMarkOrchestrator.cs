@@ -31,9 +31,7 @@ public class BenchMarkOrchestrator
     /// <returns></returns>
     public async Task RunAndHandleAllBenchMarksAsync()
     {
-        var benchMarkTypes = _benchMarkTypeService.GetAllTypes();
-
-        var benchMarkResults = await _benchMarkTypeService.RunBenchMarksAsync(benchMarkTypes);
+        var benchMarkResults = await _benchMarkTypeService.RunBenchMarksAsync();
         if (benchMarkResults.Any())
         {
             await _benchMarkTypeService.StoreBenchMarkResultsAsync(benchMarkResults);
