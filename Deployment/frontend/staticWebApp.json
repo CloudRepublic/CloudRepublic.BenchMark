@@ -1,0 +1,47 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.12.40.16777",
+      "templateHash": "5024436105980448704"
+    }
+  },
+  "parameters": {
+    "prefix": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]"
+    },
+    "apiFunctionName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Web/staticSites/linkedBackends",
+      "apiVersion": "2022-03-01",
+      "name": "[format('{0}/{1}', format('{0}frontend', parameters('prefix')), 'backend1')]",
+      "properties": {
+        "backendResourceId": "[resourceId('Microsoft.Web/sites', parameters('apiFunctionName'))]",
+        "region": "[reference(resourceId('Microsoft.Web/sites', parameters('apiFunctionName')), '2022-03-01', 'full').location]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/staticSites', format('{0}frontend', parameters('prefix')))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Web/staticSites",
+      "apiVersion": "2022-03-01",
+      "name": "[format('{0}frontend', parameters('prefix'))]",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "Standard",
+        "tier": "Standard"
+      }
+    }
+  ]
+}

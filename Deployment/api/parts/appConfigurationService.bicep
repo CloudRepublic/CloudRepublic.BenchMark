@@ -10,6 +10,7 @@ resource keyVault 'Microsoft.KeyVault/vaults@2022-07-01' = {
       family: 'A'
     }
     tenantId: subscription().tenantId
+    accessPolicies: []
   }
 
   resource accessPolicies 'accessPolicies' = {
@@ -42,11 +43,6 @@ resource appConfigurationService 'Microsoft.AppConfiguration/configurationStores
     }
     properties: {
         publicNetworkAccess: 'Enabled'
-        encryption: {
-            keyVaultProperties: {
-                keyIdentifier: keyVault.id
-            }
-        }
     }
 }
 

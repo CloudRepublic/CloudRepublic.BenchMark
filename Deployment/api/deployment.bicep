@@ -7,15 +7,15 @@ var testRunnerFunctionName = '${prefix}testrunner'
 var sharedStorageName = '${prefix}shared'
 
 module sharedStorage 'parts/sharedStorage.bicep' = {
-  name: sharedStorageName
+  name: '${deployment().name}-sharedfuncstor'
   params: {
-    storageAccountName: '${apiFunctionName}stor'
+    storageAccountName: sharedStorageName
     location: location
   }
 }
 
 module apiFunctionStorage 'parts/storage.bicep' = {
-  name: '${deployment().name}-funcstor'
+  name: '${deployment().name}-apifuncstor'
   params: {
     storageAccountName: '${apiFunctionName}stor'
     location: location
@@ -23,7 +23,7 @@ module apiFunctionStorage 'parts/storage.bicep' = {
 }
 
 module testRunnerStorage 'parts/storage.bicep' = {
-  name: '${deployment().name}-funcstor'
+  name: '${deployment().name}-testrunnerfuncstor'
   params: {
     storageAccountName: '${testRunnerFunctionName}stor'
     location: location
@@ -39,7 +39,7 @@ module configService 'parts/appConfigurationService.bicep' = {
 }
 
 module apiFunction 'parts/apiFunction.bicep' = {
-  name: '${deployment().name}-func'
+  name: '${deployment().name}-apifunc'
   params: {
     functionName: apiFunctionName
     location: location
@@ -52,7 +52,7 @@ module apiFunction 'parts/apiFunction.bicep' = {
 }
 
 module testRunnerFunction 'parts/testRunnerFunction.bicep' = {
-  name: '${deployment().name}-func'
+  name: '${deployment().name}-testrunnerfunc'
   params: {
     functionName: testRunnerFunctionName
     location: location
