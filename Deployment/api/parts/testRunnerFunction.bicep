@@ -48,16 +48,12 @@ resource configServiceRoleAssignment 'Microsoft.Authorization/roleAssignments@20
 resource functionFarm 'Microsoft.Web/serverfarms@2022-03-01' = {
   name: '${functionName}plan'
   location: location
-  kind: 'linux'
   sku: {
     name: 'Y1'
     tier: 'Dynamic'
     size: 'Y1'
     family: 'Y'
     capacity: 0
-  }
-  properties: {
-    reserved: true
   }
 }
 
@@ -74,7 +70,7 @@ resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
 resource function 'Microsoft.Web/sites@2022-03-01' = {
   name: functionName
   location: location
-  kind: 'functionapp,linux'
+  kind: 'functionapp'
   identity: {
     type: 'SystemAssigned'
   }
