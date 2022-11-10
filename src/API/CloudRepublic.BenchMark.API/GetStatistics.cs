@@ -25,7 +25,7 @@ public class GetStatistics
     }
 
     [FunctionName("GetStatistics")]
-    public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", Route = "statistics")] HttpRequest req, ILogger log)
+    public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "statistics")] HttpRequest req, ILogger log)
     {
         var cloudProvider = new EnumFromString<CloudProvider>(req.Query["cloudProvider"]);
         var hostingEnvironment = new EnumFromString<HostEnvironment>(req.Query["hostingEnvironment"]);
