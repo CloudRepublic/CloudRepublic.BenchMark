@@ -90,7 +90,6 @@ jobs:
           path: ${{ github.workspace }}/src/Web/dist
 
   deploy:
-    if: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN != "" }}
     name: Deploy application
     runs-on: ubuntu-latest
     needs: ["buildApi", "buildTestRunner", "buildFrontend"]
