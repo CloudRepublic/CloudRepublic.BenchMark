@@ -87,7 +87,7 @@ jobs:
         uses: actions/upload-artifact@v3.1.1
         with:
           name: frontend
-          path: ${{ github.workspace }}/src/Web
+          path: ${{ github.workspace }}/src/Web/dist
 
   deploy:
     name: Deploy application
