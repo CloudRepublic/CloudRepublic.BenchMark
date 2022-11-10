@@ -41,7 +41,7 @@ jobs:
         path: ./api.zip
 
   buildTestRunner:
-    name: Build Test Runner
+    name: Build test runner
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -70,24 +70,26 @@ jobs:
         path: ./testRunner.zip
 
   buildFrontend:
+    name: Build frontend
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: install packages
+        working-directory: ${{ github.workspace }}/src/Web
+        run: npm install
       - name: Build VueJS frontend
-        run: |
-          cd ./src/Web
-          npm install
-          npm run build
+        working-directory: ${{ github.workspace }}/src/Web
+        run: npm run build
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.1
         with:
           name: frontend
-          path: ./src/Web
+          path: ${{ github.workspace }}/src/Web
 
   deploy:
-    name: deploy application
+    name: Deploy application
     runs-on: ubuntu-latest
-    needs: ["buildApi", "buildTestRunner"]
+    needs: ["buildApi", "buildTestRunner", "buildFrontend"]
     steps:
       # Checkout code
     - uses: actions/checkout@v3
