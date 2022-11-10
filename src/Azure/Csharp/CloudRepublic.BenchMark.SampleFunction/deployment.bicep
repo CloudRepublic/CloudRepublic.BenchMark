@@ -19,6 +19,9 @@ module csharpWindows '../../../../Deployment/testFunctions/parts/windowsFunction
 var csharpLinuxName = '${prefix}csharplin'
 module csharpLinux '../../../../Deployment/testFunctions/parts/linuxFunction.bicep' = {
   name: '${deployment().name}-csharpLinux'
+  dependsOn: [
+    csharpWindows // we need to deploy one by one to not overload the device configuration service
+  ]
   params: {
     functionName: csharpLinuxName
     workerRuntime: 'dotnet'
