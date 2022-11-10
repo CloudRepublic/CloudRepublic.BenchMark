@@ -46,6 +46,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: ["buildTest"]
     steps:
+    - name: Generate build number
+      uses: einaregilsson/build-number@v3
+      with:
+        token: ${{secrets.github_token}}    
+
       # Checkout code
     - uses: actions/checkout@v3
 
@@ -54,7 +59,7 @@ jobs:
       run: az login --service-principal -u ${{ secrets.AZURE_APPID }} -p ${{ secrets.AZURE_APPSECRET }} --tenant ${{ secrets.AZURE_TENANT }}
 
     - name: deploy bicep
-      run: az deployment group create --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --template-file ./src/Azure/Csharp/CloudRepublic.BenchMark.SampleFunction/deployment.bicep --parameters prefix=${{ secrets.DEPLOYMENT_PREFIX }}
+      run: az deployment group create --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --template-file ./src/Azure/Csharp/CloudRepublic.BenchMark.SampleFunction/deployment.bicep --parameters prefix=${{ secrets.DEPLOYMENT_PREFIX }} --name csharp${{ steps.buildnumber.outputs.build_number }}
 
     - name: Download Test Artifact
       uses: actions/download-artifact@v3.0.1
