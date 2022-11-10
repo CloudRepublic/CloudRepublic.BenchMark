@@ -33,7 +33,8 @@ jobs:
     - name: Debugging info
       run: ls ./outputs/api
     - name: Zip outputs
-      run: zip -qq -r ./api.zip ./outputs/api
+    working-directory: ${{ github.workspace }}/outputs/api
+      run: zip -qq -r ${{ github.workspace }}/api.zip .
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.1
       with:
@@ -62,7 +63,8 @@ jobs:
     - name: Debugging info
       run: ls ./outputs/testRunner
     - name: Zip outputs
-      run: zip -qq -r ./testRunner.zip ./outputs/testRunner
+      working-directory: ${{ github.workspace }}/outputs/testRunner
+      run: zip -qq -r ${{ github.workspace }}/testRunner.zip .
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.1
       with:
