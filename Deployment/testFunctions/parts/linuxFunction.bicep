@@ -1,5 +1,8 @@
+param prefix string
+param registrationName string
 param functionName string
 param location string
+param testPath string
 
 @allowed(['dotnet', 'dotnet-isolated', 'node', 'java', 'powershell', 'python'])
 param language string
@@ -85,5 +88,20 @@ resource function 'Microsoft.Web/sites@2022-03-01' = {
         }
       ]
     }
+  }
+}
+
+var defaultHostKey = listkeys('${function.id}/host/default', '2016-08-01').functionKeys.default
+module configurationRegistration 'configurationRegistration.bicep' = {
+  name: 'configurationRegistration'
+  params: {
+    registrationName: registrationName
+    prefix: prefix
+    language: language
+    runtime: 'FunctionsV4'
+    hostEnvironment: 'Linux'
+    authenticationHeaderName: 'x-functions-key'
+    authenticationHeaderValue: defaultHostKey
+    testEndpoint: '${function.properties.defaultHostName}/${testPath}'
   }
 }
