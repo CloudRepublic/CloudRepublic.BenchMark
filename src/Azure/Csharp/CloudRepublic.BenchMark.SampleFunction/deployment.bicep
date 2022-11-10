@@ -11,8 +11,8 @@ module csharpWindows '../../../../Deployment/testFunctions/parts/windowsFunction
     location: location
     runtimeVersion: '~4'
     prefix: prefix
-    registrationName: 'AzureCsharpWindows'
-    testPath: '/'
+    registrationName: 'AzureCsharpWin' // Windows is blocked by microsoft since it is a reserved word 🤯
+    testPath: '/api'
   }
 }
 
@@ -27,6 +27,6 @@ module csharpLinux '../../../../Deployment/testFunctions/parts/linuxFunction.bic
     runtimeVersion: '~4'
     prefix: prefix
     registrationName: 'AzureCsharpLinux'
-    testPath: '/'
+    testPath: '/api'
   }
 }
