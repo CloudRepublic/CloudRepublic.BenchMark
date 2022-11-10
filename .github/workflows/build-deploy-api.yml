@@ -90,6 +90,7 @@ jobs:
           path: ${{ github.workspace }}/src/Web/dist
 
   deploy:
+    if: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN != "" }}
     name: Deploy application
     runs-on: ubuntu-latest
     needs: ["buildApi", "buildTestRunner", "buildFrontend"]
@@ -104,20 +105,37 @@ jobs:
     - name: deploy bicep
       run: az deployment group create --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --template-file ./Deployment/deployment.bicep --parameters prefix=${{ secrets.DEPLOYMENT_PREFIX }}
 
-    - name: Download a Build Artifact API
+    - name: Download API Artifact
       uses: actions/download-artifact@v3.0.1
       with:
         name: api
         path: ./outputs/api
     
-    - name: Download a Build Artifact TestRunner
+    - name: Download TestRunner Artifact
       uses: actions/download-artifact@v3.0.1
       with:
         name: testRunner
         path: ./outputs/testRunner
 
-    - name: Upload api
+    - name: Download Frontend Artifact
+      uses: actions/download-artifact@v3.0.1
+      with:
+        name: frontend
+        path: ./outputs/frontend
+    
+    - name: Deploy frontend
+      uses: Azure/static-web-apps-deploy@v1
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+        action: "upload"
+        app_location: ./outputs/frontend
+        output_location: ''
+        skip_app_build: true
+        skip_api_build: true
+
+    - name: Deploy api
       run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/api/api.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}api"
 
-    - name: Upload test runner
+    - name: Deploy test runner
       run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/testRunner/testRunner.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}testrunner"
