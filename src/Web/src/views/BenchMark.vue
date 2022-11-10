@@ -189,7 +189,7 @@ export default {
           title: 'Firebase - Linux Nodejs',
           cloud: CloudProvider.Firebase,
           os: HostEnvironment.Linux,
-          runtime: Runtime.FunctionsV4,
+          runtime: Runtime.Firebase,
           language: Language.Nodejs
         }
       ]

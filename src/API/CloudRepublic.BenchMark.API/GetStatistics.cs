@@ -32,10 +32,17 @@ public class GetStatistics
         var runtime = new EnumFromString<Runtime>(req.Query["runtime"]);
         var language = new EnumFromString<Language>(req.Query["language"]);
             
-        if (!cloudProvider.ParsedSuccesfull || !hostingEnvironment.ParsedSuccesfull || !runtime.ParsedSuccesfull || language.ParsedSuccesfull)
-        {
-            return new BadRequestResult();
-        }
+        if (!cloudProvider.ParsedSuccesfull)
+            return new BadRequestObjectResult($"cloudProvider \"{ cloudProvider.StringValue }\" is not a valid value");
+        
+        if (!hostingEnvironment.ParsedSuccesfull)
+            return new BadRequestObjectResult($"hostingEnvironment \"{ hostingEnvironment.StringValue }\" is not a valid value");
+        
+        if (!runtime.ParsedSuccesfull)
+            return new BadRequestObjectResult($"runtime \"{ runtime.StringValue }\" is not a valid value");
+        
+        if (!language.ParsedSuccesfull)
+            return new BadRequestObjectResult($"language \"{ language.StringValue }\" is not a valid value");
 
         var dayRange = Convert.ToInt32(Environment.GetEnvironmentVariable("dayRange"));
         var currentDate = _benchMarkResultService.GetDateTimeNow();

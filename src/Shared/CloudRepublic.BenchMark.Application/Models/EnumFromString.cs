@@ -29,7 +29,7 @@ public class EnumFromString<T> where T : struct
         }
 
     }
-    private string StringValue { get; set; }
+    public string StringValue { get; }
     public T Value { get; }
     public bool ParsedSuccesfull { get; }
 }
