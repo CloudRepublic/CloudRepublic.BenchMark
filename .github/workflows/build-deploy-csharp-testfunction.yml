@@ -68,7 +68,7 @@ jobs:
         path: ./outputs/test
     
     - name: Deploy linux test
-      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/api/api.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}csharplin"
+      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/test/test.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}csharplin"
 
     - name: Deploy windows test
-      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/testRunner/testRunner.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}csharpwin"
+      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/test/test.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}csharpwin"
