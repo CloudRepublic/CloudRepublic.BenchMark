@@ -32,7 +32,7 @@ public class GetStatistics
         var runtime = new EnumFromString<Runtime>(req.Query["runtime"]);
         var language = new EnumFromString<Language>(req.Query["language"]);
             
-        if (!cloudProvider.ParsedSuccesfull || !hostingEnvironment.ParsedSuccesfull || !runtime.ParsedSuccesfull)
+        if (!cloudProvider.ParsedSuccesfull || !hostingEnvironment.ParsedSuccesfull || !runtime.ParsedSuccesfull || language.ParsedSuccesfull)
         {
             return new BadRequestResult();
         }

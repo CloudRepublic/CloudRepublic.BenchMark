@@ -56,6 +56,11 @@ import VueElementLoading from 'vue-element-loading';
 
 // The frontend -> backend communication looks at string names not enum int values so we use strings here that must match the names of the backend enum.
 const Runtime = Object.freeze({
+  FunctionsV4: 'FunctionsV4',
+  Firebase: 'Firebase',
+});
+
+const Language = Object.freeze({
   Csharp: 'Csharp',
   Nodejs: 'Nodejs',
   Python: 'Python',
@@ -121,60 +126,70 @@ export default {
           title: 'Azure - Windows C#',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Windows,
+          runtime: Runtime.FunctionsV4,
           language: Runtime.Csharp
         },
         {
           title: 'Azure - Windows Nodejs',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Windows,
+          runtime: Runtime.FunctionsV4,
           language: Runtime.Nodejs
         },
         {
           title: 'Azure - Windows Java',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Windows,
+          runtime: Runtime.FunctionsV4,
           language: Runtime.Java
         },
         {
           title: 'Azure - Windows Fsharp',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Windows,
+          runtime: Runtime.FunctionsV4,
           language: Runtime.Fsharp
         },
         {
           title: 'Azure - Linux C#',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Linux,
+          runtime: Runtime.FunctionsV4,
           language: Runtime.Csharp
         },
         {
           title: 'Azure - Linux  Nodejs',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Linux,
+          runtime: Runtime.FunctionsV4,
           language: Runtime.Nodejs
         },
         {
           title: 'Azure - Linux Python',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Linux,
+          runtime: Runtime.FunctionsV4,
           language: Runtime.Python
         },
         {
           title: 'Azure - Linux Java',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Linux,
+          runtime: Runtime.FunctionsV4,
           language: Runtime.Java
         },
         {
           title: 'Azure - Linux Fsharp',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Linux,
+          runtime: Runtime.FunctionsV4,
           language: Runtime.Fsharp
         },
         {
           title: 'Firebase - Linux Nodejs',
           cloud: CloudProvider.Firebase,
           os: HostEnvironment.Linux,
+          runtime: Runtime.FunctionsV4,
           language: Runtime.Nodejs
         }
       ]
@@ -188,6 +203,7 @@ export default {
         benchMarkData = await benchMarkService.getBenchMarkData(
           benchmarkOptions.cloud,
           benchmarkOptions.os,
+          benchmarkOptions.runtime,
           benchmarkOptions.language
         );
         this.benchMarkData = benchMarkData;

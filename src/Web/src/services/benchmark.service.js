@@ -1,8 +1,8 @@
 export const benchMarkService = { getBenchMarkData };
 
-async function getBenchMarkData(cloudProvider, hostingEnvironment, runtime) {
+async function getBenchMarkData(cloudProvider, hostingEnvironment, runtime, language) {
   let response = await fetch(
-    `/api/statistics?cloudProvider=${cloudProvider}&hostingEnvironment=${hostingEnvironment}&runtime=${runtime}`
+    `/api/statistics?cloudProvider=${cloudProvider}&hostingEnvironment=${hostingEnvironment}&runtime=${runtime}&language=${language}`
   );
   return handleResponse(response);
 }
