@@ -127,70 +127,70 @@ export default {
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Windows,
           runtime: Runtime.FunctionsV4,
-          language: Runtime.Csharp
+          language: Language.Csharp
         },
         {
           title: 'Azure - Windows Nodejs',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Windows,
           runtime: Runtime.FunctionsV4,
-          language: Runtime.Nodejs
+          language: Language.Nodejs
         },
         {
           title: 'Azure - Windows Java',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Windows,
           runtime: Runtime.FunctionsV4,
-          language: Runtime.Java
+          language: Language.Java
         },
         {
           title: 'Azure - Windows Fsharp',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Windows,
           runtime: Runtime.FunctionsV4,
-          language: Runtime.Fsharp
+          language: Language.Fsharp
         },
         {
           title: 'Azure - Linux C#',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Linux,
           runtime: Runtime.FunctionsV4,
-          language: Runtime.Csharp
+          language: Language.Csharp
         },
         {
           title: 'Azure - Linux  Nodejs',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Linux,
           runtime: Runtime.FunctionsV4,
-          language: Runtime.Nodejs
+          language: Language.Nodejs
         },
         {
           title: 'Azure - Linux Python',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Linux,
           runtime: Runtime.FunctionsV4,
-          language: Runtime.Python
+          language: Language.Python
         },
         {
           title: 'Azure - Linux Java',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Linux,
           runtime: Runtime.FunctionsV4,
-          language: Runtime.Java
+          language: Language.Java
         },
         {
           title: 'Azure - Linux Fsharp',
           cloud: CloudProvider.Azure,
           os: HostEnvironment.Linux,
           runtime: Runtime.FunctionsV4,
-          language: Runtime.Fsharp
+          language: Language.Fsharp
         },
         {
           title: 'Firebase - Linux Nodejs',
           cloud: CloudProvider.Firebase,
           os: HostEnvironment.Linux,
           runtime: Runtime.FunctionsV4,
-          language: Runtime.Nodejs
+          language: Language.Nodejs
         }
       ]
     };
