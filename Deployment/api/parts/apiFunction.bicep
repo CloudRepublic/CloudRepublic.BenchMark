@@ -83,7 +83,7 @@ resource function 'Microsoft.Web/sites@2022-03-01' = {
       minTlsVersion: '1.2'
       scmMinTlsVersion: '1.2'
       http20Enabled: true
-      linuxFxVersion: 'DOTNET|6.0'
+      windowsFxVersion: 'DOTNET|6.0'
       appSettings: [
         {
           name: 'AzureWebJobsStorage'
