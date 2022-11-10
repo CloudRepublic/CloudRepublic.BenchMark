@@ -27,6 +27,5 @@ public static class BenchMarkTypeGenerator
                AuthenticationHeaderName = s["AuthenticationHeaderName"],
                AuthenticationHeaderValue = s["AuthenticationHeaderValue"],
           });
-          
      }
 }

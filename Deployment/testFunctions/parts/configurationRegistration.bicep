@@ -2,7 +2,7 @@ param prefix string
 
 param registrationName string
 
-@allowed(['dotnet', 'dotnet-isolated', 'node', 'java', 'powershell', 'python'])
+@allowed(['Csharp', 'Nodejs', 'Python', 'Java', 'Fsharp'])
 param language string
 
 @allowed(['FunctionsV4', 'Firebase'])

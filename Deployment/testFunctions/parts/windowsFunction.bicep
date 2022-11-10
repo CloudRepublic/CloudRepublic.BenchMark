@@ -5,6 +5,9 @@ param location string
 param testPath string
 
 @allowed(['dotnet', 'dotnet-isolated', 'node', 'java', 'powershell', 'python'])
+param workerRuntime string
+
+@allowed(['Csharp', 'Nodejs', 'Python', 'Java', 'Fsharp'])
 param language string
 
 @allowed(['~4'])
@@ -70,7 +73,7 @@ resource function 'Microsoft.Web/sites@2022-03-01' = {
         }
         {
           name: 'FUNCTIONS_WORKER_RUNTIME'
-          value: language
+          value: workerRuntime
         }
         {
           name: 'FUNCTIONS_EXTENSION_VERSION'
