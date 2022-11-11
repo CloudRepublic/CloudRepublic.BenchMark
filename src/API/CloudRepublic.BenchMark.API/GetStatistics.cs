@@ -57,7 +57,7 @@ public class GetStatistics
             runtime.Value,
             language.Value,
             resultsSinceDate
-        ).ToListAsync(req.HttpContext.RequestAborted);
+        );
 
         var benchMarkPointsToReturn = benchMarkDataPoints.Where(c => c.Success).ToList();
         if (!benchMarkPointsToReturn.Any())

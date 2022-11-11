@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -29,16 +31,17 @@ public class BenchMarkResultRepository : IBenchMarkResultRepository
         await _tableClient.AddEntityAsync(entity);
     }
 
-    public async IAsyncEnumerable<BenchMarkResult> GetBenchMarkResultsAsync(CloudProvider provider, HostEnvironment environment, Runtime runtime, Language language, int year, int month)
+    public async Task<IEnumerable<BenchMarkResult>> GetBenchMarkResultsAsync(CloudProvider provider, HostEnvironment environment, Runtime runtime, Language language, int year, int month)
     {
         var partitionKey = BuildPartitionKey(provider, environment, runtime, language, year, month);
         var results = _tableClient.QueryAsync<BenchMarkResultEntity>((x) => x.PartitionKey == partitionKey);
 
         if (results is null)
         {
-            yield break;
+            return Array.Empty<BenchMarkResult>();
         }
         
+        var benchMarkResults = new List<BenchMarkResult>();
         await foreach (var result in results)
         {
             if (result is null)
@@ -46,8 +49,10 @@ public class BenchMarkResultRepository : IBenchMarkResultRepository
                 continue;
             }
             
-            yield return JsonSerializer.Deserialize<BenchMarkResult>(result.RecordJson);
+            benchMarkResults.Add(JsonSerializer.Deserialize<BenchMarkResult>(result.RecordJson));
         }
+
+        return benchMarkResults;
     }
     
     private string BuildPartitionKey(BenchMarkResult benchMarkResult)

@@ -9,7 +9,7 @@ public interface IBenchMarkResultRepository
 {
     public Task AddBenchMarkResultAsync(BenchMarkResult benchMarkResult);
 
-    public IAsyncEnumerable<BenchMarkResult> GetBenchMarkResultsAsync(
+    public Task<IEnumerable<BenchMarkResult>> GetBenchMarkResultsAsync(
         CloudProvider provider, 
         HostEnvironment environment,
         Runtime runtime,

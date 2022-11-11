@@ -3,6 +3,7 @@ using CloudRepublic.BenchMark.Domain.Entities;
 using CloudRepublic.BenchMark.Domain.Enums;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CloudRepublic.BenchMark.Data;
 
@@ -17,29 +18,29 @@ namespace CloudRepublic.BenchMark.Application.Services
             _benchMarkResultRepository = benchMarkResultRepository;
         }
 
-        public DateTime GetDateTimeNow()
+        public DateTimeOffset GetDateTimeNow()
         {
-            return DateTime.Now;
+            return DateTimeOffset.Now;
         }
 
-        public async IAsyncEnumerable<BenchMarkResult> GetBenchMarkResultsAsync(CloudProvider cloudProvider, HostEnvironment hostingEnvironment,
-            Runtime runtime, Language language, DateTime afterDate)
+        public async Task<IEnumerable<BenchMarkResult>> GetBenchMarkResultsAsync(CloudProvider cloudProvider, HostEnvironment hostingEnvironment,
+            Runtime runtime, Language language, DateTimeOffset afterDate)
         {
             var months = GetMonthsBetween(afterDate, GetDateTimeNow());
 
+            var benchMarkResults = new List<BenchMarkResult>();
             foreach (var month in months)
             {
-                var monthResults = _benchMarkResultRepository
+                var monthResults = await _benchMarkResultRepository
                     .GetBenchMarkResultsAsync(cloudProvider, hostingEnvironment, runtime, language, month.Year, month.Month);
-
-                await foreach (var result in monthResults)
-                {
-                    yield return result;
-                }
+                
+                benchMarkResults.AddRange(monthResults);
             }
+
+            return benchMarkResults.Where(r => r.CreatedAt > afterDate);
         }
 
-        private IEnumerable<DateOnly> GetMonthsBetween(DateTime afterDate, DateTime getDateTimeNow)
+        private IEnumerable<DateOnly> GetMonthsBetween(DateTimeOffset afterDate, DateTimeOffset getDateTimeNow)
         {
             var months = new List<DateOnly>();
             var currentMonth = afterDate.Month;
