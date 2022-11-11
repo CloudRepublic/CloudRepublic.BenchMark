@@ -48,6 +48,8 @@ public class GetStatistics
         var currentDate = _benchMarkResultService.GetDateTimeNow();
         var resultsSinceDate = (currentDate - TimeSpan.FromDays(dayRange));
 
+        log.LogInformation($"retrieving statistics for cloudProvider: {cloudProvider.Value}, hostingEnvironment: {hostingEnvironment.Value}, runtime: {runtime.Value}, language: {language.Value}, since: {resultsSinceDate}");
+        
         // IMPORTANT: ToListAsync has a potential deadlock when not provided with a cancellation token
         var benchMarkDataPoints = await _benchMarkResultService.GetBenchMarkResultsAsync(
             cloudProvider.Value,
