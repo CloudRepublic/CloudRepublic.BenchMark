@@ -36,7 +36,7 @@ public class BenchMarkTypeService : IBenchMarkTypeService
             var tasksCold = new List<Task<BenchMarkResponse>>();
             var tasksWarm = new List<Task<BenchMarkResponse>>();
 
-            for (int i = 0; i < coldCalls; i++)
+            for (var i = 0; i < coldCalls; i++)
             {
                 tasksCold.Add(_benchMarkService.RunBenchMarkAsync(benchMarkType));
             }
@@ -45,7 +45,7 @@ public class BenchMarkTypeService : IBenchMarkTypeService
 
             await Task.Delay(TimeSpan.FromSeconds(delayBetweenCalls));
 
-            for (int i = 0; i < warmCalls; i++)
+            for (var i = 0; i < warmCalls; i++)
             {
                 tasksWarm.Add(_benchMarkService.RunBenchMarkAsync(benchMarkType));
             }

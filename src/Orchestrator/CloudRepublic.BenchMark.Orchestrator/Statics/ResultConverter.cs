@@ -20,6 +20,7 @@ public static class ResultConverter
             Runtime = benchMarkType.Runtime,
             Language = benchMarkType.Language,
             Success = benchMarkResponse.Success,
+            StatusCode = benchMarkResponse.StatusCode,
             RequestDuration = Convert.ToInt32(benchMarkResponse.Duration),
             IsColdRequest = isColdRequest,
             CreatedAt = DateTimeOffset.UtcNow,

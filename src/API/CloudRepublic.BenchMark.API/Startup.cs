@@ -17,9 +17,12 @@ public class Startup : FunctionsStartup
 {
     public override void Configure(IFunctionsHostBuilder builder)
     {
+        #if DEBUG
         builder.Services.AddBenchMarkData(
-            "storage",
-            new ChainedTokenCredential(new ManagedIdentityCredential(), new AzureCliCredential()));
+            "storage", new AzureCliCredential());
+        #else
+        builder.Services.AddBenchMarkData("storage", new ManagedIdentityCredential());
+        #endif
 
         builder.Services.AddTransient<IBenchMarkResultService, BenchMarkResultService>();
         builder.Services.AddSingleton<IResponseConverterService, ResponseConverterService>();
@@ -29,6 +32,7 @@ public class Startup : FunctionsStartup
     {
         builder.ConfigurationBuilder.AddEnvironmentVariables();
 
+        // TODO: Add endpoint to get configurations
         // // Add Azure App Configuration as additional configuration source
         // builder.ConfigurationBuilder.AddAzureAppConfiguration(options =>
         // {

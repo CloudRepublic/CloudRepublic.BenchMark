@@ -37,7 +37,7 @@ namespace CloudRepublic.BenchMark.Application.Services
                 benchMarkResults.AddRange(monthResults);
             }
 
-            return benchMarkResults.Where(r => r.CreatedAt > afterDate);
+            return benchMarkResults.Where(r => r.CreatedAt >= afterDate);
         }
 
         private IEnumerable<DateOnly> GetMonthsBetween(DateTimeOffset afterDate, DateTimeOffset getDateTimeNow)
