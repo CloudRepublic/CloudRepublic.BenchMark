@@ -25,7 +25,7 @@ public class GetMeasurementCategories
     }
 
     [FunctionName("GetMeasurementCategories")]
-    public async Task<IActionResult> RunAsync(
+    public IActionResult Run(
         [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "categories")] HttpRequest req, ILogger log)
     {
         return new OkObjectResult(_benchMarkTypes.ToCategories());
