@@ -36,11 +36,19 @@ public class Startup : FunctionsStartup
         {
             var configServiceEndpoint = Environment.GetEnvironmentVariable("ConfigurationServiceEndpoint");
             
-            #if DEBUG
-            options.Connect(new Uri(configServiceEndpoint), new AzureCliCredential());
-            #else
+#if DEBUG
+            if (configServiceEndpoint is { })
+            {
+                options.Connect(new Uri(configServiceEndpoint), new AzureCliCredential());
+            }
+            else
+            {
+                var connectionString = Environment.GetEnvironmentVariable("ConfigurationServiceConnectionString");
+                options.Connect(connectionString);
+            }
+#else
             options.Connect(new Uri(configServiceEndpoint), new ManagedIdentityCredential());
-            #endif
+#endif
         
             options
                 .Select("BenchMarkTests:*")

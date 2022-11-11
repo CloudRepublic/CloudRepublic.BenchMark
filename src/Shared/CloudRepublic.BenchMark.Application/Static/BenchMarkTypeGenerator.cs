@@ -16,7 +16,7 @@ public static class BenchMarkTypeGenerator
      public static IEnumerable<BenchMarkType> GetAllTypesFromConfiguration(this IConfiguration configuration)
      {
           var sections = configuration.GetChildren();
-          return sections.Select(s => new BenchMarkType
+          return sections.Where(s => s.Key != "Sentinel").Select(s => new BenchMarkType
           {
                Title = s["Title"],
                Name = s.Key,
