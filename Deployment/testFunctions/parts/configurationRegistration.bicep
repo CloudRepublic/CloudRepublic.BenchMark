@@ -15,6 +15,7 @@ param title string
 param testEndpoint string
 param authenticationHeaderName string
 param authenticationHeaderValue string
+param sku string = ''
 
 param sentinelValue string = utcNow()
 
@@ -74,6 +75,13 @@ resource configService 'Microsoft.AppConfiguration/configurationStores@2022-05-0
     name: 'BenchMarkTests:${registrationName}:AuthenticationHeaderValue'
     properties: {
       value: authenticationHeaderValue
+    }
+  }
+
+  resource Sku 'keyValues' = {
+    name: 'BenchMarkTests:${registrationName}:Sku'
+    properties: {
+      value: sku
     }
   }
 

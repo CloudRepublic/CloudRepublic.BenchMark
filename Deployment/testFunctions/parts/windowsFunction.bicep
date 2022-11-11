@@ -4,6 +4,7 @@ param registrationName string
 param functionName string
 param location string
 param testPath string
+param sku string = ''
 
 @allowed(['dotnet', 'dotnet-isolated', 'node', 'java', 'powershell', 'python'])
 param workerRuntime string
@@ -102,5 +103,6 @@ module configurationRegistration 'configurationRegistration.bicep' = {
     authenticationHeaderName: 'x-functions-key'
     authenticationHeaderValue: defaultHostKey
     testEndpoint: 'https://${function.properties.defaultHostName}${testPath}'
+    sku: sku
   }
 }
