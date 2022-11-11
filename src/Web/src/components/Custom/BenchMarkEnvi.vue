@@ -172,7 +172,7 @@ export default {
     language: {
       type: String,
       default: ''
-    }
+    },
     cloudProvider: {
       type: String,
       default: ""

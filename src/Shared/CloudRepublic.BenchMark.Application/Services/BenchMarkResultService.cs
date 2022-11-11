@@ -26,13 +26,13 @@ namespace CloudRepublic.BenchMark.Application.Services
         public async Task<IEnumerable<BenchMarkResult>> GetBenchMarkResultsAsync(CloudProvider cloudProvider, HostEnvironment hostingEnvironment,
             Runtime runtime, Language language, DateTimeOffset afterDate)
         {
-            var months = GetMonthsBetween(afterDate, GetDateTimeNow());
+            var days = GetDatesBetween(afterDate, GetDateTimeNow());
 
             var benchMarkResults = new List<BenchMarkResult>();
-            foreach (var month in months)
+            foreach (var day in days)
             {
                 var monthResults = await _benchMarkResultRepository
-                    .GetBenchMarkResultsAsync(cloudProvider, hostingEnvironment, runtime, language, month.Year, month.Month);
+                    .GetBenchMarkResultsAsync(cloudProvider, hostingEnvironment, runtime, language, day.Year, day.Month, day.Day);
                 
                 benchMarkResults.AddRange(monthResults);
             }
@@ -40,28 +40,13 @@ namespace CloudRepublic.BenchMark.Application.Services
             return benchMarkResults.Where(r => r.CreatedAt >= afterDate);
         }
 
-        private IEnumerable<DateOnly> GetMonthsBetween(DateTimeOffset afterDate, DateTimeOffset getDateTimeNow)
+        private static List<DateTimeOffset> GetDatesBetween(DateTimeOffset startDate, DateTimeOffset endDate)
         {
-            var months = new List<DateOnly>();
-            var currentMonth = afterDate.Month;
-            var currentYear = afterDate.Year;
-            
-            while (currentMonth != getDateTimeNow.Month || currentYear != getDateTimeNow.Year)
-            {
-                months.Add(new DateOnly(currentYear, currentMonth, 1));
-                currentMonth++;
-                
-                if (currentMonth <= 12)
-                {
-                    continue;
-                }
-                
-                currentMonth = 1;
-                currentYear++;
-            }
-            
-            months.Add(new DateOnly(currentYear, currentMonth, 1));
-            return months;
+            var allDates = new List<DateTimeOffset>();
+            for (var date = startDate; date <= endDate; date = date.AddDays(1))
+                allDates.Add(date);
+            return allDates;
+
         }
     }
 }

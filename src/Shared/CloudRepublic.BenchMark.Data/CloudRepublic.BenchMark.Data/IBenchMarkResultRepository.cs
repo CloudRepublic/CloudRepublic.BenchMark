@@ -15,6 +15,7 @@ public interface IBenchMarkResultRepository
         Runtime runtime,
         Language language, 
         int year, 
-        int month
+        int month,
+        int day
         );
 }
