@@ -90,7 +90,7 @@ resource function 'Microsoft.Web/sites@2022-03-01' = {
 
 var defaultHostKey = listkeys('${function.id}/host/default', '2016-08-01').functionKeys.default
 module configurationRegistration 'configurationRegistration.bicep' = {
-  name: 'configurationRegistration'
+  name: '${deployment().name}-configurationRegistration'
   params: {
     registrationName: registrationName
     prefix: prefix
