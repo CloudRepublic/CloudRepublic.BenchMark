@@ -66,4 +66,11 @@ resource configService 'Microsoft.AppConfiguration/configurationStores@2022-05-0
       value: authenticationHeaderValue
     }
   }
+
+  resource Sentinel 'keyValues' = {
+    name: 'BenchMarkTests:Sentinel'
+    properties: {
+      value: deployment().name
+    }
+  }
 }

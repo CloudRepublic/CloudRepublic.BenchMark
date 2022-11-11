@@ -49,10 +49,10 @@ public class Startup : FunctionsStartup
             options.Connect(new Uri(configServiceEndpoint), chainedTokenCredential);
 
             options
-                .Select("TestFunctions:*")
+                .Select("BenchMarkTests:*")
                 .ConfigureRefresh(refreshOptions =>
                 {
-                    refreshOptions.Register("TestFunctions:Sentinel", refreshAll: true)
+                    refreshOptions.Register("BenchMarkTests:Sentinel", refreshAll: true)
                         .SetCacheExpiration(TimeSpan.FromSeconds(30));
                 });
         });
