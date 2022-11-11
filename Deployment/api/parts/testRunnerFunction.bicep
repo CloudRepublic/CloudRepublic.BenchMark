@@ -18,8 +18,8 @@ resource appConfigurationService 'Microsoft.AppConfiguration/configurationStores
   name: configServiceName
 }
 
-resource StorageTableDataReaderRole 'Microsoft.Authorization/roleDefinitions@2022-04-01' existing = {
-  name: '76199698-9eea-4c19-bc75-cec21354c6b6'
+resource StorageTableDataContributorRole 'Microsoft.Authorization/roleDefinitions@2022-04-01' existing = {
+  name: '0a9a7e1f-b9d0-4cc4-a60d-0319b160aaa3'
 }
 
 resource configServiceDataReaderRole 'Microsoft.Authorization/roleDefinitions@2022-04-01' existing = {
@@ -27,10 +27,10 @@ resource configServiceDataReaderRole 'Microsoft.Authorization/roleDefinitions@20
 }
 
 resource storageRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(functionStorageAccount.id, StorageTableDataReaderRole.id)
+  name: guid(functionStorageAccount.id, StorageTableDataContributorRole.id)
   scope: functionStorageAccount
   properties: {
-    roleDefinitionId: StorageTableDataReaderRole.id
+    roleDefinitionId: StorageTableDataContributorRole.id
     principalId: function.identity.principalId
     principalType: 'ServicePrincipal'
   }
