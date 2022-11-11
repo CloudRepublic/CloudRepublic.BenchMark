@@ -12,7 +12,7 @@ module csharpWindows '../../../../Deployment/testFunctions/parts/windowsFunction
     runtimeVersion: '~4'
     prefix: prefix
     registrationName: 'AzureCsharpWin' // Windows is blocked by microsoft since it is a reserved word 🤯
-    testPath: '/api'
+    testPath: '/api/Trigger'
   }
 }
 
@@ -30,6 +30,6 @@ module csharpLinux '../../../../Deployment/testFunctions/parts/linuxFunction.bic
     runtimeVersion: '~4'
     prefix: prefix
     registrationName: 'AzureCsharpLinux'
-    testPath: '/api'
+    testPath: '/api/Trigger'
   }
 }
