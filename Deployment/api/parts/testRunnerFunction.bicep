@@ -27,7 +27,7 @@ resource configServiceDataReaderRole 'Microsoft.Authorization/roleDefinitions@20
 }
 
 resource storageRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(functionStorageAccount.id, StorageTableDataContributorRole.id)
+  name: guid(sharedStorageAccount.id, StorageTableDataContributorRole.id)
   scope: sharedStorageAccount
   properties: {
     roleDefinitionId: StorageTableDataContributorRole.id
