@@ -99,6 +99,6 @@ module configurationRegistration 'configurationRegistration.bicep' = {
     hostEnvironment: 'Windows'
     authenticationHeaderName: 'x-functions-key'
     authenticationHeaderValue: defaultHostKey
-    testEndpoint: '${function.properties.defaultHostName}/${testPath}'
+    testEndpoint: 'https://${function.properties.defaultHostName}${testPath}'
   }
 }

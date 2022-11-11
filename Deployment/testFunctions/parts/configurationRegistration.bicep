@@ -15,6 +15,8 @@ param testEndpoint string
 param authenticationHeaderName string
 param authenticationHeaderValue string
 
+param sentinelValue string = utcNow()
+
 resource configService 'Microsoft.AppConfiguration/configurationStores@2022-05-01' existing = {
   name: '${prefix}config'
 
@@ -70,7 +72,7 @@ resource configService 'Microsoft.AppConfiguration/configurationStores@2022-05-0
   resource Sentinel 'keyValues' = {
     name: 'BenchMarkTests:Sentinel'
     properties: {
-      value: deployment().name
+      value: sentinelValue
     }
   }
 }
