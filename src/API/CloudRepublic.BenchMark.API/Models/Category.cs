@@ -24,4 +24,7 @@ public class Category
     [JsonProperty("language")]
     [JsonConverter(typeof(StringEnumConverter))]
     public Language Language { get; set; }
+    
+    [JsonProperty("sku")]
+    public string Sku { get; set; }
 }

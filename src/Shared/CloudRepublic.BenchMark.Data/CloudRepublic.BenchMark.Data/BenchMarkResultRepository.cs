@@ -31,9 +31,9 @@ public class BenchMarkResultRepository : IBenchMarkResultRepository
         await _tableClient.AddEntityAsync(entity);
     }
 
-    public async Task<IEnumerable<BenchMarkResult>> GetBenchMarkResultsAsync(CloudProvider provider, HostEnvironment environment, Runtime runtime, Language language, int year, int month, int day)
+    public async Task<IEnumerable<BenchMarkResult>> GetBenchMarkResultsAsync(CloudProvider provider, HostEnvironment environment, Runtime runtime, Language language, string sku, int year, int month, int day)
     {
-        var partitionKey = BuildPartitionKey(provider, environment, runtime, language, year, month, day);
+        var partitionKey = BuildPartitionKey(provider, environment, runtime, language, sku, year, month, day);
         var results = _tableClient.QueryAsync<BenchMarkResultEntity>((x) => x.PartitionKey == partitionKey);
 
         if (results is null)
@@ -57,13 +57,13 @@ public class BenchMarkResultRepository : IBenchMarkResultRepository
     
     private string BuildPartitionKey(BenchMarkResult benchMarkResult)
     {
-        return BuildPartitionKey(benchMarkResult.CloudProvider, benchMarkResult.HostingEnvironment, benchMarkResult.Runtime, benchMarkResult.Language, benchMarkResult.CreatedAt.Year, benchMarkResult.CreatedAt.Month, benchMarkResult.CreatedAt.Day);
+        return BuildPartitionKey(benchMarkResult.CloudProvider, benchMarkResult.HostingEnvironment, benchMarkResult.Runtime, benchMarkResult.Language, benchMarkResult.Sku, benchMarkResult.CreatedAt.Year, benchMarkResult.CreatedAt.Month, benchMarkResult.CreatedAt.Day);
     }
     
     private string BuildPartitionKey(
-        CloudProvider provider, HostEnvironment environment, Runtime runtime, Language language, int year, int month, int day)
+        CloudProvider provider, HostEnvironment environment, Runtime runtime, Language language, string sku, int year, int month, int day)
     {
-        var partitionKey = $"{year}-{month}-${day}-{provider.GetName()}-{environment.GetName()}-{runtime.GetName()}-{language.GetName()}";
+        var partitionKey = $"{year}-{month}-{day}-{provider.GetName()}-{environment.GetName()}-{runtime.GetName()}-{language.GetName()}-{sku}";
 
         return partitionKey;
     }

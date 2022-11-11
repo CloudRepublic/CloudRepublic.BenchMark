@@ -24,7 +24,7 @@ namespace CloudRepublic.BenchMark.Application.Services
         }
 
         public async Task<IEnumerable<BenchMarkResult>> GetBenchMarkResultsAsync(CloudProvider cloudProvider, HostEnvironment hostingEnvironment,
-            Runtime runtime, Language language, DateTimeOffset afterDate)
+            Runtime runtime, Language language, string sku, DateTimeOffset afterDate)
         {
             var days = GetDatesBetween(afterDate, GetDateTimeNow());
 
@@ -32,7 +32,7 @@ namespace CloudRepublic.BenchMark.Application.Services
             foreach (var day in days)
             {
                 var monthResults = await _benchMarkResultRepository
-                    .GetBenchMarkResultsAsync(cloudProvider, hostingEnvironment, runtime, language, day.Year, day.Month, day.Day);
+                    .GetBenchMarkResultsAsync(cloudProvider, hostingEnvironment, runtime, language, sku, day.Year, day.Month, day.Day);
                 
                 benchMarkResults.AddRange(monthResults);
             }

@@ -22,6 +22,6 @@ namespace CloudRepublic.BenchMark.Application.Interfaces
         /// <param name="runtime">Results matching the given</param>
         /// <param name="afterDate">Only entries which are created on or after the given Datetime.Date </param>
         /// <returns></returns>
-        Task<IEnumerable<BenchMarkResult>> GetBenchMarkResultsAsync(CloudProvider cloudProvider, HostEnvironment hostingEnvironment, Runtime runtime, Language language, DateTimeOffset afterDate);
+        Task<IEnumerable<BenchMarkResult>> GetBenchMarkResultsAsync(CloudProvider cloudProvider, HostEnvironment hostingEnvironment, Runtime runtime, Language language, string sku, DateTimeOffset afterDate);
     }
 }

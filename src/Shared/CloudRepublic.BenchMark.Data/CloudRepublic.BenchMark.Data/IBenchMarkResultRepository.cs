@@ -14,6 +14,7 @@ public interface IBenchMarkResultRepository
         HostEnvironment environment,
         Runtime runtime,
         Language language, 
+        string sku,
         int year, 
         int month,
         int day

@@ -19,6 +19,7 @@ public static class ResultConverter
             HostingEnvironment = benchMarkType.HostEnvironment,
             Runtime = benchMarkType.Runtime,
             Language = benchMarkType.Language,
+            Sku = benchMarkType.Sku,
             Success = benchMarkResponse.Success,
             StatusCode = benchMarkResponse.StatusCode,
             RequestDuration = Convert.ToInt32(benchMarkResponse.Duration),

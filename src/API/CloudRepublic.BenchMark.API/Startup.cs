@@ -35,13 +35,12 @@ public class Startup : FunctionsStartup
         builder.ConfigurationBuilder.AddAzureAppConfiguration(options =>
         {
             var configServiceEndpoint = Environment.GetEnvironmentVariable("ConfigurationServiceEndpoint");
-        
-            var managedIdentityTokenCredential = new ManagedIdentityCredential() as TokenCredential;
-            var azureCliCredential = new AzureCliCredential() as TokenCredential;
-            var chainedTokenCredential = new ChainedTokenCredential(
-                managedIdentityTokenCredential, azureCliCredential);
-        
-            options.Connect(new Uri(configServiceEndpoint), chainedTokenCredential);
+            
+            #if DEBUG
+            options.Connect(new Uri(configServiceEndpoint), new AzureCliCredential());
+            #else
+            options.Connect(new Uri(configServiceEndpoint), new ManagedIdentityCredential());
+            #endif
         
             options
                 .Select("BenchMarkTests:*")

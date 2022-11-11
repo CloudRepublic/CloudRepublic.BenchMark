@@ -8,6 +8,7 @@ namespace CloudRepublic.BenchMark.Application.Models
         public HostEnvironment HostEnvironment { get; set; }
         public Runtime Runtime { get; set; }
         public Language Language { get; set; }
+        public string Sku { get; set; }
 
         public string Title { get; set; }
         

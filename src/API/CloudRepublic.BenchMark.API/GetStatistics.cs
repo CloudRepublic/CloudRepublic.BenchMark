@@ -31,6 +31,7 @@ public class GetStatistics
         var hostingEnvironment = new EnumFromString<HostEnvironment>(req.Query["hostingEnvironment"]);
         var runtime = new EnumFromString<Runtime>(req.Query["runtime"]);
         var language = new EnumFromString<Language>(req.Query["language"]);
+        var sku = req.Query["sku"];
             
         if (!cloudProvider.ParsedSuccesfull)
             return new BadRequestObjectResult($"cloudProvider \"{ cloudProvider.StringValue }\" is not a valid value");
@@ -56,6 +57,7 @@ public class GetStatistics
             hostingEnvironment.Value,
             runtime.Value,
             language.Value,
+            sku,
             resultsSinceDate
         );
 

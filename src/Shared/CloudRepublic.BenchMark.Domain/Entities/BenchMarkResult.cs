@@ -10,6 +10,7 @@ public record BenchMarkResult
     public HostEnvironment HostingEnvironment { get; set; }
     public Runtime Runtime { get; set; }
     public Language Language { get; set; }
+    public string Sku { get; set; }
     public bool Success { get; set; }
     public int StatusCode { get; set; }
     public int RequestDuration { get; set; }

@@ -24,6 +24,7 @@ public static class BenchMarkTypeGenerator
                Runtime = new EnumFromString<Runtime>(s["Runtime"]).Value,
                CloudProvider = new EnumFromString<CloudProvider>(s["CloudProvider"]).Value,
                HostEnvironment = new EnumFromString<HostEnvironment>(s["HostEnvironment"]).Value,
+               Sku = s["Sku"],
                TestEndpoint = s["TestEndpoint"],
                AuthenticationHeaderName = s["AuthenticationHeaderName"],
                AuthenticationHeaderValue = s["AuthenticationHeaderValue"],
