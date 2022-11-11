@@ -4,11 +4,9 @@ using Azure.Identity;
 using CloudRepublic.BenchMark.Application;
 using CloudRepublic.BenchMark.Application.Interfaces;
 using CloudRepublic.BenchMark.Application.Services;
-using CloudRepublic.BenchMark.Orchestrator.Extensions;
 using CloudRepublic.BenchMark.Orchestrator.Interfaces;
 using CloudRepublic.BenchMark.Orchestrator.Services;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
-using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -28,7 +26,6 @@ public class Startup : FunctionsStartup
         builder.Services.AddTransient<IBenchMarkService, BenchMarkService>();
         builder.Services.AddTransient<IBenchMarkTypeService, BenchMarkTypeService>();
         
-        builder.Services.AddBenchMark();
         builder.Services.AddHttpClient("benchmarkTester");
     }
     

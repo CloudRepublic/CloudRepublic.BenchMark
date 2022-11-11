@@ -18,6 +18,7 @@ public static class BenchMarkTypeGenerator
           var sections = configuration.GetChildren();
           return sections.Select(s => new BenchMarkType
           {
+               Title = s["Title"],
                Name = s.Key,
                Language = new EnumFromString<Language>(s["Language"]).Value,
                Runtime = new EnumFromString<Runtime>(s["Runtime"]).Value,

@@ -18,8 +18,7 @@ public class Startup : FunctionsStartup
     public override void Configure(IFunctionsHostBuilder builder)
     {
         #if DEBUG
-        builder.Services.AddBenchMarkData(
-            "storage", new AzureCliCredential());
+        builder.Services.AddBenchMarkData("storage", new AzureCliCredential());
         #else
         builder.Services.AddBenchMarkData("storage", new ManagedIdentityCredential());
         #endif
@@ -31,27 +30,26 @@ public class Startup : FunctionsStartup
     public override void ConfigureAppConfiguration(IFunctionsConfigurationBuilder builder)
     {
         builder.ConfigurationBuilder.AddEnvironmentVariables();
-
-        // TODO: Add endpoint to get configurations
-        // // Add Azure App Configuration as additional configuration source
-        // builder.ConfigurationBuilder.AddAzureAppConfiguration(options =>
-        // {
-        //     var configServiceEndpoint = Environment.GetEnvironmentVariable("ConfigurationServiceEndpoint");
-        //
-        //     var managedIdentityTokenCredential = new ManagedIdentityCredential() as TokenCredential;
-        //     var azureCliCredential = new AzureCliCredential() as TokenCredential;
-        //     var chainedTokenCredential = new ChainedTokenCredential(
-        //         managedIdentityTokenCredential, azureCliCredential);
-        //
-        //     options.Connect(new Uri(configServiceEndpoint), chainedTokenCredential);
-        //
-        //     options
-        //         .Select("BenchMarkTests:*")
-        //         .ConfigureRefresh(refreshOptions =>
-        //         {
-        //             refreshOptions.Register("BenchMarkTests:Sentinel", refreshAll: true)
-        //                 .SetCacheExpiration(TimeSpan.FromSeconds(30));
-        //         });
-        // });
+        
+        // Add Azure App Configuration as additional configuration source
+        builder.ConfigurationBuilder.AddAzureAppConfiguration(options =>
+        {
+            var configServiceEndpoint = Environment.GetEnvironmentVariable("ConfigurationServiceEndpoint");
+        
+            var managedIdentityTokenCredential = new ManagedIdentityCredential() as TokenCredential;
+            var azureCliCredential = new AzureCliCredential() as TokenCredential;
+            var chainedTokenCredential = new ChainedTokenCredential(
+                managedIdentityTokenCredential, azureCliCredential);
+        
+            options.Connect(new Uri(configServiceEndpoint), chainedTokenCredential);
+        
+            options
+                .Select("BenchMarkTests:*")
+                .ConfigureRefresh(refreshOptions =>
+                {
+                    refreshOptions.Register("BenchMarkTests:Sentinel", refreshAll: true)
+                        .SetCacheExpiration(TimeSpan.FromSeconds(30));
+                });
+        });
     }
 }

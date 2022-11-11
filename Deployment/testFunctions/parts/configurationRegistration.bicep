@@ -11,6 +11,7 @@ param runtime string
 @allowed(['Linux', 'Windows'])
 param hostEnvironment string
 
+param title string
 param testEndpoint string
 param authenticationHeaderName string
 param authenticationHeaderValue string
@@ -24,6 +25,13 @@ resource configService 'Microsoft.AppConfiguration/configurationStores@2022-05-0
     name: 'BenchMarkTests:${registrationName}:Language'
     properties: {
       value: language
+    }
+  }
+
+  resource Title 'keyValues' = {
+    name: 'BenchMarkTests:${registrationName}:Title'
+    properties: {
+      value: title
     }
   }
 

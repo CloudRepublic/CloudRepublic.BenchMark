@@ -1,4 +1,5 @@
 param prefix string
+param title string
 param registrationName string
 param functionName string
 param location string
@@ -94,6 +95,7 @@ var defaultHostKey = listkeys('${function.id}/host/default', '2016-08-01').funct
 module configurationRegistration 'configurationRegistration.bicep' = {
   name: '${deployment().name}-configurationRegistration'
   params: {
+    title: title
     registrationName: registrationName
     prefix: prefix
     language: language

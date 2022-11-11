@@ -9,6 +9,8 @@ namespace CloudRepublic.BenchMark.Application.Models
         public Runtime Runtime { get; set; }
         public Language Language { get; set; }
 
+        public string Title { get; set; }
+        
         /// <summary>
         /// this is actually the: CloudProviderHostEnvironmentRuntime as string.
         ///  the identifier for this Benchmark, this is used to designate the Client,  Url and Key.

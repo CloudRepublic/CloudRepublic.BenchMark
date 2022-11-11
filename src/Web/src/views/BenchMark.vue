@@ -44,6 +44,7 @@
         :warmChangeSinceYesterday="warmPreviousDayDifference"
         :warmPositiveChange="warmPreviousDayPositive"
         :runtime="runtime"
+        :language="language"
         :cloudProvider="cloudProvider"
       ></BenchMarkEnvi>
     </div>
@@ -111,6 +112,9 @@ export default {
     },
     runtime() {
       return this.benchMarkData.runtime;
+    },
+    language() {
+      return this.benchMarkData.language;
     },
     cloudProvider() {
       return this.benchMarkData.cloudProvider;

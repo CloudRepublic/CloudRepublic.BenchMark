@@ -1,6 +1,7 @@
 using System;
 using Azure.Core;
 using Azure.Data.Tables;
+using CloudRepublic.BenchMark.Application.Statics;
 using CloudRepublic.BenchMark.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +12,13 @@ public static class IServiceCollectionExtensions
 {
     public static IServiceCollection AddBenchMarkData(this IServiceCollection services, string sectionKey, TokenCredential tokenCredential)
     {
+        services.AddScoped(s =>
+        {
+            var configuration = s.GetRequiredService<IConfiguration>();
+            var configurationSection = configuration.GetSection("BenchMarkTests");
+            return configurationSection.GetAllTypesFromConfiguration();
+        });
+        
         services.AddScoped<IBenchMarkResultRepository>(s =>
         {
             var configuration = s.GetRequiredService<IConfiguration>();
