@@ -30,7 +30,7 @@ namespace CloudRepublic.BenchMark.Application.Services
             foreach (var month in months)
             {
                 var monthResults = _benchMarkResultRepository
-                    .GetBenchMarkResultsAsync(cloudProvider, hostingEnvironment, runtime, language, month.year, month.month);
+                    .GetBenchMarkResultsAsync(cloudProvider, hostingEnvironment, runtime, language, month.Year, month.Month);
 
                 await foreach (var result in monthResults)
                 {
@@ -39,15 +39,15 @@ namespace CloudRepublic.BenchMark.Application.Services
             }
         }
 
-        private IEnumerable<(int year, int month)> GetMonthsBetween(DateTime afterDate, DateTime getDateTimeNow)
+        private IEnumerable<DateOnly> GetMonthsBetween(DateTime afterDate, DateTime getDateTimeNow)
         {
-            var months = new List<(int year, int month)>();
+            var months = new List<DateOnly>();
             var currentMonth = afterDate.Month;
             var currentYear = afterDate.Year;
             
             while (currentMonth != getDateTimeNow.Month || currentYear != getDateTimeNow.Year)
             {
-                months.Add((currentYear, currentMonth));
+                months.Add(new DateOnly(currentYear, currentMonth, 1));
                 currentMonth++;
                 
                 if (currentMonth <= 12)
@@ -59,6 +59,7 @@ namespace CloudRepublic.BenchMark.Application.Services
                 currentYear++;
             }
             
+            months.Add(new DateOnly(currentYear, currentMonth, 1));
             return months;
         }
     }

@@ -29,25 +29,25 @@ public class Startup : FunctionsStartup
     {
         builder.ConfigurationBuilder.AddEnvironmentVariables();
 
-        // Add Azure App Configuration as additional configuration source
-        builder.ConfigurationBuilder.AddAzureAppConfiguration(options =>
-        {
-            var configServiceEndpoint = Environment.GetEnvironmentVariable("ConfigurationServiceEndpoint");
-
-            var managedIdentityTokenCredential = new ManagedIdentityCredential() as TokenCredential;
-            var azureCliCredential = new AzureCliCredential() as TokenCredential;
-            var chainedTokenCredential = new ChainedTokenCredential(
-                managedIdentityTokenCredential, azureCliCredential);
-
-            options.Connect(new Uri(configServiceEndpoint), chainedTokenCredential);
-
-            options
-                .Select("TestFunctions:*")
-                .ConfigureRefresh(refreshOptions =>
-                {
-                    refreshOptions.Register("TestFunctions:Sentinel", refreshAll: true)
-                        .SetCacheExpiration(TimeSpan.FromSeconds(30));
-                });
-        });
+        // // Add Azure App Configuration as additional configuration source
+        // builder.ConfigurationBuilder.AddAzureAppConfiguration(options =>
+        // {
+        //     var configServiceEndpoint = Environment.GetEnvironmentVariable("ConfigurationServiceEndpoint");
+        //
+        //     var managedIdentityTokenCredential = new ManagedIdentityCredential() as TokenCredential;
+        //     var azureCliCredential = new AzureCliCredential() as TokenCredential;
+        //     var chainedTokenCredential = new ChainedTokenCredential(
+        //         managedIdentityTokenCredential, azureCliCredential);
+        //
+        //     options.Connect(new Uri(configServiceEndpoint), chainedTokenCredential);
+        //
+        //     options
+        //         .Select("BenchMarkTests:*")
+        //         .ConfigureRefresh(refreshOptions =>
+        //         {
+        //             refreshOptions.Register("BenchMarkTests:Sentinel", refreshAll: true)
+        //                 .SetCacheExpiration(TimeSpan.FromSeconds(30));
+        //         });
+        // });
     }
 }
