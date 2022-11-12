@@ -92,4 +92,11 @@ resource configService 'Microsoft.AppConfiguration/configurationStores@2022-05-0
       value: sentinelValue
     }
   }
+
+  resource SortOrder 'keyValues' = {
+    name: 'BenchMarkTests:${registrationName}:SortOrder'
+    properties: {
+      value: string(sortOrder)
+    }
+  }
 }

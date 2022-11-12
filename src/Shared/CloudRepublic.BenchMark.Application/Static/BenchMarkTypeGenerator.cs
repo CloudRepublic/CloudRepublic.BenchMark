@@ -28,7 +28,7 @@ public static class BenchMarkTypeGenerator
                TestEndpoint = s["TestEndpoint"],
                AuthenticationHeaderName = s["AuthenticationHeaderName"],
                AuthenticationHeaderValue = s["AuthenticationHeaderValue"],
-               SortOrder = int.Parse(s["SortOrder"]),
+               SortOrder = int.Parse(s["SortOrder"] ?? "100000"),
           }).OrderBy(s => s.SortOrder);
      }
 }
