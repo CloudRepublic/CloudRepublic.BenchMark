@@ -117,6 +117,10 @@ export default {
       let benchmarkOptions = await benchMarkService.getCategories();
       this.benchmarkOptions = benchmarkOptions;
       this.isLoading = false;
+
+      if (this.benchmarkOptions.length > 0) {
+        await this.loadEnvironment(this.benchmarkOptions[0]);
+      }
     },
     async loadEnvironment(benchmarkOptions) {
       this.isTabLoading = true;
