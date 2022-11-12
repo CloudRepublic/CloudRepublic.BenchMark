@@ -1,7 +1,7 @@
 <template>
   <div>
     <vue-element-loading
-      :active="isLoading || isTabLoading"
+      :active="showLoading()"
       :is-full-screen="true"
       spinner="spinner"
       color="#fff"
@@ -94,6 +94,9 @@ export default {
     },
     cloudProvider() {
       return this.benchMarkData.cloudProvider;
+    },
+    showLoading() {
+      return this.isLoading || this.isTabLoading;
     }
   },
   data() {
