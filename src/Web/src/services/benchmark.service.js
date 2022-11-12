@@ -1,11 +1,19 @@
-export const benchMarkService = { getBenchMarkData };
+export const benchMarkService = { getBenchMarkData, getCategories };
 
-async function getBenchMarkData(cloudProvider, hostingEnvironment, runtime, language) {
+async function getBenchMarkData(cloudProvider, hostingEnvironment, runtime, language, sku) {
   let response = await fetch(
-    `/api/statistics?cloudProvider=${cloudProvider}&hostingEnvironment=${hostingEnvironment}&runtime=${runtime}&language=${language}`
+    `/api/statistics?cloudProvider=${cloudProvider}&hostingEnvironment=${hostingEnvironment}&runtime=${runtime}&language=${language}&sku=${sku}`
   );
   return handleResponse(response);
 }
+
+async function getCategories() {
+  let response = await fetch(
+    `/api/categories`
+  );
+  return handleResponse(response);
+}
+
 
 function handleResponse(response) {
 
