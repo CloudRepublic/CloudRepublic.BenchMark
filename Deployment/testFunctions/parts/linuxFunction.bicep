@@ -5,6 +5,7 @@ param functionName string
 param location string
 param testPath string
 param sku string = ''
+param sortOrder int
 
 @allowed(['dotnet', 'dotnet-isolated', 'node', 'java', 'powershell', 'python'])
 param workerRuntime string
@@ -106,5 +107,6 @@ module configurationRegistration 'configurationRegistration.bicep' = {
     authenticationHeaderValue: defaultHostKey
     testEndpoint: 'https://${function.properties.defaultHostName}${testPath}'
     sku: sku
+    sortOrder: sortOrder
   }
 }

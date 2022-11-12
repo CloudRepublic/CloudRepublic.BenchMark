@@ -16,6 +16,7 @@ param testEndpoint string
 param authenticationHeaderName string
 param authenticationHeaderValue string
 param sku string = ''
+param sortOrder int
 
 param sentinelValue string = utcNow()
 

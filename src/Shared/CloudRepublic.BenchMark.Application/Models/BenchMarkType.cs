@@ -20,5 +20,6 @@ namespace CloudRepublic.BenchMark.Application.Models
         public string TestEndpoint { get; set; }
         public string AuthenticationHeaderName { get; set; }
         public string AuthenticationHeaderValue { get; set; }
+        public int SortOrder { get; set; }
     }
 }
