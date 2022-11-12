@@ -1,22 +1,21 @@
 export const benchMarkService = { getBenchMarkData, getCategories };
 
 async function getBenchMarkData(cloudProvider, hostingEnvironment, runtime, language, sku) {
-  let response = await fetch(
-    `/api/statistics?cloudProvider=${cloudProvider}&hostingEnvironment=${hostingEnvironment}&runtime=${runtime}&language=${language}&sku=${sku}`
-  );
+  let uri = `/api/statistics?cloudProvider=${cloudProvider}&hostingEnvironment=${hostingEnvironment}&runtime=${runtime}&language=${language}`;
+  if (sku) {
+    uri += `&sku=${sku}`;
+  }
+
+  let response = await fetch(uri);
   return handleResponse(response);
 }
 
 async function getCategories() {
-  let response = await fetch(
-    `/api/categories`
-  );
+  let response = await fetch(`/api/categories`);
   return handleResponse(response);
 }
 
-
 function handleResponse(response) {
-
   if (!response.ok || response.status != 200) {
     return null;
   }
