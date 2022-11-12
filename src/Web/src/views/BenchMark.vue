@@ -105,7 +105,7 @@ export default {
       benchmarkOptions: null
     };
   },
-  mounted() {
+  created() {
     this.loadTabs();
   },
   methods: {
