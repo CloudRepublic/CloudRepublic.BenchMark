@@ -280,14 +280,14 @@ export default {
 @media (max-width: 768px) {
   .runtime-text {
     text-align: left !important;
-    margin-left: 4rem;
+    margin-left: 20rem;
   }
 }
 
 @media (max-width: 576px) {
   .runtime-text {
     text-align: left !important;
-    margin-left: 4rem;
+    margin-left: 20rem;
   }
 }
 </style>
