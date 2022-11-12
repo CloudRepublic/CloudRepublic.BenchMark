@@ -1,7 +1,7 @@
 <template>
   <div>
     <vue-element-loading
-      :active="showLoading()"
+      :active="showLoading"
       :is-full-screen="true"
       spinner="spinner"
       color="#fff"
@@ -105,7 +105,7 @@ export default {
       activeEnvironmentIndex: 0,
       isLoading: true,
       isTabLoading: true,
-      benchmarkOptions: null
+      benchmarkOptions: []
     };
   },
   created() {
