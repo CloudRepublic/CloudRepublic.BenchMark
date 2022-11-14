@@ -39,7 +39,7 @@ resource appConfigurationService 'Microsoft.AppConfiguration/configurationStores
       type: 'SystemAssigned'
     }
     sku: {
-      name: 'Standard'
+      name: 'Free'
     }
     properties: {
         publicNetworkAccess: 'Enabled'
