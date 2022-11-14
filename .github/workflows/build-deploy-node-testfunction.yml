@@ -16,14 +16,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Zip outputs
-      working-directory: ${{ github.workspace }}/src/Azure/Nodejs
-      run: zip -qq -r ${{ github.workspace }}/test.zip .
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.1
       with:
         name: test
-        path: ./test.zip
+        path: ${{ github.workspace }}/src/Azure/Nodejs
 
   deploy:
     name: Deploy application
@@ -47,7 +44,7 @@ jobs:
         path: ./outputs/test
     
     - name: Deploy linux test
-      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/test/test.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}nodelin"
+      run: func azure functionapp publish ${{ secrets.DEPLOYMENT_PREFIX }}nodelin
 
     - name: Deploy windows test
-      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/test/test.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}nodewin"
+      run: func azure functionapp publish "${{ secrets.DEPLOYMENT_PREFIX }}nodewin"
