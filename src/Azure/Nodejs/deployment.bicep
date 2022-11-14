@@ -13,7 +13,8 @@ module csharpWindows '../../../Deployment/testFunctions/parts/windowsFunction.bi
     prefix: prefix
     registrationName: 'AzureNodeWin' // Windows is blocked by microsoft since it is a reserved word 🤯
     testPath: '/api/Trigger'
-    sortOrder: 100
+    sortOrder: 200
+    fxVersion: 'node|16'
   }
 }
 
@@ -32,6 +33,7 @@ module csharpLinux '../../../Deployment/testFunctions/parts/linuxFunction.bicep'
     prefix: prefix
     registrationName: 'AzureNodeLinux'
     testPath: '/api/Test'
-    sortOrder: 105
+    sortOrder: 205
+    fxVersion: 'node|16'
   }
 }

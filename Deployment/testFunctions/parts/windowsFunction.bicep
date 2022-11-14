@@ -13,6 +13,9 @@ param workerRuntime string
 @allowed(['Csharp', 'Nodejs', 'Python', 'Java', 'Fsharp'])
 param language string
 
+@allowed(['dotnet|6.0', 'node|16'])
+param fxVersion string
+
 @allowed(['~4'])
 param runtimeVersion string
 
@@ -68,8 +71,7 @@ resource function 'Microsoft.Web/sites@2022-03-01' = {
       minTlsVersion: '1.2'
       scmMinTlsVersion: '1.2'
       http20Enabled: true
-      windowsFxVersion: 'DOTNET|6.0'
-      nodeVersion: '~16'
+      windowsFxVersion: fxVersion
       appSettings: [
         {
           name: 'AzureWebJobsStorage'

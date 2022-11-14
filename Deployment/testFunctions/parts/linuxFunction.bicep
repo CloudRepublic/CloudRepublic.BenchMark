@@ -13,6 +13,9 @@ param workerRuntime string
 @allowed(['Csharp', 'Nodejs', 'Python', 'Java', 'Fsharp'])
 param language string
 
+@allowed(['dotnet|6.0', 'node|16'])
+param fxVersion string
+
 @allowed(['~4'])
 param runtimeVersion string
 
@@ -70,8 +73,7 @@ resource function 'Microsoft.Web/sites@2022-03-01' = {
       minTlsVersion: '1.2'
       scmMinTlsVersion: '1.2'
       http20Enabled: true
-      linuxFxVersion: 'DOTNET|6.0'
-      nodeVersion: '~16'
+      linuxFxVersion: fxVersion
       appSettings: [
         {
           name: 'AzureWebJobsStorage'
@@ -88,10 +90,6 @@ resource function 'Microsoft.Web/sites@2022-03-01' = {
         {
           name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING'
           value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
-        }
-        {
-          name: 'WEBSITE_NODE_DEFAULT_VERSION'
-          value: '~16'
         }
       ]
     }
