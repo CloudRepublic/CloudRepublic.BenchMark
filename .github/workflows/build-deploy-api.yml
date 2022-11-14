@@ -6,8 +6,12 @@ name: Build and release website
 on:
   push:
     branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+    paths:
+      - /src/Web/**
+      - /src/API/**
+      - /src/Orchestrator/**
+      - /src/Shared/**
+
   workflow_dispatch:
 
 jobs:

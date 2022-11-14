@@ -6,8 +6,8 @@ name: Build and release Node test function
 on:
   push:
     branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+    paths:
+      - /src/Azure/Nodejs/**
   workflow_dispatch:
 
 jobs:

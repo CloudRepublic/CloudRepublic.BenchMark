@@ -6,8 +6,8 @@ name: Build and release Csharp test function
 on:
   push:
     branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+    paths:
+      - /src/Azure/Csharp/**
   workflow_dispatch:
 
 jobs:
