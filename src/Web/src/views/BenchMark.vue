@@ -16,7 +16,7 @@
         </p>
       </div>
     </div>
-    <div class="row mb-3">
+    <div class="row mb-3" v-if='benchmarkOptions !== null'>
       <div class="col-md-12">
         <tabs>
           <tab-pane
@@ -105,7 +105,7 @@ export default {
       activeEnvironmentIndex: 0,
       isLoading: true,
       isTabLoading: true,
-      benchmarkOptions: []
+      benchmarkOptions: null
     };
   },
   created() {
