@@ -1,0 +1,69 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: Build and release Csharp test function
+
+on:
+  push:
+    branches: [ "master" ]
+    paths:
+      - /src/Azure/Csharp/**
+  workflow_dispatch:
+
+jobs:
+  buildTest:
+    name: Build Test Function
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Install zip
+      uses: montudor/action-zip@v1
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore --configuration "RELEASE"
+    - name: Test
+      run: dotnet test --no-build --verbosity normal --configuration "RELEASE"
+    - name: Publish
+      run: dotnet publish ./src/Azure/Csharp/CloudRepublic.BenchMark.SampleFunction/CloudRepublic.BenchMark.SampleFunction.csproj --output ./outputs/test --configuration "RELEASE"
+    - name: Debugging info
+      run: ls ./outputs/test
+    - name: Zip outputs
+      working-directory: ${{ github.workspace }}/outputs/test
+      run: zip -qq -r ${{ github.workspace }}/test.zip .
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3.1.1
+      with:
+        name: test
+        path: ./test.zip
+
+  deploy:
+    name: Deploy application
+    runs-on: ubuntu-latest
+    needs: ["buildTest"]
+    steps:
+      # Checkout code
+    - uses: actions/checkout@v3
+
+      # Log into Azure
+    - name: login to azure cli
+      run: az login --service-principal -u ${{ secrets.AZURE_APPID }} -p ${{ secrets.AZURE_APPSECRET }} --tenant ${{ secrets.AZURE_TENANT }}
+
+    - name: deploy bicep
+      run: az deployment group create --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --template-file ./src/Azure/Csharp/CloudRepublic.BenchMark.SampleFunction/deployment.bicep --parameters prefix=${{ secrets.DEPLOYMENT_PREFIX }} --name csharp
+
+    - name: Download Test Artifact
+      uses: actions/download-artifact@v3.0.1
+      with:
+        name: test
+        path: ./outputs/test
+    
+    - name: Deploy linux test
+      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/test/test.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}csharplin"
+
+    - name: Deploy windows test
+      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/test/test.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}csharpwin"

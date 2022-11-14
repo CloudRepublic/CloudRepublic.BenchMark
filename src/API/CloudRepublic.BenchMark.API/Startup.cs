@@ -1,26 +1,62 @@
+using System;
+using Azure.Core;
+using Azure.Identity;
 using CloudRepublic.BenchMark.API.Interfaces;
 using CloudRepublic.BenchMark.API.Services;
+using CloudRepublic.BenchMark.Application;
 using CloudRepublic.BenchMark.Application.Interfaces;
 using CloudRepublic.BenchMark.Application.Services;
-using CloudRepublic.BenchMark.Data;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 [assembly: FunctionsStartup(typeof(CloudRepublic.BenchMark.API.Startup))]
-namespace CloudRepublic.BenchMark.API
+namespace CloudRepublic.BenchMark.API;
+
+public class Startup : FunctionsStartup
 {
-    public class Startup : FunctionsStartup
+    public override void Configure(IFunctionsHostBuilder builder)
     {
-        public override void Configure(IFunctionsHostBuilder builder)
+        #if DEBUG
+        builder.Services.AddBenchMarkData("storage", new AzureCliCredential());
+        #else
+        builder.Services.AddBenchMarkData("storage", new ManagedIdentityCredential());
+        #endif
+
+        builder.Services.AddTransient<IBenchMarkResultService, BenchMarkResultService>();
+        builder.Services.AddSingleton<IResponseConverterService, ResponseConverterService>();
+    }
+
+    public override void ConfigureAppConfiguration(IFunctionsConfigurationBuilder builder)
+    {
+        builder.ConfigurationBuilder.AddEnvironmentVariables();
+        
+        // Add Azure App Configuration as additional configuration source
+        builder.ConfigurationBuilder.AddAzureAppConfiguration(options =>
         {
-
-            builder.Services.AddDbContext<BenchMarkDbContext>(options => options.UseSqlServer(Environment.GetEnvironmentVariable("BenchMarkDatabase")));
-
-            builder.Services.AddTransient<IBenchMarkResultService, BenchMarkResultService>();
-
-            builder.Services.AddSingleton<IResponseConverterService, ResponseConverterService>();
-        }
+            var configServiceEndpoint = Environment.GetEnvironmentVariable("ConfigurationServiceEndpoint");
+            
+#if DEBUG
+            if (configServiceEndpoint is { })
+            {
+                options.Connect(new Uri(configServiceEndpoint), new AzureCliCredential());
+            }
+            else
+            {
+                var connectionString = Environment.GetEnvironmentVariable("ConfigurationServiceConnectionString");
+                options.Connect(connectionString);
+            }
+#else
+            options.Connect(new Uri(configServiceEndpoint), new ManagedIdentityCredential());
+#endif
+        
+            options
+                .Select("BenchMarkTests:*")
+                .ConfigureRefresh(refreshOptions =>
+                {
+                    refreshOptions.Register("BenchMarkTests:Sentinel", refreshAll: true)
+                        .SetCacheExpiration(TimeSpan.FromSeconds(30));
+                });
+        });
     }
 }

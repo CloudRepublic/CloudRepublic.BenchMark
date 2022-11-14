@@ -12,7 +12,7 @@ namespace CloudRepublic.BenchMark.Application.Interfaces
         /// This allows us to mock DateTime.Now and as such test query that uses it.
         /// </summary>
         /// <returns></returns>
-        DateTime GetDateTimeNow();
+        DateTimeOffset GetDateTimeNow();
 
         /// <summary>
         /// Grabs all stored Benchmark results
@@ -22,6 +22,6 @@ namespace CloudRepublic.BenchMark.Application.Interfaces
         /// <param name="runtime">Results matching the given</param>
         /// <param name="afterDate">Only entries which are created on or after the given Datetime.Date </param>
         /// <returns></returns>
-        Task<List<BenchMarkResult>> GetBenchMarkResultsAsync(CloudProvider cloudProvider, HostEnvironment hostingEnvironment, Runtime runtime, DateTime afterDate);
+        Task<IEnumerable<BenchMarkResult>> GetBenchMarkResultsAsync(CloudProvider cloudProvider, HostEnvironment hostingEnvironment, Runtime runtime, Language language, string sku, DateTimeOffset afterDate);
     }
 }

@@ -21,30 +21,16 @@ There's an orchestrator function that executes HTTP GET requests to every functi
 
 ## Global Architecture
 
-- Github code repository.
-- Azure Pipeline builds and releases.
-- ARM for Azure infrastructure deployment.
-- Deploys Multiple HTTP Triggered functions To the Cloud:
- - NodeJS (Linux)
- - C#.NET (Linux)
- - Python (Linux)
- - Java (Linux)
- - F# (Linux)
- - NodeJS (Windows)
- - C#.NET (Windows)
- - Python (Windows )
- - Java (Windows )
- - F# (Windows )
-- Deploys the benchmark orchestrator.
-- A SQL database to store the results.
-- An Azure Functions API with Azure API Management consumption tier.
-- Vuejs front-end hosted on Azure Blob storage with a CDN.
+Core to the architecture is the app configuration service.
+It is used to register the test endpoints and details like the name.
+This allows for an easy extension of the run test set by just adding a bicep deployment with the correct details.
+
 
 <img src='docs/global architecture.png' />
 
 ## Author
 
-Florian Schaal @ cloudrepublic.nl
+cloudrepublic.nl
 
 ## License
 

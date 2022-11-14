@@ -4,23 +4,27 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CloudRepublic.BenchMark.Orchestrator.Statics
+namespace CloudRepublic.BenchMark.Orchestrator.Statics;
+
+public static class ResultConverter
 {
-    public static class ResultConverter
+    public static List<BenchMarkResult> ConvertToResultObject(
+        IEnumerable<BenchMarkResponse> benchMarkResponses,
+        BenchMarkType benchMarkType, bool isColdRequest)
     {
-        public static List<BenchMarkResult> ConvertToResultObject(
-            IEnumerable<BenchMarkResponse> benchMarkResponses,
-            BenchMarkType benchMarkType, bool isColdRequest)
+        return benchMarkResponses.Select(benchMarkResponse => new BenchMarkResult
         {
-            return benchMarkResponses.Select(benchMarkResponse => new BenchMarkResult
-            {
-                CloudProvider = benchMarkType.CloudProvider,
-                HostingEnvironment = benchMarkType.HostEnvironment,
-                Runtime = benchMarkType.Runtime,
-                Success = benchMarkResponse.Success,
-                RequestDuration = Convert.ToInt32(benchMarkResponse.Duration),
-                IsColdRequest = isColdRequest
-            }).ToList();
-        }
+            Id = Guid.NewGuid().ToString(),
+            CloudProvider = benchMarkType.CloudProvider,
+            HostingEnvironment = benchMarkType.HostEnvironment,
+            Runtime = benchMarkType.Runtime,
+            Language = benchMarkType.Language,
+            Sku = benchMarkType.Sku,
+            Success = benchMarkResponse.Success,
+            StatusCode = benchMarkResponse.StatusCode,
+            RequestDuration = Convert.ToInt32(benchMarkResponse.Duration),
+            IsColdRequest = isColdRequest,
+            CreatedAt = DateTimeOffset.UtcNow,
+        }).ToList();
     }
 }

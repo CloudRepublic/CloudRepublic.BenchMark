@@ -10,6 +10,6 @@ namespace CloudRepublic.BenchMark.Application.Interfaces
         /// </summary>
         /// <param name="clientName"></param>
         /// <returns></returns>
-        Task<BenchMarkResponse> RunBenchMarkAsync(string clientName);
+        Task<BenchMarkResponse> RunBenchMarkAsync(BenchMarkType benchMarkType);
     }
 }

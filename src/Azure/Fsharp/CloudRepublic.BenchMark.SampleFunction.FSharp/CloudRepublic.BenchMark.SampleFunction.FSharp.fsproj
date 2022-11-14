@@ -1,16 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <AzureFunctionsVersion>v2</AzureFunctionsVersion>
+    <TargetFramework>net6.0</TargetFramework>
+    <AzureFunctionsVersion>v4</AzureFunctionsVersion>
   </PropertyGroup>
-
   <ItemGroup>
-    <Compile Include="Trigger.fs" />
+    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.1.3" />
+    <PackageReference Update="FSharp.Core" Version="6.0.6" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Net.Sdk.Functions" Version="1.0.27" />
+    <Compile Include="Trigger.fs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <vue-element-loading
-      :active="isLoading"
+      :active="showLoading"
       :is-full-screen="true"
       spinner="spinner"
       color="#fff"
@@ -16,7 +16,7 @@
         </p>
       </div>
     </div>
-    <div class="row mb-3">
+    <div class="row mb-3" v-if='benchmarkOptions !== null'>
       <div class="col-md-12">
         <tabs>
           <tab-pane
@@ -44,6 +44,7 @@
         :warmChangeSinceYesterday="warmPreviousDayDifference"
         :warmPositiveChange="warmPreviousDayPositive"
         :runtime="runtime"
+        :language="language"
         :cloudProvider="cloudProvider"
       ></BenchMarkEnvi>
     </div>
@@ -53,25 +54,6 @@
 import { benchMarkService } from '@/services';
 import BenchMarkEnvi from '@/components/Custom/BenchMarkEnvi';
 import VueElementLoading from 'vue-element-loading';
-
-// The frontend -> backend communication looks at string names not enum int values so we use strings here that must match the names of the backend enum.
-const Runtime = Object.freeze({
-  Csharp: 'Csharp',
-  Nodejs: 'Nodejs',
-  Python: 'Python',
-  Java: 'Java',
-  Fsharp: 'Fsharp'
-});
-
-const HostEnvironment = Object.freeze({
-  Windows: 'Windows',
-  Linux: 'Linux'
-});
-
-const CloudProvider = Object.freeze({
-  Azure: 'Azure',
-  Firebase: 'Firebase'
-});
 
 export default {
   name: 'benchmark',
@@ -107,8 +89,14 @@ export default {
     runtime() {
       return this.benchMarkData.runtime;
     },
+    language() {
+      return this.benchMarkData.language;
+    },
     cloudProvider() {
       return this.benchMarkData.cloudProvider;
+    },
+    showLoading() {
+      return this.isLoading || this.isTabLoading;
     }
   },
   data() {
@@ -116,83 +104,34 @@ export default {
       benchMarkData: null,
       activeEnvironmentIndex: 0,
       isLoading: true,
-      benchmarkOptions: [
-        {
-          title: 'Azure - Windows C#',
-          cloud: CloudProvider.Azure,
-          os: HostEnvironment.Windows,
-          language: Runtime.Csharp
-        },
-        {
-          title: 'Azure - Windows Nodejs',
-          cloud: CloudProvider.Azure,
-          os: HostEnvironment.Windows,
-          language: Runtime.Nodejs
-        },
-        {
-          title: 'Azure - Windows Java',
-          cloud: CloudProvider.Azure,
-          os: HostEnvironment.Windows,
-          language: Runtime.Java
-        },
-        {
-          title: 'Azure - Windows Fsharp',
-          cloud: CloudProvider.Azure,
-          os: HostEnvironment.Windows,
-          language: Runtime.Fsharp
-        },
-        {
-          title: 'Azure - Linux C#',
-          cloud: CloudProvider.Azure,
-          os: HostEnvironment.Linux,
-          language: Runtime.Csharp
-        },
-        {
-          title: 'Azure - Linux  Nodejs',
-          cloud: CloudProvider.Azure,
-          os: HostEnvironment.Linux,
-          language: Runtime.Nodejs
-        },
-        {
-          title: 'Azure - Linux Python',
-          cloud: CloudProvider.Azure,
-          os: HostEnvironment.Linux,
-          language: Runtime.Python
-        },
-        {
-          title: 'Azure - Linux Java',
-          cloud: CloudProvider.Azure,
-          os: HostEnvironment.Linux,
-          language: Runtime.Java
-        },
-        {
-          title: 'Azure - Linux Fsharp',
-          cloud: CloudProvider.Azure,
-          os: HostEnvironment.Linux,
-          language: Runtime.Fsharp
-        },
-        {
-          title: 'Firebase - Linux Nodejs',
-          cloud: CloudProvider.Firebase,
-          os: HostEnvironment.Linux,
-          language: Runtime.Nodejs
-        }
-      ]
+      isTabLoading: true,
+      benchmarkOptions: null
     };
   },
+  created() {
+    this.loadTabs();
+  },
   methods: {
-    async loadEnvironment(benchmarkOptions) {
+    async loadTabs() {
       this.isLoading = true;
+      let benchmarkOptions = await benchMarkService.getCategories();
+      this.benchmarkOptions = benchmarkOptions;
+      this.isLoading = false;
+    },
+    async loadEnvironment(benchmarkOptions) {
+      this.isTabLoading = true;
       let benchMarkData;
       if (benchmarkOptions != null) {
         benchMarkData = await benchMarkService.getBenchMarkData(
           benchmarkOptions.cloud,
           benchmarkOptions.os,
-          benchmarkOptions.language
+          benchmarkOptions.runtime,
+          benchmarkOptions.language,
+          benchmarkOptions.sku
         );
         this.benchMarkData = benchMarkData;
       }
-      this.isLoading = false;
+      this.isTabLoading = false;
     }
   },
 };

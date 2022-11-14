@@ -1,14 +1,4 @@
 namespace CloudRepublic.BenchMark.Application.Models
 {
-    public class BenchMarkResponse
-    {
-        public bool Success { get; }
-        public long Duration { get; }
-
-        public BenchMarkResponse(bool success, long duration)
-        {
-            Success = success;
-            Duration = duration;
-        }
-    }
+    public record BenchMarkResponse(bool Success, int StatusCode, long Duration);
 }

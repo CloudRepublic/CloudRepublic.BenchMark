@@ -7,7 +7,7 @@
             <div class="d-flex align-items-center">
               <span class="display-1 text-white p-0" style="line-height:0.7;">{{cloudProvider}}</span>
             </div>
-            <span class="display-4 runtime-text">{{runtime}}</span>
+            <span class="display-4 runtime-text">{{runtime}} - {{language}}</span>
           </div>
         </div>
       </div>
@@ -166,6 +166,10 @@ export default {
       default: 1.0
     },
     runtime: {
+      type: String,
+      default: ''
+    },
+    language: {
       type: String,
       default: ''
     },

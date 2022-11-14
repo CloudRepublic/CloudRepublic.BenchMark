@@ -5,6 +5,7 @@ using CloudRepublic.BenchMark.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CloudRepublic.BenchMark.Data;
 
 namespace CloudRepublic.BenchMark.API.Services
 {
@@ -15,9 +16,10 @@ namespace CloudRepublic.BenchMark.API.Services
             var firstResult = resultDataPoints.OrderByDescending(c => c.CreatedAt).First();
             var benchmarkData = new BenchMarkData()
             {
-                CloudProvider = firstResult.CloudProvider.ToString(),
-                HostingEnvironment = firstResult.HostingEnvironment.ToString(),
-                Runtime = firstResult.Runtime.ToString()
+                CloudProvider = firstResult.CloudProvider.GetName(),
+                HostingEnvironment = firstResult.HostingEnvironment.GetName(),
+                Runtime = firstResult.Runtime.GetName(),
+                Language = firstResult.Language.GetName(),
             };
 
             var currentDate = firstResult.CreatedAt.Date;

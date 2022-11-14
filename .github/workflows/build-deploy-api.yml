@@ -1,0 +1,145 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: Build and release website
+
+on:
+  push:
+    branches: [ "master" ]
+    paths:
+      - /src/Web/**
+      - /src/API/**
+      - /src/Orchestrator/**
+      - /src/Shared/**
+
+  workflow_dispatch:
+
+jobs:
+  buildApi:
+    name: Build API
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Install zip
+      uses: montudor/action-zip@v1
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore --configuration "RELEASE"
+    - name: Test
+      run: dotnet test --no-build --verbosity normal --configuration "RELEASE"
+    - name: Publish
+      run: dotnet publish ./src/API/CloudRepublic.BenchMark.API/CloudRepublic.BenchMark.API.csproj --output ./outputs/api --configuration "RELEASE"
+    - name: Debugging info
+      run: ls ./outputs/api
+    - name: Zip outputs
+      working-directory: ${{ github.workspace }}/outputs/api
+      run: zip -qq -r ${{ github.workspace }}/api.zip .
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3.1.1
+      with:
+        name: api
+        path: ./api.zip
+
+  buildTestRunner:
+    name: Build test runner
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Install zip
+      uses: montudor/action-zip@v1
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore --configuration "RELEASE"
+    - name: Test
+      run: dotnet test --no-build --verbosity normal --configuration "RELEASE"
+    - name: Publish
+      run: dotnet publish ./src/Orchestrator/CloudRepublic.BenchMark.Orchestrator/CloudRepublic.BenchMark.Orchestrator.csproj --output ./outputs/testRunner --configuration "RELEASE"
+    - name: Debugging info
+      run: ls ./outputs/testRunner
+    - name: Zip outputs
+      working-directory: ${{ github.workspace }}/outputs/testRunner
+      run: zip -qq -r ${{ github.workspace }}/testRunner.zip .
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3.1.1
+      with:
+        name: testRunner
+        path: ./testRunner.zip
+
+  buildFrontend:
+    name: Build frontend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+      - name: install packages
+        working-directory: ${{ github.workspace }}/src/Web
+        run: npm install
+      - name: Build VueJS frontend
+        working-directory: ${{ github.workspace }}/src/Web
+        run: npm run build
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.1.1
+        with:
+          name: frontend
+          path: ${{ github.workspace }}/src/Web/dist
+
+  deploy:
+    name: Deploy application
+    runs-on: ubuntu-latest
+    needs: ["buildApi", "buildTestRunner", "buildFrontend"]
+    steps:
+      # Checkout code
+    - uses: actions/checkout@v3
+
+      # Log into Azure
+    - name: login to azure cli
+      run: az login --service-principal -u ${{ secrets.AZURE_APPID }} -p ${{ secrets.AZURE_APPSECRET }} --tenant ${{ secrets.AZURE_TENANT }}
+
+    - name: deploy bicep
+      run: az deployment group create --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --template-file ./Deployment/deployment.bicep --parameters prefix=${{ secrets.DEPLOYMENT_PREFIX }} --name app
+
+    - name: Download API Artifact
+      uses: actions/download-artifact@v3.0.1
+      with:
+        name: api
+        path: ./outputs/api
+    
+    - name: Download TestRunner Artifact
+      uses: actions/download-artifact@v3.0.1
+      with:
+        name: testRunner
+        path: ./outputs/testRunner
+
+    - name: Download Frontend Artifact
+      uses: actions/download-artifact@v3.0.1
+      with:
+        name: frontend
+        path: ./outputs/frontend
+    
+    - name: Deploy frontend
+      uses: Azure/static-web-apps-deploy@v1
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_TOKEN }}
+        action: "upload"
+        app_location: ./outputs/frontend
+        skip_app_build: true
+        skip_api_build: true
+
+    - name: Deploy api
+      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/api/api.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}api"
+
+    - name: Deploy test runner
+      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/testRunner/testRunner.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}testrunner"

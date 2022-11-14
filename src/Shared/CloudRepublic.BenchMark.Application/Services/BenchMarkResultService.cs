@@ -1,41 +1,52 @@
 using CloudRepublic.BenchMark.Application.Interfaces;
 using CloudRepublic.BenchMark.Domain.Entities;
 using CloudRepublic.BenchMark.Domain.Enums;
-using CloudRepublic.BenchMark.Data;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CloudRepublic.BenchMark.Data;
 
 namespace CloudRepublic.BenchMark.Application.Services
 {
     public class BenchMarkResultService : IBenchMarkResultService
     {
-        private readonly BenchMarkDbContext _dbContext;
+        private readonly IBenchMarkResultRepository _benchMarkResultRepository;
 
-        public BenchMarkResultService(BenchMarkDbContext dbContext)
+        public BenchMarkResultService(IBenchMarkResultRepository benchMarkResultRepository)
         {
-            _dbContext = dbContext;
+            _benchMarkResultRepository = benchMarkResultRepository;
         }
 
-        public DateTime GetDateTimeNow()
+        public DateTimeOffset GetDateTimeNow()
         {
-            return DateTime.Now;
+            return DateTimeOffset.Now;
         }
-        public async Task<List<BenchMarkResult>> GetBenchMarkResultsAsync(CloudProvider cloudProvider,
-            HostEnvironment hostingEnvironment, Runtime runtime, DateTime afterDate)
+
+        public async Task<IEnumerable<BenchMarkResult>> GetBenchMarkResultsAsync(CloudProvider cloudProvider, HostEnvironment hostingEnvironment,
+            Runtime runtime, Language language, string sku, DateTimeOffset afterDate)
         {
+            var days = GetDatesBetween(afterDate, GetDateTimeNow());
 
-            var results = await _dbContext.BenchMarkResult
-                .Where(result => result.CloudProvider == cloudProvider)
-                .Where(result => result.HostingEnvironment == hostingEnvironment)
-                .Where(result => result.Runtime == runtime)
-                .Where(result => result.CreatedAt.Date >= afterDate.Date)
-                .OrderByDescending(result => result.CreatedAt)
-                .ToListAsync();
+            var benchMarkResults = new List<BenchMarkResult>();
+            foreach (var day in days)
+            {
+                var monthResults = await _benchMarkResultRepository
+                    .GetBenchMarkResultsAsync(cloudProvider, hostingEnvironment, runtime, language, sku, day.Year, day.Month, day.Day);
+                
+                benchMarkResults.AddRange(monthResults);
+            }
 
-            return results;
+            return benchMarkResults.Where(r => r.CreatedAt >= afterDate);
+        }
+
+        private static List<DateTimeOffset> GetDatesBetween(DateTimeOffset startDate, DateTimeOffset endDate)
+        {
+            var allDates = new List<DateTimeOffset>();
+            for (var date = startDate; date <= endDate; date = date.AddDays(1))
+                allDates.Add(date);
+            return allDates;
+
         }
     }
 }

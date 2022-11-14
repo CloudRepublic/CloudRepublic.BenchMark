@@ -1,19 +1,21 @@
-export const benchMarkService = { getBenchMarkData };
+export const benchMarkService = { getBenchMarkData, getCategories };
 
-async function getBenchMarkData(cloudProvider, hostingEnvironment, runtime) {
-  let response = await fetch(
-    `${
-    process.env.VUE_APP_API
-    }?cloudProvider=${cloudProvider}&hostingEnvironment=${hostingEnvironment}&runtime=${runtime}`,
-    {
-      headers: { 'Ocp-Apim-Subscription-Key': process.env.VUE_APP_API_KEY }
-    }
-  );
+async function getBenchMarkData(cloudProvider, hostingEnvironment, runtime, language, sku) {
+  let uri = `/api/statistics?cloudProvider=${cloudProvider}&hostingEnvironment=${hostingEnvironment}&runtime=${runtime}&language=${language}`;
+  if (sku) {
+    uri += `&sku=${sku}`;
+  }
+
+  let response = await fetch(uri);
+  return handleResponse(response);
+}
+
+async function getCategories() {
+  let response = await fetch(`/api/categories`);
   return handleResponse(response);
 }
 
 function handleResponse(response) {
-
   if (!response.ok || response.status != 200) {
     return null;
   }

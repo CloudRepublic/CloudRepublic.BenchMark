@@ -7,12 +7,6 @@ namespace CloudRepublic.BenchMark.Orchestrator.Interfaces
 {
     public interface IBenchMarkTypeService
     {
-        /// <summary>
-        /// An Extension on the existing static return, this so it can be mocked
-        /// </summary>
-        /// <returns></returns>
-        IEnumerable<BenchMarkType> GetAllTypes();
-
         Task StoreBenchMarkResultsAsync(IEnumerable<BenchMarkResult> results);
 
         /// <summary>
@@ -23,6 +17,6 @@ namespace CloudRepublic.BenchMark.Orchestrator.Interfaces
         /// <param name="warmCalls">Amount of warm calls to do, please note that with no <see cref="coldCalls"></see> these will not become 'Warm'</param>
         /// <param name="delayBetweenCalls">Time to wait before starting the 'Warm' calls after making all 'Cold' calls</param>
         /// <returns></returns>
-        Task<List<BenchMarkResult>> RunBenchMarksAsync(IEnumerable<BenchMarkType> benchMarkTypes, int coldCalls = 5, int warmCalls = 10, int delayBetweenCalls = 30);
+        Task<List<BenchMarkResult>> RunBenchMarksAsync(int coldCalls = 5, int warmCalls = 10, int delayBetweenCalls = 30);
     }
 }

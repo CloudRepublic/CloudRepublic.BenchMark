@@ -5,30 +5,28 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CloudRepublic.BenchMark.API.Statics
+namespace CloudRepublic.BenchMark.API.Statics;
+
+public static class MedianCalculator
 {
-    public class MedianCalculator
+    public static BenchmarkMedians Calculate(DateTime currentDate,
+        List<BenchMarkResult> dataPoints)
     {
-        public static BenchmarkMedians Calculate(DateTime currentDate,
-            List<BenchMarkResult> dataPoints)
-        {
-            var dataPointsCurrentDate = dataPoints.Where(c => c.CreatedAt.Date == currentDate.Date);
+        var dataPointsCurrentDate = dataPoints.Where(c => c.CreatedAt.Date == currentDate.Date);
 
-            var dataPointsPreviousDate = dataPoints.Where(c => c.CreatedAt.Date == (currentDate - TimeSpan.FromDays(1)).Date);
+        var dataPointsPreviousDate = dataPoints.Where(c => c.CreatedAt.Date == (currentDate - TimeSpan.FromDays(1)).Date);
 
-            var currentDateMedian = dataPointsCurrentDate.Any()
-                ? Math.Round(dataPointsCurrentDate.Select(c => Convert.ToDouble(c.RequestDuration)).Median(), 0)
-                : 0;
+        var currentDateMedian = dataPointsCurrentDate.Any()
+            ? Math.Round(dataPointsCurrentDate.Select(c => Convert.ToDouble(c.RequestDuration)).Median(), 0)
+            : 0;
 
-            var medianPreviousDate = dataPointsPreviousDate.Any()
-                ? Math.Round(dataPointsPreviousDate.Select(c => Convert.ToDouble(c.RequestDuration)).Median(), 0)
-                : 0;
+        var medianPreviousDate = dataPointsPreviousDate.Any()
+            ? Math.Round(dataPointsPreviousDate.Select(c => Convert.ToDouble(c.RequestDuration)).Median(), 0)
+            : 0;
 
-            return new BenchmarkMedians()
-            {
-                CurrentDay = currentDateMedian,
-                PreviousDay = medianPreviousDate
-            };
-        }
+        return new BenchmarkMedians {
+            CurrentDay = currentDateMedian,
+            PreviousDay = medianPreviousDate
+        };
     }
 }

@@ -51,7 +51,7 @@
           <li class="nav-item">
             <a
               class="nav-link nav-link-icon"
-              href="https://cloudrepublic.github.io/"
+              href="https://cloudrepublic.com/blog"
               target="_blank"
             >
               <span class="nav-link-inner--text">Blog</span>
@@ -106,7 +106,7 @@
               </li>
 
               <li class="nav-item">
-                <a href="https://cloudrepublic.github.io/" class="nav-link" target="_blank">Blog</a>
+                <a href="https://cloudrepublic.nl/blogs/" class="nav-link" target="_blank">Blog</a>
               </li>
             </ul>
           </div>
