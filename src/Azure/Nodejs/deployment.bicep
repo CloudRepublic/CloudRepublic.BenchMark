@@ -12,7 +12,7 @@ module csharpWindows '../../../Deployment/testFunctions/parts/windowsFunction.bi
     runtimeVersion: '~4'
     prefix: prefix
     registrationName: 'AzureNodeWin' // Windows is blocked by microsoft since it is a reserved word 🤯
-    testPath: '/api/Trigger'
+    testPath: '/api/Test'
     sortOrder: 200
     fxVersion: 'node|16'
   }
