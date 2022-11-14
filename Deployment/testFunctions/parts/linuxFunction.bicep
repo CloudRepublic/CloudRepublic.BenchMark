@@ -71,6 +71,7 @@ resource function 'Microsoft.Web/sites@2022-03-01' = {
       scmMinTlsVersion: '1.2'
       http20Enabled: true
       linuxFxVersion: 'DOTNET|6.0'
+      nodeVersion: '~16'
       appSettings: [
         {
           name: 'AzureWebJobsStorage'

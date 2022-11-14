@@ -69,6 +69,7 @@ resource function 'Microsoft.Web/sites@2022-03-01' = {
       scmMinTlsVersion: '1.2'
       http20Enabled: true
       windowsFxVersion: 'DOTNET|6.0'
+      nodeVersion: '~16'
       appSettings: [
         {
           name: 'AzureWebJobsStorage'
@@ -85,6 +86,10 @@ resource function 'Microsoft.Web/sites@2022-03-01' = {
         {
           name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING'
           value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
+        }
+        {
+          name: 'WEBSITE_NODE_DEFAULT_VERSION'
+          value: '~16'
         }
       ]
     }
