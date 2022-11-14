@@ -22,7 +22,7 @@ There's an orchestrator function that executes HTTP GET requests to every functi
 ## Global Architecture
 
 Core to the architecture is the app configuration service.
-It is used to register the test endpoints and details like the name.
+It is used to register the test endpoints and details like the names, os, skus, etc.
 This allows for an easy extension of the run test set by just adding a bicep deployment with the correct details.
 
 
