@@ -2,7 +2,7 @@ param prefix string
 param location string = resourceGroup().location
 
 module csharpWindows '../../../Deployment/testFunctions/parts/windowsFunction.bicep' = {
-  name: '${deployment().name}-csharpWindows'
+  name: '${deployment().name}-Windows'
   params: {
     title: 'Azure - Node - Windows'
     functionName: '${prefix}nodewin'
@@ -18,7 +18,7 @@ module csharpWindows '../../../Deployment/testFunctions/parts/windowsFunction.bi
 }
 
 module csharpLinux '../../../Deployment/testFunctions/parts/linuxFunction.bicep' = {
-  name: '${deployment().name}-csharpLinux'
+  name: '${deployment().name}-Linux'
   dependsOn: [
     csharpWindows // we need to deploy one by one to not overload the device configuration service
   ]

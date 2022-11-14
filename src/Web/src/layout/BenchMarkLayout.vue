@@ -106,7 +106,7 @@
               </li>
 
               <li class="nav-item">
-                <a href="https://cloudrepublic.github.io/" class="nav-link" target="_blank">Blog</a>
+                <a href="https://cloudrepublic.nl/blogs/" class="nav-link" target="_blank">Blog</a>
               </li>
             </ul>
           </div>
