@@ -1,7 +1,7 @@
 # This workflow will build a .NET project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
-name: Build and release Csharp test function
+name: Build and release Node test function
 
 on:
   push:
@@ -38,7 +38,7 @@ jobs:
       run: az login --service-principal -u ${{ secrets.AZURE_APPID }} -p ${{ secrets.AZURE_APPSECRET }} --tenant ${{ secrets.AZURE_TENANT }}
 
     - name: deploy bicep
-      run: az deployment group create --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --template-file ./src/Azure/Csharp/CloudRepublic.BenchMark.SampleFunction/deployment.bicep --parameters prefix=${{ secrets.DEPLOYMENT_PREFIX }} --name csharp
+      run: az deployment group create --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --template-file ./src/Azure/Nodejs/deployment.bicep --parameters prefix=${{ secrets.DEPLOYMENT_PREFIX }} --name node
 
     - name: Download Test Artifact
       uses: actions/download-artifact@v3.0.1
@@ -47,7 +47,7 @@ jobs:
         path: ./outputs/test
     
     - name: Deploy linux test
-      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/test/test.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}csharplin"
+      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/test/test.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}nodelin"
 
     - name: Deploy windows test
-      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/test/test.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}csharpwin"
+      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/test/test.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}nodewin"
