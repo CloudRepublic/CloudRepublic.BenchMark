@@ -109,10 +109,6 @@ resource function 'Microsoft.Web/sites@2022-03-01' = {
           value: 'true'
         }
         {
-          name: 'WEBSITE_RUN_FROM_PACKAGE'
-          value: '1'
-        }
-        {
           name: 'storage__endpoint'
           value: sharedStorageAccount.properties.primaryEndpoints.table
         }
