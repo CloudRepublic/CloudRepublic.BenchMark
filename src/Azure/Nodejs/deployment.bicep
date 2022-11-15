@@ -4,7 +4,7 @@ param location string = resourceGroup().location
 module csharpWindows '../../../Deployment/testFunctions/parts/windowsFunction.bicep' = {
   name: '${deployment().name}-Windows'
   params: {
-    title: 'Azure - Node - Windows'
+    title: 'Azure Windows - Node'
     functionName: '${prefix}nodewin'
     workerRuntime: 'node'
     language: 'Nodejs'
@@ -24,7 +24,7 @@ module csharpLinux '../../../Deployment/testFunctions/parts/linuxFunction.bicep'
     csharpWindows // we need to deploy one by one to not overload the device configuration service
   ]
   params: {
-    title: 'Azure - C# - Linux'
+    title: 'Azure Linux - Node'
     functionName: '${prefix}nodelin'
     workerRuntime: 'node'
     language: 'Nodejs'
