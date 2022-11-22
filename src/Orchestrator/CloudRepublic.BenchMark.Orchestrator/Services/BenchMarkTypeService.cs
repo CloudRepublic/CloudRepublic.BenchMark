@@ -38,27 +38,21 @@ public class BenchMarkTypeService : IBenchMarkTypeService
 
             for (var i = 0; i < coldCalls; i++)
             {
-                tasksCold.Add(_benchMarkService.RunBenchMarkAsync(benchMarkType));
+                tasksCold.Add(_benchMarkService.RunBenchMarkAsync(benchMarkType, i));
             }
 
-            await Task.WhenAll(tasksCold);
+            var coldResponses = await Task.WhenAll(tasksCold);
 
             await Task.Delay(TimeSpan.FromSeconds(delayBetweenCalls));
 
             for (var i = 0; i < warmCalls; i++)
             {
-                tasksWarm.Add(_benchMarkService.RunBenchMarkAsync(benchMarkType));
+                tasksWarm.Add(_benchMarkService.RunBenchMarkAsync(benchMarkType, i + coldCalls));
             }
 
-            await Task.WhenAll(tasksWarm);
+            var warmResponses = await Task.WhenAll(tasksWarm);
 
-            results.AddRange(ResultConverter.ConvertToResultObject(tasksCold.Select(t => t.Result), benchMarkType, true));
-            results.AddRange(ResultConverter.ConvertToResultObject(tasksWarm.Select(t => t.Result), benchMarkType, false));
-
-            for(var i = 0; i < results.Count; i++)
-            {
-                results[i].CallPositionNumber = i;
-            }
+            results.AddRange(ResultConverter.ConvertToResultObject(coldResponses, warmResponses, benchMarkType));
         }
         return results;
     }

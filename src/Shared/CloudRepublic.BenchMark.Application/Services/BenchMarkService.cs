@@ -28,11 +28,11 @@ namespace CloudRepublic.BenchMark.Application.Services
                 var response = await client.SendAsync(requestMessage);
                 var result = stopWatch.ElapsedMilliseconds;
                 
-                return new BenchMarkResponse(response.IsSuccessStatusCode, (int)response.StatusCode, result);
+                return new BenchMarkResponse(response.IsSuccessStatusCode, (int)response.StatusCode, result, await response.Content.ReadAsStringAsync());
             }
             catch (Exception)
             {
-                return new BenchMarkResponse(false, 0, 0);
+                return new BenchMarkResponse(false, 0, 0, null);
             }
         }
     }

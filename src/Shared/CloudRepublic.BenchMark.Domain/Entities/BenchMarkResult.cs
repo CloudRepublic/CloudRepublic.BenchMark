@@ -20,5 +20,7 @@ public record BenchMarkResult
     public int CallPositionNumber { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
         
+    public string ServerName { get; set; }
     public bool IsColdRequest { get; set; }
+    public bool IsScaleUp { get; set; }
 }
