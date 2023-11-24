@@ -12,7 +12,7 @@ module csharpWindows '../../../../Deployment/testFunctions/parts/windowsFunction
     runtimeVersion: '~4'
     sku: 'net8'
     prefix: prefix
-    registrationName: 'AzureCsharpWin' // Windows is blocked by microsoft since it is a reserved word 🤯
+    registrationName: 'AzureCsharpNet8Win' // Windows is blocked by microsoft since it is a reserved word 🤯
     testPath: '/api/Trigger'
     sortOrder: 111
     fxVersion: 'dotnet|8.0'
@@ -33,7 +33,7 @@ module csharpLinux '../../../../Deployment/testFunctions/parts/linuxFunction.bic
     runtimeVersion: '~4'
     sku: 'net8'
     prefix: prefix
-    registrationName: 'AzureCsharpLinux'
+    registrationName: 'AzureCsharpNet8Linux'
     testPath: '/api/Trigger'
     sortOrder: 116
     fxVersion: 'dotnet|8.0'
