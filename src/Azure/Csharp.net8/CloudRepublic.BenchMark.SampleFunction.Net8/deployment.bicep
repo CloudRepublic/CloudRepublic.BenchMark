@@ -35,7 +35,7 @@ module csharpLinux '../../../../Deployment/testFunctions/parts/linuxFunction.bic
     prefix: prefix
     registrationName: 'AzureCsharpLinux'
     testPath: '/api/Trigger'
-    sortOrder: 105
+    sortOrder: 106
     fxVersion: 'dotnet|6.0'
   }
 }
