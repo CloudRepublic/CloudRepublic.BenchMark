@@ -18,7 +18,8 @@ public static class CategoryResultExtensions
                 Cloud = benchMarkType.CloudProvider,
                 Language = benchMarkType.Language,
                 Os = benchMarkType.HostEnvironment,
-                Runtime = benchMarkType.Runtime
+                Runtime = benchMarkType.Runtime,
+                Sku = benchMarkType.Sku
             });
         }
 
