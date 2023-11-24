@@ -14,7 +14,7 @@ module csharpWindows '../../../../Deployment/testFunctions/parts/windowsFunction
     prefix: prefix
     registrationName: 'AzureCsharpWin' // Windows is blocked by microsoft since it is a reserved word 🤯
     testPath: '/api/Trigger'
-    sortOrder: 100
+    sortOrder: 111
     fxVersion: 'dotnet|8.0'
   }
 }
@@ -35,7 +35,7 @@ module csharpLinux '../../../../Deployment/testFunctions/parts/linuxFunction.bic
     prefix: prefix
     registrationName: 'AzureCsharpLinux'
     testPath: '/api/Trigger'
-    sortOrder: 106
+    sortOrder: 116
     fxVersion: 'dotnet|8.0'
   }
 }
