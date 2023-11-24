@@ -5,7 +5,7 @@ module csharpWindows '../../../../Deployment/testFunctions/parts/windowsFunction
   name: '${deployment().name}-csharpWindows'
   params: {
     title: 'Azure Windows - C# .NET 8'
-    functionName: '${prefix}csharpnet8win'
+    functionName: '${prefix}csharpneteightwin'
     workerRuntime: 'dotnet-isolated'
     language: 'Csharp'
     location: location
@@ -26,7 +26,7 @@ module csharpLinux '../../../../Deployment/testFunctions/parts/linuxFunction.bic
   ]
   params: {
     title: 'Azure Linux - C# .NET 8'
-    functionName: '${prefix}csharpnet8lin'
+    functionName: '${prefix}csharpneteightlin'
     workerRuntime: 'dotnet-isolated'
     language: 'Csharp'
     location: location
