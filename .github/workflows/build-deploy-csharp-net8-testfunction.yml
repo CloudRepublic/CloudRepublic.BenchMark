@@ -22,10 +22,6 @@ jobs:
         dotnet-version: 8.0.x
     - name: Restore dependencies
       run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore --configuration "RELEASE"
-    - name: Test
-      run: dotnet test --no-build --verbosity normal --configuration "RELEASE"
     - name: Publish windows
       run: dotnet publish ./src/Azure/Csharp.net8/CloudRepublic.BenchMark.SampleFunction.Net8/CloudRepublic.BenchMark.SampleFunction.Net8.csproj --runtime "win-x64" --output ./outputs/test/windows --configuration "RELEASE"
     - name: Debugging info
@@ -53,10 +49,6 @@ jobs:
       uses: montudor/action-zip@v1
     - name: Restore dependencies
       run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore --configuration "RELEASE"
-    - name: Test
-      run: dotnet test --no-build --verbosity normal --configuration "RELEASE"
     - name: Publish linux
       run: dotnet publish ./src/Azure/Csharp.net8/CloudRepublic.BenchMark.SampleFunction.Net8/CloudRepublic.BenchMark.SampleFunction.Net8.csproj  --runtime "linux-x64" --output ./outputs/test/linux --configuration "RELEASE"
     - name: Debugging info
