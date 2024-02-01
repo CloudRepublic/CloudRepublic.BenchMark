@@ -1,4 +1,4 @@
-using CloudRepublic.BenchMark.API.Services;
+using CloudRepublic.BenchMark.API.V2.Services;
 using CloudRepublic.BenchMark.Domain.Entities;
 using CloudRepublic.BenchMark.Domain.Enums;
 using System;
@@ -25,7 +25,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var benchMarkResults = new List<BenchMarkResult>()
             {
-                new BenchMarkResult()
+                new()
                 {
                     CloudProvider = cloudProvider,
                     HostingEnvironment = hostingEnvironment,
@@ -62,28 +62,28 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var benchMarkResults = new List<BenchMarkResult>()
             {
-                new BenchMarkResult()
+                new()
                 {
                     CloudProvider =  CloudProvider.Firebase,
                     HostingEnvironment =  HostEnvironment.Linux,
                     Language =  Language.Java,
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                 },
-                new BenchMarkResult()
+                new()
                 {
                     CloudProvider = CloudProvider.Azure, // different than the main
                     HostingEnvironment =  HostEnvironment.Windows,
                     Language =  Language.Csharp,
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                 },
-                new BenchMarkResult()
+                new()
                 {
                     CloudProvider = CloudProvider.Azure, // different than the main
                     HostingEnvironment =  HostEnvironment.Windows,
                     Language =  Language.Csharp,
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                 },
-                new BenchMarkResult()
+                new()
                 {
                     CloudProvider = CloudProvider.Azure, // different than the main
                     HostingEnvironment =  HostEnvironment.Windows,
@@ -117,7 +117,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var benchMarkResults = new List<BenchMarkResult>()
             {
-                new BenchMarkResult()
+                new()
                 {
                     CloudProvider =  (CloudProvider)(-1) , // does not exist on enum
                     HostingEnvironment =(HostEnvironment)100, // does not exist on enum
@@ -165,7 +165,7 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var benchMarkResults = new List<BenchMarkResult>()
             {
-                new BenchMarkResult()
+                new()
                 {
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)), // we need a date and as such a singular result
                     IsColdRequest = true// even though this is a cold request warm data points are still added
@@ -200,27 +200,27 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var benchMarkResults = new List<BenchMarkResult>()
             {
-                new BenchMarkResult()
+                new()
                 {
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                     IsColdRequest = true
                 },
-                new BenchMarkResult()
+                new()
                 {
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                     IsColdRequest = true
                 },
-                new BenchMarkResult()
+                new()
                 {
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                     IsColdRequest = true
                 },
-                new BenchMarkResult()
+                new()
                 {
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                     IsColdRequest = true
                 },
-                new BenchMarkResult()
+                new()
                 {
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                     IsColdRequest = false
@@ -254,22 +254,22 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var benchMarkResults = new List<BenchMarkResult>()
             {
-                new BenchMarkResult()
+                new()
                 {
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                     IsColdRequest = true
                 },
-                new BenchMarkResult()
+                new()
                 {
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                     IsColdRequest = true
                 },
-                new BenchMarkResult()
+                new()
                 {
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                     IsColdRequest = true
                 },
-                new BenchMarkResult()
+                new()
                 {
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                     IsColdRequest = true
@@ -305,22 +305,22 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var benchMarkResults = new List<BenchMarkResult>()
             {
-                new BenchMarkResult()
+                new()
                 {
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                     IsColdRequest = false
                 },
-                new BenchMarkResult()
+                new()
                 {
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                     IsColdRequest = false
                 },
-                new BenchMarkResult()
+                new()
                 {
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                     IsColdRequest = false
                 },
-                new BenchMarkResult()
+                new()
                 {
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),
                     IsColdRequest = false
@@ -356,38 +356,38 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var benchMarkResults = new List<BenchMarkResult>()
             {
-                new BenchMarkResult()
+                new()
                 {
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),//yesterday
                     RequestDuration = 120,
                     IsColdRequest = false
                 },
-                new BenchMarkResult()
+                new()
                 {
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),//yesterday
                     RequestDuration = 160,
                     IsColdRequest = false
                 },
-                new BenchMarkResult()
+                new()
                 {
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,2)), //today
                     RequestDuration = 84,
                     IsColdRequest = false
                 },
-                new BenchMarkResult()
+                new()
                 {
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,2)),//today
                     RequestDuration = 42,
                     IsColdRequest = false
                 },
                 // cold request that can be ignored and should not be taken into the medians
-                new BenchMarkResult()
+                new()
                 {
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),//yesterday
                     RequestDuration = 1220,
                     IsColdRequest = true
                 },
-                new BenchMarkResult()
+                new()
                 {
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,2)),//today
                     RequestDuration = 8160,
@@ -423,25 +423,25 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var benchMarkResults = new List<BenchMarkResult>()
             {
-                new BenchMarkResult()
+                new()
                 {
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),//yesterday
                     RequestDuration = 120,
                     IsColdRequest = true
                 },
-                new BenchMarkResult()
+                new()
                 {
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)),//yesterday
                     RequestDuration = 160,
                     IsColdRequest = true
                 },
-                new BenchMarkResult()
+                new()
                 {
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,2)), //today
                     RequestDuration = 84,
                     IsColdRequest = true
                 },
-                new BenchMarkResult()
+                new()
                 {
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,2)),//today
                     RequestDuration = 42,
@@ -449,13 +449,13 @@ namespace CloudRepublic.BenchMark.API.Tests
                 },
 
                 // warm request that can be ignored and should not be taken into the medians
-                new BenchMarkResult()
+                new()
                 {
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,1)), //yesterday
                     RequestDuration = 7684,
                     IsColdRequest = false
                 },
-                new BenchMarkResult()
+                new()
                 {
                     CreatedAt = new DateTimeOffset(new DateTime(2020,1,2)),//today
                     RequestDuration = 9942,

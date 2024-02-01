@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
         <RootNamespace>CloudRepublic.BenchMark.Tests.Infrastructure</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Moq" Version="4.18.2" />
-      <PackageReference Include="Shouldly" Version="4.1.0" />
+      <PackageReference Include="Moq" Version="4.20.70" />
+      <PackageReference Include="Shouldly" Version="4.2.1" />
     </ItemGroup>
 
     <ItemGroup>

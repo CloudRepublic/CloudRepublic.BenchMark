@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Azure.Data.Tables;
 using CloudRepublic.BenchMark.Data.Entities;
+using CloudRepublic.BenchMark.Data.Serializers;
 using CloudRepublic.BenchMark.Domain.Entities;
 using CloudRepublic.BenchMark.Domain.Enums;
 
@@ -25,7 +26,7 @@ public class BenchMarkResultRepository : IBenchMarkResultRepository
         {
             PartitionKey = BuildPartitionKey(benchMarkResult),
             RowKey = benchMarkResult.Id,
-            RecordJson = JsonSerializer.Serialize(benchMarkResult)
+            RecordJson = JsonSerializer.Serialize(benchMarkResult, BenchMarkResultSerializer.Default.BenchMarkResult)
         };
         
         await _tableClient.AddEntityAsync(entity);
@@ -44,12 +45,18 @@ public class BenchMarkResultRepository : IBenchMarkResultRepository
         var benchMarkResults = new List<BenchMarkResult>();
         await foreach (var result in results)
         {
-            if (result is null)
+            if (result?.RecordJson is null)
+            {
+                continue;
+            }
+
+            var record = JsonSerializer.Deserialize(result.RecordJson, BenchMarkResultSerializer.Default.BenchMarkResult);
+            if (record is null)
             {
                 continue;
             }
             
-            benchMarkResults.Add(JsonSerializer.Deserialize<BenchMarkResult>(result.RecordJson));
+            benchMarkResults.Add(record);
         }
 
         return benchMarkResults;

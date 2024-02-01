@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "CloudRepublic.BenchMark.API.V2": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7146",
+      "launchBrowser": false
+    }
+  }
+}

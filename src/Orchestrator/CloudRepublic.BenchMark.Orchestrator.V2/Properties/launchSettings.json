@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "CloudRepublic.BenchMark.Orchestrator.V2": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7189",
+      "launchBrowser": false
+    }
+  }
+}

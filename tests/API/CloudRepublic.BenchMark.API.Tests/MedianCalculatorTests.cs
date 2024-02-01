@@ -1,4 +1,4 @@
-﻿using CloudRepublic.BenchMark.API.Statics;
+﻿using CloudRepublic.BenchMark.API.V2.Statics;
 using CloudRepublic.BenchMark.Domain.Entities;
 using System;
 using System.Collections.Generic;
