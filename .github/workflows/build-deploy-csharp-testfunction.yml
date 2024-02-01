@@ -11,7 +11,32 @@ on:
   workflow_dispatch:
 
 jobs:
-  buildTest:
+  buildTestWindows:
+    name: Build Test Function
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Publish
+      run: dotnet publish --runtime "win-x64" ./src/Azure/Csharp/CloudRepublic.BenchMark.SampleFunction/CloudRepublic.BenchMark.SampleFunction.csproj --output ./outputs/test --configuration "RELEASE"
+    - name: Debugging info
+      run: ls ./outputs/test
+    - name: Zip outputs
+      shell: pwsh
+      working-directory: ${{ github.workspace }}/outputs/test
+      run: Compress-Archive .\* ${{ github.workspace }}/windows.zip
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3.1.1
+      with:
+        name: windows
+        path: ./windows.zip
+
+  buildTestLinux:
     name: Build Test Function
     runs-on: ubuntu-latest
     steps:
@@ -24,27 +49,23 @@ jobs:
       uses: montudor/action-zip@v1
     - name: Restore dependencies
       run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore --configuration "RELEASE"
-    - name: Test
-      run: dotnet test --no-build --verbosity normal --configuration "RELEASE"
     - name: Publish
-      run: dotnet publish ./src/Azure/Csharp/CloudRepublic.BenchMark.SampleFunction/CloudRepublic.BenchMark.SampleFunction.csproj --output ./outputs/test --configuration "RELEASE"
+      run: dotnet publish --runtime "linux-x64" ./src/Azure/Csharp/CloudRepublic.BenchMark.SampleFunction/CloudRepublic.BenchMark.SampleFunction.csproj --output ./outputs/test --configuration "RELEASE"
     - name: Debugging info
       run: ls ./outputs/test
     - name: Zip outputs
       working-directory: ${{ github.workspace }}/outputs/test
-      run: zip -qq -r ${{ github.workspace }}/test.zip .
+      run: zip -qq -r ${{ github.workspace }}/linux.zip .
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.1
       with:
-        name: test
-        path: ./test.zip
+        name: linux
+        path: ./linux.zip
 
   deploy:
     name: Deploy application
     runs-on: ubuntu-latest
-    needs: ["buildTest"]
+    needs: [buildTestWindows, buildTestLinux]
     steps:
       # Checkout code
     - uses: actions/checkout@v3
@@ -56,14 +77,20 @@ jobs:
     - name: deploy bicep
       run: az deployment group create --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --template-file ./src/Azure/Csharp/CloudRepublic.BenchMark.SampleFunction/deployment.bicep --parameters prefix=${{ secrets.DEPLOYMENT_PREFIX }} --name csharp
 
-    - name: Download Test Artifact
+    - name: Download Test Artifact Windows
       uses: actions/download-artifact@v3.0.1
       with:
-        name: test
-        path: ./outputs/test
+        name: windows
+        path: ./outputs/test/windows
+    
+    - name: Download Test Artifact Linux
+      uses: actions/download-artifact@v3.0.1
+      with:
+        name: linux
+        path: ./outputs/test/linux
     
     - name: Deploy linux test
-      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/test/test.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}csharplin"
+      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/test/linux/linux.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}csharplin"
 
     - name: Deploy windows test
-      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/test/test.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}csharpwin"
+      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/test/windows/windows.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}csharpwin"
