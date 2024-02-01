@@ -3,7 +3,7 @@ using CloudRepublic.BenchMark.API.V2.Models;
 
 namespace CloudRepublic.BenchMark.API.V2.Serializers;
 
-[JsonSourceGenerationOptions(WriteIndented = false)]
+[JsonSourceGenerationOptions(WriteIndented = false, PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
 [JsonSerializable(typeof(BenchMarkData))]
 [JsonSerializable(typeof(BenchmarkMedians))]
 [JsonSerializable(typeof(Category))]
