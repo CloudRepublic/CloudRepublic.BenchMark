@@ -23,9 +23,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.x
-    - name: Install zip
-      uses: montudor/action-zip@v1
+        dotnet-version: 8.0.x
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
@@ -37,8 +35,9 @@ jobs:
     - name: Debugging info
       run: ls ./outputs/api
     - name: Zip outputs
+      shell: pwsh
       working-directory: ${{ github.workspace }}/outputs/api
-      run: zip -qq -r ${{ github.workspace }}/api.zip .
+      run: Compress-Archive . ${{ github.workspace }}/api.zip
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.1
       with:
@@ -53,9 +52,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.x
-    - name: Install zip
-      uses: montudor/action-zip@v1
+        dotnet-version: 8.0.x
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
@@ -67,8 +64,9 @@ jobs:
     - name: Debugging info
       run: ls ./outputs/testRunner
     - name: Zip outputs
+      shell: pwsh
       working-directory: ${{ github.workspace }}/outputs/testRunner
-      run: zip -qq -r ${{ github.workspace }}/testRunner.zip .
+      run: Compress-Archive . ${{ github.workspace }}/testRunner.zip
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.1
       with:
