@@ -16,6 +16,7 @@ module csharpWindows '../../../../Deployment/testFunctions/parts/windowsFunction
     testPath: '/api/Trigger'
     sortOrder: 111
     fxVersion: 'dotnet-isolated|8.0'
+    use32BitWorkerProcess: false
   }
 }
 

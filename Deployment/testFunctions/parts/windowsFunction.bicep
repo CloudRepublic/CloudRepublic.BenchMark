@@ -6,6 +6,7 @@ param location string
 param testPath string
 param sku string = ''
 param sortOrder int
+param use32BitWorkerProcess bool = true
 
 @allowed(['dotnet', 'dotnet-isolated', 'node', 'java', 'powershell', 'python'])
 param workerRuntime string
@@ -72,6 +73,7 @@ resource function 'Microsoft.Web/sites@2022-03-01' = {
       scmMinTlsVersion: '1.2'
       http20Enabled: true
       windowsFxVersion: fxVersion
+      use32BitWorkerProcess: use32BitWorkerProcess
       appSettings: [
         {
           name: 'AzureWebJobsStorage'
