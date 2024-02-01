@@ -17,7 +17,7 @@ on:
 jobs:
   buildApi:
     name: Build API
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
@@ -47,7 +47,7 @@ jobs:
 
   buildTestRunner:
     name: Build test runner
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
