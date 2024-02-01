@@ -117,8 +117,8 @@ jobs:
     - name: login to azure cli
       run: az login --service-principal -u ${{ secrets.AZURE_APPID }} -p ${{ secrets.AZURE_APPSECRET }} --tenant ${{ secrets.AZURE_TENANT }}
 
-    - name: deploy bicep
-      run: az deployment group create --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --template-file ./Deployment/deployment.bicep --parameters prefix=${{ secrets.DEPLOYMENT_PREFIX }} --name app
+    # - name: deploy bicep
+    #   run: az deployment group create --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --template-file ./Deployment/deployment.bicep --parameters prefix=${{ secrets.DEPLOYMENT_PREFIX }} --name app
 
     - name: Download API Artifact
       uses: actions/download-artifact@v3.0.1
@@ -132,21 +132,21 @@ jobs:
         name: testRunner
         path: ./outputs/testRunner
 
-    - name: Download Frontend Artifact
-      uses: actions/download-artifact@v3.0.1
-      with:
-        name: frontend
-        path: ./outputs/frontend
+    # - name: Download Frontend Artifact
+    #   uses: actions/download-artifact@v3.0.1
+    #   with:
+    #     name: frontend
+    #     path: ./outputs/frontend
     
-    - name: Deploy frontend
-      uses: Azure/static-web-apps-deploy@v1
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_TOKEN }}
-        action: "upload"
-        app_location: ./outputs/frontend
-        skip_app_build: true
-        skip_api_build: true
+    # - name: Deploy frontend
+    #   uses: Azure/static-web-apps-deploy@v1
+    #   with:
+    #     repo_token: ${{ secrets.GITHUB_TOKEN }}
+    #     azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_TOKEN }}
+    #     action: "upload"
+    #     app_location: ./outputs/frontend
+    #     skip_app_build: true
+    #     skip_api_build: true
 
     - name: Deploy api
       run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/api/api.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}lapi"
