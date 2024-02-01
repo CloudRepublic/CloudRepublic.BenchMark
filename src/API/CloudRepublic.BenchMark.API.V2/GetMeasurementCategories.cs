@@ -11,7 +11,7 @@ namespace CloudRepublic.BenchMark.API.V2;
 public class GetMeasurementCategories(IEnumerable<BenchMarkType> benchMarkTypes)
 {
     [Function("GetMeasurementCategories")]
-    public HttpResponseData Run([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequestData req,
+    public HttpResponseData Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "categories")] HttpRequestData req,
         FunctionContext executionContext)
     {
         var response = req.CreateResponse(HttpStatusCode.OK);
