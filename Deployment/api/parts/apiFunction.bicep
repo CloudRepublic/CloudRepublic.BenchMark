@@ -57,6 +57,9 @@ resource functionFarm 'Microsoft.Web/serverfarms@2022-03-01' = {
     family: 'Y'
     capacity: 0
   }
+  properties: {
+    reserved: true
+  }
 }
 
 resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
