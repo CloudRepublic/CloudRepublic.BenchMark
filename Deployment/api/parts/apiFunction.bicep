@@ -49,6 +49,7 @@ resource configServiceRoleAssignment 'Microsoft.Authorization/roleAssignments@20
 resource functionFarm 'Microsoft.Web/serverfarms@2022-03-01' = {
   name: '${functionName}plan'
   location: location
+  kind: 'linux'
   sku: {
     name: 'Y1'
     tier: 'Dynamic'
@@ -71,7 +72,7 @@ resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
 resource function 'Microsoft.Web/sites@2022-03-01' = {
   name: functionName
   location: location
-  kind: 'functionapp'
+  kind: 'functionapp,linux'
   identity: {
     type: 'SystemAssigned'
   }
@@ -83,7 +84,7 @@ resource function 'Microsoft.Web/sites@2022-03-01' = {
       minTlsVersion: '1.2'
       scmMinTlsVersion: '1.2'
       http20Enabled: true
-      windowsFxVersion: 'dotnet-isolated|8.0'
+      linuxFxVersion: 'dotnet-isolated|8.0'
       use32BitWorkerProcess: false
       appSettings: [
         {

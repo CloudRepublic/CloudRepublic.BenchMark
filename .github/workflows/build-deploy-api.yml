@@ -16,7 +16,7 @@ on:
 
 jobs:
   TestApi:
-    name: Build API
+    name: Test API
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -34,7 +34,7 @@ jobs:
 
   buildApi:
     name: Build API
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
@@ -44,7 +44,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Publish
-      run: dotnet publish --runtime "win-x64" ./src/API/CloudRepublic.BenchMark.API.V2/CloudRepublic.BenchMark.API.V2.csproj --output ./outputs/api --configuration "RELEASE"
+      run: dotnet publish --runtime "linux-x64" ./src/API/CloudRepublic.BenchMark.API.V2/CloudRepublic.BenchMark.API.V2.csproj --output ./outputs/api --configuration "RELEASE"
     - name: Debugging info
       run: ls ./outputs/api
     - name: Zip outputs
@@ -59,7 +59,7 @@ jobs:
 
   buildTestRunner:
     name: Build test runner
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
@@ -69,7 +69,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Publish
-      run: dotnet publish --runtime "win-x64" ./src/Orchestrator/CloudRepublic.BenchMark.Orchestrator.V2/CloudRepublic.BenchMark.Orchestrator.V2.csproj --output ./outputs/testRunner --configuration "RELEASE"
+      run: dotnet publish --runtime "linux-x64" ./src/Orchestrator/CloudRepublic.BenchMark.Orchestrator.V2/CloudRepublic.BenchMark.Orchestrator.V2.csproj --output ./outputs/testRunner --configuration "RELEASE"
     - name: Debugging info
       run: ls ./outputs/testRunner
     - name: Zip outputs
