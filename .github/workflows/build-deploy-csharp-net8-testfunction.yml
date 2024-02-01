@@ -33,7 +33,7 @@ jobs:
     - name: Zip outputs windows
       shell: pwsh
       working-directory: ${{ github.workspace }}/outputs/test/windows
-      run: Compress-Archive . ${{ github.workspace }}/windows.zip
+      run: Compress-Archive .\* ${{ github.workspace }}/windows.zip
     - name: Upload a Build Artifact windows
       uses: actions/upload-artifact@v3.1.1
       with:

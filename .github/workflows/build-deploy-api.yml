@@ -37,7 +37,7 @@ jobs:
     - name: Zip outputs
       shell: pwsh
       working-directory: ${{ github.workspace }}/outputs/api
-      run: Compress-Archive . ${{ github.workspace }}/api.zip
+      run: Compress-Archive .\* ${{ github.workspace }}/api.zip
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.1
       with:
@@ -66,7 +66,7 @@ jobs:
     - name: Zip outputs
       shell: pwsh
       working-directory: ${{ github.workspace }}/outputs/testRunner
-      run: Compress-Archive . ${{ github.workspace }}/testRunner.zip
+      run: Compress-Archive .\* ${{ github.workspace }}/testRunner.zip
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.1
       with:
