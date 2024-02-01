@@ -25,35 +25,36 @@ var host = new HostBuilder()
         services.AddHttpClient("benchmarkTester");
     })
     .ConfigureAppConfiguration(builder =>
-    {
-        builder.AddEnvironmentVariables();
-        
-        // Add Azure App Configuration as additional configuration source
-        builder.AddAzureAppConfiguration(options =>
         {
             builder.AddEnvironmentVariables();
-        
+
             // Add Azure App Configuration as additional configuration source
             builder.AddAzureAppConfiguration(options =>
             {
-                var configServiceEndpoint = Environment.GetEnvironmentVariable("ConfigurationServiceEndpoint");
-            
-                var managedIdentityTokenCredential = new ManagedIdentityCredential() as TokenCredential;
-                var azureCliCredential = new AzureCliCredential() as TokenCredential;
-                var chainedTokenCredential = new ChainedTokenCredential(
-                    managedIdentityTokenCredential, azureCliCredential);
+                builder.AddEnvironmentVariables();
 
-                options.Connect(new Uri(configServiceEndpoint), chainedTokenCredential);
+                // Add Azure App Configuration as additional configuration source
+                builder.AddAzureAppConfiguration(options =>
+                {
+                    var configServiceEndpoint = Environment.GetEnvironmentVariable("ConfigurationServiceEndpoint");
 
-                options
-                    .Select("BenchMarkTests:*")
-                    .ConfigureRefresh(refreshOptions =>
-                    {
-                        refreshOptions.Register("BenchMarkTests:Sentinel", refreshAll: true)
-                            .SetCacheExpiration(TimeSpan.FromSeconds(30));
-                    });
+                    var managedIdentityTokenCredential = new ManagedIdentityCredential() as TokenCredential;
+                    var azureCliCredential = new AzureCliCredential() as TokenCredential;
+                    var chainedTokenCredential = new ChainedTokenCredential(
+                        managedIdentityTokenCredential, azureCliCredential);
+
+                    options.Connect(new Uri(configServiceEndpoint), chainedTokenCredential);
+
+                    options
+                        .Select("BenchMarkTests:*")
+                        .ConfigureRefresh(refreshOptions =>
+                        {
+                            refreshOptions.Register("BenchMarkTests:Sentinel", refreshAll: true)
+                                .SetCacheExpiration(TimeSpan.FromSeconds(30));
+                        });
+                });
             });
-    })
-    .Build();
+        })
+        .Build();
 
 host.Run();
