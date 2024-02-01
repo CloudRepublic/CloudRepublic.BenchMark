@@ -17,6 +17,7 @@ module csharpWindows '../../../../Deployment/testFunctions/parts/windowsFunction
     sortOrder: 111
     fxVersion: 'dotnet-isolated|8.0'
     use32BitWorkerProcess: false
+    useDotnetIsolated: true
   }
 }
 
@@ -38,5 +39,6 @@ module csharpLinux '../../../../Deployment/testFunctions/parts/linuxFunction.bic
     testPath: '/api/Trigger'
     sortOrder: 116
     fxVersion: 'dotnet-isolated|8.0'
+    useDotnetIsolated: true
   }
 }

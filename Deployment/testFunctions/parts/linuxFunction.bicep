@@ -6,6 +6,7 @@ param location string
 param testPath string
 param sku string = ''
 param sortOrder int
+param useDotnetIsolated bool = false
 
 @allowed(['dotnet', 'dotnet-isolated', 'node', 'java', 'powershell', 'python'])
 param workerRuntime string
@@ -86,6 +87,10 @@ resource function 'Microsoft.Web/sites@2022-03-01' = {
         {
           name: 'FUNCTIONS_EXTENSION_VERSION'
           value: runtimeVersion
+        }
+        {
+          name: 'WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED'
+          value: useDotnetIsolated ? '1' : '0'
         }
         {
           name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING'

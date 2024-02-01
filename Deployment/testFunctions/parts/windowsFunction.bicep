@@ -7,6 +7,7 @@ param testPath string
 param sku string = ''
 param sortOrder int
 param use32BitWorkerProcess bool = true
+param useDotnetIsolated bool = false
 
 @allowed(['dotnet', 'dotnet-isolated', 'node', 'java', 'powershell', 'python'])
 param workerRuntime string
@@ -90,6 +91,10 @@ resource function 'Microsoft.Web/sites@2022-03-01' = {
         {
           name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING'
           value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
+        }
+        {
+          name: 'WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED'
+          value: useDotnetIsolated ? '1' : '0'
         }
         {
           name: 'WEBSITE_NODE_DEFAULT_VERSION'
