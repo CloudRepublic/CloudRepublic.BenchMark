@@ -83,7 +83,8 @@ resource function 'Microsoft.Web/sites@2022-03-01' = {
       minTlsVersion: '1.2'
       scmMinTlsVersion: '1.2'
       http20Enabled: true
-      windowsFxVersion: 'DOTNET|6.0'
+      windowsFxVersion: 'dotnet-isolated|8.0'
+      use32BitWorkerProcess: false
       appSettings: [
         {
           name: 'AzureWebJobsStorage'
@@ -91,7 +92,7 @@ resource function 'Microsoft.Web/sites@2022-03-01' = {
         }
         {
           name: 'FUNCTIONS_WORKER_RUNTIME'
-          value: 'dotnet'
+          value: 'dotnet-isolated'
         }
         {
           name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
