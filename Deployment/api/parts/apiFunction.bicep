@@ -111,6 +111,10 @@ resource function 'Microsoft.Web/sites@2022-03-01' = {
           value: 'true'
         }
         {
+          name: 'WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED'
+          value: '1'
+        }
+        {
           name: 'dayRange'
           value: '7'
         }

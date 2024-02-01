@@ -110,6 +110,10 @@ resource function 'Microsoft.Web/sites@2022-03-01' = {
           value: 'true'
         }
         {
+          name: 'WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED'
+          value: '1'
+        }
+        {
           name: 'storage__endpoint'
           value: sharedStorageAccount.properties.primaryEndpoints.table
         }
