@@ -43,13 +43,18 @@ namespace CloudRepublic.BenchMark.API.V2.Services
 
             foreach (var date in dates)
             {
-                benchmarkData.ColdDataPoints.Add(new DataPoint(date.ToString("yyyy MMMM dd"),
-                    coldDataPoints.Where(c => c.CreatedAt.Date == date.Date)
-                        .Select(c => c.RequestDuration).ToList()));
+                benchmarkData.ColdDataPoints.Add(new DataPoint
+                {
+                    CreatedAt = date.ToString("yyyy MMMM dd"),
+                    ExecutionTimes = coldDataPoints.Where(c => c.CreatedAt.Date == date.Date)
+                        .Select(c => c.RequestDuration).ToList()
+                });
 
-                benchmarkData.WarmDataPoints.Add(new DataPoint(date.ToString("yyyy MMMM dd"),
-                    warmDataPoints.Where(c => c.CreatedAt.Date == date.Date)
-                        .Select(c => c.RequestDuration).ToList()));
+                benchmarkData.WarmDataPoints.Add(new DataPoint{
+                    CreatedAt = date.ToString("yyyy MMMM dd"),
+                    ExecutionTimes = warmDataPoints.Where(c => c.CreatedAt.Date == date.Date)
+                        .Select(c => c.RequestDuration).ToList()
+                    });
             }
 
             return benchmarkData;
