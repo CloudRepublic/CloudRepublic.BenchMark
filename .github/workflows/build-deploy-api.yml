@@ -33,7 +33,7 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal --configuration "RELEASE"
     - name: Publish
-      run: dotnet publish ./src/API/CloudRepublic.BenchMark.API/CloudRepublic.BenchMark.API.csproj --output ./outputs/api --configuration "RELEASE"
+      run: dotnet publish --runtime "win-x64" ./src/API/CloudRepublic.BenchMark.API/CloudRepublic.BenchMark.API.csproj --output ./outputs/api --configuration "RELEASE"
     - name: Debugging info
       run: ls ./outputs/api
     - name: Zip outputs
@@ -63,7 +63,7 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal --configuration "RELEASE"
     - name: Publish
-      run: dotnet publish ./src/Orchestrator/CloudRepublic.BenchMark.Orchestrator/CloudRepublic.BenchMark.Orchestrator.csproj --output ./outputs/testRunner --configuration "RELEASE"
+      run: dotnet publish --runtime "win-x64" ./src/Orchestrator/CloudRepublic.BenchMark.Orchestrator/CloudRepublic.BenchMark.Orchestrator.csproj --output ./outputs/testRunner --configuration "RELEASE"
     - name: Debugging info
       run: ls ./outputs/testRunner
     - name: Zip outputs

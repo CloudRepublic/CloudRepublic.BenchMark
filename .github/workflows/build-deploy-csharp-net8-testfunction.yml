@@ -31,7 +31,7 @@ jobs:
     - name: Publish linux
       run: dotnet publish ./src/Azure/Csharp.net8/CloudRepublic.BenchMark.SampleFunction.Net8/CloudRepublic.BenchMark.SampleFunction.Net8.csproj  --runtime "linux-x64" --output ./outputs/test/linux --configuration "RELEASE"
     - name: Publish windows
-      run: dotnet publish ./src/Azure/Csharp.net8/CloudRepublic.BenchMark.SampleFunction.Net8/CloudRepublic.BenchMark.SampleFunction.Net8.csproj  --runtime "win-x64" --output ./outputs/test/windows --configuration "RELEASE"
+      run: dotnet publish ./src/Azure/Csharp.net8/CloudRepublic.BenchMark.SampleFunction.Net8/CloudRepublic.BenchMark.SampleFunction.Net8.csproj --runtime "win-x64" --output ./outputs/test/windows --configuration "RELEASE"
     - name: Debugging info
       run: ls ./outputs/test
     - name: Zip outputs linux
