@@ -80,7 +80,7 @@ jobs:
         path: ./outputs/test/windows
     
     - name: Deploy linux test
-      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/test/linux/test.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}cseightlin"
+      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/test/linux/linux.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}cseightlin"
 
     - name: Deploy windows test
-      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/test/windows/test.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}cseightwin"
+      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/test/windows/windows.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}cseightwin"
