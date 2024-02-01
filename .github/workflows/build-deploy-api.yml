@@ -146,7 +146,7 @@ jobs:
         skip_api_build: true
 
     - name: Deploy api
-      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/api/api.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}api"
+      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/api/api.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}lapi"
 
     - name: Deploy test runner
-      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/testRunner/testRunner.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}testrunner"
+      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/testRunner/testRunner.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}ltestrunner"
