@@ -67,7 +67,7 @@ public class GetStatistics(IBenchMarkResultService benchMarkResultService, IResp
         var convertedData = responseConverterService.ConvertToBenchMarkData(benchMarkPointsToReturn);
         var response = req.CreateResponse(HttpStatusCode.OK);
         response.Headers.Add("Content-Type", "application/json");
-        await response.WriteStringAsync(JsonSerializer.Serialize(convertedData, StatisticsSerializer.Default.BenchMarkData));
+        await response.WriteStringAsync(JsonSerializer.Serialize(convertedData, StatisticsSerializerContext.Default.BenchMarkData));
 
         return response;
     }

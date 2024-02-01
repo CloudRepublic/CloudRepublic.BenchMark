@@ -16,7 +16,7 @@ public class GetMeasurementCategories(IEnumerable<BenchMarkType> benchMarkTypes)
     {
         var response = req.CreateResponse(HttpStatusCode.OK);
         response.Headers.Add("Content-Type", "application/json; charset=utf-8");
-        response.WriteString(JsonSerializer.Serialize(benchMarkTypes.ToCategories(), BenchMarkTypesSerializer.Default.BenchMarkType));
+        response.WriteString(JsonSerializer.Serialize(benchMarkTypes.ToCategories(), CategorySerializerContext.Default.Category));
         return response;
         
     }
