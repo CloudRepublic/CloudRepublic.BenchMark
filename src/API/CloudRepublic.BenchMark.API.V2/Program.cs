@@ -28,6 +28,10 @@ var host = new HostBuilder()
         builder.AddAzureAppConfiguration(options =>
         {
             var configServiceEndpoint = Environment.GetEnvironmentVariable("ConfigurationServiceEndpoint");
+            if (configServiceEndpoint is null)
+            {
+                throw new Exception("ConfigurationServiceEndpoint is not set");
+            }
             
 #if DEBUG
             if (configServiceEndpoint is { })

@@ -27,32 +27,30 @@ var host = new HostBuilder()
     .ConfigureAppConfiguration(builder =>
         {
             builder.AddEnvironmentVariables();
-
+        
             // Add Azure App Configuration as additional configuration source
             builder.AddAzureAppConfiguration(options =>
             {
-                builder.AddEnvironmentVariables();
-
-                // Add Azure App Configuration as additional configuration source
-                builder.AddAzureAppConfiguration(options =>
+                var configServiceEndpoint = Environment.GetEnvironmentVariable("ConfigurationServiceEndpoint");
+                if (configServiceEndpoint is null)
                 {
-                    var configServiceEndpoint = Environment.GetEnvironmentVariable("ConfigurationServiceEndpoint");
+                    throw new Exception("ConfigurationServiceEndpoint is not set");
+                }
+            
+                var managedIdentityTokenCredential = new ManagedIdentityCredential() as TokenCredential;
+                var azureCliCredential = new AzureCliCredential() as TokenCredential;
+                var chainedTokenCredential = new ChainedTokenCredential(
+                    managedIdentityTokenCredential, azureCliCredential);
 
-                    var managedIdentityTokenCredential = new ManagedIdentityCredential() as TokenCredential;
-                    var azureCliCredential = new AzureCliCredential() as TokenCredential;
-                    var chainedTokenCredential = new ChainedTokenCredential(
-                        managedIdentityTokenCredential, azureCliCredential);
+                options.Connect(new Uri(configServiceEndpoint), chainedTokenCredential);
 
-                    options.Connect(new Uri(configServiceEndpoint), chainedTokenCredential);
-
-                    options
-                        .Select("BenchMarkTests:*")
-                        .ConfigureRefresh(refreshOptions =>
-                        {
-                            refreshOptions.Register("BenchMarkTests:Sentinel", refreshAll: true)
-                                .SetCacheExpiration(TimeSpan.FromSeconds(30));
-                        });
-                });
+                options
+                    .Select("BenchMarkTests:*")
+                    .ConfigureRefresh(refreshOptions =>
+                    {
+                        refreshOptions.Register("BenchMarkTests:Sentinel", refreshAll: true)
+                            .SetCacheExpiration(TimeSpan.FromSeconds(30));
+                    });
             });
         })
         .Build();

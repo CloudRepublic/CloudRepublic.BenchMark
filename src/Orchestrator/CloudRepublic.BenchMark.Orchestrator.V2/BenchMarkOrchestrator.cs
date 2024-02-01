@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace CloudRepublic.BenchMark.Orchestrator.V2;
 
-public class BenchMarkOrchestrator(ILoggerFactory loggerFactory, IBenchMarkTypeService _benchMarkTypeService)
+public class BenchMarkOrchestrator(ILoggerFactory loggerFactory, IBenchMarkTypeService benchMarkTypeService)
 {
     private readonly ILogger _logger = loggerFactory.CreateLogger<BenchMarkOrchestrator>();
 
@@ -23,10 +23,10 @@ public class BenchMarkOrchestrator(ILoggerFactory loggerFactory, IBenchMarkTypeS
     /// <returns></returns>
     private async Task RunAndHandleAllBenchMarksAsync()
     {
-        var benchMarkResults = await _benchMarkTypeService.RunBenchMarksAsync();
-        if (benchMarkResults.Any())
+        var benchMarkResults = await benchMarkTypeService.RunBenchMarksAsync();
+        if (benchMarkResults.Count != 0)
         {
-            await _benchMarkTypeService.StoreBenchMarkResultsAsync(benchMarkResults);
+            await benchMarkTypeService.StoreBenchMarkResultsAsync(benchMarkResults);
         }
     }
 }
