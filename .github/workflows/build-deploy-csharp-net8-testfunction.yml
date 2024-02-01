@@ -44,12 +44,12 @@ jobs:
       uses: actions/upload-artifact@v3.1.1
       with:
         name: linux
-        path: ../linux.zip
+        path: ./linux.zip
     - name: Upload a Build Artifact windows
       uses: actions/upload-artifact@v3.1.1
       with:
         name: windows
-        path: ../windows.zip
+        path: ./windows.zip
   
 
   deploy:
