@@ -20,8 +20,6 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 8.0.x
-    - name: Install zip
-      uses: montudor/action-zip@v1
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
@@ -32,12 +30,10 @@ jobs:
       run: dotnet publish ./src/Azure/Csharp.net8/CloudRepublic.BenchMark.SampleFunction.Net8/CloudRepublic.BenchMark.SampleFunction.Net8.csproj --runtime "win-x64" --output ./outputs/test/windows --configuration "RELEASE"
     - name: Debugging info
       run: ls ./outputs/test
-    - name: Zip outputs linux
-      working-directory: ${{ github.workspace }}/outputs/test/linux
-      run: zip -qq -r ${{ github.workspace }}/linux.zip .
     - name: Zip outputs windows
+      shell: pwsh
       working-directory: ${{ github.workspace }}/outputs/test/windows
-      run: zip -qq -r ${{ github.workspace }}/windows.zip .
+      run: Compress-Archive . ${{ github.workspace }}/windows.zip
     - name: Upload a Build Artifact windows
       uses: actions/upload-artifact@v3.1.1
       with:
@@ -80,7 +76,7 @@ jobs:
   deploy:
     name: Deploy application
     runs-on: ubuntu-latest
-    needs: ["buildTest"]
+    needs: ["buildTestWindows", "buildTestLinux"]
     steps:
       # Checkout code
     - uses: actions/checkout@v3
