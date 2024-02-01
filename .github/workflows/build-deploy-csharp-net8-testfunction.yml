@@ -34,14 +34,23 @@ jobs:
       run: dotnet publish ./src/Azure/Csharp.net8/CloudRepublic.BenchMark.SampleFunction.Net8/CloudRepublic.BenchMark.SampleFunction.Net8.csproj  --runtime "win-x64" --output ./outputs/test/windows --configuration "RELEASE"
     - name: Debugging info
       run: ls ./outputs/test
-    - name: Zip outputs
-      working-directory: ${{ github.workspace }}/outputs/test
-      run: zip -qq -r ${{ github.workspace }}/test.zip .
-    - name: Upload a Build Artifact
+    - name: Zip outputs linux
+      working-directory: ${{ github.workspace }}/outputs/test/linux
+      run: zip -qq -r ${{ github.workspace }}/linux.zip .
+    - name: Zip outputs windows
+      working-directory: ${{ github.workspace }}/outputs/test/windows
+      run: zip -qq -r ${{ github.workspace }}/windows.zip .
+    - name: Upload a Build Artifact linux
       uses: actions/upload-artifact@v3.1.1
       with:
-        name: test
-        path: ./test.zip
+        name: linux
+        path: ../linux.zip
+    - name: Upload a Build Artifact windows
+      uses: actions/upload-artifact@v3.1.1
+      with:
+        name: windows
+        path: ../windows.zip
+  
 
   deploy:
     name: Deploy application
@@ -58,11 +67,17 @@ jobs:
     - name: deploy bicep
       run: az deployment group create --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --template-file ./src/Azure/Csharp.net8/CloudRepublic.BenchMark.SampleFunction.Net8/deployment.bicep --parameters prefix=${{ secrets.DEPLOYMENT_PREFIX }} --name csharp-net8
 
-    - name: Download Test Artifact
+    - name: Download Test Artifact Linux
       uses: actions/download-artifact@v3.0.1
       with:
-        name: test
-        path: ./outputs/test
+        name: linux
+        path: ./outputs/test/linux
+
+    - name: Download Test Artifact Windows
+      uses: actions/download-artifact@v3.0.1
+      with:
+        name: windows
+        path: ./outputs/test/windows
     
     - name: Deploy linux test
       run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/test/linux/test.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}cseightlin"
