@@ -11,7 +11,40 @@ on:
   workflow_dispatch:
 
 jobs:
-  buildTest:
+  buildTestWindows:
+    name: Build Test Function
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 8.0.x
+    - name: Install zip
+      uses: montudor/action-zip@v1
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore --configuration "RELEASE"
+    - name: Test
+      run: dotnet test --no-build --verbosity normal --configuration "RELEASE"
+    - name: Publish windows
+      run: dotnet publish ./src/Azure/Csharp.net8/CloudRepublic.BenchMark.SampleFunction.Net8/CloudRepublic.BenchMark.SampleFunction.Net8.csproj --runtime "win-x64" --output ./outputs/test/windows --configuration "RELEASE"
+    - name: Debugging info
+      run: ls ./outputs/test
+    - name: Zip outputs linux
+      working-directory: ${{ github.workspace }}/outputs/test/linux
+      run: zip -qq -r ${{ github.workspace }}/linux.zip .
+    - name: Zip outputs windows
+      working-directory: ${{ github.workspace }}/outputs/test/windows
+      run: zip -qq -r ${{ github.workspace }}/windows.zip .
+    - name: Upload a Build Artifact windows
+      uses: actions/upload-artifact@v3.1.1
+      with:
+        name: windows
+        path: ./windows.zip
+
+  buildTestLinux:
     name: Build Test Function
     runs-on: ubuntu-latest
     steps:
@@ -37,19 +70,11 @@ jobs:
     - name: Zip outputs linux
       working-directory: ${{ github.workspace }}/outputs/test/linux
       run: zip -qq -r ${{ github.workspace }}/linux.zip .
-    - name: Zip outputs windows
-      working-directory: ${{ github.workspace }}/outputs/test/windows
-      run: zip -qq -r ${{ github.workspace }}/windows.zip .
     - name: Upload a Build Artifact linux
       uses: actions/upload-artifact@v3.1.1
       with:
         name: linux
         path: ./linux.zip
-    - name: Upload a Build Artifact windows
-      uses: actions/upload-artifact@v3.1.1
-      with:
-        name: windows
-        path: ./windows.zip
   
 
   deploy:
