@@ -19,7 +19,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 8.0.x
     - name: Install zip
       uses: montudor/action-zip@v1
     - name: Restore dependencies
@@ -28,8 +28,10 @@ jobs:
       run: dotnet build --no-restore --configuration "RELEASE"
     - name: Test
       run: dotnet test --no-build --verbosity normal --configuration "RELEASE"
-    - name: Publish
-      run: dotnet publish ./src/Azure/Csharp.net8/CloudRepublic.BenchMark.SampleFunction.Net8/CloudRepublic.BenchMark.SampleFunction.Net8.csproj --output ./outputs/test --configuration "RELEASE"
+    - name: Publish linux
+      run: dotnet publish ./src/Azure/Csharp.net8/CloudRepublic.BenchMark.SampleFunction.Net8/CloudRepublic.BenchMark.SampleFunction.Net8.csproj  --runtime "linux-x64" --output ./outputs/test/linux --configuration "RELEASE"
+    - name: Publish windows
+      run: dotnet publish ./src/Azure/Csharp.net8/CloudRepublic.BenchMark.SampleFunction.Net8/CloudRepublic.BenchMark.SampleFunction.Net8.csproj  --runtime "windows-x64" --output ./outputs/test/windows --configuration "RELEASE"
     - name: Debugging info
       run: ls ./outputs/test
     - name: Zip outputs
@@ -63,7 +65,7 @@ jobs:
         path: ./outputs/test
     
     - name: Deploy linux test
-      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/test/test.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}cseightlin"
+      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/test/linux/test.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}cseightlin"
 
     - name: Deploy windows test
-      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/test/test.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}cseightwin"
+      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/test/windows/test.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}cseightwin"
