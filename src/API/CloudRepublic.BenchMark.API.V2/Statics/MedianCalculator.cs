@@ -1,6 +1,6 @@
+using CloudRepublic.BenchMark.API.V2.Mappers;
 using CloudRepublic.BenchMark.API.V2.Models;
 using CloudRepublic.BenchMark.Domain.Entities;
-using MathNet.Numerics.Statistics;
 
 namespace CloudRepublic.BenchMark.API.V2.Statics;
 
