@@ -5,6 +5,7 @@ using CloudRepublic.BenchMark.Application.Interfaces;
 using CloudRepublic.BenchMark.Application.Services;
 using CloudRepublic.BenchMark.Orchestrator.V2.Interfaces;
 using CloudRepublic.BenchMark.Orchestrator.V2.Services;
+using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,6 +22,9 @@ var host = new HostBuilder()
             
         services.AddTransient<IBenchMarkService, BenchMarkService>();
         services.AddTransient<IBenchMarkTypeService, BenchMarkTypeService>();
+        
+        services.AddApplicationInsightsTelemetryWorkerService();
+        services.ConfigureFunctionsApplicationInsights();
         
         services.AddHttpClient("benchmarkTester");
     })
