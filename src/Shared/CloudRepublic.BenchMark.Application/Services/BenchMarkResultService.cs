@@ -28,16 +28,12 @@ namespace CloudRepublic.BenchMark.Application.Services
         {
             var days = GetDatesBetween(afterDate, GetDateTimeNow());
 
-            var benchMarkResults = new List<BenchMarkResult>();
-            foreach (var day in days)
-            {
-                var monthResults = await _benchMarkResultRepository
-                    .GetBenchMarkResultsAsync(cloudProvider, hostingEnvironment, runtime, language, sku, day.Year, day.Month, day.Day);
-                
-                benchMarkResults.AddRange(monthResults);
-            }
+            var benchMarkResults = await Task.WhenAll(days.Select(day => _benchMarkResultRepository
+                .GetBenchMarkResultsAsync(cloudProvider, hostingEnvironment, runtime, language, sku, day.Year,
+                    day.Month, day.Day)));
+            
 
-            return benchMarkResults.Where(r => r.CreatedAt >= afterDate);
+            return benchMarkResults.SelectMany(x => x).Where(r => r.CreatedAt >= afterDate);
         }
 
         private static List<DateTimeOffset> GetDatesBetween(DateTimeOffset startDate, DateTimeOffset endDate)
