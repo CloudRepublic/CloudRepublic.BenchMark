@@ -1,0 +1,9 @@
+{
+    "name": "Serverless Benchmark",
+    "image": "mcr.microsoft.com/devcontainers/typescript-node",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces,type=bind,consistency=cached",
+    "workspaceFolder": "/workspaces",
+    "containerUser": "root",
+    "remoteUser": "root",
+    "postCreateCommand": "npm install"
+}
