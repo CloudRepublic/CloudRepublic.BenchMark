@@ -1,0 +1,7 @@
+<ng-container *ngIf="(showLoadingOverlay$ | async) as showLoadingOverlay">
+  <div class="loading" [class.hidden]="!showLoadingOverlay.showLoading">
+    <div class="spinner-background">
+      <mat-spinner color="accent"/>
+    </div>
+  </div>
+</ng-container>
