@@ -15,7 +15,8 @@ namespace CloudRepublic.BenchMark.API.V2.Services
                 firstResult.CloudProvider.GetName(),
                 firstResult.HostingEnvironment.GetName(),
                 firstResult.Runtime.GetName(),
-                firstResult.Language.GetName());
+                firstResult.Language.GetName(),
+                firstResult.Sku);
 
             var currentDate = firstResult.CreatedAt.Date;
 
