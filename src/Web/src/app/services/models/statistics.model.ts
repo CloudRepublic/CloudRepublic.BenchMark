@@ -5,6 +5,7 @@ export interface Statistics {
   hostingEnvironment: string,
   runtime: string,
   language: string,
+  sku: string,
   coldPreviousDayPositive: boolean,
   coldPreviousDayDifference: number,
   warmPreviousDayPositive: boolean,

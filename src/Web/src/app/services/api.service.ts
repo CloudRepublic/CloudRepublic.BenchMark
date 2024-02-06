@@ -8,7 +8,7 @@ import {Statistics} from "./models/statistics.model";
   providedIn: 'root'
 })
 export class ApiService {
-  baseurl = "https://serverlessbenchmark.cloudrepublic.nl/api"
+  baseurl = "https://serverlessbenchmark.cloudrepublic.nl/api";
 
   constructor(private httpClient: HttpClient) { }
 

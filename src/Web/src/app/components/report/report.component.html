@@ -1,3 +1,50 @@
+<div class="refresh-loader" *ngIf="isRefreshing$ | async">
+  <span>Refreshing data</span>
+  <mat-spinner color="accent" diameter="25"></mat-spinner>
+</div>
+
+
 <ng-container *ngIf="statistics$ | async as statistics">
-  <p>{{ statistics | json }}</p>
+  <div class="grid">
+    <mat-card class="cold-stats stats">
+      <mat-card-header>
+        <span class="stats-title">Cold-start median</span>
+        <div class="icon">
+          <img src="/assets/img/linux.svg" *ngIf="statistics.hostingEnvironment.toLowerCase() == 'linux'" alt="Linux OS"/>
+          <img src="/assets/img/microsoft.svg" *ngIf="statistics.hostingEnvironment.toLowerCase() == 'windows'" alt="Windows OS"/>
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="timing">{{statistics.coldMedianExecutionTime}} ms</div>
+        <div class="diff">
+          <mat-icon inline *ngIf="statistics.coldPreviousDayPositive" class="positive" fontIcon="arrow_downward"/>
+          <mat-icon inline *ngIf="!statistics.coldPreviousDayPositive" fontIcon="arrow_upward"/>
+          <span class="percentage" [class.positive]="statistics.coldPreviousDayPositive">
+          {{statistics.coldPreviousDayDifference}}%</span> Since yesterday</div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="cold-diagram">
+
+    </mat-card>
+    <mat-card class="warm-stats stats">
+      <mat-card-header>
+        <span class="stats-title">Warm-start median</span>
+        <div class="icon">
+          <img src="/assets/img/linux.svg" *ngIf="statistics.hostingEnvironment.toLowerCase() == 'linux'" alt="Linux OS"/>
+          <img src="/assets/img/microsoft.svg" *ngIf="statistics.hostingEnvironment.toLowerCase() == 'windows'" alt="Windows OS"/>
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="timing">{{statistics.warmMedianExecutionTime}} ms</div>
+        <div class="diff">
+          <mat-icon inline *ngIf="statistics.warmPreviousDayPositive" class="positive" fontIcon="arrow_downward"/>
+          <mat-icon inline *ngIf="!statistics.warmPreviousDayPositive" fontIcon="arrow_upward"/>
+          <span class="percentage" [class.positive]="statistics.warmPreviousDayPositive">
+            {{statistics.warmPreviousDayDifference}}%</span> Since yesterday</div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="warm-diagram">
+
+    </mat-card>
+  </div>
 </ng-container>

@@ -1,6 +1,5 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { ReportStore } from "./report.store";
-import {Category} from "../../services/models/category.model";
 
 const getReportState = createFeatureSelector<ReportStore>('report');
 
@@ -27,4 +26,9 @@ export const getLoadingState = createSelector(
       loading: state.loading
     }
   }
+)
+
+export const getIsRefreshing = createSelector(
+  getReportState,
+  (state) => state.refreshing
 )

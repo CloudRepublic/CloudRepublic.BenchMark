@@ -27,4 +27,9 @@
     color: #fff;
     background: #5e72e4;
   }
+
+  @media screen and (max-width: 400px) {
+    width: 94%;
+    margin-left: 3%;
+  }
 }

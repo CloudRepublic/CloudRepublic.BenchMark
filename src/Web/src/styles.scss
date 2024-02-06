@@ -113,10 +113,10 @@ document, body {
   margin: 0;
   padding: 0;
   background: var(--background);
+  font-family: Open Sans,sans-serif;
 }
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .fill-background {
   fill: var(--background)

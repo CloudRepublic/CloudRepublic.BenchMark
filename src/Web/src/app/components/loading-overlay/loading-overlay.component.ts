@@ -1,14 +1,15 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {MatProgressSpinner} from "@angular/material/progress-spinner";
-import {debounceTime, switchMap, EMPTY, map, Observable, of, startWith, combineLatest, delay} from "rxjs";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {switchMap, EMPTY, map, Observable, of, startWith, combineLatest, delay} from "rxjs";
 import {Store} from "@ngrx/store";
 import * as selectors from "../../store/report/report.selectors";
 import {AsyncPipe, NgIf, NgStyle} from "@angular/common";
+
 @Component({
   selector: 'app-loading-overlay',
   standalone: true,
   imports: [
-    MatProgressSpinner,
+    MatProgressSpinnerModule,
     NgIf,
     AsyncPipe,
     NgStyle
@@ -49,7 +50,6 @@ export class LoadingOverlayComponent implements OnInit {
           showLoading: init || loading
         })),
         switchMap(showLoadingScreen => {
-          console.log(showLoadingScreen)
           if (showLoadingScreen.showLoading) {
             return of(showLoadingScreen);
           }
