@@ -10,6 +10,8 @@ public static class ResultConverter
         IEnumerable<BenchMarkResponse> warmBenchMarkResponses,
         BenchMarkType benchMarkType)
     {
+        var serverNames = coldBenchMarkResponses.Select(x => x.ServerName).ToList();
+        
         var coldResults = coldBenchMarkResponses.Select(benchMarkResponse => new BenchMarkResult
         {
             Id = Guid.NewGuid().ToString(),
@@ -30,7 +32,12 @@ public static class ResultConverter
         
         var warmResults = warmBenchMarkResponses.Select(benchMarkResponse =>
         {
-            var newServer = coldResults.FirstOrDefault(x => x.ServerName == benchMarkResponse.ServerName) is null;
+            if (serverNames.FirstOrDefault(x => x == benchMarkResponse.ServerName) is null)
+            {
+                serverNames.Add(benchMarkResponse.ServerName);
+                return null;
+            }
+            
             return new BenchMarkResult
             {
                 Id = Guid.NewGuid().ToString(),
@@ -42,13 +49,13 @@ public static class ResultConverter
                 Success = benchMarkResponse.Success,
                 StatusCode = benchMarkResponse.StatusCode,
                 RequestDuration = Convert.ToInt32(benchMarkResponse.Duration),
-                IsColdRequest = newServer,
-                IsScaleUp = newServer,
+                IsColdRequest = false,
+                IsScaleUp = false,
                 ServerName = benchMarkResponse.ServerName,
                 CreatedAt = DateTimeOffset.UtcNow,
                 CallPositionNumber = benchMarkResponse.CallPositionNumber
             };
-        }).ToList();
+        }).Where(x => x is not null).ToList();
 
         return coldResults.Concat(warmResults).OrderBy(r => r.CallPositionNumber).ToList();
     }
