@@ -21,10 +21,6 @@
   margin: 4em 2em;
 }
 
-.stats {
-  max-width: 20em;
-}
-
 .cold-stats {
   grid-area: cold-stats;
 }
@@ -39,51 +35,4 @@
 
 .warm-diagrams {
   grid-area: warm-diagrams;
-}
-
-.stats-title {
-  font-size: .8125em;
-  line-height: 1.5em;
-  color: #8898aa;
-  text-transform: uppercase;
-  font-weight: bold;
-  margin-right: 30px;
-}
-
-mat-card {
-  position: relative;
-}
-
-.icon {
-  position: absolute;
-  right: 16px;
-  img {
-    height: 32px;
-  }
-}
-
-.timing {
-  font-size: 1.25em;
-  font-weight: bold;
-  margin-bottom: 1em;
-}
-
-.diff {
-  font-weight: lighter;
-  display: flex;
-  align-items: center;
-  font-size: 0.8125em;
-
-  .percentage {
-    display: inline-block;
-    margin-right: 0.5em;
-  }
-
-  .percentage, mat-icon {
-    color: #f5365c;
-
-    &.positive {
-      color: #2dce89;
-    }
-  }
 }

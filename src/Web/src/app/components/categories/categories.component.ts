@@ -2,7 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {EMPTY, Observable} from "rxjs";
 import {Category} from "../../services/models/category.model";
-import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
+import { PushPipe } from '@ngrx/component';
 
 import * as selectors from '../../store/report/report.selectors'
 import * as actions from '../../store/report/report.actions'
@@ -11,7 +12,7 @@ import * as actions from '../../store/report/report.actions'
   selector: 'app-categories',
   standalone: true,
   imports: [
-    AsyncPipe,
+    PushPipe,
     NgForOf,
     NgIf
   ],

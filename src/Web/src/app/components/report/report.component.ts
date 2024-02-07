@@ -1,37 +1,52 @@
-import {Component, OnInit} from '@angular/core';
-import {EMPTY, Observable} from "rxjs";
-import {MatCardModule} from "@angular/material/card";
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {distinctUntilChanged, EMPTY, Observable} from "rxjs";
 import {Store} from "@ngrx/store";
-import {Statistics} from "../../services/models/statistics.model";
 
 import * as selectors from '../../store/report/report.selectors'
-import {AsyncPipe, JsonPipe, NgIf} from "@angular/common";
-import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {MatIconModule} from "@angular/material/icon";
+import {JsonPipe, NgIf} from "@angular/common";
+import {MedianComponent} from "../median/median.component";
+import {Median} from "../../store/report/models/median.model";
+import {GraphComponent} from "../graph/graph.component";
+import {GraphData} from "../../store/report/models/graph-data.model";
+import { PushPipe } from '@ngrx/component';
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
 
 @Component({
   selector: 'app-report',
   standalone: true,
   imports: [
-    AsyncPipe,
+    PushPipe,
     JsonPipe,
     NgIf,
-    MatProgressSpinnerModule,
-    MatCardModule,
-    MatIconModule
+    MedianComponent,
+    GraphComponent,
+    MatProgressSpinner,
   ],
   templateUrl: './report.component.html',
-  styleUrl: './report.component.scss'
+  styleUrl: './report.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReportComponent implements OnInit {
-  public statistics$: Observable<Statistics | undefined> = EMPTY;
-  public isRefreshing$: Observable<boolean> = EMPTY;
+  isRefreshing$: Observable<boolean> = EMPTY;
+  coldStartMedian$: Observable<undefined | Median> = EMPTY;
+  warmStartMedian$: Observable<undefined | Median> = EMPTY;
+  coldGraphData$: Observable<undefined | GraphData> = EMPTY;
+  warmGraphData$: Observable<undefined | GraphData> = EMPTY;
 
   constructor(private store: Store) {
   }
 
   ngOnInit(): void {
-    this.statistics$ = this.store.select(selectors.getStatistics)
+    this.coldStartMedian$ = this.store.select(selectors.getColdMedian)
+    this.warmStartMedian$ = this.store.select(selectors.getWarmMedian)
+    this.coldGraphData$ = this.store.select(selectors.getColdGraphData).pipe(
+      // we are refreshing data but don't want it to propagate if it is exactly the same as the previous value
+      distinctUntilChanged((previous, current) => JSON.stringify(previous) == JSON.stringify(current)),
+    )
+    this.warmGraphData$ = this.store.select(selectors.getWarmGraphData).pipe(
+      // we are refreshing data but don't want it to propagate if it is exactly the same as the previous value
+      distinctUntilChanged((previous, current) => JSON.stringify(previous) == JSON.stringify(current)),
+    )
     this.isRefreshing$ = this.store.select(selectors.getIsRefreshing)
   }
 }

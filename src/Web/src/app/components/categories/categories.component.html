@@ -1,5 +1,5 @@
-<ng-container *ngIf="categories$ | async as categories">
-  <ng-container *ngIf="current_category$ | async as currentCategory">
+<ng-container *ngIf="categories$ | ngrxPush as categories">
+  <ng-container *ngIf="current_category$ | ngrxPush as currentCategory">
     <ng-container *ngFor="let category of categories" >
       <button class="nav-pills" [class.active]="areEqual(category, currentCategory)" (click)="selectCategory(category)">
         {{ category.title }}

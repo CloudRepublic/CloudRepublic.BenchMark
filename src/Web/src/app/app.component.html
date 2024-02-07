@@ -1,22 +1,24 @@
 <app-loading-overlay></app-loading-overlay>
-<div class="header">
-  <div class="logo">
-    <a href="/" class="navbar-brand active router-link-active"><img src="assets/img/logo-white.png"></a>
-  </div>
-  <div class="links">
-    <ul>
-      <li class="link active"><a href="/" class="nav-link nav-link-icon active router-link-active"><span class="nav-link-inner--text">Serverless Benchmark</span></a></li>
-      <li class="link"><a href="https://github.com/CloudRepublic/CloudRepublic.BenchMark" target="_blank" class="nav-link nav-link-icon"><span class="nav-link-inner--text">Source Code</span></a></li>
-      <li class="link"><a href="https://cloudrepublic.nl/blogs" target="_blank" class="nav-link nav-link-icon"><span class="nav-link-inner--text">Blog</span></a></li>
-    </ul>
-  </div>
-  <div class="menu">
-    <app-categories></app-categories>
-  </div>
-  <div class="seperator">
-    <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg"><polygon points="2560 0 2560 100 0 100" class="fill-background"></polygon></svg>
-  </div>
-</div>
-<div class="report">
-  <app-report></app-report>
-</div>
+@defer {
+    <div class="header">
+      <div class="logo">
+        <a href="/" class="navbar-brand active router-link-active"><img src="assets/img/logo-white.png"></a>
+      </div>
+      <div class="links">
+        <ul>
+          <li class="link active"><a href="/" class="nav-link nav-link-icon active router-link-active"><span class="nav-link-inner--text">Serverless Benchmark</span></a></li>
+          <li class="link"><a href="https://github.com/CloudRepublic/CloudRepublic.BenchMark" target="_blank" class="nav-link nav-link-icon"><span class="nav-link-inner--text">Source Code</span></a></li>
+          <li class="link"><a href="https://cloudrepublic.nl/blogs" target="_blank" class="nav-link nav-link-icon"><span class="nav-link-inner--text">Blog</span></a></li>
+        </ul>
+      </div>
+      <div class="menu">
+        <app-categories></app-categories>
+      </div>
+      <div class="seperator">
+        <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg"><polygon points="2560 0 2560 100 0 100" class="fill-background"></polygon></svg>
+      </div>
+    </div>
+    <div class="report">
+      <app-report></app-report>
+    </div>
+}

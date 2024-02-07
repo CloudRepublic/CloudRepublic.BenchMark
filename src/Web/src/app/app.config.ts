@@ -1,4 +1,4 @@
-import {ApplicationConfig, importProvidersFrom, isDevMode} from '@angular/core';
+import {ApplicationConfig, isDevMode, NgZone, ɵNoopNgZone} from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -21,5 +21,6 @@ export const appConfig: ApplicationConfig = {
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     provideRouterStore(),
     provideEffects([ReportEffects]), provideAnimationsAsync(),
+    {provide: NgZone, useClass: ɵNoopNgZone}
   ]
 };

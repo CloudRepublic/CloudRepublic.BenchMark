@@ -1,18 +1,19 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {switchMap, EMPTY, map, Observable, of, startWith, combineLatest, delay} from "rxjs";
 import {Store} from "@ngrx/store";
 import * as selectors from "../../store/report/report.selectors";
-import {AsyncPipe, NgIf, NgStyle} from "@angular/common";
+import { NgIf, NgStyle} from "@angular/common";
+import { PushPipe } from '@ngrx/component';
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
 
 @Component({
   selector: 'app-loading-overlay',
   standalone: true,
   imports: [
-    MatProgressSpinnerModule,
     NgIf,
-    AsyncPipe,
-    NgStyle
+    PushPipe,
+    NgStyle,
+    MatProgressSpinner
   ],
   templateUrl: './loading-overlay.component.html',
   styleUrl: './loading-overlay.component.scss',

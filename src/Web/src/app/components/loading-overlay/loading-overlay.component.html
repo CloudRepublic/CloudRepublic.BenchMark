@@ -1,4 +1,4 @@
-<ng-container *ngIf="(showLoadingOverlay$ | async) as showLoadingOverlay">
+<ng-container *ngIf="(showLoadingOverlay$ | ngrxPush) as showLoadingOverlay">
   <div class="loading" [class.hidden]="!showLoadingOverlay.showLoading">
     <div class="spinner-background">
       <mat-spinner color="accent"/>
