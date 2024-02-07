@@ -16,7 +16,7 @@
   grid-template-columns: 1fr minmax(auto, 10em) minmax(auto, 10em) minmax(auto, 45em) minmax(auto, 10em) 1fr;
   grid-template-areas:
     '. logo logo links links .'
-    '. . discription description . .'
+    '. . description description . .'
     '. menu menu menu menu .'
     'sperator sperator sperator seperator seperator seperator';
   gap: 1.5em;
@@ -44,7 +44,6 @@
   .description {
     grid-area: description;
     text-align: center;
-    max-width: 55em;
     color: #fff;
 
     .title {
