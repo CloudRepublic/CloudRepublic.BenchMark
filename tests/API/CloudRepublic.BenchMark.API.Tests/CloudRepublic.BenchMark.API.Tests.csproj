@@ -22,7 +22,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\src\API\CloudRepublic.BenchMark.API.V2\CloudRepublic.BenchMark.API.V2.csproj" />
-      <ProjectReference Include="..\..\Shared\CloudRepublic.BenchMark.Tests.Infrastructure\CloudRepublic.BenchMark.Tests.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>
