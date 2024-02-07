@@ -11,7 +11,7 @@
     <app-graph *ngIf="coldGraphData$ | ngrxPush as graphData" [graphData]="graphData" dataType="cold"></app-graph>
   </div>
   <div class="warm-stats">
-    <app-median *ngIf="coldStartMedian$ | ngrxPush as median" [median]="median" title="Warm-start median"></app-median>
+    <app-median *ngIf="warmStartMedian$ | ngrxPush as median" [median]="median" title="Warm-start median"></app-median>
   </div>
   <div class="warm-diagram">
     <app-graph *ngIf="warmGraphData$ | ngrxPush as graphData" [graphData]="graphData" dataType="warm"></app-graph>
