@@ -11,7 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\src\Shared\CloudRepublic.BenchMark.Application\CloudRepublic.BenchMark.Application.csproj" />
+      <ProjectReference Include="..\..\..\src\Shared\CloudRepublic.BenchMark.Shared\CloudRepublic.BenchMark.Shared.csproj" />
     </ItemGroup>
 
 </Project>

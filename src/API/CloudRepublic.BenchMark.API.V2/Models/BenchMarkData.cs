@@ -1,6 +1,6 @@
 namespace CloudRepublic.BenchMark.API.V2.Models;
 
-public record BenchMarkData(string? CloudProvider, string? HostingEnvironment, string? Runtime, string? Language)
+public record BenchMarkData(string? CloudProvider, string? HostingEnvironment, string? Runtime, string? Language, string? Sku)
 {
     public bool ColdPreviousDayPositive { get; set; }
     public double ColdPreviousDayDifference { get; set; }

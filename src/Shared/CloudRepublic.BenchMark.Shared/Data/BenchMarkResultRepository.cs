@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -11,15 +10,8 @@ using CloudRepublic.BenchMark.Domain.Enums;
 
 namespace CloudRepublic.BenchMark.Data;
 
-public class BenchMarkResultRepository : IBenchMarkResultRepository
+public class BenchMarkResultRepository(TableClient tableClient) : IBenchMarkResultRepository
 {
-    private readonly TableClient _tableClient;
-
-    public BenchMarkResultRepository(TableClient tableClient)
-    {
-        _tableClient = tableClient;
-    }
-    
     public async Task AddBenchMarkResultAsync(BenchMarkResult benchMarkResult)
     {
         var entity = new BenchMarkResultEntity
@@ -29,13 +21,13 @@ public class BenchMarkResultRepository : IBenchMarkResultRepository
             RecordJson = JsonSerializer.Serialize(benchMarkResult, BenchMarkResultSerializer.Default.BenchMarkResult)
         };
         
-        await _tableClient.AddEntityAsync(entity);
+        await tableClient.AddEntityAsync(entity);
     }
 
     public async Task<IEnumerable<BenchMarkResult>> GetBenchMarkResultsAsync(CloudProvider provider, HostEnvironment environment, Runtime runtime, Language language, string sku, int year, int month, int day)
     {
         var partitionKey = BuildPartitionKey(provider, environment, runtime, language, sku, year, month, day);
-        var results = _tableClient.QueryAsync<BenchMarkResultEntity>((x) => x.PartitionKey == partitionKey);
+        var results = tableClient.QueryAsync<BenchMarkResultEntity>((x) => x.PartitionKey == partitionKey);
 
         if (results is null)
         {

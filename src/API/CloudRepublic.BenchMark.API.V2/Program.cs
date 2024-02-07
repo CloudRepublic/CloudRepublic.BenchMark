@@ -56,7 +56,7 @@ var host = new HostBuilder()
                 .ConfigureRefresh(refreshOptions =>
                 {
                     refreshOptions.Register("BenchMarkTests:Sentinel", refreshAll: true)
-                        .SetCacheExpiration(TimeSpan.FromSeconds(30));
+                        .SetCacheExpiration(TimeSpan.FromSeconds(200));
                 });
         });
     })

@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace CloudRepublic.BenchMark.Application;
 
-public static class IServiceCollectionExtensions
+public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddBenchMarkData(this IServiceCollection services, string sectionKey, TokenCredential tokenCredential)
     {
