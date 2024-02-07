@@ -4,7 +4,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <RootNamespace>CloudRepublic.BenchMark</RootNamespace>
-        <PublishReadyToRun>true</PublishReadyToRun>
+        <PublishAot>true</PublishAot>
     </PropertyGroup>
     
 
