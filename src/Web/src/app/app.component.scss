@@ -12,12 +12,13 @@
   box-sizing: border-box;
   position: relative;
   display: grid;
-  grid-template-rows: auto auto auto;
-  grid-template-columns: 1fr minmax(auto, 20em) minmax(auto, 55em) 1fr;
+  grid-template-rows: auto auto auto auto;
+  grid-template-columns: 1fr minmax(auto, 10em) minmax(auto, 10em) minmax(auto, 45em) minmax(auto, 10em) 1fr;
   grid-template-areas:
-    '. logo links .'
-    '. menu menu .'
-    'sperator seperator seperator seperator';
+    '. logo logo links links .'
+    '. . discription description . .'
+    '. menu menu menu menu .'
+    'sperator sperator sperator seperator seperator seperator';
   gap: 1.5em;
 
   .logo {
@@ -38,6 +39,24 @@
 
   .menu {
     grid-area: menu;
+  }
+
+  .description {
+    grid-area: description;
+    text-align: center;
+    max-width: 55em;
+    color: #fff;
+
+    .title {
+      font-size: 2.1875em;
+      line-height: 1.5;
+      font-weight: bold;
+    }
+
+    p {
+      font-weight: 300;
+      line-height: 1.7;
+    }
   }
 
   .seperator {

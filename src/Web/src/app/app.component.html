@@ -11,6 +11,10 @@
           <li class="link"><a href="https://cloudrepublic.nl/blogs" target="_blank" class="nav-link nav-link-icon"><span class="nav-link-inner--text">Blog</span></a></li>
         </ul>
       </div>
+      <div class="description">
+        <span class="title">How the benchmark is executed</span>
+        <p>There's an orchestrator function that executes Http Get requests to every function app instance available. The first 5 calls are classified as coldstart, we then wait for 30 seconds to execute 10 requests per function instance to measure the warmed up Http requests. </p>
+      </div>
       <div class="menu">
         <app-categories></app-categories>
       </div>
