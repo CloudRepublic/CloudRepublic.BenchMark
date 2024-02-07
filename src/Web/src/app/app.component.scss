@@ -21,6 +21,14 @@
     'sperator sperator sperator seperator seperator seperator';
   gap: 1.5em;
 
+  @media screen and (max-width: 690px) {
+    grid-template-areas:
+      '. logo logo links links .'
+      '. description description description description .'
+      '. menu menu menu menu .'
+      'sperator sperator sperator seperator seperator seperator';
+  }
+
   .logo {
     grid-area: logo;
     display: flex;
