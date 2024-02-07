@@ -34,24 +34,23 @@ jobs:
 
   buildApi:
     name: Build API
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 8.0.x
-    - name: Install zip
-      uses: montudor/action-zip@v1
     - name: Restore dependencies
       run: dotnet restore
     - name: Publish
-      run: dotnet publish --runtime "linux-x64" ./src/API/CloudRepublic.BenchMark.API.V2/CloudRepublic.BenchMark.API.V2.csproj --output ./outputs/api --configuration "RELEASE"
+      run: dotnet publish --runtime "win-x64" ./src/API/CloudRepublic.BenchMark.API.V2/CloudRepublic.BenchMark.API.V2.csproj --output ./outputs/api --configuration "RELEASE"
     - name: Debugging info
       run: ls ./outputs/api
     - name: Zip outputs
+      shell: pwsh
       working-directory: ${{ github.workspace }}/outputs/api
-      run: zip -qq -r ${{ github.workspace }}/api.zip .
+      run: Compress-Archive .\* ${{ github.workspace }}/api.zip
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.1
       with:
@@ -60,25 +59,23 @@ jobs:
 
   buildTestRunner:
     name: Build test runner
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 8.0.x
-    - name: Install zip
-      uses: montudor/action-zip@v1
     - name: Restore dependencies
       run: dotnet restore
     - name: Publish
       run: dotnet publish --runtime "linux-x64" ./src/Orchestrator/CloudRepublic.BenchMark.Orchestrator.V2/CloudRepublic.BenchMark.Orchestrator.V2.csproj --output ./outputs/testRunner --configuration "RELEASE"
     - name: Debugging info
-      run: ls ./outputs/testRunner
-    
+      run: ls ./outputs/testRunner  
     - name: Zip outputs
+      shell: pwsh
       working-directory: ${{ github.workspace }}/outputs/testRunner
-      run: zip -qq -r ${{ github.workspace }}/testRunner.zip .
+      run: Compress-Archive .\* ${{ github.workspace }}/testRunner.zip
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.1
       with:

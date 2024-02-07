@@ -2,8 +2,8 @@
 param prefix string
 param location string = resourceGroup().location
 
-var apiFunctionName = '${prefix}lapi'
-var testRunnerFunctionName = '${prefix}ltestrunner'
+var apiFunctionName = '${prefix}api'
+var testRunnerFunctionName = '${prefix}testrunner'
 var sharedStorageName = '${prefix}shared'
 
 module sharedStorage 'parts/sharedStorage.bicep' = {
