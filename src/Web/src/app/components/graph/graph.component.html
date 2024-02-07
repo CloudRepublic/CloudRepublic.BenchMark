@@ -1,4 +1,17 @@
 <mat-card>
-  <canvas #canvas>
-  </canvas>
+  <mat-card-header>
+    <div class="header">
+      <span class="label content-indicator">Performance</span>
+      <div class="title"><span>{{ dataType == 'cold' ? 'Cold-start' : 'Warm-start' }}</span><img
+        *ngIf="dataType == 'cold'" src="/assets/img/snow.svg" alt="cold"><img
+        *ngIf="dataType == 'warm'" src="/assets/img/energy.svg" alt="warm"></div>
+      <span class="label executions-per-hour">{{ dataType == 'cold' ? '5' : '10' }} Executions per hour</span>
+      <span class="label data-point-count">From {{dataPointCount}} datapoints</span>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+      <canvas class="chart" #canvas>
+      </canvas>
+  </mat-card-content>
+
 </mat-card>

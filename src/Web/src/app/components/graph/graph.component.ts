@@ -10,8 +10,9 @@ import {
 } from '@angular/core';
 import {CategoryScale, Chart, LinearScale, Tooltip} from 'chart.js';
 import {BoxAndWiskers, BoxPlotChart, BoxPlotController} from '@sgratzl/chartjs-chart-boxplot';
-import {MatCard} from "@angular/material/card";
+import {MatCard, MatCardContent, MatCardHeader} from "@angular/material/card";
 import {GraphData} from "../../store/report/models/graph-data.model";
+import {NgIf} from "@angular/common";
 
 
 @Component({
@@ -20,7 +21,10 @@ import {GraphData} from "../../store/report/models/graph-data.model";
   templateUrl: './graph.component.html',
   styleUrl: './graph.component.scss',
   imports: [
-    MatCard
+    MatCard,
+    MatCardContent,
+    MatCardHeader,
+    NgIf
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -30,6 +34,11 @@ export class GraphComponent implements AfterViewInit, OnChanges {
 
   @Input({required: true})
   graphData!: GraphData
+
+  @Input({required: true})
+  dataType!: 'cold' | 'warm'
+
+  dataPointCount: number = 0
 
   private chart!: BoxPlotChart;
 
@@ -47,6 +56,8 @@ export class GraphComponent implements AfterViewInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.dataPointCount = this.graphData.dataPoints.map(x => x.executionTimes.length).reduce((x, y) => x + y)
+
     if (!this.chart) {
       return;
     }

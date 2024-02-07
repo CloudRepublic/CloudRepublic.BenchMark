@@ -1,0 +1,64 @@
+mat-card {
+  max-width: 100%;
+}
+
+.label {
+  color: #ced4da;
+  font-size: .65em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .0625em;
+}
+
+.title {
+  color: #212529;
+  font-family: inherit;
+  font-weight: 600;
+  line-height: 1.5;
+  font-size: 1.0625em;
+  display: flex;
+  justify-items: center;
+  gap: .4em;
+
+  img {
+    max-width: 20px;
+  }
+}
+
+
+.header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+      'content-indicator executions-per-hour'
+      'title data-point-count';
+  width: 100%;
+  gap: .5em;
+}
+
+.content-indicator {
+  grid-area: content-indicator;
+  display: block;
+}
+
+.title {
+  grid-area: title;
+}
+
+.executions-per-hour {
+  grid-area: executions-per-hour;
+  text-align: end;
+  display: block;
+}
+
+.data-point-count {
+  grid-area: data-point-count;
+  text-align: end;
+  display: block;
+}
+
+.chart {
+  width: 100% !important;
+  height: 15em;
+}
