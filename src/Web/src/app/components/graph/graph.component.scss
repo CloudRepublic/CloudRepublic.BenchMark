@@ -50,6 +50,10 @@ mat-card {
   grid-area: executions-per-hour;
   text-align: end;
   display: block;
+
+  &.label {
+    color: #32325d;
+  }
 }
 
 .data-point-count {
