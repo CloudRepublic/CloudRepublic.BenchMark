@@ -1,0 +1,123 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+$primary: (
+  50 : #e4eaf0,
+  100 : #bdcada,
+  200 : #91a7c1,
+  300 : #6484a8,
+  400 : #436995,
+  500 : #224f82,
+  600 : #1e487a,
+  700 : #193f6f,
+  800 : #143665,
+  900 : #0c2652,
+  A100 : #88aeff,
+  A200 : #558cff,
+  A400 : #2269ff,
+  A700 : #0858ff,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #ffffff,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #ffffff,
+    A700 : #ffffff,
+  )
+);
+$accent: (
+  50 : #fdeee5,
+  100 : #fad4be,
+  200 : #f6b893,
+  300 : #f29c67,
+  400 : #f08647,
+  500 : #ed7126,
+  600 : #eb6922,
+  700 : #e85e1c,
+  800 : #e55417,
+  900 : #e0420d,
+  A100 : #ffffff,
+  A200 : #ffe1d9,
+  A400 : #ffb8a6,
+  A700 : #ffa48c,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #000000,
+    600 : #000000,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$serverless-benchmark-dashboard-primary: mat.define-palette($primary);
+$serverless-benchmark-dashboard-accent: mat.define-palette($accent);
+
+// The warn palette is optional (defaults to red).
+$serverless-benchmark-dashboard-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$serverless-benchmark-dashboard-theme: mat.define-light-theme((
+  color: (
+    primary: $serverless-benchmark-dashboard-primary,
+    accent: $serverless-benchmark-dashboard-accent,
+    warn: $serverless-benchmark-dashboard-warn,
+  )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($serverless-benchmark-dashboard-theme);
+
+/* You can add global styles to this file, and also import other style files */
+
+:root {
+  --background: #172b4d;
+  --primary: #224f82;
+  --accent: #ed7126;
+  --text: #152D44;
+  --grayedout: #EEE;
+}
+
+document, body {
+  margin: 0;
+  padding: 0;
+  background: var(--background);
+  font-family: Open Sans,sans-serif;
+}
+
+html, body { height: 100%; }
+
+.fill-background {
+  fill: var(--background)
+}

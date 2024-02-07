@@ -1,0 +1,35 @@
+:host {
+  display: block;
+   > * {
+     margin: 0 1em 1em 0;
+
+
+     &:last-child {
+       margin-right: 0;
+     }
+   }
+}
+
+.nav-pills {
+  padding: .75rem 1rem;
+  color: #5e72e4;
+  font-weight: 500;
+  font-size: .875rem;
+  -webkit-box-shadow: 0 4px 6px rgba(50,50,93,.11),0 1px 3px rgba(0,0,0,.08);
+  box-shadow: 0 4px 6px rgba(50,50,93,.11),0 1px 3px rgba(0,0,0,.08);
+  background-color: #fff;
+  -webkit-transition: all .15s ease;
+  transition: all .15s ease;
+  border: none;
+  border-radius: .375rem;
+
+  &.active {
+    color: #fff;
+    background: #5e72e4;
+  }
+
+  @media screen and (max-width: 500px) {
+    width: 94%;
+    margin-left: 3%;
+  }
+}
