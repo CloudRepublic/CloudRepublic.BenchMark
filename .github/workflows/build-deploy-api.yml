@@ -42,7 +42,7 @@ jobs:
       with:
         dotnet-version: 8.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ./src/API/CloudRepublic.BenchMark.API.V2/CloudRepublic.BenchMark.API.V2.csproj
     - name: Publish
       run: dotnet publish --runtime "win-x64" ./src/API/CloudRepublic.BenchMark.API.V2/CloudRepublic.BenchMark.API.V2.csproj --output ./outputs/api --configuration "RELEASE"
     - name: Debugging info
@@ -67,7 +67,7 @@ jobs:
       with:
         dotnet-version: 8.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ./src/Orchestrator/CloudRepublic.BenchMark.Orchestrator.V2/CloudRepublic.BenchMark.Orchestrator.V2.csproj
     - name: Publish
       run: dotnet publish --runtime "linux-x64" ./src/Orchestrator/CloudRepublic.BenchMark.Orchestrator.V2/CloudRepublic.BenchMark.Orchestrator.V2.csproj --output ./outputs/testRunner --configuration "RELEASE"
     - name: Debugging info
@@ -146,7 +146,7 @@ jobs:
         skip_api_build: true
 
     - name: Deploy api
-      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/api/api.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}lapi"
+      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/api/api.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}api"
 
     - name: Deploy test runner
-      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/testRunner/testRunner.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}ltestrunner"
+      run: az functionapp deployment source config-zip --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --src "./outputs/testRunner/testRunner.zip" --name "${{ secrets.DEPLOYMENT_PREFIX }}testrunner"
