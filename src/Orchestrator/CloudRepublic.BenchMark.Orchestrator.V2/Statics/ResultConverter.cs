@@ -34,7 +34,6 @@ public static class ResultConverter
         {
             if (serverNames.FirstOrDefault(x => x == benchMarkResponse.ServerName) is null)
             {
-                serverNames.Add(benchMarkResponse.ServerName);
                 return null;
             }
             
