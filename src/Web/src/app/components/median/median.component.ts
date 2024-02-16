@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 import {MatCard, MatCardContent, MatCardHeader} from "@angular/material/card";
 import {MatIcon} from "@angular/material/icon";
 import {NgIf} from "@angular/common";
@@ -19,9 +19,6 @@ import {Median} from "../../store/report/models/median.model";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MedianComponent {
-  @Input({required: true})
-  median!: Median
-
-  @Input({required: true})
-  title!: string
+  median = input.required<Median>()
+  title = input.required<string>()
 }

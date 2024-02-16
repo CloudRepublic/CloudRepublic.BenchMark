@@ -1,17 +1,17 @@
 <mat-card class="stats">
   <mat-card-header>
-    <span class="stats-title">{{ title }}</span>
+    <span class="stats-title">{{ title() }}</span>
     <div class="icon">
-      <img src="/assets/img/linux.svg" *ngIf="median.os.toLowerCase() == 'linux'" alt="Linux OS"/>
-      <img src="/assets/img/microsoft.svg" *ngIf="median.os.toLowerCase() == 'windows'" alt="Windows OS"/>
+      <img src="/assets/img/linux.svg" *ngIf="median().os.toLowerCase() == 'linux'" alt="Linux OS"/>
+      <img src="/assets/img/microsoft.svg" *ngIf="median().os.toLowerCase() == 'windows'" alt="Windows OS"/>
     </div>
   </mat-card-header>
   <mat-card-content>
-    <div class="timing">{{median.medianExecutionTime}} ms</div>
+    <div class="timing">{{median().medianExecutionTime}} ms</div>
     <div class="diff">
-      <mat-icon inline *ngIf="median.isPositiveDifference" class="positive" fontIcon="arrow_downward"/>
-      <mat-icon inline *ngIf="!median.isPositiveDifference" fontIcon="arrow_upward"/>
-      <span class="percentage" [class.positive]="median.isPositiveDifference">
-          {{median.previousDayDifference}}%</span> Since yesterday</div>
+      <mat-icon inline *ngIf="median().isPositiveDifference" class="positive" fontIcon="arrow_downward"/>
+      <mat-icon inline *ngIf="!median().isPositiveDifference" fontIcon="arrow_upward"/>
+      <span class="percentage" [class.positive]="median().isPositiveDifference">
+          {{median().previousDayDifference}}%</span> Since yesterday</div>
   </mat-card-content>
 </mat-card>

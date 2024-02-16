@@ -1,11 +1,10 @@
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
-  Component,
+  Component, computed, effect,
   ElementRef,
-  Input,
-  OnChanges,
-  SimpleChanges,
+  input,
+  Signal,
   ViewChild
 } from '@angular/core';
 import {CategoryScale, Chart, LinearScale, Tooltip} from 'chart.js';
@@ -28,19 +27,26 @@ import {NgIf} from "@angular/common";
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GraphComponent implements AfterViewInit, OnChanges {
+export class GraphComponent implements AfterViewInit {
   @ViewChild('canvas')
   canvas!: ElementRef
 
-  @Input({required: true})
-  graphData!: GraphData
-
-  @Input({required: true})
-  dataType!: 'cold' | 'warm'
-
-  dataPointCount: number = 0
+  graphData = input.required<GraphData>()
+  dataType = input.required<'cold' | 'warm'>()
+  dataPointCount: Signal<number> = computed(() => this.graphData().dataPoints.map(x => x.executionTimes.length).reduce((x, y) => x + y))
 
   private chart!: BoxPlotChart;
+
+  constructor() {
+    effect(() => {
+      if (!this.chart) {
+        return;
+      }
+
+      this.chart.data = this.getBoxplotData();
+      this.chart.update();
+    })
+  }
 
   ngAfterViewInit(): void {
     Chart.register(BoxPlotController, BoxAndWiskers, LinearScale, CategoryScale, Tooltip);
@@ -55,22 +61,11 @@ export class GraphComponent implements AfterViewInit, OnChanges {
     });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.dataPointCount = this.graphData.dataPoints.map(x => x.executionTimes.length).reduce((x, y) => x + y)
-
-    if (!this.chart) {
-      return;
-    }
-
-    this.chart.data = this.getBoxplotData();
-    this.chart.update();
-  }
-
 
   private getBoxplotData() {
     return {
       // define label tree
-      labels: this.graphData.dataPoints.map(dp => dp.createdAt),
+      labels: this.graphData().dataPoints.map(dp => dp.createdAt),
       datasets: [ {
         label: 'milliseconds',
         backgroundColor: 'rgba(94, 114, 228, 0.5)',
@@ -79,7 +74,7 @@ export class GraphComponent implements AfterViewInit, OnChanges {
         outlierColor: 'rgba(94, 114, 228, 0.5)',
         padding: 10,
         itemRadius: 0,
-        data: this.graphData.dataPoints.map(dp => dp.executionTimes)
+        data: this.graphData().dataPoints.map(dp => dp.executionTimes)
     }]
     };
   }
