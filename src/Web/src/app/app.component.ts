@@ -13,5 +13,5 @@ import {ReportComponent} from "./components/report/report.component";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
-  currentYear =new Date().getFullYear();
+  currentYear = new Date().getFullYear();
 }
