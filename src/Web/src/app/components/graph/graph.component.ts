@@ -1,11 +1,9 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component, computed, effect,
   ElementRef,
   input,
-  Signal,
-  ViewChild
+  Signal, viewChild
 } from '@angular/core';
 import {CategoryScale, Chart, LinearScale, Tooltip} from 'chart.js';
 import {BoxAndWiskers, BoxPlotChart, BoxPlotController} from '@sgratzl/chartjs-chart-boxplot';
@@ -27,55 +25,51 @@ import {NgIf} from "@angular/common";
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GraphComponent implements AfterViewInit {
-  @ViewChild('canvas')
-  canvas!: ElementRef
-
+export class GraphComponent {
+  canvas = viewChild.required<ElementRef<HTMLCanvasElement>>("canvas");
   graphData = input.required<GraphData>()
   dataType = input.required<'cold' | 'warm'>()
   dataPointCount: Signal<number> = computed(() => this.graphData().dataPoints.map(x => x.executionTimes.length).reduce((x, y) => x + y))
+  private chart: Signal<BoxPlotChart | undefined> = computed(() => {
+    let c = this.canvas().nativeElement?.getContext("2d");
+    if (!c) {
+      return;
+    }
 
-  private chart!: BoxPlotChart;
-
-  constructor() {
-    effect(() => {
-      if (!this.chart) {
-        return;
-      }
-
-      this.chart.data = this.getBoxplotData();
-      this.chart.update();
-    })
-  }
-
-  ngAfterViewInit(): void {
-    Chart.register(BoxPlotController, BoxAndWiskers, LinearScale, CategoryScale, Tooltip);
-    const boxplotData = this.getBoxplotData();
-
-    this.chart = new BoxPlotChart(this.canvas.nativeElement.getContext("2d"), {
-      data: boxplotData,
+    return new BoxPlotChart(c, {
+      data: {
+        labels: [],
+        datasets: []
+      },
       options: {
         maintainAspectRatio: false,
         responsive: true,
       }
-    });
-  }
+    })
+  });
 
+  constructor() {
+    Chart.register(BoxPlotController, BoxAndWiskers, LinearScale, CategoryScale, Tooltip);
 
-  private getBoxplotData() {
-    return {
-      // define label tree
-      labels: this.graphData().dataPoints.map(dp => dp.createdAt),
-      datasets: [ {
-        label: 'milliseconds',
-        backgroundColor: 'rgba(94, 114, 228, 0.5)',
-        borderColor: '#5e72e4',
-        borderWidth: 1,
-        outlierColor: 'rgba(94, 114, 228, 0.5)',
-        padding: 10,
-        itemRadius: 0,
-        data: this.graphData().dataPoints.map(dp => dp.executionTimes)
-    }]
-    };
+    effect(() => {
+      const chart = this.chart();
+      if (!chart) {
+        return;
+      }
+
+      chart.data = {
+        // define label tree
+        labels: this.graphData().dataPoints.map(dp => dp.createdAt),
+        datasets: [ {
+          label: 'milliseconds',
+          backgroundColor: 'rgba(94, 114, 228, 0.5)',
+          borderColor: '#5e72e4',
+          borderWidth: 1,
+          itemRadius: 0,
+          data: this.graphData().dataPoints.map(dp => dp.executionTimes)
+        }]
+      }
+      chart.update();
+    })
   }
 }
