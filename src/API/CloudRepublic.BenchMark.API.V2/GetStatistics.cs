@@ -44,11 +44,11 @@ public class GetStatistics(IResponseCacheService responseCacheService)
             await errorResponse.WriteAsJsonAsync(validationErrors);
         }
         
-        var convertedData = await responseCacheService.RunBenchMarksAsync(cloudProvider.Value, hostingEnvironment.Value, runtime.Value, language.Value, sku);
+        var serializedData = await responseCacheService.RunBenchMarksAsync(cloudProvider.Value, hostingEnvironment.Value, runtime.Value, language.Value, sku);
         
         var response = req.CreateResponse(HttpStatusCode.OK);
         response.Headers.Add("Content-Type", "application/json");
-        await response.WriteStringAsync(JsonSerializer.Serialize(convertedData, StatisticsSerializerContext.Default.BenchMarkData));
+        await response.WriteStringAsync(serializedData);
 
         return response;
     }
