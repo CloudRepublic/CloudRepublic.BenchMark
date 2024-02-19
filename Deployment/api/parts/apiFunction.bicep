@@ -23,6 +23,10 @@ resource StorageTableDataReaderRole 'Microsoft.Authorization/roleDefinitions@202
   name: '76199698-9eea-4c19-bc75-cec21354c6b6'
 }
 
+resource StorageBlobDataContributorRole 'Microsoft.Authorization/roleDefinitions@2022-04-01' existing = {
+  name: 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
+}
+
 resource configServiceDataReaderRole 'Microsoft.Authorization/roleDefinitions@2022-04-01' existing = {
   name: '516239f1-63e1-4d78-a4de-a74fb236a071'
 }
@@ -32,6 +36,16 @@ resource storageRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-
   scope: sharedStorageAccount
   properties: {
     roleDefinitionId: StorageTableDataReaderRole.id
+    principalId: function.identity.principalId
+    principalType: 'ServicePrincipal'
+  }
+}
+
+resource storageBlobContributorRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(sharedStorageAccount.id, StorageBlobDataContributorRole.id, function.id)
+  scope: sharedStorageAccount
+  properties: {
+    roleDefinitionId: StorageBlobDataContributorRole.id
     principalId: function.identity.principalId
     principalType: 'ServicePrincipal'
   }
