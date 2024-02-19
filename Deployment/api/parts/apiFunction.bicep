@@ -124,12 +124,16 @@ resource function 'Microsoft.Web/sites@2022-03-01' = {
           value: '7'
         }
         {
-          name: 'storage__endpoint'
+          name: 'storage__tableEndpoint'
           value: sharedStorageAccount.properties.primaryEndpoints.table
         }
         {
           name: 'storage__resultsTableName'
           value: resultsTableName
+        }
+        {
+          name: 'storage__containerEndpoint'
+          value: sharedStorageAccount.properties.primaryEndpoints.blob
         }
         {
           name: 'storage__containerName'

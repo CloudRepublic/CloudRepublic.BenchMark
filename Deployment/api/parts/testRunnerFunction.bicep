@@ -118,7 +118,7 @@ resource function 'Microsoft.Web/sites@2022-03-01' = {
           value: '1'
         }
         {
-          name: 'storage__endpoint'
+          name: 'storage__tableEndpoint'
           value: sharedStorageAccount.properties.primaryEndpoints.table
         }
         {

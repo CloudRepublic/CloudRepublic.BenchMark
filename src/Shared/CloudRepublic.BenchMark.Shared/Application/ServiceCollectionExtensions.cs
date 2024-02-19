@@ -25,7 +25,7 @@ public static class ServiceCollectionExtensions
             var storageSection = configuration.GetSection(sectionKey);
             
             return new BenchMarkResultRepository(new TableClient(
-                new Uri(storageSection["endpoint"]),
+                new Uri(storageSection["tableEndpoint"]),
                 storageSection["resultsTableName"],
                 tokenCredential)
             );

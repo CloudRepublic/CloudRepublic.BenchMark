@@ -20,7 +20,7 @@ public static class ServiceCollectionExtensions
         {
             var configuration = s.GetRequiredService<IConfiguration>();
             var storageSection = configuration.GetSection(sectionKey);
-            var blobServiceClient = new BlobServiceClient(new Uri(storageSection["endpoint"]), tokenCredential);
+            var blobServiceClient = new BlobServiceClient(new Uri(storageSection["containerEndpoint"]), tokenCredential);
             var blobContainerClient = blobServiceClient.GetBlobContainerClient(storageSection["containerName"]);
 
 
