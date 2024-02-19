@@ -15,8 +15,10 @@ var host = new HostBuilder()
     {
 #if DEBUG
         services.AddBenchMarkData("storage", new AzureCliCredential());
+        services.AddCaching("storage", new AzureCliCredential());
 #else
         services.AddBenchMarkData("storage", new ManagedIdentityCredential());
+        services.AddCaching("storage", new ManagedIdentityCredential());
 #endif
         services.AddTransient<IBenchMarkResultService, BenchMarkResultService>();
         services.AddSingleton<IResponseConverterService, ResponseConverterService>();

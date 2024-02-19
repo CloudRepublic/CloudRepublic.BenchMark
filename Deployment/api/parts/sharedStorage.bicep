@@ -21,6 +21,14 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' = {
     }
   }
 
+  resource blobServices 'blobServices' = {
+    name: 'default'
+
+    resource container 'containers' = {
+      name: 'responses'
+    }
+  }
+
   resource tableServices 'tableServices' = {
     name: 'default'
 
@@ -32,3 +40,4 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' = {
 
 output storageName string = storageAccount.name
 output resultsTableName string = storageAccount::tableServices::resultsTable.name
+output responsesContainerName string = storageAccount::blobServices::container.name

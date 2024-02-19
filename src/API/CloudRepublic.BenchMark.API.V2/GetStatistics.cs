@@ -10,7 +10,7 @@ using Microsoft.Azure.Functions.Worker.Http;
 
 namespace CloudRepublic.BenchMark.API.V2;
 
-public class GetStatistics(IBenchMarkResultService benchMarkResultService, IResponseConverterService responseConverterService)
+public class GetStatistics(IResponseCacheService responseCacheService)
 {
     [Function("GetStatistics")]
     public async Task<HttpResponseData> RunAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "statistics")] HttpRequestData req,
@@ -44,27 +44,7 @@ public class GetStatistics(IBenchMarkResultService benchMarkResultService, IResp
             await errorResponse.WriteAsJsonAsync(validationErrors);
         }
         
-        var dayRange = Convert.ToInt32(Environment.GetEnvironmentVariable("dayRange"));
-        var currentDate = benchMarkResultService.GetDateTimeNow();
-        var resultsSinceDate = (currentDate - TimeSpan.FromDays(dayRange));
-
-        // IMPORTANT: ToListAsync has a potential deadlock when not provided with a cancellation token
-        var benchMarkDataPoints = await benchMarkResultService.GetBenchMarkResultsAsync(
-            cloudProvider.Value,
-            hostingEnvironment.Value,
-            runtime.Value,
-            language.Value,
-            sku,
-            resultsSinceDate
-        );
-        
-        var benchMarkPointsToReturn = benchMarkDataPoints.Where(c => c.Success).ToList();
-        if (!benchMarkPointsToReturn.Any())
-        {
-            return req.CreateResponse(HttpStatusCode.NotFound);
-        }
-
-        var convertedData = responseConverterService.ConvertToBenchMarkData(benchMarkPointsToReturn);
+        var convertedData = await responseCacheService.RunBenchMarksAsync(cloudProvider.Value, hostingEnvironment.Value, runtime.Value, language.Value, sku);
         
         var response = req.CreateResponse(HttpStatusCode.OK);
         response.Headers.Add("Content-Type", "application/json");

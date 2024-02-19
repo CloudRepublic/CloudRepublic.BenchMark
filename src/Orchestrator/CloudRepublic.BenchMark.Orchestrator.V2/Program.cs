@@ -1,8 +1,6 @@
 using Azure.Core;
 using Azure.Identity;
 using CloudRepublic.BenchMark.Application;
-using CloudRepublic.BenchMark.Application.Interfaces;
-using CloudRepublic.BenchMark.Application.Services;
 using CloudRepublic.BenchMark.Orchestrator.V2.Interfaces;
 using CloudRepublic.BenchMark.Orchestrator.V2.Services;
 using Microsoft.Azure.Functions.Worker;

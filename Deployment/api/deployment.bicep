@@ -47,6 +47,7 @@ module apiFunction 'parts/apiFunction.bicep' = {
     appInsightsName: apiFunctionName
     sharedStorageName: sharedStorage.outputs.storageName
     resultsTableName: sharedStorage.outputs.resultsTableName
+    responsesContainerName: sharedStorage.outputs.responsesContainerName
     configServiceName: configService.outputs.appConfigurationServiceName
   }
 }

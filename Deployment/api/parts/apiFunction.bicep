@@ -2,6 +2,7 @@ param functionStorageAccountName string
 param sharedStorageName string
 param configServiceName string
 param resultsTableName string
+param responsesContainerName string
 param functionName string
 param appInsightsName string
 param location string
@@ -129,6 +130,10 @@ resource function 'Microsoft.Web/sites@2022-03-01' = {
         {
           name: 'storage__resultsTableName'
           value: resultsTableName
+        }
+        {
+          name: 'storage__containerName'
+          value: responsesContainerName
         }
         {
           name: 'ConfigurationServiceEndpoint'
