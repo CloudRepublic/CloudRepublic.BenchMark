@@ -5,5 +5,8 @@
     "workspaceFolder": "/workspaces",
     "containerUser": "root",
     "remoteUser": "root",
-    "postCreateCommand": "npm install"
+    "postCreateCommand": "npm install",
+    "mounts": [
+        "source=benchmark_node_modules,target=/workspaces/node_modules,type=volume"
+    ]
 }
