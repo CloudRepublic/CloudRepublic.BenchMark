@@ -76,7 +76,7 @@ jobs:
       run: az login --service-principal -u ${{ secrets.AZURE_APPID }} -p ${{ secrets.AZURE_APPSECRET }} --tenant ${{ secrets.AZURE_TENANT }}
 
     - name: deploy bicep
-      run: az deployment group create --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --template-file ./src/Azure/Csharp.net8/CloudRepublic.BenchMark.SampleFunction.Net8/deployment.bicep --parameters prefix=${{ secrets.DEPLOYMENT_PREFIX }} --name csharp-net8
+      run: az stack group create --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --template-file ./src/Azure/Csharp.net8/CloudRepublic.BenchMark.SampleFunction.Net8/deployment.bicep --parameters prefix=${{ secrets.DEPLOYMENT_PREFIX }} --name csharp-net8 --deny-settings-mode None --delete-resources true --deny-settings-excluded-principals ${{ secrets.AZURE_OBJECTID }}
 
     - name: Download Test Artifact Linux
       uses: actions/download-artifact@v3.0.1
