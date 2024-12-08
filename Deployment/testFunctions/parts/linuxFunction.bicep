@@ -14,7 +14,7 @@ param workerRuntime string
 @allowed(['Csharp', 'Nodejs', 'Python', 'Java', 'Fsharp'])
 param language string
 
-@allowed(['dotnet|6.0', 'dotnet-isolated|8.0', 'node|16'])
+@allowed(['dotnet-isolated|8.0', 'node|20'])
 param fxVersion string
 
 @allowed(['~4'])

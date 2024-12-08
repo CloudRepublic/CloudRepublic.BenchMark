@@ -1,12 +1,11 @@
-param title string
 param prefix string
+param title string
 param registrationName string
 param functionName string
 param location string
 param testPath string
 param sku string = ''
 param sortOrder int
-param use32BitWorkerProcess bool = true
 param useDotnetIsolated bool = false
 
 @allowed(['dotnet', 'dotnet-isolated', 'node', 'java', 'powershell', 'python'])
@@ -15,7 +14,7 @@ param workerRuntime string
 @allowed(['Csharp', 'Nodejs', 'Python', 'Java', 'Fsharp'])
 param language string
 
-@allowed(['dotnet|6.0', 'dotnet-isolated|8.0', 'node|20'])
+@allowed(['dotnet-isolated|8.0', 'node|20'])
 param fxVersion string
 
 @allowed(['~4'])
@@ -47,24 +46,23 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' = {
   }
 }
 
-
 resource functionFarm 'Microsoft.Web/serverfarms@2022-03-01' = {
   name: '${functionName}plan'
   location: location
-  kind: 'functionapp'
+  kind: 'linux'
   sku: {
-    name: 'Y1'
-    tier: 'Dynamic'
-    size: 'Y1'
-    family: 'Y'
-    capacity: 0
+    tier: 'FlexConsumption'
+    name: 'FC1'
+  }
+  properties: {
+    reserved: true
   }
 }
 
 resource function 'Microsoft.Web/sites@2022-03-01' = {
   name: functionName
   location: location
-  kind: 'functionapp'
+  kind: 'functionapp,linux'
   properties: {
     serverFarmId: functionFarm.id
     httpsOnly: true
@@ -73,8 +71,7 @@ resource function 'Microsoft.Web/sites@2022-03-01' = {
       minTlsVersion: '1.2'
       scmMinTlsVersion: '1.2'
       http20Enabled: true
-      windowsFxVersion: fxVersion
-      use32BitWorkerProcess: use32BitWorkerProcess
+      linuxFxVersion: fxVersion
       appSettings: [
         {
           name: 'AzureWebJobsStorage'
@@ -89,16 +86,12 @@ resource function 'Microsoft.Web/sites@2022-03-01' = {
           value: runtimeVersion
         }
         {
-          name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING'
-          value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
-        }
-        {
           name: 'WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED'
           value: useDotnetIsolated ? '1' : '0'
         }
         {
-          name: 'WEBSITE_NODE_DEFAULT_VERSION'
-          value: '~16'
+          name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING'
+          value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
         }
       ]
     }
@@ -114,7 +107,7 @@ module configurationRegistration 'configurationRegistration.bicep' = {
     prefix: prefix
     language: language
     runtime: 'FunctionsV4'
-    hostEnvironment: 'Windows'
+    hostEnvironment: 'Linux'
     authenticationHeaderName: 'x-functions-key'
     authenticationHeaderValue: defaultHostKey
     testEndpoint: 'https://${function.properties.defaultHostName}${testPath}'

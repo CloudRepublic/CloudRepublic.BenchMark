@@ -42,3 +42,25 @@ module csharpLinux '../../../../Deployment/testFunctions/parts/linuxFunction.bic
     useDotnetIsolated: true
   }
 }
+
+module csharpLinuxFlex '../../../../Deployment/testFunctions/parts/linuxFunctionFlex.bicep' = {
+  name: '${deployment().name}-csharpFlex'
+  dependsOn: [
+    csharpWindows // we need to deploy one by one to not overload the device configuration service
+  ]
+  params: {
+    title: 'Azure Flex Consumption - C# .NET 8'
+    functionName: '${prefix}cseightflx'
+    workerRuntime: 'dotnet-isolated'
+    language: 'Csharp'
+    location: location
+    runtimeVersion: '~4'
+    sku: 'net8-flex'
+    prefix: prefix
+    registrationName: 'AzureCsharpNet8LinuxFlex'
+    testPath: '/api/Trigger'
+    sortOrder: 118
+    fxVersion: 'dotnet-isolated|8.0'
+    useDotnetIsolated: true
+  }
+}
