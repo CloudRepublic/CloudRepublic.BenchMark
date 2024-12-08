@@ -39,7 +39,7 @@ module csharpLinux '../../../Deployment/testFunctions/parts/linuxFunction.bicep'
 }
 
 module csharpLinuxFlex '../../../Deployment/testFunctions/parts/linuxFunctionFlex.bicep' = {
-  name: '${deployment().name}-Linux'
+  name: '${deployment().name}-LinuxFlex'
   dependsOn: [
     csharpWindows // we need to deploy one by one to not overload the device configuration service
   ]
