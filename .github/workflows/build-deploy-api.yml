@@ -115,7 +115,7 @@ jobs:
       run: az login --service-principal -u ${{ secrets.AZURE_APPID }} -p ${{ secrets.AZURE_APPSECRET }} --tenant ${{ secrets.AZURE_TENANT }}
 
     - name: deploy bicep
-      run: az stack group create --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --template-file ./Deployment/deployment.bicep --parameters prefix=${{ secrets.DEPLOYMENT_PREFIX }} --name app --deny-settings-mode None --delete-resources true --deny-settings-excluded-principals ${{ secrets.AZURE_OBJECTID }}
+      run: az stack group create --subscription "${{ secrets.AZURE_SUBSCRIPTION }}" --resource-group "${{ secrets.AZURE_RG }}" --template-file ./Deployment/deployment.bicep --parameters prefix=${{ secrets.DEPLOYMENT_PREFIX }} --name app --deny-settings-mode None  --action-on-unmanage deleteResources --deny-settings-excluded-principals ${{ secrets.AZURE_OBJECTID }}
 
     - name: Download API Artifact
       uses: actions/download-artifact@v3.0.1
