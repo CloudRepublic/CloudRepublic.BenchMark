@@ -88,7 +88,8 @@ resource function 'Microsoft.Web/sites@2024-04-01' = {
         }
       }
       scaleAndConcurrency: {
-        maximumInstanceCount: 10
+        // 40 is the minimum
+        maximumInstanceCount: 40
         instanceMemoryMB: 2048
       }
       runtime: { 
