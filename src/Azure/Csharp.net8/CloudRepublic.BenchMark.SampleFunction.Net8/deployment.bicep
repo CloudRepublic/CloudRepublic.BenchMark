@@ -61,7 +61,7 @@ module csharpLinuxFlex '../../../../Deployment/testFunctions/parts/linuxFunction
     registrationName: 'AzureCsharpNet8LinuxFlex'
     testPath: '/api/Trigger'
     sortOrder: 118
-    fxVersion: 'dotnet-isolated|8.0'
+    functionAppRuntimeVersion: '8.0'
     useDotnetIsolated: true
   }
 }

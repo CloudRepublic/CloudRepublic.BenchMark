@@ -56,7 +56,7 @@ module csharpLinuxFlex '../../../Deployment/testFunctions/parts/linuxFunctionFle
     registrationName: 'AzureNodeLinux'
     testPath: '/api/Test'
     sortOrder: 205
-    fxVersion: 'node|20'
+    functionAppRuntimeVersion: '20'
   }
 }
 

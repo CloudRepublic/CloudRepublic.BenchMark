@@ -7,6 +7,7 @@ param testPath string
 param sku string = ''
 param sortOrder int
 param useDotnetIsolated bool = false
+var deploymentStorageContainerName = 'deployments'
 
 @allowed(['dotnet', 'dotnet-isolated', 'node', 'java', 'powershell', 'python'])
 param workerRuntime string
@@ -14,11 +15,13 @@ param workerRuntime string
 @allowed(['Csharp', 'Nodejs', 'Python', 'Java', 'Fsharp'])
 param language string
 
-@allowed(['dotnet-isolated|8.0', 'node|20'])
-param fxVersion string
+@allowed(['8.0', '20'])
+param functionAppRuntimeVersion string
 
 @allowed(['~4'])
 param runtimeVersion string
+
+var fxVersion = '${language}|${functionAppRuntimeVersion}'
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' = {
   name: '${functionName}stor'
@@ -44,6 +47,14 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' = {
   resource tableServices 'tableServices' = {
     name: 'default'
   }
+
+  resource blobServices 'blobServices' = {
+    name: 'default'
+
+    resource deployments 'containers' = {
+      name: deploymentStorageContainerName
+    }
+  }
 }
 
 resource functionFarm 'Microsoft.Web/serverfarms@2022-03-01' = {
@@ -59,13 +70,32 @@ resource functionFarm 'Microsoft.Web/serverfarms@2022-03-01' = {
   }
 }
 
-resource function 'Microsoft.Web/sites@2022-03-01' = {
+resource function 'Microsoft.Web/sites@2024-04-01' = {
   name: functionName
   location: location
   kind: 'functionapp,linux'
   properties: {
     serverFarmId: functionFarm.id
     httpsOnly: true
+    functionAppConfig: {
+      deployment: {
+        storage: {
+          type: 'blobContainer'
+          value: '${storageAccount.properties.primaryEndpoints.blob}${deploymentStorageContainerName}'
+          authentication: {
+            type: 'SystemAssignedIdentity'
+          }
+        }
+      }
+      scaleAndConcurrency: {
+        maximumInstanceCount: 10
+        instanceMemoryMB: 2048
+      }
+      runtime: { 
+        name: workerRuntime
+        version: functionAppRuntimeVersion
+      }
+    }
     siteConfig: {
       ftpsState: 'FtpsOnly'
       minTlsVersion: '1.2'
