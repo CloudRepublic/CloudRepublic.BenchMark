@@ -55,7 +55,6 @@ module csharpLinuxFlex '../../../../Deployment/testFunctions/parts/linuxFunction
     language: 'Csharp'
     // Not yet available in west europe
     location: 'northeurope'
-    runtimeVersion: '~4'
     sku: 'net8-flex'
     prefix: prefix
     registrationName: 'AzureCsharpNet8LinuxFlex'

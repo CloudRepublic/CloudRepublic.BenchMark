@@ -18,9 +18,6 @@ param language string
 @allowed(['8.0', '20'])
 param functionAppRuntimeVersion string
 
-@allowed(['~4'])
-param runtimeVersion string
-
 resource storageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' = {
   name: '${functionName}stor'
   location: location
@@ -105,24 +102,12 @@ resource function 'Microsoft.Web/sites@2024-04-01' = {
       http20Enabled: true
       appSettings: [
         {
-          name: 'AzureWebJobsStorage'
-          value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
-        }
-        {
-          name: 'FUNCTIONS_WORKER_RUNTIME'
-          value: workerRuntime
-        }
-        {
-          name: 'FUNCTIONS_EXTENSION_VERSION'
-          value: runtimeVersion
+          name: 'AzureWebJobsStorage__accountName'
+          value: storageAccount.name
         }
         {
           name: 'WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED'
           value: useDotnetIsolated ? '1' : '0'
-        }
-        {
-          name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING'
-          value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
         }
       ]
     }
@@ -155,7 +140,7 @@ resource storageRoleAssignment 'Microsoft.Authorization/roleAssignments@2020-04-
   scope: storageAccount
   properties: {
     roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', storageRoleDefinitionId)
-    principalId: functionFarm.identity.principalId
+    principalId: function.identity.principalId
     principalType: 'ServicePrincipal'
   }
 }
