@@ -21,8 +21,6 @@ param functionAppRuntimeVersion string
 @allowed(['~4'])
 param runtimeVersion string
 
-var fxVersion = '${language}|${functionAppRuntimeVersion}'
-
 resource storageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' = {
   name: '${functionName}stor'
   location: location
@@ -102,7 +100,6 @@ resource function 'Microsoft.Web/sites@2024-04-01' = {
       minTlsVersion: '1.2'
       scmMinTlsVersion: '1.2'
       http20Enabled: true
-      linuxFxVersion: fxVersion
       appSettings: [
         {
           name: 'AzureWebJobsStorage'
