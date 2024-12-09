@@ -49,7 +49,8 @@ module csharpLinuxFlex '../../../Deployment/testFunctions/parts/linuxFunctionFle
     workerRuntime: 'node'
     language: 'Nodejs'
     sku: 'flex'
-    location: location
+    // Not yet available in west europe
+    location: 'northeurope'
     runtimeVersion: '~4'
     prefix: prefix
     registrationName: 'AzureNodeLinux'

@@ -53,7 +53,8 @@ module csharpLinuxFlex '../../../../Deployment/testFunctions/parts/linuxFunction
     functionName: '${prefix}cseightflx'
     workerRuntime: 'dotnet-isolated'
     language: 'Csharp'
-    location: location
+    // Not yet available in west europe
+    location: 'northeurope'
     runtimeVersion: '~4'
     sku: 'net8-flex'
     prefix: prefix
