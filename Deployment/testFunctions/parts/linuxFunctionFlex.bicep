@@ -72,6 +72,9 @@ resource function 'Microsoft.Web/sites@2024-04-01' = {
   name: functionName
   location: location
   kind: 'functionapp,linux'
+  identity: {
+    type: 'SystemAssigned'
+  }
   properties: {
     serverFarmId: functionFarm.id
     httpsOnly: true
@@ -141,5 +144,18 @@ module configurationRegistration 'configurationRegistration.bicep' = {
     testEndpoint: 'https://${function.properties.defaultHostName}${testPath}'
     sku: sku
     sortOrder: sortOrder
+  }
+}
+
+var storageRoleDefinitionId  = 'b7e6dc6d-f1e8-4753-8033-0f276bb0955b' //Storage Blob Data Owner role
+
+// Allow access from function app to storage account using a managed identity
+resource storageRoleAssignment 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
+  name: guid(storageAccount.id, storageRoleDefinitionId)
+  scope: storageAccount
+  properties: {
+    roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', storageRoleDefinitionId)
+    principalId: functionFarm.identity.principalId
+    principalType: 'ServicePrincipal'
   }
 }
