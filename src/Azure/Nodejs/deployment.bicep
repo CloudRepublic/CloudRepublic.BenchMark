@@ -52,7 +52,7 @@ module csharpLinuxFlex '../../../Deployment/testFunctions/parts/linuxFunctionFle
     // Not yet available in west europe
     location: 'northeurope'
     prefix: prefix
-    registrationName: 'AzureNodeLinux'
+    registrationName: 'AzureNodeLinuxFlex'
     testPath: '/api/Test'
     sortOrder: 205
     functionAppRuntimeVersion: '20'
