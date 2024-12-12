@@ -10,8 +10,7 @@ using Microsoft.Extensions.Hosting;
 
 var host = new HostBuilder()
     .ConfigureFunctionsWorkerDefaults()
-    .ConfigureServices(services =>
-    {
+    .ConfigureServices(services => {
         services.AddAzureAppConfiguration();
 
         services.AddBenchMarkData(
@@ -26,8 +25,7 @@ var host = new HostBuilder()
         
         services.AddHttpClient("benchmarkTester");
     })
-    .ConfigureAppConfiguration(builder =>
-        {
+    .ConfigureAppConfiguration(builder => {
             builder.AddEnvironmentVariables();
         
             // Add Azure App Configuration as additional configuration source
@@ -51,7 +49,7 @@ var host = new HostBuilder()
                     .ConfigureRefresh(refreshOptions =>
                     {
                         refreshOptions.Register("BenchMarkTests:Sentinel", refreshAll: true)
-                            .SetCacheExpiration(TimeSpan.FromSeconds(30));
+                            .SetRefreshInterval(TimeSpan.FromSeconds(30));
                     });
             });
         })

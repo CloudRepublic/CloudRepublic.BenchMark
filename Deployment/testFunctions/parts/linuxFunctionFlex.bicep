@@ -105,10 +105,6 @@ resource function 'Microsoft.Web/sites@2024-04-01' = {
           name: 'AzureWebJobsStorage__accountName'
           value: storageAccount.name
         }
-        {
-          name: 'WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED'
-          value: useDotnetIsolated ? '1' : '0'
-        }
       ]
     }
   }

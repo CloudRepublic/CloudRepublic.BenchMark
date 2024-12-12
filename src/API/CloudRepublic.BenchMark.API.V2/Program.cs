@@ -11,8 +11,7 @@ using Microsoft.Extensions.Hosting;
 
 var host = new HostBuilder()
     .ConfigureFunctionsWorkerDefaults()
-    .ConfigureServices(services =>
-    {
+    .ConfigureServices(services => {
 #if DEBUG
         services.AddBenchMarkData("storage", new AzureCliCredential());
         services.AddCaching("storage", new AzureCliCredential());
@@ -25,14 +24,13 @@ var host = new HostBuilder()
         
         services.AddApplicationInsightsTelemetryWorkerService();
         services.ConfigureFunctionsApplicationInsights();
+        services.AddAzureAppConfiguration();
     })
-    .ConfigureAppConfiguration(builder =>
-    {
+    .ConfigureAppConfiguration(builder => {
         builder.AddEnvironmentVariables();
         
         // Add Azure App Configuration as additional configuration source
-        builder.AddAzureAppConfiguration(options =>
-        {
+        builder.AddAzureAppConfiguration(options => {
             var configServiceEndpoint = Environment.GetEnvironmentVariable("ConfigurationServiceEndpoint");
             if (configServiceEndpoint is null)
             {
@@ -58,10 +56,10 @@ var host = new HostBuilder()
                 .ConfigureRefresh(refreshOptions =>
                 {
                     refreshOptions.Register("BenchMarkTests:Sentinel", refreshAll: true)
-                        .SetCacheExpiration(TimeSpan.FromSeconds(200));
+                        .SetRefreshInterval(TimeSpan.FromSeconds(30));
                 });
         });
-    })
-    .Build();
+    }).Build();
+
 
 host.Run();
