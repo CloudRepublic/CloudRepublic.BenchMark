@@ -10,13 +10,13 @@
     <ItemGroup>
         <!-- performance optimization from https://learn.microsoft.com/en-us/azure/azure-functions/dotnet-isolated-process-guide?tabs=windows#performance-optimizations -->
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
-        <PackageReference Include="Azure.Identity" Version="1.13.1" />
-        <PackageReference Include="Microsoft.ApplicationInsights.WorkerService" Version="2.22.0" />
-        <PackageReference Include="Microsoft.Azure.AppConfiguration.Functions.Worker" Version="8.0.0" />
+        <PackageReference Include="Azure.Identity" Version="1.13.2" />
+        <PackageReference Include="Microsoft.ApplicationInsights.WorkerService" Version="2.23.0" />
+        <PackageReference Include="Microsoft.Azure.AppConfiguration.Functions.Worker" Version="8.1.1" />
         <PackageReference Include="Microsoft.Azure.Functions.Worker" Version="2.0.0" />
         <PackageReference Include="Microsoft.Azure.Functions.Worker.ApplicationInsights" Version="2.0.0" />
         <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Timer" Version="4.3.1" />
-        <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="2.0.0" />
+        <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="2.0.2" />
     </ItemGroup>
     <ItemGroup>
         <None Update="host.json">
@@ -28,7 +28,7 @@
         </None>
     </ItemGroup>
     <ItemGroup>
-        <Using Include="System.Threading.ExecutionContext" Alias="ExecutionContext"/>
+        <Using Include="System.Threading.ExecutionContext" Alias="ExecutionContext" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\Shared\CloudRepublic.BenchMark.Shared\CloudRepublic.BenchMark.Shared.csproj" />

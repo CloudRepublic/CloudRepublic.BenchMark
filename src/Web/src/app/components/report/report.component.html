@@ -16,4 +16,7 @@
   <div class="warm-diagram">
     <app-graph *ngIf="warmGraphData$ | ngrxPush as graphData" [graphData]="graphData" dataType="warm"></app-graph>
   </div>
+  <div class="diagrams">
+    <app-graph *ngIf="warmGraphData$ | ngrxPush as graphData" [graphData]="graphData" dataType="merged"></app-graph>
+  </div>
 </div>

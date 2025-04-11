@@ -3,6 +3,7 @@ using CloudRepublic.BenchMark.Domain.Entities;
 using CloudRepublic.BenchMark.Domain.Enums;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using CloudRepublic.BenchMark.Data;
 using Xunit;
 
@@ -481,6 +482,68 @@ namespace CloudRepublic.BenchMark.API.Tests
             Assert.True(benchMarkData.ColdPreviousDayPositive);
 
 
+        }
+
+        [Fact]
+        public void ConvertToBenchMarkData_Should_Exclude_Outliers_From_BenchmarkResult()
+        {
+            //  Arrange
+            Environment.SetEnvironmentVariable("dayRange", "1");
+
+            var benchMarkResults = new List<BenchMarkResult>();
+
+            for (int i = 0; i < 10; i++)
+            {
+                benchMarkResults.Add(new BenchMarkResult
+                {
+                    CreatedAt = new DateTimeOffset(new DateTime(2020, 1, 1)), //yesterday
+                    RequestDuration = 120,
+                    IsColdRequest = false
+                });
+
+                benchMarkResults.Add(new BenchMarkResult
+                {
+                    CreatedAt = new DateTimeOffset(new DateTime(2020, 1, 2)), //today
+                    RequestDuration = 120,
+                    IsColdRequest = false
+                });
+
+                benchMarkResults.Add(new BenchMarkResult
+                {
+                    CreatedAt = new DateTimeOffset(new DateTime(2020, 1, 1)), //yesterday
+                    RequestDuration = 120,
+                    IsColdRequest = true
+                });
+
+                benchMarkResults.Add(new BenchMarkResult
+                {
+                    CreatedAt = new DateTimeOffset(new DateTime(2020, 1, 2)), //today
+                    RequestDuration = 120,
+                    IsColdRequest = true
+                });
+            }
+
+            benchMarkResults.Add(new BenchMarkResult
+            {
+                CreatedAt = new DateTimeOffset(new DateTime(2020, 1, 2)), //today
+                RequestDuration = 1,
+                IsColdRequest = false
+            });
+
+            var responseConverter = new ResponseConverterService();
+
+
+            //  Act
+            var benchMarkData = responseConverter.ConvertToBenchMarkData(benchMarkResults);
+
+            //  Assert
+            Assert.NotNull(benchMarkData);
+
+            // The benchMarkData object should not have a ColdDataPoint with an execution time of 1
+            foreach (var execTime in benchMarkData.ColdDataPoints.Select(dataPoint => dataPoint.ExecutionTimes.FirstOrDefault(et => et == 1)))
+            {
+                Assert.Equal(0, execTime);
+            }
         }
     }
 }

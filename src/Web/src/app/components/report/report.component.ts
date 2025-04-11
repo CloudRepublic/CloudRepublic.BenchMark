@@ -39,11 +39,11 @@ export class ReportComponent implements OnInit {
   ngOnInit(): void {
     this.coldStartMedian$ = this.store.select(selectors.getColdMedian)
     this.warmStartMedian$ = this.store.select(selectors.getWarmMedian)
-    this.coldGraphData$ = this.store.select(selectors.getColdGraphData).pipe(
+    this.coldGraphData$ = this.store.select(selectors.getGraphData).pipe(
       // we are refreshing data but don't want it to propagate if it is exactly the same as the previous value
       distinctUntilChanged((previous, current) => JSON.stringify(previous) == JSON.stringify(current)),
     )
-    this.warmGraphData$ = this.store.select(selectors.getWarmGraphData).pipe(
+    this.warmGraphData$ = this.store.select(selectors.getGraphData).pipe(
       // we are refreshing data but don't want it to propagate if it is exactly the same as the previous value
       distinctUntilChanged((previous, current) => JSON.stringify(previous) == JSON.stringify(current)),
     )

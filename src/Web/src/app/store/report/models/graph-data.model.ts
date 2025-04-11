@@ -6,5 +6,6 @@ export interface GraphData {
   cloud: string;
   runtime: string;
   language: string;
-  dataPoints: Datapoint[]
+  warmDataPoints: Datapoint[];
+  coldDataPoints: Datapoint[];
 }

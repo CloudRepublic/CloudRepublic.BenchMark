@@ -33,6 +33,8 @@ namespace CloudRepublic.BenchMark.API.V2.Services
             benchmarkData.WarmPreviousDayDifference = warmMedians.DifferencePercentage;
             benchmarkData.WarmPreviousDayPositive = benchmarkData.WarmPreviousDayDifference < 0;
 
+            var coldOutliers = OutliersCalculator.Calculate(currentDate, coldDataPoints);
+            var warmOutliers = OutliersCalculator.Calculate(currentDate, warmDataPoints);
 
             var dates = new List<DateTime>();
             for (var i = 0; i < Convert.ToInt32(Environment.GetEnvironmentVariable("dayRange")); i++)
@@ -44,16 +46,19 @@ namespace CloudRepublic.BenchMark.API.V2.Services
 
             foreach (var date in dates)
             {
+                var coldOutliersForDate = coldOutliers.OutliersPerDay.TryGetValue(date, out var coldValues) ? coldValues : [];
+                var warmOutliersForDate = warmOutliers.OutliersPerDay.TryGetValue(date, out var warmValues) ? warmValues : [];
+
                 benchmarkData.ColdDataPoints.Add(new DataPoint
                 {
                     CreatedAt = date.ToString("yyyy MMMM dd"),
-                    ExecutionTimes = coldDataPoints.Where(c => c.CreatedAt.Date == date.Date)
+                    ExecutionTimes = coldDataPoints.Where(c => c.CreatedAt.Date == date.Date && !coldOutliersForDate.Contains(c.RequestDuration))
                         .Select(c => c.RequestDuration).ToList()
                 });
 
                 benchmarkData.WarmDataPoints.Add(new DataPoint{
                     CreatedAt = date.ToString("yyyy MMMM dd"),
-                    ExecutionTimes = warmDataPoints.Where(c => c.CreatedAt.Date == date.Date)
+                    ExecutionTimes = warmDataPoints.Where(c => c.CreatedAt.Date == date.Date && !warmOutliersForDate.Contains(c.RequestDuration))
                         .Select(c => c.RequestDuration).ToList()
                     });
             }

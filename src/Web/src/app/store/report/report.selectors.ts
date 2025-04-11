@@ -43,19 +43,31 @@ export const getWarmMedian = createSelector(
     } as Median
 )
 
-export const getColdGraphData = createSelector(
-  getReportState,
-  (state) => !state.currentStatistics ? undefined : {
-    os: state.currentStatistics.hostingEnvironment,
-    sku: state.currentStatistics.sku,
-    cloud: state.currentStatistics.cloudProvider,
-    language: state.currentStatistics.language,
-    runtime: state.currentStatistics.runtime,
-    dataPoints: state.currentStatistics.coldDataPoints
-  } as GraphData
-)
+// export const getColdGraphData = createSelector(
+//   getReportState,
+//   (state) => !state.currentStatistics ? undefined : {
+//     os: state.currentStatistics.hostingEnvironment,
+//     sku: state.currentStatistics.sku,
+//     cloud: state.currentStatistics.cloudProvider,
+//     language: state.currentStatistics.language,
+//     runtime: state.currentStatistics.runtime,
+//     dataPoints: state.currentStatistics.coldDataPoints
+//   } as GraphData
+// )
 
-export const getWarmGraphData = createSelector(
+// export const getWarmGraphData = createSelector(
+//   getReportState,
+//   (state) => !state.currentStatistics ? undefined : {
+//     os: state.currentStatistics.hostingEnvironment,
+//     sku: state.currentStatistics.sku,
+//     cloud: state.currentStatistics.cloudProvider,
+//     language: state.currentStatistics.language,
+//     runtime: state.currentStatistics.runtime,
+//     dataPoints: state.currentStatistics.warmDataPoints
+//   } as GraphData
+// )
+
+export const getGraphData = createSelector(
   getReportState,
   (state) => !state.currentStatistics ? undefined : {
     os: state.currentStatistics.hostingEnvironment,
@@ -63,7 +75,8 @@ export const getWarmGraphData = createSelector(
     cloud: state.currentStatistics.cloudProvider,
     language: state.currentStatistics.language,
     runtime: state.currentStatistics.runtime,
-    dataPoints: state.currentStatistics.warmDataPoints
+    warmDataPoints: state.currentStatistics.warmDataPoints,
+    coldDataPoints: state.currentStatistics.coldDataPoints
   } as GraphData
 )
 

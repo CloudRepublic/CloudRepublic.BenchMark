@@ -28,8 +28,8 @@ import {NgIf} from "@angular/common";
 export class GraphComponent {
   canvas = viewChild.required<ElementRef<HTMLCanvasElement>>("canvas");
   graphData = input.required<GraphData>()
-  dataType = input.required<'cold' | 'warm'>()
-  dataPointCount: Signal<number> = computed(() => this.graphData().dataPoints.map(x => x.executionTimes.length).reduce((x, y) => x + y))
+  dataType = input.required<'cold' | 'warm' | 'merged'>()
+  dataPointCount: Signal<number> = computed(() => this.graphData().warmDataPoints.map(x => x.executionTimes.length).reduce((x, y) => x + y))
   private chart: Signal<BoxPlotChart | undefined> = computed(() => {
     let c = this.canvas().nativeElement?.getContext("2d");
     if (!c) {
@@ -59,15 +59,24 @@ export class GraphComponent {
 
       chart.data = {
         // define label tree
-        labels: this.graphData().dataPoints.map(dp => dp.createdAt),
+        labels: this.graphData().warmDataPoints.map(dp => dp.createdAt),
         datasets: [ {
           label: 'milliseconds',
           backgroundColor: 'rgba(94, 114, 228, 0.5)',
           borderColor: '#5e72e4',
           borderWidth: 1,
           itemRadius: 0,
-          data: this.graphData().dataPoints.map(dp => dp.executionTimes)
-        }]
+          data: this.graphData().warmDataPoints.map(dp => dp.executionTimes)
+        },
+        // {
+        //   label: 'milliseconds',
+        //   backgroundColor: 'rgba(94, 114, 228, 0.5)',
+        //   borderColor: '#5e72e4',
+        //   borderWidth: 1,
+        //   itemRadius: 0,
+        //   data: this.graphData().coldDataPoints.map(dp => dp.executionTimes)
+        // },
+      ]
       }
       chart.update();
     })

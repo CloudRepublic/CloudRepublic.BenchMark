@@ -46,12 +46,12 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var benchMarkResults = new List<BenchMarkResult>()
             {
-                new BenchMarkResult()
+                new()
                 {
                     RequestDuration = 11,
                     CreatedAt = new DateTimeOffset(new DateTime(2020,2,13)), // tomorrow
                 },
-                new BenchMarkResult()
+                new()
                 {
                     RequestDuration = 200,
                     CreatedAt = new DateTimeOffset(new DateTime(2020,2,10)), // not yesterday but before
@@ -85,17 +85,17 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var benchMarkResults = new List<BenchMarkResult>()
             {
-                new BenchMarkResult()
+                new()
                 {
                     RequestDuration = 11,
                     CreatedAt = new DateTimeOffset(new DateTime(2020,2,11)), // today
                 },
-                new BenchMarkResult()
+                new()
                 {
                     RequestDuration = 33,
                     CreatedAt = new DateTimeOffset(new DateTime(2020,2,11)), // today
                 },
-                new BenchMarkResult()
+                new()
                 {
                     RequestDuration = 200,
                     CreatedAt = new DateTimeOffset(new DateTime(2020,2,10)), // yesterday
@@ -126,17 +126,17 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var benchMarkResults = new List<BenchMarkResult>()
             {
-                new BenchMarkResult()
+                new()
                 {
                     RequestDuration = 234,
                     CreatedAt = new DateTimeOffset(new DateTime(2020,2,11)), // today
                 },
-                new BenchMarkResult()
+                new()
                 {
                     RequestDuration = 11,
                     CreatedAt = new DateTimeOffset(new DateTime(2020,2,10)), // yesterday
                 },
-                new BenchMarkResult()
+                new()
                 {
                     RequestDuration = 33,
                     CreatedAt = new DateTimeOffset(new DateTime(2020,2,10)), // yesterday
@@ -167,22 +167,22 @@ namespace CloudRepublic.BenchMark.API.Tests
 
             var benchMarkResults = new List<BenchMarkResult>()
             {
-                new BenchMarkResult()
+                new()
                 {
                     RequestDuration = 80,
                     CreatedAt = new DateTimeOffset(new DateTime(2020,2,11)), // today
                 },
-                new BenchMarkResult()
+                new()
                 {
                     RequestDuration = 20,
                     CreatedAt = new DateTimeOffset(new DateTime(2020,2,11)), // today
                 },
-                new BenchMarkResult()
+                new()
                 {
                     RequestDuration = 11,
                     CreatedAt = new DateTimeOffset(new DateTime(2020,2,10)), // yesterday
                 },
-                new BenchMarkResult()
+                new()
                 {
                     RequestDuration = 33,
                     CreatedAt = new DateTimeOffset(new DateTime(2020,2,10)), // yesterday
